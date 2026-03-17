@@ -9,7 +9,7 @@ from telegram.ext import (
 )
 from database import get_balance, add_withdrawal, get_user, get_business_config
 from keyboards import main_menu, cancel_keyboard, payment_methods_keyboard
-from config import ADMIN_ID, MIN_WITHDRAW, PAYMENT_METHODS, WITHDRAWALS_CHANNEL_ID, MIN_WITHDRAW_METHODS_USD
+from config import ADMIN_ID, PAYMENT_METHODS, WITHDRAWALS_CHANNEL_ID
 from strings import STRINGS
 from utils.ban_check import is_banned
 from utils.currency import get_exchange_rate, format_currency_dual
@@ -136,7 +136,11 @@ async def receive_amount(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     balance_usd = context.user_data.get("withdraw_balance", 0)
     method = context.user_data.get("withdraw_method", "")
-    method_min_usd = MIN_WITHDRAW_METHODS_USD.get(method, MIN_WITHDRAW_METHODS_USD["DEFAULT"])
+
+    # Fetch dynamic settings
+    conf = get_business_config()
+    min_methods = conf["MIN_METHODS"]
+    method_min_usd = min_methods.get(method, min_methods["DEFAULT"])
     
     # Check limit in USD
     if amount_usd < method_min_usd:

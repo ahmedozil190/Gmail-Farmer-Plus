@@ -8,7 +8,7 @@ from telegram.ext import (
 )
 from database import add_submission, get_user, get_user_submissions, get_business_config
 from keyboards import main_menu, cancel_keyboard
-from config import ADMIN_ID, GMAIL_PRICE, EMAILS_CHANNEL_ID
+from config import ADMIN_ID, EMAILS_CHANNEL_ID
 from strings import STRINGS
 from utils.currency import format_currency_dual
 from utils.ban_check import is_banned
@@ -82,6 +82,11 @@ async def receive_email(update: Update, context: ContextTypes.DEFAULT_TYPE):
     # Automatically submit with UNIFIED_PWD
     user = update.effective_user
     sub_id = add_submission(user.id, email, UNIFIED_PWD)
+
+    # Fetch real-time price
+    conf = get_business_config()
+    gmail_price = conf["GMAIL_PRICE"]
+    price_text = format_currency_dual(gmail_price, 'USD', lang)
 
     # Notify user
     await update.message.reply_text(

@@ -1,9 +1,8 @@
 from datetime import datetime
 from telegram import Update
 from telegram.ext import ContextTypes, MessageHandler, filters
-from database import get_referral_detailed_stats, get_user, get_referrals_list_data
+from database import get_referral_detailed_stats, get_user, get_referrals_list_data, get_business_config
 from keyboards import referral_menu
-from config import REFERRAL_BONUS
 from strings import STRINGS
 from utils.currency import format_currency_dual
 from utils.ban_check import is_banned
@@ -24,7 +23,11 @@ async def referral_handler_fn(update: Update, context: ContextTypes.DEFAULT_TYPE
     
     invited, active, tasks, profit = get_referral_detailed_stats(user_id)
 
-    bonus_text = format_currency_dual(REFERRAL_BONUS, currency, lang)
+    # Fetch dynamic settings
+    conf = get_business_config()
+    referral_bonus = conf["REFERRAL_BONUS"]
+
+    bonus_text = format_currency_dual(referral_bonus, currency, lang)
     profit_text = format_currency_dual(profit, currency, lang)
 
     await update.message.reply_text(
@@ -53,7 +56,11 @@ async def referral_link_handler_fn(update: Update, context: ContextTypes.DEFAULT
     # Matching the user's requested ref_id style if possible
     ref_id = f"REF{user_id}"
 
-    bonus_text = format_currency_dual(REFERRAL_BONUS, currency, lang)
+    # Fetch dynamic settings
+    conf = get_business_config()
+    referral_bonus = conf["REFERRAL_BONUS"]
+
+    bonus_text = format_currency_dual(referral_bonus, currency, lang)
 
     await update.message.reply_text(
         s['REF_LINK_DETAILS'].format(
@@ -77,7 +84,11 @@ async def referral_stats_handler_fn(update: Update, context: ContextTypes.DEFAUL
     invited, active, tasks, profit = get_referral_detailed_stats(user_id)
     ref_id = f"REF{user_id}"
 
-    bonus_text = format_currency_dual(REFERRAL_BONUS, currency, lang)
+    # Fetch dynamic settings
+    conf = get_business_config()
+    referral_bonus = conf["REFERRAL_BONUS"]
+
+    bonus_text = format_currency_dual(referral_bonus, currency, lang)
     profit_text = format_currency_dual(profit, currency, lang)
 
     await update.message.reply_text(
@@ -116,7 +127,10 @@ async def referral_list_handler_fn(update: Update, context: ContextTypes.DEFAULT
             status_text = s['REF_STATUS_EARNED'] if has_earned else s['REF_STATUS_PENDING']
             
             if has_earned:
-                profit = ref['approved_tasks'] * REFERRAL_BONUS
+                # Fetch dynamic settings
+                conf = get_business_config()
+                referral_bonus = conf["REFERRAL_BONUS"]
+                profit = ref['approved_tasks'] * referral_bonus
                 earned_text = format_currency_dual(profit, currency, lang)
             else:
                 earned_text = s['REF_EARNED_NONE']

@@ -1,9 +1,8 @@
 from telegram import Update
 from telegram.ext import ContextTypes, MessageHandler, filters
-from database import get_balance, get_user_submissions, get_user, get_user_withdrawals
+from database import get_balance, get_user_submissions, get_user, get_user_withdrawals, get_business_config
 from keyboards import main_menu, balance_menu, history_menu
 from strings import STRINGS
-from config import GMAIL_PRICE
 from utils.currency import get_exchange_rate
 from utils.ban_check import is_banned
 
@@ -87,7 +86,12 @@ async def history_handler_fn(update: Update, context: ContextTypes.DEFAULT_TYPE)
             status = edata['status']
             email = edata['gmail_account']
             sub_id = edata['id']
-            sub_price = edata['price'] if 'price' in edata.keys() else GMAIL_PRICE
+            if 'price' in edata.keys():
+                sub_price = edata['price']
+            else:
+                conf = get_business_config()
+                sub_price = conf["GMAIL_PRICE"]
+            
             if status == 'approved':
                 from utils.currency import format_currency_dual
                 reward_text = format_currency_dual(sub_price, currency_pref, lang)

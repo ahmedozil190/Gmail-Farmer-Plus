@@ -2,7 +2,6 @@ from telegram import Update
 from telegram.ext import ContextTypes
 from database import create_user, get_user
 from keyboards import main_menu
-from config import GMAIL_PRICE
 from strings import STRINGS
 from utils.ban_check import is_banned
 from utils.currency import get_exchange_rate
