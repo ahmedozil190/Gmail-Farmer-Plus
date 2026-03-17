@@ -340,5 +340,6 @@ def broadcast():
 
 if __name__ == "__main__":
     database.init_db()  # Ensure tables exist
-    port = int(os.getenv("DASHBOARD_PORT", 5000))
+    # Prioritize 'PORT' for Railway/Heroku, fallback to 'DASHBOARD_PORT' or 5000
+    port = int(os.getenv("PORT", os.getenv("DASHBOARD_PORT", 5000)))
     app.run(host="0.0.0.0", port=port, debug=False)
