@@ -5,8 +5,10 @@ from config import GMAIL_PRICE, REFERRAL_BONUS
 import os
 
 # Use absolute path to ensure both bot and dashboard use the same DB file
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-DB_PATH = os.path.join(BASE_DIR, "gmail_store.db")
+DB_PATH = os.getenv("DB_PATH")
+if not DB_PATH:
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    DB_PATH = os.path.join(BASE_DIR, "gmail_store.db")
 
 
 # ── Connection helper ────────────────────────────────────────────────────────
