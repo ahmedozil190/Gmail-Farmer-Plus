@@ -514,6 +514,8 @@ def settings():
             "BUYING_ACTIVE": form_data.get("buying_active", "0"),
             "DASHBOARD_LANG": form_data.get("dash_lang", "ar"),
             "REQUIRED_CHANNELS": form_data.get("required_channels", ""),
+            "EMAILS_CHANNEL_ID": form_data.get("emails_channel", ""),
+            "WITHDRAWALS_CHANNEL_ID": form_data.get("withdrawals_channel", ""),
         }
         
         # Update Database settings (Instant)
@@ -526,6 +528,8 @@ def settings():
         database.set_setting("BUYING_ACTIVE", env_updates["BUYING_ACTIVE"])
         database.set_setting("DASHBOARD_LANG", env_updates["DASHBOARD_LANG"])
         database.set_setting("REQUIRED_CHANNELS", env_updates["REQUIRED_CHANNELS"])
+        database.set_setting("EMAILS_CHANNEL_ID", env_updates["EMAILS_CHANNEL_ID"])
+        database.set_setting("WITHDRAWALS_CHANNEL_ID", env_updates["WITHDRAWALS_CHANNEL_ID"])
 
         from strings import DASHBOARD_STRINGS
         lang = env_updates["DASHBOARD_LANG"]
@@ -799,10 +803,12 @@ def app_task_submit():
             
         # Also to channel
         try:
-            data2 = json.dumps({"chat_id": EMAILS_CHANNEL_ID, "text": admin_msg, "parse_mode": "HTML"}).encode('utf-8')
-            req2 = urllib.request.Request(url, data=data2, headers={'Content-Type': 'application/json'})
-            with urllib.request.urlopen(req2, timeout=5):
-                pass
+            ch_id = conf.get("EMAILS_CHANNEL_ID")
+            if ch_id and "Add_In_DotEnv" not in str(ch_id):
+                data2 = json.dumps({"chat_id": ch_id, "text": admin_msg, "parse_mode": "HTML"}).encode('utf-8')
+                req2 = urllib.request.Request(url, data=data2, headers={'Content-Type': 'application/json'})
+                with urllib.request.urlopen(req2, timeout=5):
+                    pass
         except Exception:
             pass
     except Exception as e:
@@ -913,10 +919,12 @@ def app_withdraw():
 
         # Also to channel
         try:
-            data2 = json.dumps({"chat_id": WITHDRAWALS_CHANNEL_ID, "text": admin_msg, "parse_mode": "HTML"}).encode('utf-8')
-            req2 = urllib.request.Request(url, data=data2, headers={'Content-Type': 'application/json'})
-            with urllib.request.urlopen(req2, timeout=5):
-                pass
+            ch_id = conf.get("WITHDRAWALS_CHANNEL_ID")
+            if ch_id and "Add_In_DotEnv" not in str(ch_id):
+                data2 = json.dumps({"chat_id": ch_id, "text": admin_msg, "parse_mode": "HTML"}).encode('utf-8')
+                req2 = urllib.request.Request(url, data=data2, headers={'Content-Type': 'application/json'})
+                with urllib.request.urlopen(req2, timeout=5):
+                    pass
         except Exception:
             pass
     except Exception as e:

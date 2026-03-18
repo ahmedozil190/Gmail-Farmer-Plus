@@ -947,6 +947,9 @@ DASHBOARD_STRINGS = {
         'SETTINGS_LANG': "لغة لوحة التحكم",
         'SETTINGS_REQ_CHANNELS': "قنوات الاشتراك الإجباري",
         'SETTINGS_REQ_CHANNELS_HELP': "افصل بين القنوات بفاصلة إذا كان هناك أكثر من قناة (مثال: @channel1,@channel2).",
+        'SETTINGS_NOTIFY_CHANNELS': "قنوات الإشعارات (للأدمن)",
+        'SETTINGS_EMAILS_CHANNEL': "قناة طلبات الجيميل (ID)",
+        'SETTINGS_WITHDRAWALS_CHANNEL': "قناة طلبات السحب (ID)",
         'ALERT_SETTINGS_SAVED': "تم تحديث الإعدادات بنجاح! التغييرات نشطة الآن للبوت.",
         'ALERT_LOGIN_SUCCESS': "تم تسجيل الدخول بنجاح.",
         
@@ -1038,6 +1041,9 @@ DASHBOARD_STRINGS = {
         'SETTINGS_LANG': "Dashboard Language",
         'SETTINGS_REQ_CHANNELS': "Mandatory Subscription Channels",
         'SETTINGS_REQ_CHANNELS_HELP': "Separate multiple channels with a comma (e.g., @channel1,@channel2).",
+        'SETTINGS_NOTIFY_CHANNELS': "Notification Channels (Admin)",
+        'SETTINGS_EMAILS_CHANNEL': "Emails Channel ID",
+        'SETTINGS_WITHDRAWALS_CHANNEL': "Withdrawals Channel ID",
         'ALERT_SETTINGS_SAVED': "Settings updated successfully! Changes are now active for the bot.",
         'ALERT_LOGIN_SUCCESS': "Successfully logged in.",
         

@@ -97,6 +97,26 @@
             <small style="color: var(--text-secondary); display: block; margin-top: 5px;">{{ strings.SETTINGS_REQ_CHANNELS_HELP }}</small>
         </div>
 
+        <!-- Notification Channels Section -->
+        <div style="margin-bottom: 1.25rem;">
+            <p style="font-size: 0.9rem; color: var(--text-secondary); font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">
+                <i class="fa-solid fa-bell" style="margin-right: 5px; color: var(--accent-blue);"></i>
+                {{ strings.SETTINGS_NOTIFY_CHANNELS }}
+            </p>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 2rem;">
+            <div class="form-group">
+                <label class="form-label">{{ strings.SETTINGS_EMAILS_CHANNEL }}</label>
+                <input type="text" name="emails_channel" class="form-control" placeholder="-100..." value="{{ config.EMAILS_CHANNEL_ID }}">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">{{ strings.SETTINGS_WITHDRAWALS_CHANNEL }}</label>
+                <input type="text" name="withdrawals_channel" class="form-control" placeholder="-100..." value="{{ config.WITHDRAWALS_CHANNEL_ID }}">
+            </div>
+        </div>
+
 
 
         <!-- Limits Section Title -->
