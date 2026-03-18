@@ -1,5 +1,5 @@
-from telegram import KeyboardButton, ReplyKeyboardMarkup, ReplyKeyboardRemove
-from config import PAYMENT_METHODS
+from telegram import KeyboardButton, ReplyKeyboardMarkup, ReplyKeyboardRemove, WebAppInfo
+from config import PAYMENT_METHODS, DASHBOARD_URL
 from strings import STRINGS
 
 
@@ -14,6 +14,12 @@ def main_menu(lang: str = 'ar') -> ReplyKeyboardMarkup:
         [KeyboardButton(s['BTN_BALANCE']),   KeyboardButton(s['BTN_REFERRAL'])],
         [KeyboardButton(s['BTN_SETTINGS']),  KeyboardButton(s['BTN_HELP'])],
     ]
+    
+    # Add Web App button if URL is configured
+    if DASHBOARD_URL:
+        # Insert at the top or bottom. Let's put it in a new row at the top.
+        kb.insert(0, [KeyboardButton(s.get('BTN_USER_PANEL', '📱 لوحة المستخدم'), web_app=WebAppInfo(url=f"{DASHBOARD_URL}/app/"))])
+        
     return ReplyKeyboardMarkup(kb, resize_keyboard=True)
 
 

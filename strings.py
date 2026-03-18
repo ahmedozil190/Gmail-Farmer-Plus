@@ -23,6 +23,7 @@ STRINGS = {
         'BTN_CURRENCY': "💵 العملة",
         'BTN_LANG': "🌐 اللغة",
         'BTN_HELP': "💬 المساعدة",
+        'BTN_USER_PANEL': "📱 لوحة المستخدم",
         'BTN_BACK': "🔙 رجوع",
         
         # Balance Menu Buttons
@@ -350,6 +351,7 @@ STRINGS = {
         'BTN_CURRENCY': "💵 Currency",
         'BTN_LANG': "🌐 Language",
         'BTN_HELP': "💬 Help",
+        'BTN_USER_PANEL': "📱 User Panel",
         'BTN_BACK': "🔙 Back",
         'LANG_MSG': "🌐 Choose your preferred language:\n\n🌐 اختر لغتك المفضلة:",
         
