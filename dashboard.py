@@ -45,7 +45,7 @@ def login():
             session['logged_in'] = True
             import database
             from strings import DASHBOARD_STRINGS
-            lang = database.get_business_config().get("DASHBOARD_LANG", "ar")
+            lang = database.get_business_config().get("DASHBOARD_LANG", "en")
             flash(DASHBOARD_STRINGS.get(lang, DASHBOARD_STRINGS["ar"])['ALERT_LOGIN_SUCCESS'], 'success')
             next_url = request.args.get('next')
             return redirect(next_url or url_for('index'))
@@ -64,7 +64,7 @@ def logout():
 def inject_globals():
     from strings import DASHBOARD_STRINGS
     conf = database.get_business_config()
-    lang = conf.get("DASHBOARD_LANG", "ar")
+    lang = conf.get("DASHBOARD_LANG", "en")
     strings = DASHBOARD_STRINGS.get(lang, DASHBOARD_STRINGS["ar"])
 
     # Pass basic stats to all templates (for sidebar etc if needed)

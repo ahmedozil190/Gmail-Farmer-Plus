@@ -464,5 +464,5 @@ def get_business_config():
             "💎 TRX (TRC20)":   trx,
             "DEFAULT":          voda # fallback
         },
-        "DASHBOARD_LANG": get_setting("DASHBOARD_LANG", "ar")
+        "DASHBOARD_LANG": get_setting("DASHBOARD_LANG", "en")
     }

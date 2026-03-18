@@ -1,13 +1,13 @@
 /* ── Telegram Mini App Styles ────────────────────────────────── */
 :root {
-    --bg-main: var(--tg-theme-bg-color, #0a0b10);
-    --bg-card: var(--tg-theme-secondary-bg-color, rgba(22, 24, 33, 0.85));
+    --bg-main: #0a0b10;
+    --bg-card: rgba(22, 24, 33, 0.85);
     --border-card: rgba(255, 255, 255, 0.08);
-    --accent: var(--tg-theme-button-color, #60a5fa);
-    --accent-text: var(--tg-theme-button-text-color, #ffffff);
-    --text-primary: var(--tg-theme-text-color, #ffffff);
-    --text-secondary: var(--tg-theme-hint-color, #94a3b8);
-    --link-color: var(--tg-theme-link-color, #60a5fa);
+    --accent: #60a5fa;
+    --accent-text: #ffffff;
+    --text-primary: #ffffff;
+    --text-secondary: #94a3b8;
+    --link-color: #60a5fa;
     --success: #10b981;
     --warning: #f59e0b;
     --danger: #ef4444;
