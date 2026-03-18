@@ -444,9 +444,16 @@ def set_setting(key: str, value: str):
     con.commit()
     con.close()
 
+def get_business_config():
+    """Returns all relevant business settings as a dict with correct types."""
     from config import GMAIL_PRICE, REFERRAL_BONUS, EMAILS_CHANNEL_ID, WITHDRAWALS_CHANNEL_ID
     
-    # ... (rest of function)
+    # Withdrawal Methods mapping
+    voda = float(get_setting("MIN_WITHDRAW_VODAFONE", 0.20))
+    bina = float(get_setting("MIN_WITHDRAW_BINANCE", 0.20))
+    usdt = float(get_setting("MIN_WITHDRAW_USDT", 0.10))
+    trx  = float(get_setting("MIN_WITHDRAW_TRX", 0.30))
+    
     return {
         "GMAIL_PRICE":    float(get_setting("GMAIL_PRICE", GMAIL_PRICE)),
         "REFERRAL_BONUS": float(get_setting("REFERRAL_BONUS", REFERRAL_BONUS)),
