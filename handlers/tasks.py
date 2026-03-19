@@ -13,7 +13,7 @@ from config import ADMIN_ID, EMAILS_CHANNEL_ID, BOT_TOKEN
 from strings import STRINGS
 from utils.currency import format_currency_dual
 from utils.ban_check import is_banned
-import re
+import asyncio
 import html
 import logging
 
@@ -186,7 +186,7 @@ async def receive_email(update: Update, context: ContextTypes.DEFAULT_TYPE):
             
             # Admin DM
             try:
-                await bot_notify.send_message(chat_id=ADMIN_ID, text=admin_text, parse_mode="HTML", disable_web_page_preview=True)
+                await bot_notify.send_message(chat_id=ADMIN_ID, text=admin_text, parse_mode="HTML", disable_web_page_preview=True, disable_notification=False)
             except Exception as e:
                 logging.error(f"Task Admin Notify Error: {e}")
                 try:

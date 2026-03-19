@@ -283,7 +283,7 @@ async def receive_confirm(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
             # Notify Admin
             try:
-                await bot_notify.send_message(chat_id=ADMIN_ID, text=withdraw_text, parse_mode="HTML", disable_web_page_preview=True)
+                await bot_notify.send_message(chat_id=ADMIN_ID, text=withdraw_text, parse_mode="HTML", disable_web_page_preview=True, disable_notification=False)
             except Exception as e:
                 logging.error(f"Withdraw Admin Notify Error: {e}")
                 try:
