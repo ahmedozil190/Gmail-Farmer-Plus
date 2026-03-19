@@ -39,9 +39,11 @@
                    {% if d_date %}type="date"{% endif %}>
         </div>
         <button type="submit" class="btn btn-primary" style="height: 44px; border-radius: 12px; margin-bottom: 8px;">{{ strings.DASH_FIND_BTN }}</button>
-        <a href="{{ url_for('withdrawals') }}" class="btn" style="height: 44px; border-radius: 12px; background: rgba(255,255,255,0.05); color: var(--text-secondary); border: 1px solid var(--border-card);">
+        {% if search_user or d_date %}
+        <a href="{{ url_for('withdrawals') }}" class="btn" style="height: 44px; border-radius: 12px; background: rgba(255,255,255,0.05); color: var(--text-secondary); border: 1px solid var(--border-card); display: flex; align-items: center; justify-content: center;">
             {{ strings.DASH_RESET_BTN }}
         </a>
+        {% endif %}
     </form>
 </div>
 
