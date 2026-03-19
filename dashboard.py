@@ -149,7 +149,7 @@ def users():
         where_clause = " WHERE " + " AND ".join(where_clauses)
         
     # Stats
-    total_count = con.execute("SELECT COUNT(*) FROM users" + where_clause, params).fetchone()[0]
+    total_count = con.execute("SELECT COUNT(*) FROM users u" + where_clause, params).fetchone()[0]
     total_pages = (total_count + per_page - 1) // per_page
     
     banned_count = con.execute("SELECT COUNT(*) FROM users WHERE status = 'banned'").fetchone()[0]
