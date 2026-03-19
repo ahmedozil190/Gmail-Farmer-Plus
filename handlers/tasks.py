@@ -149,7 +149,7 @@ async def receive_email(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     # Notify user
     await update.message.reply_text(
-        s['TASKS_SUCCESS_ONLY'],
+        s['TASKS_SUCCESS_ONLY'].format(sub_id=sub_id),
         parse_mode="HTML",
         reply_markup=main_menu(lang),
     )

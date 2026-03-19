@@ -109,7 +109,7 @@ STRINGS = {
             "💡 مثال: <code>yourname@gmail.com</code>\n\n"
             "⚠️ تأكد من إرسال عنوان الإيميل فقط!"
         ),
-        'TASKS_SUCCESS_ONLY': "✅ تم إرسال بريد Gmail بنجاح وجارٍ مراجعته من قبل الأدمن.",
+        'TASKS_SUCCESS_ONLY': "Task ID: #{sub_id}\n\n✅ تم إرسال بريد Gmail بنجاح وجارٍ مراجعته من قبل الأدمن.",
         'ERR_DUPLICATE_GMAIL': (
             "❌ تم إرسال هذا العنوان من قبل!\n\n"
             "💡 يرجى إنشاء حساب جيميل جديد وإرسال عنوان مختلف\n\n"
@@ -275,6 +275,7 @@ STRINGS = {
         
         # Admin Notifications (New Gmail/Withdraw)
         'ADMIN_NOTIFY_GMAIL': (
+            "Task ID: #{sub_id}\n\n"
             "📬 <b>طلب مهمة جديد ({source})</b>\n\n"
             "👤 اسم المستخدم: {user_name}\n"
             "👤 آيدي المستخدم: <code>{user_id}</code>\n"
@@ -438,6 +439,7 @@ STRINGS = {
             "⚠️ Make sure to send the email address only!"
         ),
         'TASKS_SUCCESS_ONLY': (
+            "Task ID: #{sub_id}\n\n"
             "✅ <b>Excellent! The Gmail account has been submitted for review!</b>\n\n"
             "💰 You will receive your reward after admin approval\n"
             "📞 If you have any questions, contact support"
@@ -607,6 +609,7 @@ STRINGS = {
 
         # Admin Notifications (New Gmail/Withdraw)
         'ADMIN_NOTIFY_GMAIL': (
+            "Task ID: #{sub_id}\n\n"
             "📬 <b>New Submission ({source})</b>\n\n"
             "👤 Username: {user_name}\n"
             "👤 User ID: <code>{user_id}</code>\n"
@@ -891,7 +894,7 @@ DASHBOARD_STRINGS = {
         'DASH_AGE_1D': "يوم واحد",
         'DASH_AGE_2D': "يومين",
         'DASH_AGE_3D': "3 أيام",
-        'DASH_SEARCH_USER_PH': "معرف المستخدم...",
+        'DASH_SEARCH_USER_PH': "ID / Gmail / User...",
         'DASH_SEARCH_DATE_PH': "التاريخ...",
         'DASH_FIND_BTN': "بحث",
         'DASH_RESET_BTN': "إعادة ضبط",
@@ -986,7 +989,7 @@ DASHBOARD_STRINGS = {
         'DASH_AGE_1D': "1 Day",
         'DASH_AGE_2D': "2 Days",
         'DASH_AGE_3D': "3 Days",
-        'DASH_SEARCH_USER_PH': "User ID...",
+        'DASH_SEARCH_USER_PH': "ID / Gmail / User...",
         'DASH_SEARCH_DATE_PH': "Date...",
         'DASH_FIND_BTN': "Find",
         'DASH_RESET_BTN': "Reset",
