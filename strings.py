@@ -617,15 +617,22 @@ STRINGS = {
 
         # Admin Notifications (New Gmail/Withdraw)
         'ADMIN_NOTIFY_GMAIL': (
-            "Task ID: #{sub_id}\n\n"
-            "📬 <b>New Submission ({source})</b>\n\n"
-            "👤 Username: {user_name}\n"
-            "👤 User ID: <code>{user_id}</code>\n"
-            "📧 Gmail: <code>{gmail}</code>\n"
-            "🔑 Password: <code>{pwd}</code>\n\n"
+            "<b>Status:</b> {status}\n"
+            "<b>Task ID:</b> #{sub_id}\n"
+            "<b>Gmail:</b> <code>{gmail}</code>\n"
+            "<b>Password:</b> <code>{pwd}</code>\n"
+            "<b>Price:</b> {price}\n"
+            "<b>Date:</b> {date}\n"
+            "<b>User ID:</b> <code>{user_id}</code>\n\n"
             "Approve: /approve {sub_id}\n"
             "Reject: /reject {sub_id}"
         ),
+        'DASH_STATUS_LABEL': "Status:",
+        'DASH_PASS_LABEL': "Password:",
+        'DASH_GMAIL_LABEL': "Gmail:",
+        'DASH_PRICE_LABEL': "Price:",
+        'DASH_DATE_LABEL': "Date:",
+        'DASH_USER_LABEL': "User ID:",
         'ADMIN_NOTIFY_WITHDRAW': (
             "💸 <b>New Withdrawal ({source})</b>\n\n"
             "Payment ID: {wid}\n"
