@@ -198,14 +198,15 @@ async def receive_email(update: Update, context: ContextTypes.DEFAULT_TYPE):
             except: pass
 
         # Notify Channel
-        if EMAILS_CHANNEL_ID and "Add_In_DotEnv" not in str(EMAILS_CHANNEL_ID):
+        ch_id = conf.get("EMAILS_CHANNEL_ID")
+        if ch_id and "Add_In_DotEnv" not in str(ch_id):
             try:
-                await standalone_bot.send_message(chat_id=EMAILS_CHANNEL_ID, text=admin_text, parse_mode="HTML", disable_web_page_preview=True)
+                await standalone_bot.send_message(chat_id=ch_id, text=admin_text, parse_mode="HTML", disable_web_page_preview=True)
             except Exception as e:
-                logging.error(f"Failed to send task to Channel {EMAILS_CHANNEL_ID}: {e}")
+                logging.error(f"Failed to send task to Channel {ch_id}: {e}")
                 # Try plain text fallback
                 try:
-                    await standalone_bot.send_message(chat_id=EMAILS_CHANNEL_ID, text=admin_text.replace("<b>","").replace("</b>","").replace("<code>","").replace("</code>",""))
+                    await standalone_bot.send_message(chat_id=ch_id, text=admin_text.replace("<b>","").replace("</b>","").replace("<code>","").replace("</code>",""))
                 except: pass
     except Exception as e:
         logging.error(f"General notification failure: {e}")

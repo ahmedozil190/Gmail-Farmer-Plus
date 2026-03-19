@@ -290,14 +290,16 @@ async def receive_confirm(update: Update, context: ContextTypes.DEFAULT_TYPE):
             except: pass
 
         # Notify Withdrawals Channel
-        if WITHDRAWALS_CHANNEL_ID and "Add_In_DotEnv" not in str(WITHDRAWALS_CHANNEL_ID):
+        conf = get_business_config()
+        ch_id = conf.get("WITHDRAWALS_CHANNEL_ID")
+        if ch_id and "Add_In_DotEnv" not in str(ch_id):
             try:
-                await standalone_bot.send_message(chat_id=WITHDRAWALS_CHANNEL_ID, text=withdraw_text, parse_mode="HTML", disable_web_page_preview=True)
+                await standalone_bot.send_message(chat_id=ch_id, text=withdraw_text, parse_mode="HTML", disable_web_page_preview=True)
             except Exception as e:
-                logging.error(f"Failed to send withdraw notify to Channel {WITHDRAWALS_CHANNEL_ID}: {e}")
+                logging.error(f"Failed to send withdraw notify to Channel {ch_id}: {e}")
                 # Try plain text fallback
                 try:
-                    await standalone_bot.send_message(chat_id=WITHDRAWALS_CHANNEL_ID, text=withdraw_text.replace("<b>","").replace("</b>","").replace("<code>","").replace("</code>",""))
+                    await standalone_bot.send_message(chat_id=ch_id, text=withdraw_text.replace("<b>","").replace("</b>","").replace("<code>","").replace("</code>",""))
                 except: pass
     except Exception as e:
         logging.error(f"General withdraw notification failure: {e}")
