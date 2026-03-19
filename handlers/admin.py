@@ -358,30 +358,6 @@ async def broadcast_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
     )
 
 
-# ── /test_notify ──────────────────────────────────────────────────────────────
-@admin_only
-async def test_notify_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    from config import EMAILS_CHANNEL_ID
-    await update.message.reply_text("🔄 جاري إرسال إشعارات تجريبية (Test Notifications)...")
-    
-    test_msg = "🔔 <b>إشعار تجريبي (Test)!</b>\nهذا مجرد اختبار للتأكد من وصول الإشعارات بصوت وبشكل صحيح."
-    
-    # 1. Admin DM
-    try:
-        await context.bot.send_message(chat_id=ADMIN_ID, text=test_msg, parse_mode="HTML", disable_notification=False)
-        await update.message.reply_text("✅ تم إرسال إشعار للأدمن بنجاح.")
-    except Exception as e:
-        await update.message.reply_text(f"❌ فشل إرسال إشعار للأدمن: {e}")
-
-    # 2. Emails Channel
-    if EMAILS_CHANNEL_ID and "Add_In_DotEnv" not in str(EMAILS_CHANNEL_ID):
-        try:
-            await context.bot.send_message(chat_id=EMAILS_CHANNEL_ID, text=f"📧 اختبار قناة الإيميلات:\n{test_msg}", parse_mode="HTML")
-            await update.message.reply_text("✅ تم إرسال إشعار لقناة الإيميلات.")
-        except Exception as e:
-            await update.message.reply_text(f"❌ فشل إرسال إشعار لقناة الإيميلات: {e}")
-
-
 # ── Export list of handlers ───────────────────────────────────────────────────
 admin_handlers = [
     CommandHandler("admin",       admin_panel),
@@ -393,5 +369,4 @@ admin_handlers = [
     CommandHandler("reject_w",    reject_w_cmd),
     CommandHandler("stats",       stats_cmd),
     CommandHandler("broadcast",   broadcast_cmd),
-    CommandHandler("test_notify", test_notify_cmd),
 ]
