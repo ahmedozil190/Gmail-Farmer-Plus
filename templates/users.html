@@ -36,9 +36,9 @@
             <div class="list-header">
                 <span class="list-title">{% if user.full_name %}{{ user.full_name }}{% else %}{{ user.user_id }}{% endif %}</span>
                 {% if user.status == 'banned' %}
-                    <span class="badge rejected">{{ strings.DASH_U_STATUS_BANNED }}</span>
+                    <span class="badge" title="{{ strings.DASH_U_STATUS_BANNED }}"><i class="fa-solid fa-circle-xmark" style="color: var(--danger); font-size: 1.2rem;"></i></span>
                 {% else %}
-                    <span class="badge approved">{{ strings.DASH_U_STATUS_ACTIVE }}</span>
+                    <span class="badge" title="{{ strings.DASH_U_STATUS_ACTIVE }}"><i class="fa-solid fa-circle-check" style="color: var(--success); font-size: 1.2rem;"></i></span>
                 {% endif %}
             </div>
             

@@ -58,11 +58,11 @@
             <div class="list-header">
                 <span class="list-title">{{ w.method.replace('💳','').replace('🟡','').replace('🟢','').replace('💎','').strip() }}</span>
                 {% if w.status == 'completed' %}
-                    <span class="badge approved">{{ strings.DASH_COMPLETED }}</span>
+                    <span class="badge" title="{{ strings.DASH_COMPLETED }}"><i class="fa-solid fa-circle-check" style="color: var(--success); font-size: 1.2rem;"></i></span>
                 {% elif w.status == 'rejected' %}
-                    <span class="badge rejected">{{ strings.DASH_REJECTED }}</span>
+                    <span class="badge" title="{{ strings.DASH_REJECTED }}"><i class="fa-solid fa-circle-xmark" style="color: var(--danger); font-size: 1.2rem;"></i></span>
                 {% else %}
-                    <span class="badge pending">{{ strings.DASH_PENDING }}</span>
+                    <span class="badge" title="{{ strings.DASH_PENDING }}"><i class="fa-solid fa-clock" style="color: #fbbf24; font-size: 1.2rem;"></i></span>
                 {% endif %}
             </div>
             
