@@ -279,13 +279,13 @@ STRINGS = {
         
         # Admin Notifications (New Gmail/Withdraw)
         'ADMIN_NOTIFY_GMAIL': (
-            "<b>الحالة (Status):</b> {status}\n"
-            "<b>Task ID:</b> #{sub_id}\n"
-            "<b>Gmail:</b> <code>{gmail}</code>\n"
-            "<b>Password:</b> <code>{pwd}</code>\n"
-            "<b>Price:</b> {price}\n"
-            "<b>Date:</b> {date}\n"
-            "<b>User ID:</b> <code>{user_id}</code>\n\n"
+            "<b>الحالة:</b> {status}\n"
+            "<b>رقم المهمة:</b> #{sub_id}\n"
+            "<b>الجيميل:</b> <code>{gmail}</code>\n"
+            "<b>كلمة المرور:</b> <code>{pwd}</code>\n"
+            "<b>السعر:</b> {price}\n"
+            "<b>التاريخ:</b> {date}\n"
+            "<b>آيدي المستخدم:</b> <code>{user_id}</code>\n\n"
             "قبول: /approve {sub_id}\n"
             "رفض: /reject {sub_id}"
         ),
