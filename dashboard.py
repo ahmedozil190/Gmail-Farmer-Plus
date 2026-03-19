@@ -149,11 +149,12 @@ def users():
         where_clause = " WHERE " + " AND ".join(where_clauses)
         
     # Stats
-    total_count = con.execute("SELECT COUNT(*) FROM users u" + where_clause, params).fetchone()[0]
-    total_pages = (total_count + per_page - 1) // per_page
+    filtered_count = con.execute("SELECT COUNT(*) FROM users u" + where_clause, params).fetchone()[0]
+    total_pages = (filtered_count + per_page - 1) // per_page
     
+    grand_total = con.execute("SELECT COUNT(*) FROM users").fetchone()[0]
     banned_count = con.execute("SELECT COUNT(*) FROM users WHERE status = 'banned'").fetchone()[0]
-    stats = {'total': total_count, 'banned': banned_count}
+    stats = {'total': grand_total, 'banned': banned_count}
     
     users_list = con.execute(query + where_clause + " ORDER BY u.join_date DESC LIMIT ? OFFSET ?", params + [per_page, offset]).fetchall()
     con.close()
@@ -164,7 +165,7 @@ def users():
                            current_status=current_status,
                            page=page,
                            total_pages=total_pages,
-                           total_count=total_count,
+                           total_count=filtered_count,
                            stats=stats)
 
 @app.route("/users/status/<int:user_id>", methods=["POST"])
