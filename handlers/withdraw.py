@@ -13,7 +13,8 @@ from config import ADMIN_ID, PAYMENT_METHODS, WITHDRAWALS_CHANNEL_ID, BOT_TOKEN
 from strings import STRINGS
 from utils.ban_check import is_banned
 import html
-import logging
+import asyncio
+from datetime import datetime
 from utils.currency import get_exchange_rate, format_currency_dual
 
 # Logger
@@ -249,60 +250,61 @@ async def receive_confirm(update: Update, context: ContextTypes.DEFAULT_TYPE):
     
     amount_text = format_currency_dual(amount, display_cur, lang)
 
+    # 1. Notify user immediately
     await update.message.reply_text(
         s['WITHDRAW_SUCCESS'].format(amount_text=amount_text, method=method, wallet=wallet),
         parse_mode="HTML",
         reply_markup=main_menu(lang),
     )
 
-    username = f"@{user.username}" if user.username else user.full_name
-    admin_user = get_user(ADMIN_ID)
-    a_lang = admin_user['language'] if admin_user else 'ar'
-    a_currency = admin_user['currency'] if admin_user else 'USD'
-    a_s = STRINGS.get(a_lang, STRINGS['ar'])
-    
-    amount_text = format_currency_dual(amount, a_currency, a_lang)
-    
-    try:
-        current_date_str = datetime.now().strftime("%Y-%m-%d %H:%M") # Just in case if needed in string
-        
-        withdraw_text = a_s['ADMIN_NOTIFY_WITHDRAW'].format(
-            source="Bot",
-            wid=html.escape(str(wid)),
-            user_name=html.escape(str(username)),
-            user_id=html.escape(str(user.id)),
-            amount_text=html.escape(str(amount_text)),
-            method=html.escape(str(method)),
-            wallet=html.escape(str(wallet))
-        )
-        
-        # Use a fresh Bot instance for better stability
-        standalone_bot = Bot(token=BOT_TOKEN)
-
-        # Notify Admin
+    # 2. Background task for notifications
+    async def _notify_withdraw_task():
         try:
-            await standalone_bot.send_message(chat_id=ADMIN_ID, text=withdraw_text, parse_mode="HTML", disable_web_page_preview=True)
-        except Exception as e:
-            logging.error(f"Failed to send withdraw notify to Admin {ADMIN_ID}: {e}")
-            # Try plain text fallback
-            try:
-                await standalone_bot.send_message(chat_id=ADMIN_ID, text=withdraw_text.replace("<b>","").replace("</b>","").replace("<code>","").replace("</code>",""))
-            except: pass
+            username = f"@{user.username}" if user.username else user.full_name
+            admin_user = get_user(ADMIN_ID)
+            a_lang = admin_user['language'] if admin_user else 'ar'
+            a_currency = admin_user['currency'] if admin_user else 'USD'
+            a_s = STRINGS.get(a_lang, STRINGS['ar'])
+            
+            p_text = format_currency_dual(amount, a_currency, a_lang)
+            curr_date = datetime.now().strftime("%Y-%m-%d %H:%M")
+            
+            withdraw_text = a_s['ADMIN_NOTIFY_WITHDRAW'].format(
+                source="Bot",
+                wid=html.escape(str(wid)),
+                user_name=html.escape(str(username)),
+                user_id=html.escape(str(user.id)),
+                amount_text=html.escape(str(p_text)),
+                method=html.escape(str(method)),
+                wallet=html.escape(str(wallet))
+            )
+            
+            bot_notify = Bot(token=BOT_TOKEN)
 
-        # Notify Withdrawals Channel
-        conf = get_business_config()
-        ch_id = conf.get("WITHDRAWALS_CHANNEL_ID")
-        if ch_id and "Add_In_DotEnv" not in str(ch_id):
+            # Notify Admin
             try:
-                await standalone_bot.send_message(chat_id=ch_id, text=withdraw_text, parse_mode="HTML", disable_web_page_preview=True)
+                await bot_notify.send_message(chat_id=ADMIN_ID, text=withdraw_text, parse_mode="HTML", disable_web_page_preview=True)
             except Exception as e:
-                logging.error(f"Failed to send withdraw notify to Channel {ch_id}: {e}")
-                # Try plain text fallback
+                logging.error(f"Withdraw Admin Notify Error: {e}")
                 try:
-                    await standalone_bot.send_message(chat_id=ch_id, text=withdraw_text.replace("<b>","").replace("</b>","").replace("<code>","").replace("</code>",""))
+                    await bot_notify.send_message(chat_id=ADMIN_ID, text=withdraw_text.replace("<b>","").replace("</b>","").replace("<code>","").replace("</code>",""))
                 except: pass
-    except Exception as e:
-        logging.error(f"General withdraw notification failure: {e}")
+
+            # Notify Withdrawals Channel
+            conf_notify = get_business_config()
+            ch_id = conf_notify.get("WITHDRAWALS_CHANNEL_ID")
+            if ch_id and "Add_In_DotEnv" not in str(ch_id):
+                try:
+                    await bot_notify.send_message(chat_id=ch_id, text=withdraw_text, parse_mode="HTML", disable_web_page_preview=True)
+                except Exception as e:
+                    logging.error(f"Withdraw Channel Notify Error: {e}")
+                    try:
+                        await bot_notify.send_message(chat_id=ch_id, text=withdraw_text.replace("<b>","").replace("</b>","").replace("<code>","").replace("</code>",""))
+                    except: pass
+        except Exception as e:
+            logging.error(f"Withdraw Notify Wrapper Error: {e}")
+
+    asyncio.create_task(_notify_withdraw_task())
 
     for k in ("withdraw_balance", "withdraw_method", "withdraw_amount", "lang"):
         context.user_data.pop(k, None)
