@@ -72,14 +72,14 @@ STRINGS = {
             "🙏 نشكر تفهّمكم وصبركم."
         ),
         'TASK_APPROVED': (
-            "✅ <b>تم قبول حسابك!</b>\n\n"
-            "📧 الحساب: <code>{gmail}</code>\n"
-            "💰 تم إضافة <b>{price}</b> إلى رصيدك.\n\n"
+            "✅ تم قبول حسابك!\n\n"
+            "📧 الحساب: {gmail}\n"
+            "💰 تم إضافة {price} إلى رصيدك.\n\n"
             "شكراً لمجهودك، استمر في العمل! 🚀"
         ),
         'TASK_REJECTED': (
             "❌ تم رفض حساب الجيميل الخاص بك.\n\n"
-            "📧 الجيميل: <code>{gmail}</code>\n\n"
+            "📧 الجيميل: {gmail}\n\n"
             "💡 راجع تعليمات المهمة وحاول مرة أخرى."
         ),
         'BTN_TASK_GMAIL': "📱 مهمة إنشاء جيميل - {price}",
@@ -419,14 +419,14 @@ STRINGS = {
             "🙏 Thank you for your understanding and patience."
         ),
         'TASK_APPROVED': (
-            "✅ <b>Task Approved!</b>\n\n"
-            "📧 Account: <code>{gmail}</code>\n"
-            "💰 <b>{price}</b> has been added to your balance.\n\n"
+            "✅ Your account has been approved!\n\n"
+            "📧 Account: {gmail}\n"
+            "💰 {price} has been added to your balance.\n\n"
             "Thank you for your effort, keep it up! 🚀"
         ),
         'TASK_REJECTED': (
             "❌ Your Gmail account has been rejected.\n\n"
-            "📧 Gmail: <code>{gmail}</code>\n\n"
+            "📧 Gmail: {gmail}\n\n"
             "💡 Review the task instructions and try again."
         ),
         'BTN_TASK_GMAIL': "📱 Create Gmail Task - {price}",
