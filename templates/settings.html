@@ -200,74 +200,52 @@
         </div>
     </form>
 
-    <hr style="border-top: 1px solid rgba(255,255,255,0.05); margin: 3rem 0;">
+    <div class="glass-card" style="margin-top: 2rem;">
+        <div style="margin-bottom: 2rem; display: flex; align-items: center; gap: 10px;">
+            <i class="fa-solid fa-trash-can" style="color: #ef4444;"></i>
+            <h2 style="margin: 0; font-size: 1.15rem; color: white; font-weight: 700;">{{ strings.LBL_RESET_SETTINGS }}</h2>
+        </div>
 
-    <style>
-        /* Premium Alert Styling Overrides */
-        .alert {
-            background: rgba(22, 24, 33, 0.9) !important;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: white !important;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 16px 20px;
-        }
-        .alert-success { border-color: rgba(16, 185, 129, 0.3); }
-        .alert-danger { border-color: rgba(239, 68, 68, 0.3); }
-        .alert::before {
-            font-family: "Font Awesome 6 Free";
-            font-weight: 900;
-        }
-        .alert-success::before { content: "\f058"; color: var(--success); }
-        .alert-danger::before { content: "\f06a"; color: var(--danger); }
-    </style>
-
-    <div style="margin-bottom: 2rem;">
-        <h2 style="margin: 0; font-size: 1.25rem; color: white; font-weight: 700;">{{ strings.LBL_RESET_SETTINGS }}</h2>
-    </div>
-
-    <!-- Global Reset Card -->
-    <div class="list-item" style="border-color: rgba(255, 255, 255, 0.08); background: rgba(255, 255, 255, 0.02); padding: 22px; margin-bottom: 20px; border-radius: 20px;">
-        <div style="display: flex; flex-direction: column; gap: 16px;">
-            <div style="display: flex; align-items: flex-start; gap: 12px;">
-                <div style="width: 40px; height: 40px; background: rgba(239, 68, 68, 0.1); border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-                    <i class="fa-solid fa-triangle-exclamation" style="color: #ef4444; font-size: 1.2rem;"></i>
+        <!-- Global Reset Sub-Card -->
+        <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.06); padding: 22px; margin-bottom: 20px; border-radius: 20px;">
+            <div style="display: flex; flex-direction: column; gap: 16px;">
+                <div style="display: flex; align-items: flex-start; gap: 12px;">
+                    <div style="width: 40px; height: 40px; background: rgba(239, 68, 68, 0.1); border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                        <i class="fa-solid fa-triangle-exclamation" style="color: #ef4444; font-size: 1.2rem;"></i>
+                    </div>
+                    <div>
+                        <div style="font-weight: 700; color: white; font-size: 1.05rem; margin-bottom: 4px;">{{ strings.LBL_GLOBAL_RESET }}</div>
+                        <div style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5;">{{ strings.MSG_RESET_CONFIRM }}</div>
+                    </div>
                 </div>
-                <div>
-                    <div style="font-weight: 700; color: white; font-size: 1.05rem; margin-bottom: 4px;">{{ strings.LBL_GLOBAL_RESET }}</div>
-                    <div style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5;">{{ strings.MSG_RESET_CONFIRM }}</div>
-                </div>
+                <form action="{{ url_for('reset_global') }}" method="POST" id="global-reset-form">
+                    <button type="button" class="btn" onclick="openResetModal('global-reset-form')" style="background: #ef4444; color: white !important; height: 50px; border-radius: 14px; font-weight: 700; width: 100%; border: none; box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3); transition: all 0.2s;">
+                        {{ strings.BTN_RESET_GLOBAL }}
+                    </button>
+                </form>
             </div>
-            <form action="{{ url_for('reset_global') }}" method="POST" id="global-reset-form">
-                <button type="button" class="btn" onclick="openResetModal('global-reset-form')" style="background: #ef4444; color: white !important; height: 50px; border-radius: 14px; font-weight: 700; width: 100%; border: none; box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3); transition: all 0.2s;">
-                    {{ strings.BTN_RESET_GLOBAL }}
-                </button>
+        </div>
+
+        <!-- User Reset Sub-Card -->
+        <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.06); padding: 22px; border-radius: 20px;">
+            <div style="font-weight: 700; color: white; font-size: 1.05rem; margin-bottom: 16px; display: flex; align-items: center; gap: 10px;">
+                <div style="width: 40px; height: 40px; background: rgba(245, 158, 11, 0.1); border-radius: 10px; display: flex; align-items: center; justify-content: center;">
+                    <i class="fa-solid fa-user-gear" style="color: var(--warning);"></i>
+                </div>
+                {{ strings.LBL_USER_RESET }}
+            </div>
+            <form action="{{ url_for('reset_user_data') }}" method="POST" id="user-reset-form">
+                <div style="display: flex; flex-direction: column; gap: 12px;">
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label class="form-label" style="font-size: 0.75rem;">{{ strings.LBL_USER_ID }}</label>
+                        <input type="text" name="user_id" class="form-control" placeholder="12345678" required style="width: 100%; margin-bottom: 0; background: rgba(0,0,0,0.3); border-color: rgba(255,255,255,0.05);">
+                    </div>
+                    <button type="button" class="btn" onclick="openResetModal('user-reset-form')" style="background: var(--warning); color: #000 !important; font-weight: 700; border-radius: 14px; border: none; height: 50px; width: 100%; transition: all 0.2s;">
+                        {{ strings.BTN_RESET_USER }}
+                    </button>
+                </div>
             </form>
         </div>
-    </div>
-
-    <!-- User Reset Card -->
-    <div class="list-item" style="padding: 22px; border-color: rgba(255,255,255,0.08); border-radius: 20px;">
-        <div style="font-weight: 700; color: white; font-size: 1.05rem; margin-bottom: 16px; display: flex; align-items: center; gap: 10px;">
-            <div style="width: 40px; height: 40px; background: rgba(245, 158, 11, 0.1); border-radius: 10px; display: flex; align-items: center; justify-content: center;">
-                <i class="fa-solid fa-user-gear" style="color: var(--warning);"></i>
-            </div>
-            {{ strings.LBL_USER_RESET }}
-        </div>
-        <form action="{{ url_for('reset_user_data') }}" method="POST" id="user-reset-form">
-            <div style="display: flex; flex-direction: column; gap: 12px;">
-                <div class="form-group" style="margin-bottom: 0;">
-                    <label class="form-label" style="font-size: 0.75rem;">{{ strings.LBL_USER_ID }}</label>
-                    <input type="text" name="user_id" class="form-control" placeholder="12345678" required style="width: 100%; margin-bottom: 0; background: rgba(0,0,0,0.3); border-color: rgba(255,255,255,0.05);">
-                </div>
-                <button type="button" class="btn" onclick="openResetModal('user-reset-form')" style="background: var(--warning); color: #000 !important; font-weight: 700; border-radius: 14px; border: none; height: 50px; width: 100%; transition: all 0.2s;">
-                    {{ strings.BTN_RESET_USER }}
-                </button>
-            </div>
-        </form>
     </div>
 </div>
 
