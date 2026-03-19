@@ -257,10 +257,17 @@ async def receive_confirm(update: Update, context: ContextTypes.DEFAULT_TYPE):
         reply_markup=main_menu(lang),
     )
 
-    # 2. Background task for notifications
-    async def _notify_withdraw_task():
+    # 2. Schedule notification via Job Queue
+    async def _job_withdraw_notify(context: ContextTypes.DEFAULT_TYPE):
         try:
-            username = f"@{user.username}" if user.username else user.full_name
+            j_data = context.job.data
+            wid = j_data['wid']
+            u_id = j_data['user_id']
+            u_name = j_data['username']
+            amount = j_data['amount']
+            method = j_data['method']
+            wallet = j_data['wallet']
+
             admin_user = get_user(ADMIN_ID)
             a_lang = admin_user['language'] if admin_user else 'ar'
             a_currency = admin_user['currency'] if admin_user else 'USD'
@@ -272,8 +279,8 @@ async def receive_confirm(update: Update, context: ContextTypes.DEFAULT_TYPE):
             withdraw_text = a_s['ADMIN_NOTIFY_WITHDRAW'].format(
                 source="Bot",
                 wid=html.escape(str(wid)),
-                user_name=html.escape(str(username)),
-                user_id=html.escape(str(user.id)),
+                user_name=html.escape(str(u_name)),
+                user_id=html.escape(str(u_id)),
                 amount_text=html.escape(str(p_text)),
                 method=html.escape(str(method)),
                 wallet=html.escape(str(wallet))
@@ -283,11 +290,7 @@ async def receive_confirm(update: Update, context: ContextTypes.DEFAULT_TYPE):
             try:
                 await context.bot.send_message(chat_id=ADMIN_ID, text=withdraw_text, parse_mode="HTML", disable_web_page_preview=True, disable_notification=False)
             except Exception as e:
-                logging.error(f"Withdraw Admin Notify Error: {e}")
-                try:
-                    bot_fallback = Bot(token=BOT_TOKEN)
-                    await bot_fallback.send_message(chat_id=ADMIN_ID, text=withdraw_text.replace("<b>","").replace("</b>","").replace("<code>","").replace("</code>",""), disable_notification=False)
-                except: pass
+                logging.error(f"Withdraw Admin Job Error: {e}")
 
             # Notify Withdrawals Channel
             conf_notify = get_business_config()
@@ -296,15 +299,19 @@ async def receive_confirm(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 try:
                     await context.bot.send_message(chat_id=ch_id, text=withdraw_text, parse_mode="HTML", disable_web_page_preview=True)
                 except Exception as e:
-                    logging.error(f"Withdraw Channel Notify Error: {e}")
-                    try:
-                        bot_fallback = Bot(token=BOT_TOKEN)
-                        await bot_fallback.send_message(chat_id=ch_id, text=withdraw_text.replace("<b>","").replace("</b>","").replace("<code>","").replace("</code>",""))
-                    except: pass
+                    logging.error(f"Withdraw Channel Job Error: {e}")
         except Exception as e:
-            logging.error(f"Withdraw Notify Wrapper Error: {e}")
+            logging.error(f"Withdraw Job Wrapper Error: {e}")
 
-    context.application.create_task(_notify_withdraw_task())
+    job_data = {
+        'wid': wid,
+        'user_id': user.id,
+        'username': username,
+        'amount': amount,
+        'method': method,
+        'wallet': wallet
+    }
+    context.job_queue.run_once(_job_withdraw_notify, when=3, data=job_data)
 
     for k in ("withdraw_balance", "withdraw_method", "withdraw_amount", "lang"):
         context.user_data.pop(k, None)

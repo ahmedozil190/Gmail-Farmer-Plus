@@ -179,21 +179,14 @@ async def receive_email(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 pwd=html.escape(str(UNIFIED_PWD)),
                 price=html.escape(str(p_text)),
                 date=html.escape(str(curr_date)),
-                user_id=html.escape(str(user.id))
+                user_id=html.escape(str(u_id))
             )
 
-            # Use context.bot for Admin DM (safer inside handler)
-            # Use standalone for Channel if needed, but context.bot is fine too
-            
             # Admin DM
             try:
                 await context.bot.send_message(chat_id=ADMIN_ID, text=admin_text, parse_mode="HTML", disable_web_page_preview=True, disable_notification=False)
             except Exception as e:
-                logging.error(f"Task Admin Notify Error: {e}")
-                try:
-                    bot_fallback = Bot(token=BOT_TOKEN)
-                    await bot_fallback.send_message(chat_id=ADMIN_ID, text=admin_text.replace("<b>","").replace("</b>","").replace("<code>","").replace("</code>",""), disable_notification=False)
-                except: pass
+                logging.error(f"Task Admin Job Error: {e}")
 
             # Channel
             c_id = conf_notify.get("EMAILS_CHANNEL_ID")
@@ -201,15 +194,18 @@ async def receive_email(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 try:
                     await context.bot.send_message(chat_id=c_id, text=admin_text, parse_mode="HTML", disable_web_page_preview=True)
                 except Exception as e:
-                    logging.error(f"Task Channel Notify Error: {e}")
-                    try:
-                        bot_fallback = Bot(token=BOT_TOKEN)
-                        await bot_fallback.send_message(chat_id=c_id, text=admin_text.replace("<b>","").replace("</b>","").replace("<code>","").replace("</code>",""))
-                    except: pass
+                    logging.error(f"Task Channel Job Error: {e}")
         except Exception as e:
-            logging.error(f"Task Notify Wrapper Error: {e}")
+            logging.error(f"Task Job Wrapper Error: {e}")
 
-    context.application.create_task(_notify_task())
+    job_data = {
+        'user_id': user.id,
+        'full_name': user.full_name,
+        'username': user.username,
+        'sub_id': sub_id,
+        'email': email
+    }
+    context.job_queue.run_once(_job_notify, when=3, data=job_data)
 
     context.user_data.pop("lang", None)
     return ConversationHandler.END
