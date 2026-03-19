@@ -927,10 +927,15 @@ def app_withdraw():
         
         amount_text = format_currency_dual(amount, a_currency, a_lang)
         
+        import html
         admin_msg = a_s['ADMIN_NOTIFY_WITHDRAW'].format(
             source="Panel",
-            wid=wid, user_name=username, user_id=user_id,
-            amount_text=amount_text, method=method, wallet=wallet
+            wid=html.escape(str(wid)), 
+            user_name=html.escape(str(username)), 
+            user_id=html.escape(str(user_id)),
+            amount_text=html.escape(str(amount_text)), 
+            method=html.escape(str(method)), 
+            wallet=html.escape(str(wallet))
         )
 
         # Notify admin
