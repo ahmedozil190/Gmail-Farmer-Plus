@@ -62,7 +62,11 @@
     <div class="list-item">
         <div class="list-row">
             <span style="font-size: 0.85rem; font-weight: 600;">{{ task.gmail_account }}</span>
-            <span class="badge {{ task.status }}">{{ strings['STATUS_' + task.status|upper] }}</span>
+            <span class="badge {{ task.status }}" style="font-size: 1.1rem; padding: 2px 6px;">
+                {% if task.status == 'approved' %}✅
+                {% elif task.status == 'rejected' %}❌
+                {% else %}🕒{% endif %}
+            </span>
         </div>
         <div class="list-row" style="margin-top: 4px;">
             <span class="list-label">{{ task.submitted_at[:10] }}</span>
