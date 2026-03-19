@@ -159,59 +159,42 @@ async def receive_email(update: Update, context: ContextTypes.DEFAULT_TYPE):
         reply_markup=main_menu(lang),
     )
 
-    # 2. Schedule notification via Job Queue (3s delay for badge)
-    async def _job_notify_task(context: ContextTypes.DEFAULT_TYPE):
+    # 2. Send notifications directly (simple & reliable)
+    try:
+        username = f"@{user.username}" if user.username else user.full_name
+        admin_user = get_user(ADMIN_ID)
+        a_lang = admin_user['language'] if admin_user else 'ar'
+        a_s = STRINGS.get(a_lang, STRINGS['ar'])
+        conf_notify = get_business_config()
+        p_text = format_currency_dual(conf_notify["GMAIL_PRICE"], 'USD', a_lang)
+        curr_date = datetime.now().strftime("%Y-%m-%d %H:%M")
+        st_text = a_s.get('DASH_FILTER_PENDING', 'Pending')
+
+        admin_text = a_s['ADMIN_NOTIFY_GMAIL'].format(
+            status=html.escape(str(st_text)),
+            sub_id=html.escape(str(sub_id)),
+            gmail=html.escape(str(email)),
+            pwd=html.escape(str(UNIFIED_PWD)),
+            price=html.escape(str(p_text)),
+            date=html.escape(str(curr_date)),
+            user_id=html.escape(str(user.id))
+        )
+
+        # Admin DM
         try:
-            j_data = context.job.data
-            j_user_id = j_data['user_id']
-            j_username = j_data['username']
-            j_full_name = j_data['full_name']
-            j_sub_id = j_data['sub_id']
-            j_email = j_data['email']
-
-            display_name = f"@{j_username}" if j_username else j_full_name
-            admin_user = get_user(ADMIN_ID)
-            a_lang = admin_user['language'] if admin_user else 'ar'
-            a_s = STRINGS.get(a_lang, STRINGS['ar'])
-            conf_notify = get_business_config()
-            p_text = format_currency_dual(conf_notify["GMAIL_PRICE"], 'USD', a_lang)
-            curr_date = datetime.now().strftime("%Y-%m-%d %H:%M")
-            st_text = a_s.get('DASH_FILTER_PENDING', 'Pending')
-
-            admin_text = a_s['ADMIN_NOTIFY_GMAIL'].format(
-                status=html.escape(str(st_text)),
-                sub_id=html.escape(str(j_sub_id)),
-                gmail=html.escape(str(j_email)),
-                pwd=html.escape(str(UNIFIED_PWD)),
-                price=html.escape(str(p_text)),
-                date=html.escape(str(curr_date)),
-                user_id=html.escape(str(j_user_id))
-            )
-
-            # Admin DM
-            try:
-                await context.bot.send_message(chat_id=ADMIN_ID, text=admin_text, parse_mode="HTML", disable_web_page_preview=True, disable_notification=False)
-            except Exception as e:
-                logging.error(f"Task Admin Job Error: {e}")
-
-            # Channel
-            c_id = conf_notify.get("EMAILS_CHANNEL_ID")
-            if c_id and "Add_In_DotEnv" not in str(c_id):
-                try:
-                    await context.bot.send_message(chat_id=c_id, text=admin_text, parse_mode="HTML", disable_web_page_preview=True)
-                except Exception as e:
-                    logging.error(f"Task Channel Job Error: {e}")
+            await context.bot.send_message(chat_id=ADMIN_ID, text=admin_text, parse_mode="HTML", disable_web_page_preview=True, disable_notification=False)
         except Exception as e:
-            logging.error(f"Task Job Wrapper Error: {e}")
+            logging.error(f"Task Admin Notify Error: {e}")
 
-    job_data = {
-        'user_id': user.id,
-        'full_name': user.full_name,
-        'username': user.username,
-        'sub_id': sub_id,
-        'email': email
-    }
-    context.job_queue.run_once(_job_notify_task, when=3, data=job_data)
+        # Channel
+        c_id = conf_notify.get("EMAILS_CHANNEL_ID")
+        if c_id and "Add_In_DotEnv" not in str(c_id):
+            try:
+                await context.bot.send_message(chat_id=c_id, text=admin_text, parse_mode="HTML", disable_web_page_preview=True)
+            except Exception as e:
+                logging.error(f"Task Channel Notify Error: {e}")
+    except Exception as e:
+        logging.error(f"Task Notify Error: {e}")
 
     context.user_data.pop("lang", None)
     return ConversationHandler.END
