@@ -57,10 +57,10 @@
     <div class="table-container">
         {% for w in withdrawals %}
         <div class="list-item">
-            <div class="list-header">
-                <div style="display: flex; align-items: center; gap: 8px; flex: 1; min-width: 0; margin-right: 10px;">
+            <div class="list-header" style="align-items: flex-start;">
+                <div style="display: flex; align-items: flex-start; gap: 8px; flex: 1; min-width: 0; margin-right: 10px; flex-wrap: wrap;">
                     <span style="font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; background: rgba(139, 92, 246, 0.1); color: var(--accent-purple); padding: 2px 8px; border-radius: 6px; border: 1px solid rgba(139, 92, 246, 0.2); font-weight: 700; white-space: nowrap;">#{{ w.id }}</span>
-                    <span class="list-title" style="font-size: 0.95rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ w.method.replace('💳','').replace('🟡','').replace('🟢','').replace('💎','').strip() }}</span>
+                    <span class="list-title" style="font-size: 0.95rem; word-break: break-all; white-space: normal; line-height: 1.4;">{{ w.method.replace('💳','').replace('🟡','').replace('🟢','').replace('💎','').strip() }}</span>
                 </div>
                 {% if w.status == 'completed' %}
                     <span class="badge" title="{{ strings.DASH_COMPLETED }}"><i class="fa-solid fa-circle-check" style="color: var(--success); font-size: 1.2rem;"></i></span>
