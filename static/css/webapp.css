@@ -203,6 +203,21 @@ body::before {
 .badge.rejected { background: rgba(239,68,68,0.12); color: var(--danger); }
 .badge.completed { background: rgba(16,185,129,0.12); color: var(--success); }
 
+/* ── Status Icons (Used in Home Recent Tasks) ────────────────── */
+.status-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    font-size: 14px;
+    flex-shrink: 0;
+}
+.status-icon.approved { background: #2ecc71; color: #082913; }
+.status-icon.rejected { background: #e74c3c; color: #3d0e0a; }
+.status-icon.pending { background: #f1c40f; color: #3d2f01; }
+
 /* ── Form ────────────────────────────────────────────────────── */
 .form-group { margin-bottom: 1rem; }
 .form-label { display: block; font-size: 0.8rem; margin-bottom: 6px; color: var(--text-secondary); font-weight: 500; }
