@@ -208,10 +208,10 @@ body::before {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 26px;
-    height: 26px;
+    width: 20px;
+    height: 20px;
     border-radius: 50%;
-    font-size: 14px;
+    font-size: 11px;
     flex-shrink: 0;
 }
 .status-icon.approved { background: #2ecc71; color: #082913; }
