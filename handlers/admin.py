@@ -299,17 +299,16 @@ async def reject_w_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
         
         amount_text = format_currency_dual(result['amount'], u_currency, u_lang)
         
-        # We might need a separate NOTIFY_USER_W_REJECT but let's see if we can reuse
         msg = (
-            f"❌ <b>تم رفض طلب السحب الخاص بك</b>\n\n"
-            f"💵 المبلغ: <b>{amount_text}</b>\n"
-            f"📝 السبب: {reason}\n\n"
-            f"تم إعادة المبلغ لرصيدك."
+            f"❌ <b>تم رفض طلب السحب</b>\n\n"
+            f"للأسف، تم رفض طلب السحب الخاص بك بقيمة <b>{amount_text}</b>.\n"
+            f"🏦 العنوان: <code>{result.get('wallet_address', '')}</code>\n\n"
+            f"🥊 لا تستسلم! استمر في العمل لكسب المزيد من الأرباح 💰"
         ) if u_lang == 'ar' else (
-            f"❌ <b>Your withdrawal request was rejected</b>\n\n"
-            f"💵 Amount: <b>{amount_text}</b>\n"
-            f"📝 Reason: {reason}\n\n"
-            f"Amount has been returned to your balance."
+            f"❌ <b>Withdrawal Request Rejected</b>\n\n"
+            f"Unfortunately, your withdrawal request for <b>{amount_text}</b> was rejected.\n"
+            f"🏦 Address: <code>{result.get('wallet_address', '')}</code>\n\n"
+            f"🥊 Don't give up! Keep working to earn more profits 💰"
         )
         # Note: actually in database.py reject_withdrawal DOES NOT return money yet as per current code?
         # Let's check database.py reject_withdrawal again.
