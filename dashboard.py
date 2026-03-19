@@ -615,7 +615,7 @@ def send_webapp_notification(chat_id, message):
     async def _send():
         try:
             bot = Bot(token=BOT_TOKEN)
-            await bot.send_message(chat_id=chat_id, text=message, parse_mode='HTML', disable_notification=False)
+            await bot.send_message(chat_id=chat_id, text=message, parse_mode='HTML')
             return True
         except Exception as e:
             with open("crash.log", "a", encoding="utf-8") as f:
