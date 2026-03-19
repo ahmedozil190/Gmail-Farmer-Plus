@@ -2,6 +2,7 @@
 Gmail submission conversation:
   User taps  المهام  →  bot asks for Gmail email  →  bot asks for password  →  submits to admin
 """
+from datetime import datetime
 from telegram import Update
 from telegram.ext import (
     ContextTypes, ConversationHandler, MessageHandler, filters
@@ -168,9 +169,13 @@ async def receive_email(update: Update, context: ContextTypes.DEFAULT_TYPE):
     price_text = format_currency_dual(gmail_price, 'USD', a_lang)
 
     admin_text = a_s['ADMIN_NOTIFY_GMAIL'].format(
-        source="Bot",
-        user_name=username, user_id=user.id,
-        gmail=email, pwd=UNIFIED_PWD, sub_id=sub_id
+        status=a_s['DASH_FILTER_PENDING'],
+        sub_id=sub_id,
+        gmail=email,
+        pwd=UNIFIED_PWD,
+        price=price_text,
+        date=datetime.now().strftime("%Y-%m-%d %H:%M"),
+        user_id=user.id
     )
     
     await context.bot.send_message(chat_id=ADMIN_ID, text=admin_text, parse_mode="HTML")

@@ -274,16 +274,24 @@ STRINGS = {
         'ADMIN_REJECT_W_SUCCESS': "✅ تم رفض طلب السحب {id}. السبب: {reason}",
         
         # Admin Notifications (New Gmail/Withdraw)
+        # Admin Notifications (New Gmail/Withdraw)
         'ADMIN_NOTIFY_GMAIL': (
-            "Task ID: #{sub_id}\n\n"
-            "📬 <b>طلب مهمة جديد ({source})</b>\n\n"
-            "👤 اسم المستخدم: {user_name}\n"
-            "👤 آيدي المستخدم: <code>{user_id}</code>\n"
-            "📧 جيميل: <code>{gmail}</code>\n"
-            "🔑 الباسورد: <code>{pwd}</code>\n\n"
+            "<b>الحالة:</b> {status}\n"
+            "<b>Task ID:</b> #{sub_id}\n"
+            "<b>Gmail:</b> <code>{gmail}</code>\n"
+            "<b>Password:</b> <code>{pwd}</code>\n"
+            "<b>Price:</b> {price}\n"
+            "<b>Date:</b> {date}\n"
+            "<b>User ID:</b> <code>{user_id}</code>\n\n"
             "قبول: /approve {sub_id}\n"
             "رفض: /reject {sub_id}"
         ),
+        'DASH_STATUS_LABEL': "الحالة:",
+        'DASH_PASS_LABEL': "كلمة المرور:",
+        'DASH_GMAIL_LABEL': "الجيميل:",
+        'DASH_PRICE_LABEL': "السعر:",
+        'DASH_DATE_LABEL': "التاريخ:",
+        'DASH_USER_LABEL': "معرف المستخدم:",
         'ADMIN_NOTIFY_WITHDRAW': (
             "💸 <b>طلب سحب جديد ({source})</b>\n\n"
             "الرقم التعريفي: {wid}\n"
