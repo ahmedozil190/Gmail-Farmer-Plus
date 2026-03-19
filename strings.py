@@ -109,7 +109,11 @@ STRINGS = {
             "💡 مثال: <code>yourname@gmail.com</code>\n\n"
             "⚠️ تأكد من إرسال عنوان الإيميل فقط!"
         ),
-        'TASKS_SUCCESS_ONLY': "Task ID: #{sub_id}\n\n✅ تم إرسال بريد Gmail بنجاح وجارٍ مراجعته من قبل الأدمن.",
+        'TASKS_SUCCESS_ONLY': (
+            "✅ ممتاز! تم إرسال حساب الجيميل للمراجعة!\n\n"
+            "💰 ستحصل على مكافأتك بعد موافقة الأدمن\n\n"
+            "📞 إذا كان لديك أي استفسار، تواصل مع الدعم"
+        ),
         'ERR_DUPLICATE_GMAIL': (
             "❌ تم إرسال هذا العنوان من قبل!\n\n"
             "💡 يرجى إنشاء حساب جيميل جديد وإرسال عنوان مختلف\n\n"
@@ -450,9 +454,8 @@ STRINGS = {
             "⚠️ Make sure to send the email address only!"
         ),
         'TASKS_SUCCESS_ONLY': (
-            "Task ID: #{sub_id}\n\n"
-            "✅ <b>Excellent! The Gmail account has been submitted for review!</b>\n\n"
-            "💰 You will receive your reward after admin approval\n"
+            "✅ Excellent! The Gmail account has been submitted for review!\n\n"
+            "💰 You will receive your reward after admin approval\n\n"
             "📞 If you have any questions, contact support"
         ),
         'ERR_DUPLICATE_GMAIL': (
