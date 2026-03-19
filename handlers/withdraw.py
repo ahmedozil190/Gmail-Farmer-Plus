@@ -281,7 +281,7 @@ async def receive_confirm(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
         # Notify Admin
         try:
-            await standalone_bot.send_message(chat_id=ADMIN_ID, text=withdraw_text, parse_mode="HTML", disable_web_page_preview=True)
+            await standalone_bot.send_message(chat_id=ADMIN_ID, text=withdraw_text, parse_mode="HTML", disable_web_page_preview=True, disable_notification=False)
         except Exception as e:
             logging.error(f"Failed to send withdraw notify to Admin {ADMIN_ID}: {e}")
             # Try plain text fallback
@@ -294,7 +294,7 @@ async def receive_confirm(update: Update, context: ContextTypes.DEFAULT_TYPE):
         ch_id = conf.get("WITHDRAWALS_CHANNEL_ID")
         if ch_id and "Add_In_DotEnv" not in str(ch_id):
             try:
-                await standalone_bot.send_message(chat_id=ch_id, text=withdraw_text, parse_mode="HTML", disable_web_page_preview=True)
+                await standalone_bot.send_message(chat_id=ch_id, text=withdraw_text, parse_mode="HTML", disable_web_page_preview=True, disable_notification=False)
             except Exception as e:
                 logging.error(f"Failed to send withdraw notify to Channel {ch_id}: {e}")
                 # Try plain text fallback
