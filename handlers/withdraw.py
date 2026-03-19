@@ -12,6 +12,8 @@ from keyboards import main_menu, cancel_keyboard, payment_methods_keyboard
 from config import ADMIN_ID, PAYMENT_METHODS, WITHDRAWALS_CHANNEL_ID
 from strings import STRINGS
 from utils.ban_check import is_banned
+import html
+import logging
 from utils.currency import get_exchange_rate, format_currency_dual
 
 # Logger
@@ -261,19 +263,41 @@ async def receive_confirm(update: Update, context: ContextTypes.DEFAULT_TYPE):
     
     amount_text = format_currency_dual(amount, a_currency, a_lang)
     
-    withdraw_text = a_s['ADMIN_NOTIFY_WITHDRAW'].format(
-        source="Bot",
-        wid=wid, user_name=username, user_id=user.id,
-        amount_text=amount_text, method=method, wallet=wallet
-    )
-
-    await context.bot.send_message(chat_id=ADMIN_ID, text=withdraw_text, parse_mode="HTML")
-
-    # Notify Withdrawals Channel
     try:
-        await context.bot.send_message(chat_id=WITHDRAWALS_CHANNEL_ID, text=withdraw_text, parse_mode="HTML")
-    except Exception:
-        pass
+        current_date_str = datetime.now().strftime("%Y-%m-%d %H:%M") # Just in case if needed in string
+        
+        withdraw_text = a_s['ADMIN_NOTIFY_WITHDRAW'].format(
+            source="Bot",
+            wid=html.escape(str(wid)),
+            user_name=html.escape(str(username)),
+            user_id=html.escape(str(user.id)),
+            amount_text=html.escape(str(amount_text)),
+            method=html.escape(str(method)),
+            wallet=html.escape(str(wallet))
+        )
+        
+        # Notify Admin
+        try:
+            await context.bot.send_message(chat_id=ADMIN_ID, text=withdraw_text, parse_mode="HTML")
+        except Exception as e:
+            logging.error(f"Failed to send withdraw notify to Admin: {e}")
+            # Try plain text fallback
+            try:
+                await context.bot.send_message(chat_id=ADMIN_ID, text=withdraw_text.replace("<b>","").replace("</b>","").replace("<code>","").replace("</code>",""))
+            except: pass
+
+        # Notify Withdrawals Channel
+        if WITHDRAWALS_CHANNEL_ID and "Add_In_DotEnv" not in str(WITHDRAWALS_CHANNEL_ID):
+            try:
+                await context.bot.send_message(chat_id=WITHDRAWALS_CHANNEL_ID, text=withdraw_text, parse_mode="HTML")
+            except Exception as e:
+                logging.error(f"Failed to send withdraw notify to Channel: {e}")
+                # Try plain text fallback
+                try:
+                    await context.bot.send_message(chat_id=WITHDRAWALS_CHANNEL_ID, text=withdraw_text.replace("<b>","").replace("</b>","").replace("<code>","").replace("</code>",""))
+                except: pass
+    except Exception as e:
+        logging.error(f"General withdraw notification failure: {e}")
 
     for k in ("withdraw_balance", "withdraw_method", "withdraw_amount", "lang"):
         context.user_data.pop(k, None)
