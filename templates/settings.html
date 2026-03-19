@@ -72,90 +72,90 @@
     }
 </style>
 
-<div class="glass-card">
-    <div style="margin-bottom: 2rem;">
-        <h2 style="margin: 0; font-size: 1.25rem; color: white; font-weight: 700;">{{ strings.SETTINGS_CONFIG }}</h2>
-    </div>
-
     <form action="{{ url_for('settings') }}" method="POST">
-        <!-- Configuration Section -->
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-            <div class="form-group">
-                <label class="form-label">{{ strings.SETTINGS_GMAIL_PRICE }}</label>
-                <input type="number" step="0.01" name="gmail_price" class="form-control" value="{{ price }}" required>
+        <!-- 1. General Configuration -->
+        <div class="glass-card" style="margin-bottom: 1.5rem;">
+            <div style="margin-bottom: 1.5rem; display: flex; align-items: center; gap: 10px;">
+                <i class="fa-solid fa-sliders" style="color: var(--accent-blue);"></i>
+                <h2 style="margin: 0; font-size: 1.1rem; color: white; font-weight: 700;">{{ strings.SETTINGS_CONFIG }}</h2>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                <div class="form-group">
+                    <label class="form-label">{{ strings.SETTINGS_GMAIL_PRICE }}</label>
+                    <input type="number" step="0.01" name="gmail_price" class="form-control" value="{{ price }}" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">{{ strings.SETTINGS_REF_BONUS }}</label>
+                    <input type="number" step="0.01" name="referral_bonus" class="form-control" value="{{ bonus }}" required>
+                </div>
             </div>
 
-            <div class="form-group">
-                <label class="form-label">{{ strings.SETTINGS_REF_BONUS }}</label>
-                <input type="number" step="0.01" name="referral_bonus" class="form-control" value="{{ bonus }}" required>
-            </div>
-        </div>
-
-        <div class="form-group" style="margin-top: 15px; margin-bottom: 2rem;">
-            <label class="form-label">{{ strings.SETTINGS_REQ_CHANNELS }}</label>
-            <input type="text" name="required_channels" class="form-control" placeholder="@channel1, @channel2" value="{{ required_channels }}">
-            <small style="color: var(--text-secondary); display: block; margin-top: 5px;">{{ strings.SETTINGS_REQ_CHANNELS_HELP }}</small>
-        </div>
-
-        <!-- Notification Channels Section -->
-        <div style="margin-bottom: 1.25rem;">
-            <p style="font-size: 0.9rem; color: var(--text-secondary); font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">
-                <i class="fa-solid fa-bell" style="margin-right: 5px; color: var(--accent-blue);"></i>
-                {{ strings.SETTINGS_NOTIFY_CHANNELS }}
-            </p>
-        </div>
-
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 2rem;">
-            <div class="form-group">
-                <label class="form-label">{{ strings.SETTINGS_EMAILS_CHANNEL }}</label>
-                <input type="text" name="emails_channel" class="form-control" placeholder="-100..." value="{{ config.EMAILS_CHANNEL_ID }}">
-            </div>
-
-            <div class="form-group">
-                <label class="form-label">{{ strings.SETTINGS_WITHDRAWALS_CHANNEL }}</label>
-                <input type="text" name="withdrawals_channel" class="form-control" placeholder="-100..." value="{{ config.WITHDRAWALS_CHANNEL_ID }}">
+            <div class="form-group" style="margin-top: 15px; margin-bottom: 0;">
+                <label class="form-label">{{ strings.SETTINGS_REQ_CHANNELS }}</label>
+                <input type="text" name="required_channels" class="form-control" placeholder="@channel1, @channel2" value="{{ required_channels }}">
+                <small style="color: var(--text-secondary); display: block; margin-top: 5px;">{{ strings.SETTINGS_REQ_CHANNELS_HELP }}</small>
             </div>
         </div>
 
-
-
-        <!-- Limits Section Title -->
-        <div style="margin-bottom: 1.25rem;">
-            <p
-                style="font-size: 0.9rem; color: var(--text-secondary); font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">
-                <i class="fa-solid fa-circle-info" style="margin-right: 5px; color: var(--accent-blue);"></i>
-                {{ strings.SETTINGS_MIN_WITHDRAWALS }}
-            </p>
-        </div>
-
-        <!-- Limits (Grid Layout) -->
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-            <div class="form-group">
-                <label class="form-label">{{ strings.SETTINGS_VODAFONE }}</label>
-                <input type="number" step="0.01" name="min_voda" class="form-control" value="{{ min_voda }}" required>
+        <!-- 2. Notification Channels -->
+        <div class="glass-card" style="margin-bottom: 1.5rem;">
+            <div style="margin-bottom: 1.5rem; display: flex; align-items: center; gap: 10px;">
+                <i class="fa-solid fa-bell" style="color: var(--accent-blue);"></i>
+                <h2 style="margin: 0; font-size: 1.1rem; color: white; font-weight: 700;">{{ strings.SETTINGS_NOTIFY_CHANNELS }}</h2>
             </div>
 
-            <div class="form-group">
-                <label class="form-label">{{ strings.SETTINGS_BINANCE }}</label>
-                <input type="number" step="0.01" name="min_binance" class="form-control" value="{{ min_binance }}" required>
-            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                <div class="form-group" style="margin-bottom: 0;">
+                    <label class="form-label">{{ strings.SETTINGS_EMAILS_CHANNEL }}</label>
+                    <input type="text" name="emails_channel" class="form-control" placeholder="-100..." value="{{ config.EMAILS_CHANNEL_ID }}">
+                </div>
 
-            <div class="form-group">
-                <label class="form-label">{{ strings.SETTINGS_USDT }}</label>
-                <input type="number" step="0.01" name="min_usdt" class="form-control" value="{{ min_usdt }}" required>
-            </div>
-
-            <div class="form-group">
-                <label class="form-label">{{ strings.SETTINGS_TRX }}</label>
-                <input type="number" step="0.01" name="min_trx" class="form-control" value="{{ min_trx }}" required>
+                <div class="form-group" style="margin-bottom: 0;">
+                    <label class="form-label">{{ strings.SETTINGS_WITHDRAWALS_CHANNEL }}</label>
+                    <input type="text" name="withdrawals_channel" class="form-control" placeholder="-100..." value="{{ config.WITHDRAWALS_CHANNEL_ID }}">
+                </div>
             </div>
         </div>
 
+        <!-- 3. Withdrawal Limits -->
+        <div class="glass-card" style="margin-bottom: 1.5rem;">
+            <div style="margin-bottom: 1.5rem; display: flex; align-items: center; gap: 10px;">
+                <i class="fa-solid fa-circle-info" style="color: var(--accent-blue);"></i>
+                <h2 style="margin: 0; font-size: 1.1rem; color: white; font-weight: 700;">{{ strings.SETTINGS_MIN_WITHDRAWALS }}</h2>
+            </div>
 
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                <div class="form-group">
+                    <label class="form-label">{{ strings.SETTINGS_VODAFONE }}</label>
+                    <input type="number" step="0.01" name="min_voda" class="form-control" value="{{ min_voda }}" required>
+                </div>
 
-        <!-- Status Selection -->
-        <div class="form-group">
-            <label class="form-label">{{ strings.SETTINGS_BUYING_STATUS }}</label>
+                <div class="form-group">
+                    <label class="form-label">{{ strings.SETTINGS_BINANCE }}</label>
+                    <input type="number" step="0.01" name="min_binance" class="form-control" value="{{ min_binance }}" required>
+                </div>
+
+                <div class="form-group" style="margin-bottom: 0;">
+                    <label class="form-label">{{ strings.SETTINGS_USDT }}</label>
+                    <input type="number" step="0.01" name="min_usdt" class="form-control" value="{{ min_usdt }}" required>
+                </div>
+
+                <div class="form-group" style="margin-bottom: 0;">
+                    <label class="form-label">{{ strings.SETTINGS_TRX }}</label>
+                    <input type="number" step="0.01" name="min_trx" class="form-control" value="{{ min_trx }}" required>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. Bot Operations -->
+        <div class="glass-card" style="margin-bottom: 1.5rem;">
+            <div style="margin-bottom: 1.5rem; display: flex; align-items: center; gap: 10px;">
+                <i class="fa-solid fa-power-off" style="color: var(--accent-blue);"></i>
+                <h2 style="margin: 0; font-size: 1.1rem; color: white; font-weight: 700;">{{ strings.SETTINGS_BUYING_STATUS }}</h2>
+            </div>
+
             <div class="status-btn-group">
                 <label style="flex: 1;">
                     <input type="radio" name="buying_active" value="1" class="status-radio" {% if buying_active
@@ -170,9 +170,13 @@
             </div>
         </div>
 
-        <!-- Language Selection -->
-        <div class="form-group" style="margin-top: 2rem;">
-            <label class="form-label">{{ strings.SETTINGS_LANG }}</label>
+        <!-- 5. Dashboard Language -->
+        <div class="glass-card" style="margin-bottom: 2rem;">
+            <div style="margin-bottom: 1.5rem; display: flex; align-items: center; gap: 10px;">
+                <i class="fa-solid fa-language" style="color: var(--accent-blue);"></i>
+                <h2 style="margin: 0; font-size: 1.1rem; color: white; font-weight: 700;">{{ strings.SETTINGS_LANG }}</h2>
+            </div>
+
             <div class="status-btn-group">
                 <label style="flex: 1;">
                     <input type="radio" name="dash_lang" value="ar" class="status-radio" {% if dash_lang=='ar'
@@ -187,10 +191,10 @@
             </div>
         </div>
 
-        <!-- Submit Button -->
-        <div style="margin-top: 3rem;">
+        <!-- Global Save Button -->
+        <div style="margin-bottom: 3rem;">
             <button type="submit" class="btn btn-primary"
-                style="height: 56px; font-size: 1.1rem; border-radius: 16px; font-weight: 700; box-shadow: 0 4px 15px rgba(0,0,0,0.3);">
+                style="height: 60px; font-size: 1.1rem; border-radius: 18px; font-weight: 700; box-shadow: 0 8px 25px rgba(0,0,0,0.4); width: 100%;">
                 <i class="fa-solid fa-floppy-disk" style="margin-right: 8px;"></i> {{ strings.SETTINGS_UPDATE_BTN }}
             </button>
         </div>
