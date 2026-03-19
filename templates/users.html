@@ -16,14 +16,10 @@
 </div>
 
 <div class="glass-card">
-    <div style="display: flex; flex-direction: column; gap: 1rem; margin-bottom: 2rem;">
-        <div style="display: flex; justify-content: space-between; align-items: center;">
-            <h2 style="margin: 0; font-size: 1.2rem;">{{ strings.DASH_U_PAGE_TITLE }}</h2>
-            <span style="font-size: 0.75rem; opacity: 0.6;">{{ total_count }} {{ strings.DASH_RESULTS }}</span>
-        </div>
-
+    <!-- Filters Section -->
+    <div class="glass-card" style="padding: 1.25rem; margin-bottom: 2rem;">
         <!-- Filter Tabs -->
-        <div style="display: flex; gap: 4px; background: rgba(0,0,0,0.2); padding: 4px; border-radius: 12px;">
+        <div style="display: flex; gap: 4px; background: rgba(0,0,0,0.2); padding: 4px; border-radius: 12px; margin-bottom: 1rem;">
             {% for tab, label in [('all', strings.DASH_FILTER_ALL), ('banned', strings.DASH_U_STATUS_BANNED)] %}
             <a href="{{ url_for('users', status=tab, q=search_query) }}" 
                style="flex: 1; text-align: center; padding: 8px; border-radius: 8px; text-decoration: none; font-size: 0.85rem; font-weight: 600; color: {% if current_status == tab %}white{% else %}var(--text-secondary){% endif %}; background: {% if current_status == tab %}var(--accent-blue){% else %}transparent{% endif %}; transition: all 0.3s;">
@@ -42,8 +38,15 @@
         </form>
     </div>
 
-    <div class="table-container">
-        {% for user in users %}
+    <!-- Users List Section -->
+    <div class="glass-card">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+            <h2 style="margin: 0; font-size: 1.1rem; font-weight: 700;">{{ strings.DASH_U_PAGE_TITLE }}</h2>
+            <span style="font-size: 0.75rem; opacity: 0.6; background: rgba(255,255,255,0.05); padding: 4px 10px; border-radius: 20px;">{{ total_count }} {{ strings.DASH_RESULTS }}</span>
+        </div>
+
+        <div class="table-container">
+            {% for user in users %}
         <div class="list-item" style="cursor: pointer;" onclick="openEditModal('{{ user.user_id }}', '{{ user.username }}', '{{ user.full_name }}', '{{ user.balance }}', '{{ user.status }}', '{{ page }}')">
             <div class="list-header">
                 <span class="list-title">{% if user.full_name %}{{ user.full_name }}{% else %}{{ user.user_id }}{% endif %}</span>
@@ -82,7 +85,8 @@
         {% else %}
         <p style="text-align:center; padding:2rem; color:var(--text-secondary); font-style: italic;">No users found.</p>
         {% endfor %}
-    </div>
+    </div> <!-- End table-container -->
+</div> <!-- End glass-card -->
 
     <!-- Pagination -->
     {% if total_pages > 1 %}
