@@ -80,11 +80,11 @@
                     {% endif %}
                 </div>
                 {% if task.status == 'approved' %}
-                <span class="badge approved">{{ strings.DASH_APPROVED }}</span>
+                <span class="badge" title="{{ strings.DASH_APPROVED }}"><i class="fa-solid fa-circle-check" style="color: var(--success); font-size: 1.2rem;"></i></span>
                 {% elif task.status == 'rejected' %}
-                <span class="badge rejected">{{ strings.DASH_REJECTED }}</span>
+                <span class="badge" title="{{ strings.DASH_REJECTED }}"><i class="fa-solid fa-circle-xmark" style="color: var(--danger); font-size: 1.2rem;"></i></span>
                 {% else %}
-                <span class="badge pending">{{ strings.DASH_PENDING }}</span>
+                <span class="badge" title="{{ strings.DASH_PENDING }}"><i class="fa-solid fa-clock" style="color: #fbbf24; font-size: 1.2rem;"></i></span>
                 {% endif %}
             </div>
 
