@@ -171,36 +171,41 @@ async def receive_email(update: Update, context: ContextTypes.DEFAULT_TYPE):
     price_text = format_currency_dual(gmail_price, 'USD', a_lang)
 
     try:
+        current_date_str = datetime.now().strftime("%Y-%m-%d %H:%M")
+        status_text = a_s.get('DASH_FILTER_PENDING', 'Pending')
+        
         admin_text = a_s['ADMIN_NOTIFY_GMAIL'].format(
-            status=html.escape(str(a_s.get('DASH_FILTER_PENDING', 'Pending'))),
+            status=html.escape(str(status_text)),
             sub_id=html.escape(str(sub_id)),
             gmail=html.escape(str(email)),
             pwd=html.escape(str(UNIFIED_PWD)),
             price=html.escape(str(price_text)),
-            date=html.escape(datetime.now().strftime("%Y-%m-%d %H:%M")),
+            date=html.escape(str(current_date_str)),
             user_id=html.escape(str(user.id))
         )
         
-        # Notify admin
+        # Notify Admin
         try:
             await context.bot.send_message(chat_id=ADMIN_ID, text=admin_text, parse_mode="HTML")
         except Exception as e:
-            logging.error(f"Failed to send task notify to admin {ADMIN_ID}: {e}")
-            # Fallback to plain text if HTML fails
-            await context.bot.send_message(chat_id=ADMIN_ID, text=admin_text.replace("<b>", "").replace("</b>", "").replace("<code>", "").replace("</code>", ""))
-
-        # Notify Email Channel
-        try:
-            await context.bot.send_message(chat_id=EMAILS_CHANNEL_ID, text=admin_text, parse_mode="HTML")
-        except Exception as e:
-            logging.error(f"Failed to send task notify to channel {EMAILS_CHANNEL_ID}: {e}")
-            # Fallback to plain text if HTML fails
+            logging.error(f"Failed to send task to Admin: {e}")
+            # Try without HTML as fallback
             try:
-                await context.bot.send_message(chat_id=EMAILS_CHANNEL_ID, text=admin_text.replace("<b>", "").replace("</b>", "").replace("<code>", "").replace("</code>", ""))
-            except:
-                pass
+                await context.bot.send_message(chat_id=ADMIN_ID, text=admin_text.replace("<b>","").replace("</b>","").replace("<code>","").replace("</code>",""))
+            except: pass
+
+        # Notify Channel
+        if EMAILS_CHANNEL_ID and "Add_In_DotEnv" not in str(EMAILS_CHANNEL_ID):
+            try:
+                await context.bot.send_message(chat_id=EMAILS_CHANNEL_ID, text=admin_text, parse_mode="HTML")
+            except Exception as e:
+                logging.error(f"Failed to send task to Channel: {e}")
+                # Try without HTML as fallback
+                try:
+                    await context.bot.send_message(chat_id=EMAILS_CHANNEL_ID, text=admin_text.replace("<b>","").replace("</b>","").replace("<code>","").replace("</code>",""))
+                except: pass
     except Exception as e:
-        logging.error(f"Formatting admin_text failed: {e}")
+        logging.error(f"General notification failure: {e}")
     except Exception:
         pass
 

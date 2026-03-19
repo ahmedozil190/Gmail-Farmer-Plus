@@ -808,15 +808,23 @@ def app_task_submit():
     try:
         username = f"@{user.get('username')}" if user.get('username') else user.get('full_name', 'Unknown')
         
-        # Get admin language
-        admin_user = database.get_user(ADMIN_ID)
-        a_lang = admin_user['language'] if admin_user else 'ar'
-        a_s = STRINGS.get(a_lang, STRINGS['ar'])
-        
+        # Dynamic stats for notification
+        gmail_price = conf.get("GMAIL_PRICE", 0.20)
+        from utils.currency import format_currency_dual
+        price_text = format_currency_dual(gmail_price, 'USD', a_lang)
+        from datetime import datetime
+        current_date_str = datetime.now().strftime("%Y-%m-%d %H:%M")
+        status_text = a_s.get('DASH_FILTER_PENDING', 'Pending')
+
+        import html
         admin_msg = a_s['ADMIN_NOTIFY_GMAIL'].format(
-            source="Panel",
-            user_name=username, user_id=user_id,
-            gmail=gmail, pwd=password, sub_id=sub_id
+            status=html.escape(str(status_text)),
+            sub_id=html.escape(str(sub_id)),
+            gmail=html.escape(str(gmail)),
+            pwd=html.escape(str(password)),
+            price=html.escape(str(price_text)),
+            date=html.escape(str(current_date_str)),
+            user_id=html.escape(str(user_id))
         )
 
         # Notify admin
