@@ -122,7 +122,7 @@ async def referral_list_handler_fn(update: Update, context: ContextTypes.DEFAULT
     else:
         full_msg = s['REF_LIST_HEADER'].format(count=len(referral_data))
         for i, ref in enumerate(referral_data, 1):
-            name = f"@{ref['username']}" if ref['username'] else (ref['full_name'] or f"ID: {ref['user_id']}")
+            name = ref['full_name'] if ref['full_name'] else (f"@{ref['username']}" if ref['username'] else f"Account #{str(ref['user_id'])[-4:]}")
             
             # Profit logic
             has_earned = ref['approved_tasks'] > 0

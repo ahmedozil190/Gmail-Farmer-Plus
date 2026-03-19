@@ -41,10 +41,11 @@
 <div class="list-item">
     <div class="list-row">
         <span style="font-weight: 600;">
-            {% if ref.username %}@{{ ref.username }}{% else %}{{ ref.full_name or 'User' }}{% endif %}
+            {% if ref.full_name %}{{ ref.full_name }}{% elif ref.username %}@{{ ref.username }}{% else %}Account #{{ ref.user_id % 10000 }}{% endif %}
         </span>
         <span class="badge {% if ref.approved_tasks > 0 %}approved{% else %}pending{% endif %}">
-            {% if ref.approved_tasks > 0 %}{{ strings.REF_STATUS_ACTIVE }}{% else %}{{ strings.REF_STATUS_WAITING }}{% endif %}
+            {% if ref.approved_tasks > 0 %}{{ strings.REF_STATUS_ACTIVE }}{% else %}{{ strings.REF_STATUS_WAITING }}{%
+            endif %}
         </span>
     </div>
     <div class="list-row" style="margin-top: 4px;">
@@ -66,13 +67,12 @@
 
     <span class="page-info">{{ strings.PAGE_LABEL }} {{ page }} {{ strings.OF_LABEL }} {{ total_pages }}</span>
 
-    {% if page < total_pages %}
-    <a href="{{ url_for('app_referrals', page=page+1) }}" class="btn btn-sm btn-outline">
+    {% if page < total_pages %} <a href="{{ url_for('app_referrals', page=page+1) }}" class="btn btn-sm btn-outline">
         <i class="fa-solid fa-chevron-right"></i>
-    </a>
-    {% else %}
-    <div class="btn btn-sm btn-outline disabled"><i class="fa-solid fa-chevron-right"></i></div>
-    {% endif %}
+        </a>
+        {% else %}
+        <div class="btn btn-sm btn-outline disabled"><i class="fa-solid fa-chevron-right"></i></div>
+        {% endif %}
 </div>
 {% endif %}
 
@@ -86,16 +86,16 @@
 
 {% block scripts %}
 <script>
-function copyLink() {
-    const link = document.getElementById('refLink').textContent;
-    navigator.clipboard.writeText(link).then(() => {
-        const btn = document.getElementById('copyBtn');
-        btn.textContent = '✓';
-        setTimeout(() => btn.textContent = 'Copy', 1500);
-        if (window.Telegram?.WebApp?.HapticFeedback) {
-            Telegram.WebApp.HapticFeedback.notificationOccurred('success');
-        }
-    });
-}
+    function copyLink() {
+        const link = document.getElementById('refLink').textContent;
+        navigator.clipboard.writeText(link).then(() => {
+            const btn = document.getElementById('copyBtn');
+            btn.textContent = '✓';
+            setTimeout(() => btn.textContent = 'Copy', 1500);
+            if (window.Telegram?.WebApp?.HapticFeedback) {
+                Telegram.WebApp.HapticFeedback.notificationOccurred('success');
+            }
+        });
+    }
 </script>
 {% endblock %}

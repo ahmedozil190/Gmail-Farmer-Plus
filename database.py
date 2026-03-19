@@ -133,6 +133,16 @@ def create_user(user_id: int, username: str, full_name: str, referrer_id: int = 
     con.close()
 
 
+def update_user_info(user_id: int, username: str, full_name: str):
+    con = _conn()
+    con.execute(
+        "UPDATE users SET username = ?, full_name = ? WHERE user_id = ?",
+        (username, full_name, user_id)
+    )
+    con.commit()
+    con.close()
+
+
 def update_user_language(user_id: int, language: str):
     con = _conn()
     con.execute("UPDATE users SET language = ? WHERE user_id = ?", (language, user_id))

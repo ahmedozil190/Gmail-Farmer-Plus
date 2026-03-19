@@ -56,6 +56,9 @@ async def start_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         lang = user_lang
     else:
         lang = existing['language']
+        # Always sync names in case they changed or were NULL/None
+        from database import update_user_info
+        update_user_info(user.id, user.username or "", user.full_name or "")
 
     s = STRINGS.get(lang, STRINGS['ar'])
 
