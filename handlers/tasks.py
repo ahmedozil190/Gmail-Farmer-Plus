@@ -3,13 +3,13 @@ Gmail submission conversation:
   User taps  المهام  →  bot asks for Gmail email  →  bot asks for password  →  submits to admin
 """
 from datetime import datetime
-from telegram import Update
+from telegram import Update, Bot
 from telegram.ext import (
     ContextTypes, ConversationHandler, MessageHandler, filters
 )
 from database import add_submission, get_user, get_user_submissions, get_business_config
 from keyboards import main_menu, cancel_keyboard
-from config import ADMIN_ID, EMAILS_CHANNEL_ID
+from config import ADMIN_ID, EMAILS_CHANNEL_ID, BOT_TOKEN
 from strings import STRINGS
 from utils.currency import format_currency_dual
 from utils.ban_check import is_banned
