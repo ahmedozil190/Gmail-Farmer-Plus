@@ -151,67 +151,62 @@ async def receive_email(update: Update, context: ContextTypes.DEFAULT_TYPE):
     gmail_price = conf["GMAIL_PRICE"]
     price_text = format_currency_dual(gmail_price, 'USD', lang)
 
-    # Notify user
+    # 1. Notify user immediately
     await update.message.reply_text(
         s['TASKS_SUCCESS_ONLY'].format(sub_id=sub_id),
         parse_mode="HTML",
         reply_markup=main_menu(lang),
     )
 
-    # Notify admin
-    username = f"@{user.username}" if user.username else user.full_name
-    admin_user = get_user(ADMIN_ID)
-    a_lang = admin_user['language'] if admin_user else 'ar'
-    a_s = STRINGS.get(a_lang, STRINGS['ar'])
-
-    # Dynamic dynamic config
-    conf = get_business_config()
-    gmail_price = conf["GMAIL_PRICE"]
-    
-    price_text = format_currency_dual(gmail_price, 'USD', a_lang)
-
-    try:
-        current_date_str = datetime.now().strftime("%Y-%m-%d %H:%M")
-        status_text = a_s.get('DASH_FILTER_PENDING', 'Pending')
-        
-        admin_text = a_s['ADMIN_NOTIFY_GMAIL'].format(
-            status=html.escape(str(status_text)),
-            sub_id=html.escape(str(sub_id)),
-            gmail=html.escape(str(email)),
-            pwd=html.escape(str(UNIFIED_PWD)),
-            price=html.escape(str(price_text)),
-            date=html.escape(str(current_date_str)),
-            user_id=html.escape(str(user.id))
-        )
-        
-        # Use a fresh Bot instance for better stability
-        standalone_bot = Bot(token=BOT_TOKEN)
-
-        # Notify Admin
+    # 2. Background task for notifications
+    async def _notify_task():
         try:
-            await standalone_bot.send_message(chat_id=ADMIN_ID, text=admin_text, parse_mode="HTML", disable_web_page_preview=True)
-        except Exception as e:
-            logging.error(f"Failed to send task to Admin {ADMIN_ID}: {e}")
-            # Try plain text fallback
-            try:
-                await standalone_bot.send_message(chat_id=ADMIN_ID, text=admin_text.replace("<b>","").replace("</b>","").replace("<code>","").replace("</code>",""))
-            except: pass
+            # Notify admin
+            username = f"@{user.username}" if user.username else user.full_name
+            admin_user = get_user(ADMIN_ID)
+            a_lang = admin_user['language'] if admin_user else 'ar'
+            a_s = STRINGS.get(a_lang, STRINGS['ar'])
+            conf_notify = get_business_config()
+            p_text = format_currency_dual(conf_notify["GMAIL_PRICE"], 'USD', a_lang)
+            curr_date = datetime.now().strftime("%Y-%m-%d %H:%M")
+            st_text = a_s.get('DASH_FILTER_PENDING', 'Pending')
 
-        # Notify Channel
-        ch_id = conf.get("EMAILS_CHANNEL_ID")
-        if ch_id and "Add_In_DotEnv" not in str(ch_id):
+            admin_text = a_s['ADMIN_NOTIFY_GMAIL'].format(
+                status=html.escape(str(st_text)),
+                sub_id=html.escape(str(sub_id)),
+                gmail=html.escape(str(email)),
+                pwd=html.escape(str(UNIFIED_PWD)),
+                price=html.escape(str(p_text)),
+                date=html.escape(str(curr_date)),
+                user_id=html.escape(str(user.id))
+            )
+
+            # Use standalone Bot to mirror Panel success
+            bot_notify = Bot(token=BOT_TOKEN)
+            
+            # Admin DM
             try:
-                await standalone_bot.send_message(chat_id=ch_id, text=admin_text, parse_mode="HTML", disable_web_page_preview=True)
+                await bot_notify.send_message(chat_id=ADMIN_ID, text=admin_text, parse_mode="HTML", disable_web_page_preview=True)
             except Exception as e:
-                logging.error(f"Failed to send task to Channel {ch_id}: {e}")
-                # Try plain text fallback
+                logging.error(f"Task Admin Notify Error: {e}")
                 try:
-                    await standalone_bot.send_message(chat_id=ch_id, text=admin_text.replace("<b>","").replace("</b>","").replace("<code>","").replace("</code>",""))
+                    await bot_notify.send_message(chat_id=ADMIN_ID, text=admin_text.replace("<b>","").replace("</b>","").replace("<code>","").replace("</code>",""))
                 except: pass
-    except Exception as e:
-        logging.error(f"General notification failure: {e}")
-    except Exception:
-        pass
+
+            # Channel
+            c_id = conf_notify.get("EMAILS_CHANNEL_ID")
+            if c_id and "Add_In_DotEnv" not in str(c_id):
+                try:
+                    await bot_notify.send_message(chat_id=c_id, text=admin_text, parse_mode="HTML", disable_web_page_preview=True)
+                except Exception as e:
+                    logging.error(f"Task Channel Notify Error: {e}")
+                    try:
+                        await bot_notify.send_message(chat_id=c_id, text=admin_text.replace("<b>","").replace("</b>","").replace("<code>","").replace("</code>",""))
+                    except: pass
+        except Exception as e:
+            logging.error(f"Task Notify Wrapper Error: {e}")
+
+    asyncio.create_task(_notify_task())
 
     context.user_data.pop("lang", None)
     return ConversationHandler.END
