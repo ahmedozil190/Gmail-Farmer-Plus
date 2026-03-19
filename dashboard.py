@@ -808,6 +808,11 @@ def app_task_submit():
     try:
         username = f"@{user.get('username')}" if user.get('username') else user.get('full_name', 'Unknown')
         
+        # Get admin language
+        admin_user = database.get_user(ADMIN_ID)
+        a_lang = admin_user['language'] if admin_user else 'ar'
+        a_s = STRINGS.get(a_lang, STRINGS['ar'])
+        
         # Dynamic stats for notification
         gmail_price = conf.get("GMAIL_PRICE", 0.20)
         from utils.currency import format_currency_dual
