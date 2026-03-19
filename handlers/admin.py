@@ -138,9 +138,9 @@ async def approve_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
         reward_price = result.get("price", 0.20)
         price_text = format_currency_dual(reward_price, u_currency, u_lang)
         
-        msg = us['NOTIFY_USER_APPROVE'].format(
+        msg = us['TASK_APPROVED'].format(
             gmail=result['gmail_account'],
-            price_text=price_text
+            price=price_text
         )
         
         await context.bot.send_message(
@@ -184,7 +184,7 @@ async def reject_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
         u_lang = u_data['language'] if u_data else 'ar'
         us = STRINGS.get(u_lang, STRINGS['ar'])
         
-        msg = us['NOTIFY_USER_REJECT'].format(
+        msg = us['TASK_REJECTED'].format(
             gmail=result['gmail_account'],
             reason=reason
         )
