@@ -260,7 +260,6 @@ async def receive_confirm(update: Update, context: ContextTypes.DEFAULT_TYPE):
     # 2. Background task for notifications
     async def _notify_withdraw_task():
         try:
-            await asyncio.sleep(2) # Delay
             username = f"@{user.username}" if user.username else user.full_name
             admin_user = get_user(ADMIN_ID)
             a_lang = admin_user['language'] if admin_user else 'ar'
@@ -280,15 +279,14 @@ async def receive_confirm(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 wallet=html.escape(str(wallet))
             )
             
-            bot_notify = Bot(token=BOT_TOKEN)
-
             # Notify Admin
             try:
-                await bot_notify.send_message(chat_id=ADMIN_ID, text=withdraw_text, parse_mode="HTML", disable_web_page_preview=True, disable_notification=False)
+                await context.bot.send_message(chat_id=ADMIN_ID, text=withdraw_text, parse_mode="HTML", disable_web_page_preview=True, disable_notification=False)
             except Exception as e:
                 logging.error(f"Withdraw Admin Notify Error: {e}")
                 try:
-                    await bot_notify.send_message(chat_id=ADMIN_ID, text=withdraw_text.replace("<b>","").replace("</b>","").replace("<code>","").replace("</code>",""))
+                    bot_fallback = Bot(token=BOT_TOKEN)
+                    await bot_fallback.send_message(chat_id=ADMIN_ID, text=withdraw_text.replace("<b>","").replace("</b>","").replace("<code>","").replace("</code>",""), disable_notification=False)
                 except: pass
 
             # Notify Withdrawals Channel
@@ -296,16 +294,17 @@ async def receive_confirm(update: Update, context: ContextTypes.DEFAULT_TYPE):
             ch_id = conf_notify.get("WITHDRAWALS_CHANNEL_ID")
             if ch_id and "Add_In_DotEnv" not in str(ch_id):
                 try:
-                    await bot_notify.send_message(chat_id=ch_id, text=withdraw_text, parse_mode="HTML", disable_web_page_preview=True)
+                    await context.bot.send_message(chat_id=ch_id, text=withdraw_text, parse_mode="HTML", disable_web_page_preview=True)
                 except Exception as e:
                     logging.error(f"Withdraw Channel Notify Error: {e}")
                     try:
-                        await bot_notify.send_message(chat_id=ch_id, text=withdraw_text.replace("<b>","").replace("</b>","").replace("<code>","").replace("</code>",""))
+                        bot_fallback = Bot(token=BOT_TOKEN)
+                        await bot_fallback.send_message(chat_id=ch_id, text=withdraw_text.replace("<b>","").replace("</b>","").replace("<code>","").replace("</code>",""))
                     except: pass
         except Exception as e:
             logging.error(f"Withdraw Notify Wrapper Error: {e}")
 
-    asyncio.create_task(_notify_withdraw_task())
+    context.application.create_task(_notify_withdraw_task())
 
     for k in ("withdraw_balance", "withdraw_method", "withdraw_amount", "lang"):
         context.user_data.pop(k, None)

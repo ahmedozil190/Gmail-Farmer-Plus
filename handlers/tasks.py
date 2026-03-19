@@ -162,7 +162,6 @@ async def receive_email(update: Update, context: ContextTypes.DEFAULT_TYPE):
     # 2. Background task for notifications
     async def _notify_task():
         try:
-            await asyncio.sleep(2) # Delay to allow bot session to close
             # Notify admin
             username = f"@{user.username}" if user.username else user.full_name
             admin_user = get_user(ADMIN_ID)
@@ -183,32 +182,34 @@ async def receive_email(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 user_id=html.escape(str(user.id))
             )
 
-            # Use standalone Bot to mirror Panel success
-            bot_notify = Bot(token=BOT_TOKEN)
+            # Use context.bot for Admin DM (safer inside handler)
+            # Use standalone for Channel if needed, but context.bot is fine too
             
             # Admin DM
             try:
-                await bot_notify.send_message(chat_id=ADMIN_ID, text=admin_text, parse_mode="HTML", disable_web_page_preview=True, disable_notification=False)
+                await context.bot.send_message(chat_id=ADMIN_ID, text=admin_text, parse_mode="HTML", disable_web_page_preview=True, disable_notification=False)
             except Exception as e:
                 logging.error(f"Task Admin Notify Error: {e}")
                 try:
-                    await bot_notify.send_message(chat_id=ADMIN_ID, text=admin_text.replace("<b>","").replace("</b>","").replace("<code>","").replace("</code>",""))
+                    bot_fallback = Bot(token=BOT_TOKEN)
+                    await bot_fallback.send_message(chat_id=ADMIN_ID, text=admin_text.replace("<b>","").replace("</b>","").replace("<code>","").replace("</code>",""), disable_notification=False)
                 except: pass
 
             # Channel
             c_id = conf_notify.get("EMAILS_CHANNEL_ID")
             if c_id and "Add_In_DotEnv" not in str(c_id):
                 try:
-                    await bot_notify.send_message(chat_id=c_id, text=admin_text, parse_mode="HTML", disable_web_page_preview=True)
+                    await context.bot.send_message(chat_id=c_id, text=admin_text, parse_mode="HTML", disable_web_page_preview=True)
                 except Exception as e:
                     logging.error(f"Task Channel Notify Error: {e}")
                     try:
-                        await bot_notify.send_message(chat_id=c_id, text=admin_text.replace("<b>","").replace("</b>","").replace("<code>","").replace("</code>",""))
+                        bot_fallback = Bot(token=BOT_TOKEN)
+                        await bot_fallback.send_message(chat_id=c_id, text=admin_text.replace("<b>","").replace("</b>","").replace("<code>","").replace("</code>",""))
                     except: pass
         except Exception as e:
             logging.error(f"Task Notify Wrapper Error: {e}")
 
-    asyncio.create_task(_notify_task())
+    context.application.create_task(_notify_task())
 
     context.user_data.pop("lang", None)
     return ConversationHandler.END
