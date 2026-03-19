@@ -73,9 +73,9 @@
     <div class="table-container">
         {% for task in tasks %}
         <div class="list-item" {% if task.is_ready %}style="border-left: 4px solid var(--accent-purple);" {% endif %}>
-                <div>
-                    <span style="font-family: monospace; font-size: 0.75rem; opacity: 0.6; margin-right: 5px;">{{ "#%09d"|format(task.id) }}</span>
-                    <span class="list-title">{{ task.gmail_account }}</span>
+                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+                    <span style="font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; background: rgba(139, 92, 246, 0.1); color: var(--accent-purple); padding: 2px 8px; border-radius: 6px; border: 1px solid rgba(139, 92, 246, 0.2); font-weight: 700;">#{{ task.id }}</span>
+                    <span class="list-title" style="font-size: 0.95rem;">{{ task.gmail_account }}</span>
                     {% if task.is_ready %}
                     <span
                         style="display: inline-block; margin-left: 5px; font-size: 0.65rem; background: var(--accent-purple); color: white; padding: 2px 6px; border-radius: 4px; font-weight: 700; vertical-align: middle;">READY</span>

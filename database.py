@@ -3,6 +3,7 @@ from datetime import datetime
 from config import GMAIL_PRICE, REFERRAL_BONUS
 
 import os
+import secrets
 
 # Use absolute path to ensure both bot and dashboard use the same DB file
 DB_PATH = os.getenv("DB_PATH")
@@ -16,6 +17,18 @@ def _conn():
     c = sqlite3.connect(DB_PATH)
     c.row_factory = sqlite3.Row
     return c
+
+
+def _generate_unique_id(table: str) -> int:
+    con = _conn()
+    while True:
+        # Generate random 8-digit number (10,000,000 to 99,999,999)
+        new_id = secrets.randbelow(90000000) + 10000000
+        # Check if it exists
+        exists = con.execute(f"SELECT 1 FROM {table} WHERE id = ?", (new_id,)).fetchone()
+        if not exists:
+            con.close()
+            return new_id
 
 
 # ── Initialise schema ────────────────────────────────────────────────────────
@@ -245,14 +258,15 @@ def add_submission(user_id: int, gmail: str, password: str) -> int:
     conf = get_business_config()
     current_price = conf["GMAIL_PRICE"]
     
+    new_id = _generate_unique_id("submissions")
+    
     con = _conn()
     cur = con.cursor()
     cur.execute(
-        """INSERT INTO submissions (user_id, gmail_account, gmail_password, status, submitted_at, price)
-           VALUES (?, ?, ?, 'pending', ?, ?)""",
-        (user_id, gmail, password, datetime.now().strftime("%Y-%m-%d %H:%M:%S"), current_price)
+        """INSERT INTO submissions (id, user_id, gmail_account, gmail_password, status, submitted_at, price)
+           VALUES (?, ?, ?, ?, 'pending', ?, ?)""",
+        (new_id, user_id, gmail, password, datetime.now().strftime("%Y-%m-%d %H:%M:%S"), current_price)
     )
-    sub_id = cur.lastrowid
     # Add to pending balance
     con.execute(
         "UPDATE users SET pending_balance = pending_balance + ? WHERE user_id = ?",
@@ -260,7 +274,7 @@ def add_submission(user_id: int, gmail: str, password: str) -> int:
     )
     con.commit()
     con.close()
-    return sub_id
+    return new_id
 
 
 def get_pending_submissions():
@@ -356,6 +370,8 @@ def reject_submission(sub_id: int, reason: str = ""):
 
 # ── Withdrawal helpers ───────────────────────────────────────────────────────
 def add_withdrawal(user_id: int, amount: float, method: str, wallet: str) -> int:
+    new_id = _generate_unique_id("withdrawals")
+    
     con = _conn()
     cur = con.cursor()
     con.execute(
@@ -363,14 +379,13 @@ def add_withdrawal(user_id: int, amount: float, method: str, wallet: str) -> int
         (amount, user_id),
     )
     cur.execute(
-        """INSERT INTO withdrawals (user_id, amount, method, wallet_address, status, created_at)
-           VALUES (?, ?, ?, ?, 'pending', ?)""",
-        (user_id, amount, method, wallet, datetime.now().isoformat()),
+        """INSERT INTO withdrawals (id, user_id, amount, method, wallet_address, status, created_at)
+           VALUES (?, ?, ?, ?, ?, 'pending', ?)""",
+        (new_id, user_id, amount, method, wallet, datetime.now().isoformat()),
     )
-    wid = cur.lastrowid
     con.commit()
     con.close()
-    return wid
+    return new_id
 
 
 def complete_withdrawal(wid: int):

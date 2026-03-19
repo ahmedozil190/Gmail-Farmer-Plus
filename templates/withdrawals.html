@@ -57,11 +57,12 @@
     <div class="table-container">
         {% for w in withdrawals %}
         <div class="list-item">
-            <div class="list-header">
-                <div>
-                    <span style="font-family: monospace; font-size: 0.75rem; opacity: 0.6; margin-right: 5px;">{{ "#%09d"|format(w.id) }}</span>
-                    <span class="list-title">{{ w.method.replace('💳','').replace('🟡','').replace('🟢','').replace('💎','').strip() }}</span>
-                </div>
+            <div class="list-header" style="flex-direction: column; align-items: flex-start; gap: 4px;">
+                <div style="display: flex; align-items: center; gap: 8px; width: 100%; justify-content: space-between;">
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <span style="font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; background: rgba(139, 92, 246, 0.1); color: var(--accent-purple); padding: 2px 8px; border-radius: 6px; border: 1px solid rgba(139, 92, 246, 0.2); font-weight: 700;">#{{ w.id }}</span>
+                        <span class="list-title" style="font-size: 0.95rem;">{{ w.method.replace('💳','').replace('🟡','').replace('🟢','').replace('💎','').strip() }}</span>
+                    </div>
                 {% if w.status == 'completed' %}
                     <span class="badge" title="{{ strings.DASH_COMPLETED }}"><i class="fa-solid fa-circle-check" style="color: var(--success); font-size: 1.2rem;"></i></span>
                 {% elif w.status == 'rejected' %}
