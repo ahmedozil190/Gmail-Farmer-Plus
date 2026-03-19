@@ -595,8 +595,18 @@ def broadcast():
 
 
 # ══════════════════════════════════════════════════════════════════════════════
-# ██  USER MINI APP ROUTES  ██
-# ══════════════════════════════════════════════════════════════════════════════
+# Helper for async notifications
+def send_webapp_notification(chat_id, message):
+    async def _send():
+        try:
+            bot = Bot(token=BOT_TOKEN)
+            await bot.send_message(chat_id=chat_id, text=message, parse_mode='HTML')
+            return True
+        except Exception as e:
+            with open("crash.log", "a", encoding="utf-8") as f:
+                f.write(f"Notification Error [{chat_id}]: {str(e)}\n")
+            return False
+    return asyncio.run(_send())
 
 import hashlib
 import hmac
@@ -780,38 +790,16 @@ def app_task_submit():
     password = "Aa612003@"
     sub_id = database.add_submission(user_id, gmail, password)
 
-    # Notify admin
-    try:
-        username = f"@{user.get('username')}" if user.get('username') else user.get('full_name', 'Unknown')
-        
-        # Get admin language
-        admin_user = database.get_user(ADMIN_ID)
-        a_lang = admin_user['language'] if admin_user else 'ar'
-        a_s = STRINGS.get(a_lang, STRINGS['ar'])
-        
-        admin_msg = a_s['ADMIN_NOTIFY_GMAIL'].format(
-            source="Panel",
-            user_name=username, user_id=user_id,
-            gmail=gmail, pwd=password, sub_id=sub_id
-        )
-        
-        url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
-        data = json.dumps({"chat_id": ADMIN_ID, "text": admin_msg, "parse_mode": "HTML"}).encode('utf-8')
-        req = urllib.request.Request(url, data=data, headers={'Content-Type': 'application/json'})
-        with urllib.request.urlopen(req, timeout=5):
-            pass
+        # Notify admin
+        send_webapp_notification(ADMIN_ID, admin_msg)
             
         # Also to channel
-        try:
-            ch_id = conf.get("EMAILS_CHANNEL_ID")
-            if ch_id and "Add_In_DotEnv" not in str(ch_id):
-                data2 = json.dumps({"chat_id": ch_id, "text": admin_msg, "parse_mode": "HTML"}).encode('utf-8')
-                req2 = urllib.request.Request(url, data=data2, headers={'Content-Type': 'application/json'})
-                with urllib.request.urlopen(req2, timeout=5):
-                    pass
-        except Exception:
-            pass
+        ch_id = conf.get("EMAILS_CHANNEL_ID")
+        if ch_id and "Add_In_DotEnv" not in str(ch_id):
+            send_webapp_notification(ch_id, admin_msg)
     except Exception as e:
+        with open("crash.log", "a", encoding="utf-8") as f:
+            f.write(f"WebApp task logic error: {str(e)}\n")
         with open("crash.log", "a", encoding="utf-8") as f:
             f.write(f"WebApp task notification error: {str(e)}\n")
 
@@ -893,41 +881,16 @@ def app_withdraw():
 
     wid = database.add_withdrawal(user_id, amount, method, wallet)
 
-    # Notify admin
-    try:
-        username = f"@{user.get('username')}" if user.get('username') else user.get('full_name', 'Unknown')
-        
-        # Get admin language and currency
-        admin_user = database.get_user(ADMIN_ID)
-        a_lang = admin_user['language'] if admin_user else 'ar'
-        a_currency = admin_user['currency'] if admin_user else 'USD'
-        a_s = STRINGS.get(a_lang, STRINGS['ar'])
-        
-        amount_text = format_currency_dual(amount, a_currency, a_lang)
-        
-        admin_msg = a_s['ADMIN_NOTIFY_WITHDRAW'].format(
-            source="Panel",
-            wid=wid, user_name=username, user_id=user_id,
-            amount_text=amount_text, method=method, wallet=wallet
-        )
-        
-        url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
-        data = json.dumps({"chat_id": ADMIN_ID, "text": admin_msg, "parse_mode": "HTML"}).encode('utf-8')
-        req = urllib.request.Request(url, data=data, headers={'Content-Type': 'application/json'})
-        with urllib.request.urlopen(req, timeout=5):
-            pass
+        # Notify admin
+        send_webapp_notification(ADMIN_ID, admin_msg)
 
         # Also to channel
-        try:
-            ch_id = conf.get("WITHDRAWALS_CHANNEL_ID")
-            if ch_id and "Add_In_DotEnv" not in str(ch_id):
-                data2 = json.dumps({"chat_id": ch_id, "text": admin_msg, "parse_mode": "HTML"}).encode('utf-8')
-                req2 = urllib.request.Request(url, data=data2, headers={'Content-Type': 'application/json'})
-                with urllib.request.urlopen(req2, timeout=5):
-                    pass
-        except Exception:
-            pass
+        ch_id = conf.get("WITHDRAWALS_CHANNEL_ID")
+        if ch_id and "Add_In_DotEnv" not in str(ch_id):
+            send_webapp_notification(ch_id, admin_msg)
     except Exception as e:
+        with open("crash.log", "a", encoding="utf-8") as f:
+            f.write(f"WebApp withdraw logic error: {str(e)}\n")
         with open("crash.log", "a", encoding="utf-8") as f:
             f.write(f"WebApp withdraw notification error: {str(e)}\n")
 
