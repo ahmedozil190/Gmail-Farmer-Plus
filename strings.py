@@ -322,9 +322,11 @@ STRINGS = {
             "يمكنك إرسال حساب آخر."
         ),
         'NOTIFY_USER_PAID': (
-            "💸 <b>تم سحب رصيدك بنجاح!</b>\n\n"
-            "💵 المبلغ: <b>{amount_text}</b>\n"
-            "✅ تم تحويل المبلغ إلى حسابك. شكراً لعملك معنا!"
+            "🎉 <b>إشعار دفع ناجح</b>\n\n"
+            "✅ تم إرسال دفعتك بقيمة <b>{amount_text}</b> بنجاح!\n"
+            "💳 الطريقة: {method}\n"
+            "🏦 العنوان: <code>{wallet}</code>\n\n"
+            "شكراً لعملك معنا! استمر 🚀"
         ),
         'LBL_CURRENCY_EGP': "جنيه",
         'DEF_REASON': "غير محدد",
@@ -666,9 +668,11 @@ STRINGS = {
             "You can submit another account."
         ),
         'NOTIFY_USER_PAID': (
-            "💸 <b>Withdrawal Successful!</b>\n\n"
-            "💵 Amount: <b>{amount_text}</b>\n"
-            "✅ The amount has been transferred to your account. Thank you for your work!"
+            "🎉 <b>Payout Success Notice</b>\n\n"
+            "✅ Your payout of <b>{amount_text}</b> has been sent successfully!\n"
+            "💳 Method: {method}\n"
+            "🏦 Address: <code>{wallet}</code>\n\n"
+            "Thank you for working with us! Keep it up 🚀"
         ),
         'LBL_CURRENCY_EGP': "EGP",
         'DEF_REASON': "Not specified",

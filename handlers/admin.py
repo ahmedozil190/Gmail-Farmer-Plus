@@ -249,7 +249,9 @@ async def paid_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
         amount_text = format_currency_dual(result['amount'], u_currency, u_lang)
         
         msg = us['NOTIFY_USER_PAID'].format(
-            amount_text=amount_text
+            amount_text=amount_text,
+            method=result.get('method', ''),
+            wallet=result.get('wallet_address', '')
         )
         
         await context.bot.send_message(
