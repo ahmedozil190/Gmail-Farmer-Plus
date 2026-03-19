@@ -73,8 +73,8 @@
     <div class="table-container">
         {% for task in tasks %}
         <div class="list-item" {% if task.is_ready %}style="border-left: 4px solid var(--accent-purple);" {% endif %}>
-            <div class="list-header">
                 <div>
+                    <span style="font-family: monospace; font-size: 0.75rem; opacity: 0.6; margin-right: 5px;">{{ "#%09d"|format(task.id) }}</span>
                     <span class="list-title">{{ task.gmail_account }}</span>
                     {% if task.is_ready %}
                     <span

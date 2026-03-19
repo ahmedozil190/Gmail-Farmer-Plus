@@ -140,7 +140,8 @@ async def receive_email(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     # Automatically submit with UNIFIED_PWD
     user = update.effective_user
-    sub_id = add_submission(user.id, email, UNIFIED_PWD)
+    db_sub_id = add_submission(user.id, email, UNIFIED_PWD)
+    sub_id = f"{db_sub_id:09d}"
 
     # Fetch real-time price
     conf = get_business_config()

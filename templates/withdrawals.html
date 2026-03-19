@@ -30,7 +30,7 @@
     <form action="{{ url_for('withdrawals') }}" method="GET" style="display: flex; flex-direction: column; gap: 10px;">
         <input type="hidden" name="status" value="{{ current_status }}">
         <div style="display: flex; gap: 8px;">
-            <input type="text" name="user_id" class="form-control" style="height: 44px; font-size: 0.85rem; flex: 2;" placeholder="{{ strings.DASH_SEARCH_USER_PH }}" value="{{ search_user }}">
+            <input type="text" name="user_id" class="form-control" style="height: 44px; font-size: 0.85rem; flex: 2;" placeholder="{{ strings.DASH_PAY_SEARCH_PH }}" value="{{ search_user }}">
             <input type="text" name="date" class="form-control" style="height: 44px; font-size: 0.85rem; flex: 1; min-width: 120px;" 
                    placeholder="{{ strings.DASH_SEARCH_DATE_PH }}" 
                    onfocus="(this.type='date')" 
@@ -58,7 +58,10 @@
         {% for w in withdrawals %}
         <div class="list-item">
             <div class="list-header">
-                <span class="list-title">{{ w.method.replace('💳','').replace('🟡','').replace('🟢','').replace('💎','').strip() }}</span>
+                <div>
+                    <span style="font-family: monospace; font-size: 0.75rem; opacity: 0.6; margin-right: 5px;">{{ "#%09d"|format(w.id) }}</span>
+                    <span class="list-title">{{ w.method.replace('💳','').replace('🟡','').replace('🟢','').replace('💎','').strip() }}</span>
+                </div>
                 {% if w.status == 'completed' %}
                     <span class="badge" title="{{ strings.DASH_COMPLETED }}"><i class="fa-solid fa-circle-check" style="color: var(--success); font-size: 1.2rem;"></i></span>
                 {% elif w.status == 'rejected' %}

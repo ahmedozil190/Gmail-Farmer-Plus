@@ -227,8 +227,9 @@ def tasks():
         params.append(status_filter)
         
     if user_search:
-        base_query += " AND (CAST(user_id AS TEXT) LIKE ? OR CAST(id AS TEXT) LIKE ? OR gmail_account LIKE ?)"
-        params.extend([f"%{user_search}%", f"%{user_search}%", f"%{user_search}%"])
+        clean_id = user_search.lstrip('#').lstrip('0')
+        base_query += " AND (CAST(user_id AS TEXT) LIKE ? OR CAST(id AS TEXT) LIKE ? OR CAST(id AS TEXT) = ? OR gmail_account LIKE ?)"
+        params.extend([f"%{user_search}%", f"%{user_search}%", clean_id, f"%{user_search}%"])
         
     if date_filter:
         base_query += " AND submitted_at LIKE ?"
@@ -242,8 +243,9 @@ def tasks():
     stats_query = "SELECT status, COUNT(*) FROM submissions WHERE 1=1"
     stats_params = []
     if user_search:
-        stats_query += " AND (CAST(user_id AS TEXT) LIKE ? OR CAST(id AS TEXT) LIKE ? OR gmail_account LIKE ?)"
-        stats_params.extend([f"%{user_search}%", f"%{user_search}%", f"%{user_search}%"])
+        clean_id = user_search.lstrip('#').lstrip('0')
+        stats_query += " AND (CAST(user_id AS TEXT) LIKE ? OR CAST(id AS TEXT) LIKE ? OR CAST(id AS TEXT) = ? OR gmail_account LIKE ?)"
+        stats_params.extend([f"%{user_search}%", f"%{user_search}%", clean_id, f"%{user_search}%"])
     if date_filter:
         stats_query += " AND submitted_at LIKE ?"
         stats_params.append(f"{date_filter}%")
@@ -386,8 +388,9 @@ def withdrawals():
         params.append(status_filter)
         
     if user_search:
-        base_query += " AND (CAST(user_id AS TEXT) LIKE ? OR CAST(id AS TEXT) LIKE ? OR wallet_address LIKE ?)"
-        params.extend([f"%{user_search}%", f"%{user_search}%", f"%{user_search}%"])
+        clean_id = user_search.lstrip('#').lstrip('0')
+        base_query += " AND (CAST(user_id AS TEXT) LIKE ? OR CAST(id AS TEXT) LIKE ? OR CAST(id AS TEXT) = ? OR wallet_address LIKE ?)"
+        params.extend([f"%{user_search}%", f"%{user_search}%", clean_id, f"%{user_search}%"])
         
     if date_filter:
         base_query += " AND created_at LIKE ?"
@@ -401,8 +404,9 @@ def withdrawals():
     stats_query = "SELECT status, COUNT(*) FROM withdrawals WHERE 1=1"
     stats_params = []
     if user_search:
-        stats_query += " AND (CAST(user_id AS TEXT) LIKE ? OR CAST(id AS TEXT) LIKE ? OR wallet_address LIKE ?)"
-        stats_params.extend([f"%{user_search}%", f"%{user_search}%", f"%{user_search}%"])
+        clean_id = user_search.lstrip('#').lstrip('0')
+        stats_query += " AND (CAST(user_id AS TEXT) LIKE ? OR CAST(id AS TEXT) LIKE ? OR CAST(id AS TEXT) = ? OR wallet_address LIKE ?)"
+        stats_params.extend([f"%{user_search}%", f"%{user_search}%", clean_id, f"%{user_search}%"])
     if date_filter:
         stats_query += " AND created_at LIKE ?"
         stats_params.append(f"{date_filter}%")
