@@ -142,14 +142,14 @@ STRINGS = {
         'WITHDRAW_CONFIRM_BTN': "✅ تأكيد السحب",
         'WITHDRAW_EDIT_BTN': "✏️ تعديل",
         'WITHDRAW_PAID': (
-            "🎉 <b>إشعار سحب ناجح</b>\n\n"
+            "🎉 <b>تم السحب بنجاح</b>\n\n"
             "✅ تم تحويل مبلغ <b>{amount_text}</b> بنجاح!\n"
-            "💳 الطريقة: <b>{method}</b>\n"
+            "💳 الطريقة: {method}\n"
             "🏦 العنوان: <code>{wallet}</code>\n\n"
             "شكراً لعملك معنا! استمر في الإنجاز 🚀"
         ),
         'WITHDRAW_REJECTED': (
-            "❌ <b>إشعار رفض طلب السحب</b>\n\n"
+            "❌ <b>تم رفض طلب السحب</b>\n\n"
             "للأسف تم رفض طلب السحب الخاص بك لمبلغ <b>{amount_text}</b>.\n"
             "🏦 العنوان: <code>{wallet}</code>\n\n"
             "🥊 لا تيأس! استمر في العمل لتحقيق المزيد من الأرباح 💰"
@@ -322,7 +322,7 @@ STRINGS = {
             "يمكنك إرسال حساب آخر."
         ),
         'NOTIFY_USER_PAID': (
-            "🎉 <b>إشعار دفع ناجح</b>\n\n"
+            "🎉 <b>دفع ناجح</b>\n\n"
             "✅ تم إرسال دفعتك بقيمة <b>{amount_text}</b> بنجاح!\n"
             "💳 الطريقة: {method}\n"
             "🏦 العنوان: <code>{wallet}</code>\n\n"
@@ -409,7 +409,7 @@ STRINGS = {
         'TASKS_MENU_PROMPT': (
             "📋 Available Tasks List\n\n"
             "💰 Choose a task now and start earning.\n"
-            "⚡️ The more tasks you complete, the more you win.\n\n"
+            "⚡️ The more tasks you complete, the more you win.\n"
             "⏳ Profits will be added to your account within a maximum of 3 days."
         ),
         'TASKS_PAUSED': (
@@ -488,9 +488,9 @@ STRINGS = {
         'WITHDRAW_CONFIRM_BTN': "✅ Confirm Withdrawal",
         'WITHDRAW_EDIT_BTN': "✏️ Edit",
         'WITHDRAW_PAID': (
-            "🎉 <b>Payout Success Notice</b>\n\n"
+            "🎉 <b>Payout Success</b>\n\n"
             "✅ Your payout of <b>{amount_text}</b> has been sent successfully!\n"
-            "💳 Method: <b>{method}</b>\n"
+            "💳 Method: {method}\n"
             "🏦 Address: <code>{wallet}</code>\n\n"
             "Thank you for working with us! Keep it up 🚀"
         ),
@@ -668,7 +668,7 @@ STRINGS = {
             "You can submit another account."
         ),
         'NOTIFY_USER_PAID': (
-            "🎉 <b>Payout Success Notice</b>\n\n"
+            "🎉 <b>Payout Success</b>\n\n"
             "✅ Your payout of <b>{amount_text}</b> has been sent successfully!\n"
             "💳 Method: {method}\n"
             "🏦 Address: <code>{wallet}</code>\n\n"

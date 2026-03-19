@@ -248,7 +248,7 @@ async def paid_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
         
         amount_text = format_currency_dual(result['amount'], u_currency, u_lang)
         
-        msg = us['NOTIFY_USER_PAID'].format(
+        msg = us['WITHDRAW_PAID'].format(
             amount_text=amount_text,
             method=result.get('method', ''),
             wallet=result.get('wallet_address', '')
@@ -299,16 +299,9 @@ async def reject_w_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
         
         amount_text = format_currency_dual(result['amount'], u_currency, u_lang)
         
-        msg = (
-            f"❌ <b>تم رفض طلب السحب</b>\n\n"
-            f"للأسف، تم رفض طلب السحب الخاص بك بقيمة <b>{amount_text}</b>.\n"
-            f"🏦 العنوان: <code>{result.get('wallet_address', '')}</code>\n\n"
-            f"🥊 لا تستسلم! استمر في العمل لكسب المزيد من الأرباح 💰"
-        ) if u_lang == 'ar' else (
-            f"❌ <b>Withdrawal Request Rejected</b>\n\n"
-            f"Unfortunately, your withdrawal request for <b>{amount_text}</b> was rejected.\n"
-            f"🏦 Address: <code>{result.get('wallet_address', '')}</code>\n\n"
-            f"🥊 Don't give up! Keep working to earn more profits 💰"
+        msg = us['WITHDRAW_REJECTED'].format(
+            amount_text=amount_text,
+            wallet=result.get('wallet_address', '')
         )
         # Note: actually in database.py reject_withdrawal DOES NOT return money yet as per current code?
         # Let's check database.py reject_withdrawal again.
