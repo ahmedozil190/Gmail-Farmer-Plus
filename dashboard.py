@@ -799,11 +799,21 @@ def app_tasks():
         return redirect(url_for("app_home"))
 
     user_id = user["user_id"]
-    tasks = database.get_user_submissions(user_id)
+    all_tasks = database.get_user_submissions(user_id)
     conf = database.get_business_config()
 
+    # Pagination
+    page = request.args.get('page', 1, type=int)
+    per_page = 20
+    total_tasks = len(all_tasks)
+    total_pages = (total_tasks + per_page - 1) // per_page
+    start = (page - 1) * per_page
+    end = start + per_page
+    tasks = all_tasks[start:end]
+
     return render_template("app/tasks.html",
-        page="tasks",
+        page=page,
+        total_pages=total_pages,
         user=user,
         strings=strings,
         tasks=tasks,
@@ -900,15 +910,25 @@ def app_wallet():
 
     # Get withdrawals
     con = database._conn()
-    withdrawals = con.execute(
+    all_withdrawals = con.execute(
         "SELECT * FROM withdrawals WHERE user_id = ? ORDER BY created_at DESC", (user_id,)
     ).fetchall()
     con.close()
 
+    # Pagination
+    page = request.args.get('page', 1, type=int)
+    per_page = 20
+    total_items = len(all_withdrawals)
+    total_pages = (total_items + per_page - 1) // per_page
+    start = (page - 1) * per_page
+    end = start + per_page
+    withdrawals = all_withdrawals[start:end]
+
     from config import PAYMENT_METHODS
 
     return render_template("app/wallet.html",
-        page="wallet",
+        page=page,
+        total_pages=total_pages,
         user=user,
         strings=strings,
         balance=balance,
@@ -1003,7 +1023,16 @@ def app_referrals():
 
     user_id = user["user_id"]
     invited, active, tasks_total, profit = database.get_referral_detailed_stats(user_id)
-    referrals = database.get_referrals_list_data(user_id)
+    all_referrals = database.get_referrals_list_data(user_id)
+
+    # Pagination
+    page = request.args.get('page', 1, type=int)
+    per_page = 20
+    total_items = len(all_referrals)
+    total_pages = (total_items + per_page - 1) // per_page
+    start = (page - 1) * per_page
+    end = start + per_page
+    referrals = all_referrals[start:end]
 
     conf = database.get_business_config()
     ref_bonus = conf["REFERRAL_BONUS"]
@@ -1023,7 +1052,8 @@ def app_referrals():
     ref_link = f"https://t.me/{bot_username}?start=REF{user_id}"
 
     return render_template("app/referrals.html",
-        page="referrals",
+        page=page,
+        total_pages=total_pages,
         user=user,
         strings=strings,
         ref_link=ref_link,

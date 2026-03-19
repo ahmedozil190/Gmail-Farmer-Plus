@@ -49,10 +49,33 @@
     </div>
     <div class="list-row" style="margin-top: 4px;">
         <span class="list-label">{{ ref.join_date[:10] if ref.join_date else '' }}</span>
-        <span class="list-label">{{ ref.approved_tasks }} tasks</span>
+        <span class="list-label">{{ ref.approved_tasks }} {{ strings.REF_TASKS_LABEL }}</span>
     </div>
 </div>
 {% endfor %}
+
+{% if total_pages > 1 %}
+<div class="pagination">
+    {% if page > 1 %}
+    <a href="{{ url_for('app_referrals', page=page-1) }}" class="btn btn-sm btn-outline">
+        <i class="fa-solid fa-chevron-left"></i>
+    </a>
+    {% else %}
+    <div class="btn btn-sm btn-outline disabled"><i class="fa-solid fa-chevron-left"></i></div>
+    {% endif %}
+
+    <span class="page-info">{{ strings.PAGE_LABEL }} {{ page }} {{ strings.OF_LABEL }} {{ total_pages }}</span>
+
+    {% if page < total_pages %}
+    <a href="{{ url_for('app_referrals', page=page+1) }}" class="btn btn-sm btn-outline">
+        <i class="fa-solid fa-chevron-right"></i>
+    </a>
+    {% else %}
+    <div class="btn btn-sm btn-outline disabled"><i class="fa-solid fa-chevron-right"></i></div>
+    {% endif %}
+</div>
+{% endif %}
+
 {% else %}
 <div class="empty-state">
     <i class="fa-solid fa-user-plus"></i>

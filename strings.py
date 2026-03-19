@@ -791,6 +791,9 @@ WEBAPP_STRINGS = {
         'FLASH_NO_WALLET': "⚠️ يرجى إدخال عنوان المحفظة.",
         'FLASH_BALANCE_BELOW_MIN': "❌ رصيدك أقل من الحد الأدنى للسحب لهذه الطريقة (${:.2f})",
         'FLASH_WITHDRAW_SUCCESS': "✅ تم إرسال طلب السحب بنجاح!",
+        'REF_TASKS_LABEL': "مهمة",
+        'PAGE_LABEL': "صفحة",
+        'OF_LABEL': "من",
     },
     'en': {
         'NAV_HOME': "Home",
@@ -889,6 +892,9 @@ WEBAPP_STRINGS = {
         'FLASH_NO_WALLET': "⚠️ Please enter a wallet address.",
         'FLASH_BALANCE_BELOW_MIN': "❌ Your balance is below the minimum for this method (${:.2f})",
         'FLASH_WITHDRAW_SUCCESS': "✅ Withdrawal request submitted!",
+        'REF_TASKS_LABEL': "tasks",
+        'PAGE_LABEL': "Page",
+        'OF_LABEL': "of",
     }
 }
 
