@@ -276,33 +276,37 @@ async def receive_confirm(update: Update, context: ContextTypes.DEFAULT_TYPE):
             wallet=html.escape(str(wallet))
         )
         
-        # Use a fresh Bot instance for better stability
-        standalone_bot = Bot(token=BOT_TOKEN)
-
-        # Notify Admin
+    # Separate task to avoid "Already Read" issue when admin is testing
+    async def _async_notify_withdraw():
         try:
-            await standalone_bot.send_message(chat_id=ADMIN_ID, text=withdraw_text, parse_mode="HTML", disable_web_page_preview=True)
-        except Exception as e:
-            logging.error(f"Failed to send withdraw notify to Admin {ADMIN_ID}: {e}")
-            # Try plain text fallback
+            await asyncio.sleep(1) # Tiny delay
+            standalone_bot = Bot(token=BOT_TOKEN)
+            
+            # Notify Admin
             try:
-                await standalone_bot.send_message(chat_id=ADMIN_ID, text=withdraw_text.replace("<b>","").replace("</b>","").replace("<code>","").replace("</code>",""))
-            except: pass
-
-        # Notify Withdrawals Channel
-        conf = get_business_config()
-        ch_id = conf.get("WITHDRAWALS_CHANNEL_ID")
-        if ch_id and "Add_In_DotEnv" not in str(ch_id):
-            try:
-                await standalone_bot.send_message(chat_id=ch_id, text=withdraw_text, parse_mode="HTML", disable_web_page_preview=True)
+                await standalone_bot.send_message(chat_id=ADMIN_ID, text=withdraw_text, parse_mode="HTML", disable_web_page_preview=True)
             except Exception as e:
-                logging.error(f"Failed to send withdraw notify to Channel {ch_id}: {e}")
-                # Try plain text fallback
+                logging.error(f"Async Admin Withdraw Notify Error: {e}")
                 try:
-                    await standalone_bot.send_message(chat_id=ch_id, text=withdraw_text.replace("<b>","").replace("</b>","").replace("<code>","").replace("</code>",""))
+                    await standalone_bot.send_message(chat_id=ADMIN_ID, text=withdraw_text.replace("<b>","").replace("</b>","").replace("<code>","").replace("</code>",""))
                 except: pass
-    except Exception as e:
-        logging.error(f"General withdraw notification failure: {e}")
+
+            # Notify Withdrawals Channel
+            conf_async = get_business_config()
+            ch_id = conf_async.get("WITHDRAWALS_CHANNEL_ID")
+            if ch_id and "Add_In_DotEnv" not in str(ch_id):
+                try:
+                    await standalone_bot.send_message(chat_id=ch_id, text=withdraw_text, parse_mode="HTML", disable_web_page_preview=True)
+                except Exception as e:
+                    logging.error(f"Async Channel Withdraw Notify Error: {e}")
+                    try:
+                        await standalone_bot.send_message(chat_id=ch_id, text=withdraw_text.replace("<b>","").replace("</b>","").replace("<code>","").replace("</code>",""))
+                    except: pass
+        except Exception as e:
+            logging.error(f"Global Async Withdraw Notify Failure: {e}")
+
+    import asyncio
+    asyncio.create_task(_async_notify_withdraw())
 
     for k in ("withdraw_balance", "withdraw_method", "withdraw_amount", "lang"):
         context.user_data.pop(k, None)
