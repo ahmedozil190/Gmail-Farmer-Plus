@@ -25,12 +25,23 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
+async def post_init(application: Application):
+    from config import ADMIN_ID
+    try:
+        await application.bot.send_message(
+            chat_id=ADMIN_ID,
+            text=f"🚀 <b>تم تشغيل البوت بنجاح!</b>\n\nإيدي الأدمن: <code>{ADMIN_ID}</code>\nالإشعارات: مفعلة ✅",
+            parse_mode="HTML"
+        )
+    except Exception as e:
+        logging.error(f"❌ فشل إرسال إشعار التشغيل للأدمن: {e}")
+
 def main():
     # Initialise database
     init_db()
     logger.info("✅ Database initialised.")
 
-    app = Application.builder().token(BOT_TOKEN).build()
+    app = Application.builder().token(BOT_TOKEN).post_init(post_init).build()
 
     # ── Conversation handlers (must be registered BEFORE plain message handlers)
     app.add_handler(tasks_conv_handler)
