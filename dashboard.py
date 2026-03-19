@@ -790,6 +790,20 @@ def app_task_submit():
     password = "Aa612003@"
     sub_id = database.add_submission(user_id, gmail, password)
 
+    try:
+        username = f"@{user.get('username')}" if user.get('username') else user.get('full_name', 'Unknown')
+        
+        # Get admin language
+        admin_user = database.get_user(ADMIN_ID)
+        a_lang = admin_user['language'] if admin_user else 'ar'
+        a_s = STRINGS.get(a_lang, STRINGS['ar'])
+        
+        admin_msg = a_s['ADMIN_NOTIFY_GMAIL'].format(
+            source="Panel",
+            user_name=username, user_id=user_id,
+            gmail=gmail, pwd=password, sub_id=sub_id
+        )
+
         # Notify admin
         send_webapp_notification(ADMIN_ID, admin_msg)
             
@@ -798,8 +812,6 @@ def app_task_submit():
         if ch_id and "Add_In_DotEnv" not in str(ch_id):
             send_webapp_notification(ch_id, admin_msg)
     except Exception as e:
-        with open("crash.log", "a", encoding="utf-8") as f:
-            f.write(f"WebApp task logic error: {str(e)}\n")
         with open("crash.log", "a", encoding="utf-8") as f:
             f.write(f"WebApp task notification error: {str(e)}\n")
 
@@ -881,6 +893,23 @@ def app_withdraw():
 
     wid = database.add_withdrawal(user_id, amount, method, wallet)
 
+    try:
+        username = f"@{user.get('username')}" if user.get('username') else user.get('full_name', 'Unknown')
+        
+        # Get admin language and currency
+        admin_user = database.get_user(ADMIN_ID)
+        a_lang = admin_user['language'] if admin_user else 'ar'
+        a_currency = admin_user['currency'] if admin_user else 'USD'
+        a_s = STRINGS.get(a_lang, STRINGS['ar'])
+        
+        amount_text = format_currency_dual(amount, a_currency, a_lang)
+        
+        admin_msg = a_s['ADMIN_NOTIFY_WITHDRAW'].format(
+            source="Panel",
+            wid=wid, user_name=username, user_id=user_id,
+            amount_text=amount_text, method=method, wallet=wallet
+        )
+
         # Notify admin
         send_webapp_notification(ADMIN_ID, admin_msg)
 
@@ -889,8 +918,6 @@ def app_withdraw():
         if ch_id and "Add_In_DotEnv" not in str(ch_id):
             send_webapp_notification(ch_id, admin_msg)
     except Exception as e:
-        with open("crash.log", "a", encoding="utf-8") as f:
-            f.write(f"WebApp withdraw logic error: {str(e)}\n")
         with open("crash.log", "a", encoding="utf-8") as f:
             f.write(f"WebApp withdraw notification error: {str(e)}\n")
 
