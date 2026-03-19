@@ -260,6 +260,7 @@ async def receive_confirm(update: Update, context: ContextTypes.DEFAULT_TYPE):
     # 2. Background task for notifications
     async def _notify_withdraw_task():
         try:
+            await asyncio.sleep(2) # Delay
             username = f"@{user.username}" if user.username else user.full_name
             admin_user = get_user(ADMIN_ID)
             a_lang = admin_user['language'] if admin_user else 'ar'
