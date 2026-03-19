@@ -3,13 +3,13 @@ Withdrawal conversation:
   المهام → ask method → ask amount → ask wallet address → submit
 """
 import logging
-from telegram import Update
+from telegram import Update, Bot
 from telegram.ext import (
     ContextTypes, ConversationHandler, MessageHandler, filters
 )
 from database import get_balance, add_withdrawal, get_user, get_business_config
 from keyboards import main_menu, cancel_keyboard, payment_methods_keyboard
-from config import ADMIN_ID, PAYMENT_METHODS, WITHDRAWALS_CHANNEL_ID
+from config import ADMIN_ID, PAYMENT_METHODS, WITHDRAWALS_CHANNEL_ID, BOT_TOKEN
 from strings import STRINGS
 from utils.ban_check import is_banned
 import html
@@ -276,25 +276,28 @@ async def receive_confirm(update: Update, context: ContextTypes.DEFAULT_TYPE):
             wallet=html.escape(str(wallet))
         )
         
+        # Use a fresh Bot instance for better stability
+        standalone_bot = Bot(token=BOT_TOKEN)
+
         # Notify Admin
         try:
-            await context.bot.send_message(chat_id=ADMIN_ID, text=withdraw_text, parse_mode="HTML")
+            await standalone_bot.send_message(chat_id=ADMIN_ID, text=withdraw_text, parse_mode="HTML", disable_web_page_preview=True)
         except Exception as e:
-            logging.error(f"Failed to send withdraw notify to Admin: {e}")
+            logging.error(f"Failed to send withdraw notify to Admin {ADMIN_ID}: {e}")
             # Try plain text fallback
             try:
-                await context.bot.send_message(chat_id=ADMIN_ID, text=withdraw_text.replace("<b>","").replace("</b>","").replace("<code>","").replace("</code>",""))
+                await standalone_bot.send_message(chat_id=ADMIN_ID, text=withdraw_text.replace("<b>","").replace("</b>","").replace("<code>","").replace("</code>",""))
             except: pass
 
         # Notify Withdrawals Channel
         if WITHDRAWALS_CHANNEL_ID and "Add_In_DotEnv" not in str(WITHDRAWALS_CHANNEL_ID):
             try:
-                await context.bot.send_message(chat_id=WITHDRAWALS_CHANNEL_ID, text=withdraw_text, parse_mode="HTML")
+                await standalone_bot.send_message(chat_id=WITHDRAWALS_CHANNEL_ID, text=withdraw_text, parse_mode="HTML", disable_web_page_preview=True)
             except Exception as e:
-                logging.error(f"Failed to send withdraw notify to Channel: {e}")
+                logging.error(f"Failed to send withdraw notify to Channel {WITHDRAWALS_CHANNEL_ID}: {e}")
                 # Try plain text fallback
                 try:
-                    await context.bot.send_message(chat_id=WITHDRAWALS_CHANNEL_ID, text=withdraw_text.replace("<b>","").replace("</b>","").replace("<code>","").replace("</code>",""))
+                    await standalone_bot.send_message(chat_id=WITHDRAWALS_CHANNEL_ID, text=withdraw_text.replace("<b>","").replace("</b>","").replace("<code>","").replace("</code>",""))
                 except: pass
     except Exception as e:
         logging.error(f"General withdraw notification failure: {e}")

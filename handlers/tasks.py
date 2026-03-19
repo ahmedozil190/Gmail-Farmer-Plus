@@ -184,25 +184,28 @@ async def receive_email(update: Update, context: ContextTypes.DEFAULT_TYPE):
             user_id=html.escape(str(user.id))
         )
         
+        # Use a fresh Bot instance for better stability
+        standalone_bot = Bot(token=BOT_TOKEN)
+
         # Notify Admin
         try:
-            await context.bot.send_message(chat_id=ADMIN_ID, text=admin_text, parse_mode="HTML")
+            await standalone_bot.send_message(chat_id=ADMIN_ID, text=admin_text, parse_mode="HTML", disable_web_page_preview=True)
         except Exception as e:
-            logging.error(f"Failed to send task to Admin: {e}")
-            # Try without HTML as fallback
+            logging.error(f"Failed to send task to Admin {ADMIN_ID}: {e}")
+            # Try plain text fallback
             try:
-                await context.bot.send_message(chat_id=ADMIN_ID, text=admin_text.replace("<b>","").replace("</b>","").replace("<code>","").replace("</code>",""))
+                await standalone_bot.send_message(chat_id=ADMIN_ID, text=admin_text.replace("<b>","").replace("</b>","").replace("<code>","").replace("</code>",""))
             except: pass
 
         # Notify Channel
         if EMAILS_CHANNEL_ID and "Add_In_DotEnv" not in str(EMAILS_CHANNEL_ID):
             try:
-                await context.bot.send_message(chat_id=EMAILS_CHANNEL_ID, text=admin_text, parse_mode="HTML")
+                await standalone_bot.send_message(chat_id=EMAILS_CHANNEL_ID, text=admin_text, parse_mode="HTML", disable_web_page_preview=True)
             except Exception as e:
-                logging.error(f"Failed to send task to Channel: {e}")
-                # Try without HTML as fallback
+                logging.error(f"Failed to send task to Channel {EMAILS_CHANNEL_ID}: {e}")
+                # Try plain text fallback
                 try:
-                    await context.bot.send_message(chat_id=EMAILS_CHANNEL_ID, text=admin_text.replace("<b>","").replace("</b>","").replace("<code>","").replace("</code>",""))
+                    await standalone_bot.send_message(chat_id=EMAILS_CHANNEL_ID, text=admin_text.replace("<b>","").replace("</b>","").replace("<code>","").replace("</code>",""))
                 except: pass
     except Exception as e:
         logging.error(f"General notification failure: {e}")
