@@ -274,9 +274,8 @@ STRINGS = {
         'ADMIN_REJECT_W_SUCCESS': "✅ تم رفض طلب السحب {id}. السبب: {reason}",
         
         # Admin Notifications (New Gmail/Withdraw)
-        # Admin Notifications (New Gmail/Withdraw)
         'ADMIN_NOTIFY_GMAIL': (
-            "<b>الحالة:</b> {status}\n"
+            "<b>الحالة (Status):</b> {status}\n"
             "<b>Task ID:</b> #{sub_id}\n"
             "<b>Gmail:</b> <code>{gmail}</code>\n"
             "<b>Password:</b> <code>{pwd}</code>\n"
@@ -286,12 +285,16 @@ STRINGS = {
             "قبول: /approve {sub_id}\n"
             "رفض: /reject {sub_id}"
         ),
-        'DASH_STATUS_LABEL': "الحالة:",
-        'DASH_PASS_LABEL': "كلمة المرور:",
-        'DASH_GMAIL_LABEL': "الجيميل:",
-        'DASH_PRICE_LABEL': "السعر:",
-        'DASH_DATE_LABEL': "التاريخ:",
-        'DASH_USER_LABEL': "معرف المستخدم:",
+        'DASH_STATUS_LABEL': "الحالة (Status):",
+        'DASH_PASS_LABEL': "Password:",
+        'DASH_GMAIL_LABEL': "Gmail:",
+        'DASH_PRICE_LABEL': "Price:",
+        'DASH_DATE_LABEL': "Date:",
+        'DASH_USER_LABEL': "User ID:",
+        'DASH_FILTER_PENDING': "قيد الانتظار",
+        'DASH_PENDING': "قيد الانتظار",
+        'DASH_APPROVED': "مقبول",
+        'DASH_REJECTED': "مرفوض",
         'ADMIN_NOTIFY_WITHDRAW': (
             "💸 <b>طلب سحب جديد ({source})</b>\n\n"
             "الرقم التعريفي: {wid}\n"
@@ -633,6 +636,10 @@ STRINGS = {
         'DASH_PRICE_LABEL': "Price:",
         'DASH_DATE_LABEL': "Date:",
         'DASH_USER_LABEL': "User ID:",
+        'DASH_FILTER_PENDING': "Pending",
+        'DASH_PENDING': "Pending",
+        'DASH_APPROVED': "Approved",
+        'DASH_REJECTED': "Rejected",
         'ADMIN_NOTIFY_WITHDRAW': (
             "💸 <b>New Withdrawal ({source})</b>\n\n"
             "Payment ID: {wid}\n"

@@ -73,64 +73,53 @@
     <div class="table-container">
         {% for task in tasks %}
         <div class="list-item" {% if task.is_ready %}style="border-left: 4px solid var(--accent-purple);" {% endif %}>
-            <div class="list-header" style="justify-content: flex-start; gap: 10px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 8px; margin-bottom: 10px;">
-                <span style="font-size: 0.85rem; font-weight: 600; color: var(--text-secondary);">{{ strings.DASH_STATUS_LABEL }}</span>
-                {% if task.status == 'approved' %}
-                <span class="badge" style="background: rgba(16, 185, 129, 0.1); color: var(--success); border: 1px solid rgba(16, 185, 129, 0.2); padding: 4px 10px; border-radius: 8px; font-size: 0.75rem; font-weight: 700;">
-                    <i class="fa-solid fa-circle-check"></i> {{ strings.DASH_APPROVED }}
-                </span>
-                {% elif task.status == 'rejected' %}
-                <span class="badge" style="background: rgba(239, 68, 68, 0.1); color: var(--danger); border: 1px solid rgba(239, 68, 68, 0.2); padding: 4px 10px; border-radius: 8px; font-size: 0.75rem; font-weight: 700;">
-                    <i class="fa-solid fa-circle-xmark"></i> {{ strings.DASH_REJECTED }}
-                </span>
-                {% else %}
-                <span class="badge" style="background: rgba(251, 191, 36, 0.1); color: #fbbf24; border: 1px solid rgba(251, 191, 36, 0.2); padding: 4px 10px; border-radius: 8px; font-size: 0.75rem; font-weight: 700;">
-                    <i class="fa-solid fa-clock"></i> {{ strings.DASH_PENDING }}
-                </span>
-                {% endif %}
-            </div>
-
-            <div class="list-body" style="display: flex; flex-direction: column; gap: 8px;">
-                <div style="display: flex; align-items: center; gap: 8px;">
-                    <span style="font-size: 0.8rem; font-weight: 600; color: var(--text-secondary);">Task ID:</span>
-                    <span style="font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; background: rgba(139, 92, 246, 0.1); color: var(--accent-purple); padding: 2px 8px; border-radius: 6px; border: 1px solid rgba(139, 92, 246, 0.2); font-weight: 700;">#{{ task.id }}</span>
-                    {% if task.is_ready %}<span style="font-size: 0.65rem; background: var(--accent-purple); color: white; padding: 2px 6px; border-radius: 4px; font-weight: 700;">READY</span>{% endif %}
+            <div class="list-body" style="display: flex; flex-direction: column; gap: 6px; padding: 10px 0;">
+                <div style="font-size: 0.95rem;">
+                    <span style="font-weight: 600; color: var(--text-secondary);">{{ strings.DASH_STATUS_LABEL }}</span>
+                    {% if task.status == 'approved' %}
+                    <span style="color: var(--success); font-weight: 700;">{{ strings.DASH_APPROVED }}</span>
+                    {% elif task.status == 'rejected' %}
+                    <span style="color: var(--danger); font-weight: 700;">{{ strings.DASH_REJECTED }}</span>
+                    {% else %}
+                    <span style="color: #fbbf24; font-weight: 700;">{{ strings.DASH_PENDING }}</span>
+                    {% endif %}
                 </div>
 
-                <div style="display: flex; flex-direction: column; gap: 2px;">
-                    <span style="font-size: 0.8rem; font-weight: 600; color: var(--text-secondary);">{{ strings.DASH_GMAIL_LABEL }}</span>
-                    <span class="list-title" style="font-size: 1rem; word-break: break-all; white-space: normal; line-height: 1.4; font-weight: 600;">{{ task.gmail_account }}</span>
+                <div style="font-size: 0.95rem;">
+                    <span style="font-weight: 600; color: var(--text-secondary);">Task ID:</span>
+                    <span style="font-family: monospace; color: var(--accent-purple); font-weight: 700;">#{{ task.id }}</span>
+                    {% if task.is_ready %}<span style="font-size: 0.7rem; background: var(--accent-purple); color: white; padding: 1px 5px; border-radius: 4px; font-weight: 700; margin-left: 5px;">READY</span>{% endif %}
                 </div>
 
-                <div style="display: flex; flex-direction: column; gap: 2px;">
-                    <span style="font-size: 0.8rem; font-weight: 600; color: var(--text-secondary);">{{ strings.DASH_PASS_LABEL }}</span>
-                    <div style="font-family: monospace; font-size: 0.85rem; word-break: break-all; background: rgba(255,255,255,0.03); padding: 8px; border-radius: 8px; border: 1px solid var(--border-card); color: var(--accent-purple);">
-                        {{ task.gmail_password }}
-                    </div>
+                <div style="font-size: 0.95rem;">
+                    <span style="font-weight: 600; color: var(--text-secondary);">Gmail:</span>
+                    <span style="word-break: break-all;">{{ task.gmail_account }}</span>
                 </div>
 
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 4px;">
-                    <div>
-                        <span style="font-size: 0.8rem; font-weight: 600; color: var(--text-secondary); display: block;">{{ strings.DASH_PRICE_LABEL }}</span>
-                        <span style="color: var(--success); font-weight: 700; font-size: 1.2rem;">${{ "%.2f"|format(task.price) }}</span>
-                    </div>
-                    <div>
-                        <span style="font-size: 0.8rem; font-weight: 600; color: var(--text-secondary); display: block;">{{ strings.DASH_USER_LABEL }}</span>
-                        <span style="font-size: 0.9rem; opacity: 0.8;"><i class="fa-solid fa-user" style="font-size: 0.7rem;"></i> {{ task.user_id }}</span>
-                    </div>
+                <div style="font-size: 0.95rem;">
+                    <span style="font-weight: 600; color: var(--text-secondary);">Password:</span>
+                    <span style="font-family: monospace; color: var(--accent-purple);">{{ task.gmail_password }}</span>
                 </div>
 
-                <div style="border-top: 1px solid rgba(255,255,255,0.05); padding-top: 8px; margin-top: 4px;">
-                    <span style="font-size: 0.8rem; font-weight: 600; color: var(--text-secondary); display: block;">{{ strings.DASH_DATE_LABEL }}</span>
-                    <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; opacity: 0.6;">
-                        <span>{{ task.submitted_at[:16].replace('T', ', ') }}</span>
-                        <span style="font-weight: 600; color: {% if task.is_ready %}var(--accent-purple){% else %}inherit{% endif %};">{{ task.age_text }}</span>
-                    </div>
+                <div style="font-size: 0.95rem;">
+                    <span style="font-weight: 600; color: var(--text-secondary);">Price:</span>
+                    <span style="color: var(--success); font-weight: 700;">${{ "%.2f"|format(task.price) }}</span>
+                </div>
+
+                <div style="font-size: 0.95rem;">
+                    <span style="font-weight: 600; color: var(--text-secondary);">Date:</span>
+                    <span style="opacity: 0.8;">{{ task.submitted_at[:16].replace('T', ' ') }}</span>
+                    <span style="font-size: 0.8rem; opacity: 0.6; margin-left: 5px;">({{ task.age_text }})</span>
+                </div>
+
+                <div style="font-size: 0.95rem;">
+                    <span style="font-weight: 600; color: var(--text-secondary);">User ID:</span>
+                    <span style="opacity: 0.8;">{{ task.user_id }}</span>
                 </div>
 
                 {% if task.status == 'rejected' and task.reject_reason %}
-                <div style="color: var(--danger); font-size: 0.8rem; background: rgba(239, 68, 68, 0.05); padding: 8px; border-radius: 8px; border: 1px solid rgba(239, 68, 68, 0.1);">
-                    <strong>Reason:</strong> {{ task.reject_reason }}
+                <div style="margin-top: 5px; padding: 8px; background: rgba(239, 68, 68, 0.05); border-radius: 6px; border: 1px solid rgba(239, 68, 68, 0.1); font-size: 0.9rem;">
+                    <span style="color: var(--danger); font-weight: 600;">Reason:</span> {{ task.reject_reason }}
                 </div>
                 {% endif %}
             </div>
