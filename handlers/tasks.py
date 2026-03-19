@@ -13,6 +13,7 @@ from config import ADMIN_ID, EMAILS_CHANNEL_ID, BOT_TOKEN
 from strings import STRINGS
 from utils.currency import format_currency_dual
 from utils.ban_check import is_banned
+import re
 import asyncio
 import html
 import logging
