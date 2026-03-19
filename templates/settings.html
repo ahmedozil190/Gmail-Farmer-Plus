@@ -195,5 +195,36 @@
             </button>
         </div>
     </form>
+
+    <hr style="border-top: 1px solid rgba(255,255,255,0.05); margin: 3rem 0;">
+
+    <div style="margin-bottom: 2rem;">
+        <h2 style="margin: 0; font-size: 1.25rem; color: #ef4444; font-weight: 700;">{{ strings.LBL_RESET_SETTINGS }}</h2>
+    </div>
+
+    <!-- Global Reset -->
+    <div class="form-group" style="background: rgba(239, 68, 68, 0.05); padding: 1.5rem; border-radius: 12px; border: 1px solid rgba(239, 68, 68, 0.1);">
+        <label class="form-label" style="color: #f87171;">{{ strings.LBL_GLOBAL_RESET }}</label>
+        <form action="{{ url_for('reset_global') }}" method="POST" onsubmit="return confirm('{{ strings.MSG_RESET_CONFIRM }}')">
+            <button type="submit" class="btn btn-danger" style="background: #ef4444; border: none;">
+                {{ strings.BTN_RESET_GLOBAL }}
+            </button>
+        </form>
+    </div>
+
+    <!-- User Reset -->
+    <div class="form-group" style="background: rgba(255, 255, 255, 0.03); padding: 1.5rem; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.05); margin-top: 1.5rem;">
+        <label class="form-label">{{ strings.LBL_USER_RESET }}</label>
+        <form action="{{ url_for('reset_user_data') }}" method="POST" onsubmit="return confirm('{{ strings.MSG_RESET_CONFIRM }}')">
+            <div style="display: flex; gap: 10px; align-items: flex-start;">
+                <div style="flex: 1;">
+                    <input type="text" name="user_id" class="form-control" placeholder="{{ strings.LBL_USER_ID }}" required>
+                </div>
+                <button type="submit" class="btn btn-warning" style="height: 50px;">
+                    {{ strings.BTN_RESET_USER }}
+                </button>
+            </div>
+        </form>
+    </div>
 </div>
 {% endblock %}

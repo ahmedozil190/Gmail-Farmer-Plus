@@ -330,7 +330,6 @@ STRINGS = {
         ),
         'LBL_CURRENCY_EGP': "جنيه",
         'DEF_REASON': "غير محدد",
-        
         # Balance Menu Buttons
         'SETTINGS_MSG': "⚙️ <b>الإعدادات</b>\n\nاختر الخيار الذي تريد تعديله:",
         
@@ -986,6 +985,15 @@ DASHBOARD_STRINGS = {
         'SETTINGS_WITHDRAWALS_CHANNEL': "قناة طلبات السحب (ID)",
         'ALERT_SETTINGS_SAVED': "تم تحديث الإعدادات بنجاح! التغييرات نشطة الآن للبوت.",
         'ALERT_LOGIN_SUCCESS': "تم تسجيل الدخول بنجاح.",
+        'LBL_RESET_SETTINGS': "إعادة التعيين ♻️",
+        'LBL_GLOBAL_RESET': "إعادة تعيين شاملة (حذف كل المهام والسحوبات)",
+        'LBL_USER_RESET': "إعادة تعيين بيانات مستخدم محدد",
+        'LBL_USER_ID': "رقم آيدي المستخدم (User ID)",
+        'BTN_RESET_GLOBAL': "بدء إعادة التعيين الشاملة ⚠️",
+        'BTN_RESET_USER': "تصفير بيانات المستخدم 👤",
+        'MSG_RESET_CONFIRM': "هل أنت متأكد؟ لا يمكن التراجع عن هذه العملية.",
+        'ALERT_RESET_SUCCESS': "تمت عملية إعادة التعيين بنجاح.",
+        'ALERT_RESET_ERROR': "حدث خطأ أثناء المحاولة. تأكد من صحة الآيدي أو البيانات.",
         
         'PAGE_LABEL': "صفحة",
         'OF_LABEL': "من",
@@ -1082,6 +1090,15 @@ DASHBOARD_STRINGS = {
         'SETTINGS_WITHDRAWALS_CHANNEL': "Withdrawals Channel ID",
         'ALERT_SETTINGS_SAVED': "Settings updated successfully! Changes are now active for the bot.",
         'ALERT_LOGIN_SUCCESS': "Successfully logged in.",
+        'LBL_RESET_SETTINGS': "Data Reset ♻️",
+        'LBL_GLOBAL_RESET': "Global Reset (Clear all tasks & withdrawals)",
+        'LBL_USER_RESET': "Specific User Reset",
+        'LBL_USER_ID': "User ID",
+        'BTN_RESET_GLOBAL': "Start Global Reset ⚠️",
+        'BTN_RESET_USER': "Reset User Data 👤",
+        'MSG_RESET_CONFIRM': "Are you sure? This action is permanent.",
+        'ALERT_RESET_SUCCESS': "Reset performed successfully.",
+        'ALERT_RESET_ERROR': "An error occurred. Please check the User ID or data.",
         
         'PAGE_LABEL': "Page",
         'OF_LABEL': "of",

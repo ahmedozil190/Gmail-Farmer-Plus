@@ -562,6 +562,43 @@ def settings():
                            buying_active=conf["BUYING_ACTIVE"],
                            required_channels=conf["REQUIRED_CHANNELS"])
 
+@app.route("/admin/reset_global", methods=["POST"])
+@requires_auth
+def reset_global():
+    success = database.global_bot_reset()
+    lang = database.get_setting("DASHBOARD_LANG", "en")
+    from strings import DASHBOARD_STRINGS
+    s = DASHBOARD_STRINGS.get(lang, DASHBOARD_STRINGS["ar"])
+    if success:
+        flash(s['ALERT_RESET_SUCCESS'], "success")
+    else:
+        flash(s['ALERT_RESET_ERROR'], "danger")
+    return redirect(url_for("settings"))
+
+@app.route("/admin/reset_user", methods=["POST"])
+@requires_auth
+def reset_user_data():
+    user_id_str = request.form.get("user_id", "").strip()
+    lang = database.get_setting("DASHBOARD_LANG", "en")
+    from strings import DASHBOARD_STRINGS
+    s = DASHBOARD_STRINGS.get(lang, DASHBOARD_STRINGS["ar"])
+    
+    if not user_id_str:
+        flash(s['ALERT_RESET_ERROR'], "danger")
+        return redirect(url_for("settings"))
+    
+    try:
+        user_id = int(user_id_str)
+        success = database.user_data_reset(user_id)
+        if success:
+            flash(s['ALERT_RESET_SUCCESS'], "success")
+        else:
+            flash(s['ALERT_RESET_ERROR'], "danger")
+    except ValueError:
+        flash(s['ALERT_RESET_ERROR'], "danger")
+        
+    return redirect(url_for("settings"))
+
 @app.route("/broadcast", methods=["GET", "POST"])
 @requires_auth
 def broadcast():

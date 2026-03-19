@@ -485,3 +485,36 @@ def get_business_config():
         },
         "DASHBOARD_LANG": get_setting("DASHBOARD_LANG", "en")
     }
+
+def global_bot_reset():
+    """Clears all submissions, withdrawals, and resets balances for all users."""
+    con = _conn()
+    try:
+        con.execute("DELETE FROM submissions")
+        con.execute("DELETE FROM withdrawals")
+        con.execute("UPDATE users SET balance = 0, pending_balance = 0")
+        con.commit()
+        return True
+    except Exception:
+        return False
+    finally:
+        con.close()
+
+def user_data_reset(user_id: int):
+    """Resets balance and clears specific data for one user."""
+    con = _conn()
+    try:
+        # Check if user exists
+        exists = con.execute("SELECT 1 FROM users WHERE user_id = ?", (user_id,)).fetchone()
+        if not exists:
+            return False
+        
+        con.execute("DELETE FROM submissions WHERE user_id = ?", (user_id,))
+        con.execute("DELETE FROM withdrawals WHERE user_id = ?", (user_id,))
+        con.execute("UPDATE users SET balance = 0, pending_balance = 0 WHERE user_id = ?", (user_id,))
+        con.commit()
+        return True
+    except Exception:
+        return False
+    finally:
+        con.close()
