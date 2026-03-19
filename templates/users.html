@@ -21,11 +21,23 @@
             <h2 style="margin: 0; font-size: 1.2rem;">{{ strings.DASH_U_PAGE_TITLE }}</h2>
             <span style="font-size: 0.75rem; opacity: 0.6;">{{ total_count }} {{ strings.DASH_RESULTS }}</span>
         </div>
+
+        <!-- Filter Tabs -->
+        <div style="display: flex; gap: 4px; background: rgba(0,0,0,0.2); padding: 4px; border-radius: 12px;">
+            {% for tab, label in [('all', strings.DASH_FILTER_ALL), ('banned', strings.DASH_U_STATUS_BANNED)] %}
+            <a href="{{ url_for('users', status=tab, q=search_query) }}" 
+               style="flex: 1; text-align: center; padding: 8px; border-radius: 8px; text-decoration: none; font-size: 0.85rem; font-weight: 600; color: {% if current_status == tab %}white{% else %}var(--text-secondary){% endif %}; background: {% if current_status == tab %}var(--accent-blue){% else %}transparent{% endif %}; transition: all 0.3s;">
+               {{ label }}
+            </a>
+            {% endfor %}
+        </div>
+
         <form action="{{ url_for('users') }}" method="GET" style="display: flex; gap: 8px;">
+            <input type="hidden" name="status" value="{{ current_status }}">
             <input type="text" name="q" placeholder="{{ strings.DASH_U_SEARCH_PH }}" value="{{ search_query or '' }}" class="form-control" style="height: 44px; font-size: 0.9rem;">
             <button type="submit" class="btn btn-primary" style="width: 50px; height: 44px;"><i class="fa-solid fa-magnifying-glass"></i></button>
             {% if search_query %}
-            <a href="{{ url_for('users') }}" class="btn btn-danger" style="width: 50px; height: 44px;"><i class="fa-solid fa-xmark"></i></a>
+            <a href="{{ url_for('users', status=current_status) }}" class="btn btn-danger" style="width: 50px; height: 44px;"><i class="fa-solid fa-xmark"></i></a>
             {% endif %}
         </form>
     </div>
@@ -61,6 +73,10 @@
                         <span style="color: var(--accent-purple); font-weight: 700;">{{ user.approved_count }}</span>
                     </div>
                 </div>
+                <div style="margin-top: 10px; padding-top: 8px; border-top: 1px dashed var(--border-card); display: flex; justify-content: space-between; align-items: center;">
+                    <span style="font-size: 0.75rem; opacity: 0.7;">{{ strings.DASH_U_TOTAL_WITHDRAWN }}:</span>
+                    <span style="font-size: 0.85rem; font-weight: 700; color: #10b981;">${{ "%.2f"|format(user.paid_total or 0) }}</span>
+                </div>
             </div>
         </div>
         {% else %}
@@ -72,7 +88,7 @@
     {% if total_pages > 1 %}
     <div style="margin-top: 1.5rem; display: flex; justify-content: center; align-items: center; gap: 15px;">
         {% if page > 1 %}
-        <a href="{{ url_for('users', q=search_query, page=page-1) }}" 
+        <a href="{{ url_for('users', status=current_status, q=search_query, page=page-1) }}" 
            class="btn" style="width: 40px; height: 40px; padding: 0; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.05); border: 1px solid var(--border-card);">
             <i class="fa-solid fa-chevron-left"></i>
         </a>
@@ -85,7 +101,7 @@
         <span style="font-size: 0.9rem; font-weight: 600;">{{ strings.PAGE_LABEL }} {{ page }} {{ strings.OF_LABEL }} {{ total_pages }}</span>
 
         {% if page < total_pages %}
-        <a href="{{ url_for('users', q=search_query, page=page+1) }}" 
+        <a href="{{ url_for('users', status=current_status, q=search_query, page=page+1) }}" 
            class="btn" style="width: 40px; height: 40px; padding: 0; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.05); border: 1px solid var(--border-card);">
             <i class="fa-solid fa-chevron-right"></i>
         </a>

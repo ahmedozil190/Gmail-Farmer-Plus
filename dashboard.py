@@ -121,6 +121,7 @@ def index():
 @requires_auth
 def users():
     search = request.args.get("q", "").strip()
+    current_status = request.args.get("status", "all")
     page = request.args.get("page", 1, type=int)
     per_page = 20
     offset = (page - 1) * per_page
@@ -128,19 +129,27 @@ def users():
     con = database._conn()
     query = """
         SELECT u.*, 
-        (SELECT COUNT(*) FROM withdrawals WHERE user_id = u.user_id AND status = 'completed') as paid_count,
+        (SELECT SUM(amount) FROM withdrawals WHERE user_id = u.user_id AND status = 'completed') as paid_total,
         (SELECT COUNT(*) FROM submissions WHERE user_id = u.user_id AND status = 'approved') as approved_count,
         (SELECT COUNT(*) FROM submissions WHERE user_id = u.user_id AND status = 'rejected') as rejected_count
         FROM users u
     """
     params = []
-    where_clause = ""
+    where_clauses = []
+    
     if search:
-        where_clause = " WHERE u.full_name LIKE ? OR u.username LIKE ? OR CAST(u.user_id AS TEXT) LIKE ?"
-        params = [f"%{search}%", f"%{search}%", f"%{search}%"]
+        where_clauses.append("(u.full_name LIKE ? OR u.username LIKE ? OR CAST(u.user_id AS TEXT) LIKE ?)")
+        params.extend([f"%{search}%", f"%{search}%", f"%{search}%"])
+    
+    if current_status == 'banned':
+        where_clauses.append("u.status = 'banned'")
+    
+    where_clause = ""
+    if where_clauses:
+        where_clause = " WHERE " + " AND ".join(where_clauses)
         
     # Stats
-    total_count = con.execute("SELECT COUNT(*) FROM users" + (where_clause if search else ""), params).fetchone()[0]
+    total_count = con.execute("SELECT COUNT(*) FROM users" + where_clause, params).fetchone()[0]
     total_pages = (total_count + per_page - 1) // per_page
     
     banned_count = con.execute("SELECT COUNT(*) FROM users WHERE status = 'banned'").fetchone()[0]
@@ -152,6 +161,7 @@ def users():
     return render_template("users.html", 
                            users=users_list, 
                            search_query=search,
+                           current_status=current_status,
                            page=page,
                            total_pages=total_pages,
                            total_count=total_count,

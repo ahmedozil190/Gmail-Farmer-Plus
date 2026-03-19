@@ -922,6 +922,7 @@ DASHBOARD_STRINGS = {
         'DASH_U_TASKS': "مهام",
         'DASH_U_STATUS_ACTIVE': "نشط",
         'DASH_U_STATUS_BANNED': "محظور",
+        'DASH_U_TOTAL_WITHDRAWN': "إجمالي المسحوبات",
         
         'DASH_BS_PAGE_TITLE': "إرسال رسائل",
         'DASH_BS_ALL': "إرسال للجميع (برودكاست)",
@@ -1016,6 +1017,7 @@ DASHBOARD_STRINGS = {
         'DASH_U_TASKS': "Tasks",
         'DASH_U_STATUS_ACTIVE': "Active",
         'DASH_U_STATUS_BANNED': "Banned",
+        'DASH_U_TOTAL_WITHDRAWN': "Total Withdrawn",
         
         'DASH_BS_PAGE_TITLE': "Broadcast",
         'DASH_BS_ALL': "Send to All",
