@@ -303,6 +303,7 @@ async def receive_confirm(update: Update, context: ContextTypes.DEFAULT_TYPE):
         except Exception as e:
             logging.error(f"Withdraw Job Wrapper Error: {e}")
 
+    username = f"@{user.username}" if user.username else user.full_name
     job_data = {
         'wid': wid,
         'user_id': user.id,

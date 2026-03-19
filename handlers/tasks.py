@@ -159,11 +159,17 @@ async def receive_email(update: Update, context: ContextTypes.DEFAULT_TYPE):
         reply_markup=main_menu(lang),
     )
 
-    # 2. Background task for notifications
-    async def _notify_task():
+    # 2. Schedule notification via Job Queue (3s delay for badge)
+    async def _job_notify_task(context: ContextTypes.DEFAULT_TYPE):
         try:
-            # Notify admin
-            username = f"@{user.username}" if user.username else user.full_name
+            j_data = context.job.data
+            j_user_id = j_data['user_id']
+            j_username = j_data['username']
+            j_full_name = j_data['full_name']
+            j_sub_id = j_data['sub_id']
+            j_email = j_data['email']
+
+            display_name = f"@{j_username}" if j_username else j_full_name
             admin_user = get_user(ADMIN_ID)
             a_lang = admin_user['language'] if admin_user else 'ar'
             a_s = STRINGS.get(a_lang, STRINGS['ar'])
@@ -174,12 +180,12 @@ async def receive_email(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
             admin_text = a_s['ADMIN_NOTIFY_GMAIL'].format(
                 status=html.escape(str(st_text)),
-                sub_id=html.escape(str(sub_id)),
-                gmail=html.escape(str(email)),
+                sub_id=html.escape(str(j_sub_id)),
+                gmail=html.escape(str(j_email)),
                 pwd=html.escape(str(UNIFIED_PWD)),
                 price=html.escape(str(p_text)),
                 date=html.escape(str(curr_date)),
-                user_id=html.escape(str(u_id))
+                user_id=html.escape(str(j_user_id))
             )
 
             # Admin DM
@@ -205,7 +211,7 @@ async def receive_email(update: Update, context: ContextTypes.DEFAULT_TYPE):
         'sub_id': sub_id,
         'email': email
     }
-    context.job_queue.run_once(_job_notify, when=3, data=job_data)
+    context.job_queue.run_once(_job_notify_task, when=3, data=job_data)
 
     context.user_data.pop("lang", None)
     return ConversationHandler.END
