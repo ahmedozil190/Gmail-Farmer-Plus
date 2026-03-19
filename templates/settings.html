@@ -198,22 +198,47 @@
 
     <hr style="border-top: 1px solid rgba(255,255,255,0.05); margin: 3rem 0;">
 
+    <style>
+        /* Premium Alert Styling Overrides */
+        .alert {
+            background: rgba(22, 24, 33, 0.9) !important;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white !important;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px 20px;
+        }
+        .alert-success { border-color: rgba(16, 185, 129, 0.3); }
+        .alert-danger { border-color: rgba(239, 68, 68, 0.3); }
+        .alert::before {
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+        }
+        .alert-success::before { content: "\f058"; color: var(--success); }
+        .alert-danger::before { content: "\f06a"; color: var(--danger); }
+    </style>
+
     <div style="margin-bottom: 2rem;">
         <h2 style="margin: 0; font-size: 1.25rem; color: #ef4444; font-weight: 700;">{{ strings.LBL_RESET_SETTINGS }}</h2>
     </div>
 
     <!-- Global Reset Card -->
-    <div class="list-item" style="border-color: rgba(239, 68, 68, 0.2); background: rgba(239, 68, 68, 0.03); padding: 20px; margin-bottom: 20px;">
-        <div style="display: flex; flex-direction: column; gap: 15px;">
+    <div class="list-item" style="border-color: rgba(239, 68, 68, 0.2); background: rgba(239, 68, 68, 0.03); padding: 22px; margin-bottom: 20px; border-radius: 20px;">
+        <div style="display: flex; flex-direction: column; gap: 16px;">
             <div style="display: flex; align-items: flex-start; gap: 12px;">
-                <i class="fa-solid fa-triangle-exclamation" style="color: #ef4444; font-size: 1.2rem; margin-top: 2px;"></i>
+                <div style="width: 40px; height: 40px; background: rgba(239, 68, 68, 0.1); border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                    <i class="fa-solid fa-triangle-exclamation" style="color: #ef4444; font-size: 1.2rem;"></i>
+                </div>
                 <div>
-                    <div style="font-weight: 700; color: #f87171; font-size: 1rem; margin-bottom: 4px;">{{ strings.LBL_GLOBAL_RESET }}</div>
-                    <div style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.4;">{{ strings.MSG_RESET_CONFIRM }}</div>
+                    <div style="font-weight: 700; color: #f87171; font-size: 1.05rem; margin-bottom: 4px;">{{ strings.LBL_GLOBAL_RESET }}</div>
+                    <div style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5;">{{ strings.MSG_RESET_CONFIRM }}</div>
                 </div>
             </div>
-            <form action="{{ url_for('reset_global') }}" method="POST" onsubmit="return confirm('{{ strings.MSG_RESET_CONFIRM }}')">
-                <button type="submit" class="btn" style="background: #ef4444; color: white !important; height: 50px; border-radius: 12px; font-weight: 700; width: 100%; border: none; box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);">
+            <form action="{{ url_for('reset_global') }}" method="POST" id="global-reset-form">
+                <button type="button" class="btn" onclick="openResetModal('global-reset-form')" style="background: #ef4444; color: white !important; height: 50px; border-radius: 14px; font-weight: 700; width: 100%; border: none; box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3); transition: all 0.2s;">
                     {{ strings.BTN_RESET_GLOBAL }}
                 </button>
             </form>
@@ -221,15 +246,20 @@
     </div>
 
     <!-- User Reset Card -->
-    <div class="list-item" style="padding: 20px; border-color: rgba(255,255,255,0.1);">
-        <div style="font-weight: 700; color: white; font-size: 1rem; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
-            <i class="fa-solid fa-user-gear" style="color: var(--warning);"></i>
+    <div class="list-item" style="padding: 22px; border-color: rgba(255,255,255,0.08); border-radius: 20px;">
+        <div style="font-weight: 700; color: white; font-size: 1.05rem; margin-bottom: 16px; display: flex; align-items: center; gap: 10px;">
+            <div style="width: 40px; height: 40px; background: rgba(245, 158, 11, 0.1); border-radius: 10px; display: flex; align-items: center; justify-content: center;">
+                <i class="fa-solid fa-user-gear" style="color: var(--warning);"></i>
+            </div>
             {{ strings.LBL_USER_RESET }}
         </div>
-        <form action="{{ url_for('reset_user_data') }}" method="POST" onsubmit="return confirm('{{ strings.MSG_RESET_CONFIRM }}')">
-            <div style="display: flex; gap: 10px;">
-                <input type="text" name="user_id" class="form-control" placeholder="{{ strings.LBL_USER_ID }}" required style="flex: 2; margin-bottom: 0;">
-                <button type="submit" class="btn" style="background: var(--warning); color: #000 !important; font-weight: 700; border-radius: 12px; flex: 1.5; border: none; height: 50px;">
+        <form action="{{ url_for('reset_user_data') }}" method="POST" id="user-reset-form">
+            <div style="display: flex; flex-direction: column; gap: 12px;">
+                <div class="form-group" style="margin-bottom: 0;">
+                    <label class="form-label" style="font-size: 0.75rem;">{{ strings.LBL_USER_ID }}</label>
+                    <input type="text" name="user_id" class="form-control" placeholder="12345678" required style="width: 100%; margin-bottom: 0; background: rgba(0,0,0,0.3); border-color: rgba(255,255,255,0.05);">
+                </div>
+                <button type="button" class="btn" onclick="openResetModal('user-reset-form')" style="background: var(--warning); color: #000 !important; font-weight: 700; border-radius: 14px; border: none; height: 50px; width: 100%; transition: all 0.2s;">
                     {{ strings.BTN_RESET_USER }}
                 </button>
             </div>
@@ -237,18 +267,107 @@
     </div>
 </div>
 
+<!-- ═══════════════ CUSTOM RESET CONFIRMATION MODAL ═══════════════ -->
+<div id="reset-confirm-modal" style="
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    background: rgba(0,0,0,0.8);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+">
+    <div style="
+        background: rgba(22,24,33,0.98);
+        border: 1px solid rgba(239,68,68,0.3);
+        border-radius: 28px;
+        padding: 2.5rem 1.5rem 1.5rem;
+        max-width: 380px;
+        width: 100%;
+        box-shadow: 0 25px 70px rgba(0,0,0,0.8), 0 0 0 1px rgba(239,68,68,0.1);
+        text-align: center;
+        animation: resetModalIn 0.3s cubic-bezier(0.34,1.56,0.64,1) both;
+    ">
+        <div style="
+            width: 72px; height: 72px;
+            background: rgba(239,68,68,0.1);
+            border: 1px solid rgba(239,68,68,0.3);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 1.5rem;
+        ">
+            <i class="fa-solid fa-triangle-exclamation" style="font-size: 2rem; color: #ef4444;"></i>
+        </div>
+        <div style="font-size: 1.2rem; font-weight: 700; color: #fff; margin-bottom: 0.75rem;">{{ strings.MSG_RESET_CONFIRM }}</div>
+        <div id="modal-subtitle" style="font-size: 0.9rem; color: #94a3b8; margin-bottom: 2rem; line-height: 1.6;">
+            {{ strings.LBL_GLOBAL_RESET }}
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+            <button onclick="confirmResetAction()" style="
+                height: 52px; border-radius: 16px;
+                background: #ef4444;
+                border: none;
+                color: #fff; font-family: inherit;
+                font-size: 1rem; font-weight: 700;
+                cursor: pointer; transition: all 0.2s;
+            " onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+                {{ strings.DASH_MODAL_REJECT_BTN }}
+            </button>
+            <button onclick="closeResetModal()" style="
+                height: 52px; border-radius: 16px;
+                background: rgba(255,255,255,0.05);
+                border: 1px solid rgba(255,255,255,0.1);
+                color: #94a3b8; font-family: inherit;
+                font-size: 0.95rem; font-weight: 600;
+                cursor: pointer; transition: all 0.2s;
+            " onmouseover="this.style.background='rgba(255,255,255,0.1)'" onmouseout="this.style.background='rgba(255,255,255,0.05)'">
+                {{ strings.DASH_CANCEL }}
+            </button>
+        </div>
+    </div>
+</div>
+
+<style>
+@keyframes resetModalIn {
+    from { opacity: 0; transform: scale(0.9) translateY(30px); }
+    to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+</style>
+
 <script>
-    // Browser alert for reset actions if flash message contains specific keywords
-    window.addEventListener('load', function() {
-        {% with messages = get_flashed_messages() %}
-            {% if messages %}
-                {% for message in messages %}
-                    if ("{{ message }}".includes("تعيين") || "{{ message }}".includes("Reset")) {
-                        alert("{{ message }}");
-                    }
-                {% endfor %}
-            {% endif %}
-        {% endwith %}
+    var _activeResetFormId = null;
+
+    function openResetModal(formId) {
+        _activeResetFormId = formId;
+        var modal = document.getElementById('reset-confirm-modal');
+        var subtitle = document.getElementById('modal-subtitle');
+        
+        if (formId === 'global-reset-form') {
+            subtitle.innerText = "{{ strings.LBL_GLOBAL_RESET }}";
+        } else {
+            subtitle.innerText = "{{ strings.LBL_USER_RESET }}";
+        }
+        
+        modal.style.display = 'flex';
+    }
+
+    function closeResetModal() {
+        document.getElementById('reset-confirm-modal').style.display = 'none';
+        _activeResetFormId = null;
+    }
+
+    function confirmResetAction() {
+        if (_activeResetFormId) {
+            document.getElementById(_activeResetFormId).submit();
+        }
+    }
+
+    // Close on backdrop click
+    document.getElementById('reset-confirm-modal').addEventListener('click', function(e) {
+        if (e.target === this) closeResetModal();
     });
 </script>
 {% endblock %}
