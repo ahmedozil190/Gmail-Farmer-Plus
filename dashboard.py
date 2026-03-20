@@ -974,47 +974,52 @@ def app_task_submit():
 
 @app.route("/app/wallet")
 def app_wallet():
-    user, strings = get_webapp_user()
-    if not user:
-        return redirect(url_for("app_home"))
+    try:
+        user, strings = get_webapp_user()
+        if not user:
+            return redirect(url_for("app_home"))
 
-    user_id = user["user_id"]
-    balance = user["balance"]
-    pending = user["pending_balance"]
+        user_id = user["user_id"]
+        balance = user["balance"]
+        pending = user["pending_balance"]
 
-    conf = database.get_business_config()
-    min_methods = conf["MIN_METHODS"]
-    min_withdraw = min(min_methods.values())
+        conf = database.get_business_config()
+        min_methods = conf["MIN_METHODS"]
+        min_withdraw = min(min_methods.values())
 
-    # Get withdrawals
-    con = database._conn()
-    all_withdrawals = con.execute(
-        "SELECT * FROM withdrawals WHERE user_id = ? ORDER BY created_at DESC", (user_id,)
-    ).fetchall()
-    con.close()
+        # Get withdrawals
+        con = database._conn()
+        all_withdrawals = con.execute(
+            "SELECT * FROM withdrawals WHERE user_id = ? ORDER BY created_at DESC", (user_id,)
+        ).fetchall()
+        con.close()
 
-    # Pagination
-    page = request.args.get('page', 1, type=int)
-    per_page = 20
-    total_items = len(all_withdrawals)
-    total_pages = (total_items + per_page - 1) // per_page
-    start = (page - 1) * per_page
-    end = start + per_page
-    withdrawals = all_withdrawals[start:end]
+        # Pagination
+        page = request.args.get('page', 1, type=int)
+        per_page = 20
+        total_items = len(all_withdrawals)
+        total_pages = (total_items + per_page - 1) // per_page
+        start = (page - 1) * per_page
+        end = start + per_page
+        withdrawals = all_withdrawals[start:end]
 
-    return render_template("app/wallet.html",
-        page=page,
-        active_page="wallet",
-        total_pages=total_pages,
-        user=user,
-        strings=strings,
-        balance=balance,
-        pending=pending,
-        min_withdraw=min_withdraw,
-        methods=PAYMENT_METHODS,
-        min_methods=min_methods,
-        withdrawals=withdrawals
-    )
+        return render_template("app/wallet.html",
+            page=page,
+            active_page="wallet",
+            total_pages=total_pages,
+            user=user,
+            strings=strings,
+            balance=balance,
+            pending=pending,
+            min_withdraw=min_withdraw,
+            methods=list(min_methods.keys()),
+            min_methods=min_methods,
+            withdrawals=withdrawals
+        )
+    except Exception as e:
+        with open("crash.log", "a", encoding="utf-8") as f:
+            f.write(f"Wallet Page Error: {traceback.format_exc()}\n")
+        return f"Internal Server Error - Check crash.log", 500
 
 
 @app.route("/app/withdraw", methods=["POST"])
