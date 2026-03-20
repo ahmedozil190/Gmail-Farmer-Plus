@@ -862,7 +862,6 @@ WEBAPP_STRINGS = {
     },
     'en': {
         'NAV_HOME': "Home",
-
         'NAV_TASKS': "Tasks",
         'NAV_WALLET': "Wallet",
         'NAV_REFERRALS': "Referrals",
@@ -992,6 +991,10 @@ DASHBOARD_STRINGS = {
     'ar': {
         'NAV_HOME': "الرئيسية",
         'NAV_TASKS': "المهام",
+        'DASH_UPDATE_BTN': 'تعديل',
+        'LBL_UNIFIED_PWD': 'كلمة المرور الموحدة (لليدوي)',
+        'LBL_CUSTOM_PRICES': 'أسعار مخصصة',
+        'DASH_INDEX_TITLE': "نظرة عامة",
         'NAV_PAY': "الدفع",
         'NAV_USERS': "المستخدمين",
         'NAV_MSG': "رسائل",
