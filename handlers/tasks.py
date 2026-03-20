@@ -63,18 +63,46 @@ async def receive_task_choice(update: Update, context: ContextTypes.DEFAULT_TYPE
     gmail_price = conf["GMAIL_PRICE"]
     price_text = format_currency_dual(gmail_price, 'USD', lang)
     
-    expected_gmail_btn = s['BTN_TASK_GMAIL'].format(price=price_text)
+    btn_manual = f"{s['BTN_METHOD_MANUAL']} - {price_text}"
+    btn_auto = f"{s['BTN_METHOD_AUTO']} - {price_text}"
     
     if text == s['BTN_BACK_MAIN']:
         return await cancel_task(update, context)
         
-    if text == expected_gmail_btn:
+    if text in [btn_manual, btn_auto]:
         if not conf.get("BUYING_ACTIVE", True):
             await update.message.reply_text(
                 s['TASKS_PAUSED'],
                 parse_mode="HTML"
             )
             return TASK_MENU
+            
+        if text == btn_manual:
+            # Send Instructions
+            from keyboards import task_flow_keyboard
+            
+            await update.message.reply_text(
+                s['TASKS_INSTRUCTIONS'],
+                parse_mode="HTML"
+            )
+            
+            import asyncio
+            await asyncio.sleep(0.5)
+            
+            await update.message.reply_text(
+                s['TASKS_STEPS'],
+                parse_mode="HTML",
+                reply_markup=task_flow_keyboard(lang)
+            )
+            return TASK_CONTINUE
+            
+        elif text == btn_auto:
+            # Send Auto Data Menu
+            from keyboards import remove_keyboard
+            msg = await update.message.reply_text("⏳", reply_markup=remove_keyboard())
+            await msg.delete()
+            return await send_auto_account_data(update, context)
+            
     else:
         from keyboards import tasks_menu_keyboard
         await update.message.reply_text(
@@ -82,70 +110,20 @@ async def receive_task_choice(update: Update, context: ContextTypes.DEFAULT_TYPE
             reply_markup=tasks_menu_keyboard(lang, price_text)
         )
         return TASK_MENU
-        
-    # Send Instructions
-    from keyboards import task_flow_keyboard
-    
-    await update.message.reply_text(
-        s['TASKS_INSTRUCTIONS'],
-        parse_mode="HTML"
-    )
-    
-    import asyncio
-    await asyncio.sleep(0.5)
-    
-    await update.message.reply_text(
-        s['TASKS_STEPS'],
-        parse_mode="HTML",
-        reply_markup=task_flow_keyboard(lang)
-    )
-    
-    return TASK_CONTINUE
-
 
 async def receive_continue(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """User clicked 'Continue'."""
     lang = context.user_data.get('lang', 'ar')
     s = STRINGS.get(lang, STRINGS['ar'])
     
-    from telegram import InlineKeyboardMarkup, InlineKeyboardButton
-    
-    keyboard = [
-        [InlineKeyboardButton(s['BTN_METHOD_MANUAL'], callback_data="method_manual")],
-        [InlineKeyboardButton(s['BTN_METHOD_AUTO'], callback_data="method_auto")]
-    ]
-    reply_markup = InlineKeyboardMarkup(keyboard)
+    from keyboards import task_cancel_only_keyboard
     
     await update.message.reply_text(
-        s['MSG_CHOOSE_METHOD'],
+        s['TASKS_PROMPT_EMAIL_ONLY'],
         parse_mode="HTML",
-        reply_markup=reply_markup
+        reply_markup=task_cancel_only_keyboard(lang)
     )
-    return TASK_METHOD
-
-async def receive_method(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    query = update.callback_query
-    await query.answer()
-    
-    lang = context.user_data.get('lang', 'ar')
-    s = STRINGS.get(lang, STRINGS['ar'])
-    
-    if query.data == "method_manual":
-        # Ask for email (original flow)
-        await query.message.delete()
-        from keyboards import task_cancel_only_keyboard
-        
-        await context.bot.send_message(
-            chat_id=update.effective_chat.id,
-            text=s['TASKS_PROMPT_EMAIL_ONLY'],
-            parse_mode="HTML",
-            reply_markup=task_cancel_only_keyboard(lang)
-        )
-        return TASK_EMAIL
-        
-    elif query.data == "method_auto":
-        await query.message.delete()
-        return await send_auto_account_data(update, context)
+    return TASK_EMAIL
 
 async def send_auto_account_data(update: Update, context: ContextTypes.DEFAULT_TYPE):
     lang = context.user_data.get('lang', 'ar')
@@ -372,9 +350,6 @@ tasks_conv_handler = ConversationHandler(
         ],
         TASK_CONTINUE: [
             MessageHandler(filters.Regex(r"^(متابعة ✅|Continue ✅)$"), receive_continue)
-        ],
-        TASK_METHOD: [
-            CallbackQueryHandler(receive_method, pattern=r"^method_")
         ],
         TASK_AUTO: [
             CallbackQueryHandler(handle_auto_action, pattern=r"^auto_")

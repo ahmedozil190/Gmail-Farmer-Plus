@@ -115,9 +115,11 @@ def language_keyboard(lang: str = 'ar') -> ReplyKeyboardMarkup:
 def tasks_menu_keyboard(lang: str, price_text: str) -> ReplyKeyboardMarkup:
     """Sub-menu displaying available tasks."""
     s = STRINGS.get(lang, STRINGS['ar'])
-    btn_gmail = s['BTN_TASK_GMAIL'].format(price=price_text)
+    btn_manual = f"{s['BTN_METHOD_MANUAL']} - {price_text}"
+    btn_auto = f"{s['BTN_METHOD_AUTO']} - {price_text}"
     kb = [
-        [KeyboardButton(btn_gmail)],
+        [KeyboardButton(btn_manual)],
+        [KeyboardButton(btn_auto)],
         [KeyboardButton(s['BTN_BACK_MAIN'])],
     ]
     return ReplyKeyboardMarkup(kb, resize_keyboard=True)
