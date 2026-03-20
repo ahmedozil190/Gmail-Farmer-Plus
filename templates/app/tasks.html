@@ -41,11 +41,7 @@
         <span class="list-label">{{ task.submitted_at[:10] if task.submitted_at else '' }}</span>
         <span class="list-value">${{ "%.2f"|format(task.price or 0) }}</span>
     </div>
-    {% if task.status == 'rejected' %}
-    <div style="margin-top: 6px; font-size: 0.75rem; color: var(--danger);">
-        💡 {{ strings.TASKS_REJECTED_HINT }}
-    </div>
-    {% endif %}
+
 </div>
 {% endfor %}
 
