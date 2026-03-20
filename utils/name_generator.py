@@ -41,24 +41,22 @@ LAST_NAMES = [
 ]
 
 def generate_strong_password(length=12):
-    """Generate a strong random password."""
-    # Ensure there's at least one lowercase, one uppercase, one digit, and one special character
+    """Generate a strong random alphanumeric password."""
+    # Ensure there's at least one lowercase, one uppercase, one digit
     lower = string.ascii_lowercase
     upper = string.ascii_uppercase
     digits = string.digits
-    special = "!@#$%^&*" # Safe special chars for passwords
 
-    all_chars = lower + upper + digits + special
+    all_chars = lower + upper + digits
     
     password = [
         random.choice(lower),
         random.choice(upper),
-        random.choice(digits),
-        random.choice(special)
+        random.choice(digits)
     ]
     
     # Fill the rest
-    for _ in range(length - 4):
+    for _ in range(length - 3):
         password.append(random.choice(all_chars))
         
     random.shuffle(password)

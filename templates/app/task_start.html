@@ -82,7 +82,7 @@
         <form action="{{ url_for('app_task_submit_auto') }}" method="POST">
             <input type="hidden" id="hidden-gmail" name="gmail" value="{{ auto.email }}">
             <input type="hidden" id="hidden-pwd" name="password" value="{{ auto.password }}">
-            <button type="submit" class="btn btn-primary" style="background: var(--primary-color)">
+            <button type="submit" class="btn btn-primary">
                 <i class="fa-solid fa-bolt"></i> {{ strings.TASK_AUTO_BTN }}
             </button>
         </form>
