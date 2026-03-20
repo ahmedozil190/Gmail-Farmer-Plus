@@ -59,6 +59,13 @@ STRINGS = {
         'ERROR_RETRY': "❌ حدث خطأ، ابدأ من جديد.",
         
         # New Gmail Task Flow
+        'BTN_METHOD_MANUAL': "📝 إنشاء يدوي (تقليدي)",
+        'BTN_METHOD_AUTO': "🤖 إنشاء سريع (أوتوماتيكي)",
+        'MSG_CHOOSE_METHOD': "كيف تفضل إنشاء الحساب الجديد؟\n\n- بالطريقة اليدوية سيتم طلب تفاصيل الإيميل وكلمة المرور منك بعد إنشائه.\n- باختيار الإنشاء السريع سيقوم البوت بتوليد إيميل وباسورد لك تلقائياً.",
+        'MSG_AUTO_DATA': "قم بفتح (Gmail) وأنشئ حساباً جديداً بالبيانات التالية بالملي كالتالي:\n\n👤 الاسم الأول: <code>{first_name}</code>\n👤 اسم العائلة: <code>{last_name}</code>\n📧 البريد: <code>{email}</code>\n🔑 كلمة المرور: <code>{password}</code>\n\n⚠️ <b>مهم جداً:</b> يجب أن تتطابق الأحرف تماماً.\nبعد انتهائك من الإنشاء، اضغط على زر [✅ تم الإنشاء].",
+        'BTN_AUTO_DONE': "✅ تم الإنشاء",
+        'BTN_AUTO_REGEN': "🔄 تغيير البيانات",
+        'BTN_AUTO_CANCEL': "✖️ إلغاء",
         'TASKS_MENU_PROMPT': (
             "📋 قائمة المهام المتاحة\n\n"
             "💰 اختر مهمة الآن وابدأ تحقيق الأرباح.\n"
@@ -405,6 +412,13 @@ STRINGS = {
         'ERROR_RETRY': "❌ An error occurred, start over.",
 
         # New Gmail Task Flow
+        'BTN_METHOD_MANUAL': "📝 Manual Creation",
+        'BTN_METHOD_AUTO': "🤖 Auto-Generated",
+        'MSG_CHOOSE_METHOD': "How would you prefer to create the new account?\n\n- Manual: You provides the details.\n- Auto: Very unique details generated for you.",
+        'MSG_AUTO_DATA': "Open Gmail and create an account with EXACTLY these details:\n\n👤 First Name: <code>{first_name}</code>\n👤 Last Name: <code>{last_name}</code>\n📧 Email: <code>{email}</code>\n🔑 Password: <code>{password}</code>\n\n⚠️ <b>Important:</b> Characters must match exactly.\nWhen done, click [✅ Created].",
+        'BTN_AUTO_DONE': "✅ Created",
+        'BTN_AUTO_REGEN': "🔄 Change Data",
+        'BTN_AUTO_CANCEL': "✖️ Cancel",
         'TASKS_MENU_PROMPT': (
             "📋 Available Tasks List\n\n"
             "💰 Choose a task now and start earning.\n"
@@ -743,6 +757,16 @@ WEBAPP_STRINGS = {
         'TASK_START_SUBMIT_BTN': "تقديم المهمة",
         'TASK_START_BACK': "العودة للمهام",
         
+        'TASK_TAB_MANUAL': "إنشاء يدوي",
+        'TASK_TAB_AUTO': "توليد أوتوماتيكي ⚡",
+        'TASK_AUTO_INFO': "قم بإنشاء حساب Gmail مطابق للبيانات التالية:",
+        'TASK_AUTO_FNAME': "الاسم الأول:",
+        'TASK_AUTO_LNAME': "اسم العائلة:",
+        'TASK_AUTO_EMAIL': "الإيميل:",
+        'TASK_AUTO_PWD': "كلمة المرور:",
+        'TASK_AUTO_BTN': "تأكيد الإنشاء السريع",
+        'TASK_AUTO_REGEN': "تغيير البيانات 🔄",
+        
         'WALLET_TITLE': "💰 المحفظة",
         'WALLET_WITHDRAW_REQ': "💸 طلب سحب رصيد",
         'WALLET_MIN_LIMIT': "الحد الأدنى للسحب هو $%.2f. استمر في العمل!",
@@ -843,6 +867,16 @@ WEBAPP_STRINGS = {
         'TASK_START_SUBMIT_PH': "Enter your Gmail here...",
         'TASK_START_SUBMIT_BTN': "Submit Task",
         'TASK_START_BACK': "Back to Tasks",
+        
+        'TASK_TAB_MANUAL': "Manual Create",
+        'TASK_TAB_AUTO': "Auto Generation ⚡",
+        'TASK_AUTO_INFO': "Create a Gmail account exactly matching this data:",
+        'TASK_AUTO_FNAME': "First Name:",
+        'TASK_AUTO_LNAME': "Last Name:",
+        'TASK_AUTO_EMAIL': "Email:",
+        'TASK_AUTO_PWD': "Password:",
+        'TASK_AUTO_BTN': "Confirm Fast Creation",
+        'TASK_AUTO_REGEN': "Regenerate 🔄",
         
         'WALLET_TITLE': "💰 Wallet",
         'WALLET_WITHDRAW_REQ': "💸 Request Withdrawal",

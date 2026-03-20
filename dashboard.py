@@ -827,7 +827,68 @@ def app_task_start():
     user, strings = get_webapp_user()
     if not user:
         return redirect(url_for("app_home"))
-    return render_template("app/task_start.html", page="tasks", user=user, strings=strings)
+    
+    from utils.name_generator import generate_account_data
+    auto_data = generate_account_data()
+    
+    return render_template("app/task_start.html", page="tasks", user=user, strings=strings, auto=auto_data)
+
+
+@app.route("/app/tasks/submit_auto", methods=["POST"])
+def app_task_submit_auto():
+    user, strings = get_webapp_user()
+    if not user:
+        return redirect(url_for("app_home"))
+
+    user_id = user["user_id"]
+    gmail = request.form.get("gmail", "").strip()
+    password = request.form.get("password", "").strip()
+
+    if not gmail or "@" not in gmail:
+        flash(strings.get("FLASH_INVALID_GMAIL", "Invalid Gmail"), "danger")
+        return redirect(url_for("app_task_start"))
+
+    if database.is_gmail_already_submitted(gmail):
+        flash(strings.get("FLASH_ALREADY_SUBMITTED", "Already submitted"), "warning")
+        return redirect(url_for("app_tasks"))
+        
+    conf = database.get_business_config()
+    sub_id = database.add_submission(user_id, gmail, password)
+
+    try:
+        username = f"@{user.get('username')}" if user.get('username') else user.get('full_name', 'Unknown')
+        admin_user = database.get_user(ADMIN_ID)
+        a_lang = admin_user['language'] if admin_user else 'ar'
+        a_s = STRINGS.get(a_lang, STRINGS['ar'])
+        
+        gmail_price = conf.get("GMAIL_PRICE", 0.20)
+        from utils.currency import format_currency_dual
+        price_text = format_currency_dual(gmail_price, 'USD', a_lang)
+        from datetime import datetime
+        current_date_str = datetime.now().strftime("%Y-%m-%d %H:%M")
+        status_text = a_s.get('DASH_FILTER_PENDING', 'Pending')
+
+        import html
+        admin_msg = a_s['ADMIN_NOTIFY_GMAIL'].format(
+            status=html.escape(str(status_text)),
+            sub_id=html.escape(str(sub_id)),
+            gmail=html.escape(str(gmail)),
+            pwd=html.escape(str(password)),
+            price=html.escape(str(price_text)),
+            date=html.escape(str(current_date_str)),
+            user_id=html.escape(str(user_id))
+        )
+
+        send_webapp_notification(ADMIN_ID, admin_msg)
+            
+        ch_id = conf.get("EMAILS_CHANNEL_ID")
+        if ch_id and "Add_In_DotEnv" not in str(ch_id):
+            send_webapp_notification(ch_id, admin_msg)
+    except Exception as e:
+        pass # Handle silently
+
+    flash(strings.get("FLASH_TASK_SUCCESS", "Task submitted!"), "success")
+    return redirect(url_for("app_tasks"))
 
 
 @app.route("/app/tasks/submit", methods=["POST"])

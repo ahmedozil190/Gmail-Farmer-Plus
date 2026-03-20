@@ -5,6 +5,15 @@
     <h2 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 1rem;">{{ strings.TASK_START_TITLE }}</h2>
 </div>
 
+<style>
+.tab-container { display: flex; border-bottom: 2px solid rgba(255,255,255,0.1); margin-bottom: 1rem; }
+.tab-btn { flex: 1; padding: 10px; text-align: center; cursor: pointer; color: var(--text-muted); border-bottom: 2px solid transparent; margin-bottom: -2px; font-weight: bold; transition: all 0.3s ease;}
+.tab-btn.active { color: var(--primary-color); border-bottom-color: var(--primary-color); }
+.tab-content { display: none; }
+.tab-content.active { display: block; animation: fadeIn 0.3s ease; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+</style>
+
 <!-- Instructions -->
 <div class="glass-card">
     <div class="card-title">{{ strings.TASK_START_INSTRUCTIONS }}</div>
@@ -30,19 +39,65 @@
     </div>
 </div>
 
-<!-- Submit Form -->
-<div class="glass-card">
-    <div class="card-title">{{ strings.TASK_START_SUBMIT_LBL }}</div>
-    <form action="{{ url_for('app_task_submit') }}" method="POST">
-        <div class="form-group">
-            <label class="form-label">{{ strings.TASK_START_SUBMIT_LBL }}</label>
-            <input type="email" name="gmail" class="form-control" placeholder="{{ strings.TASK_START_SUBMIT_PH }}" required>
-        </div>
-        <button type="submit" class="btn btn-primary">
-            <i class="fa-solid fa-paper-plane"></i> {{ strings.TASK_START_SUBMIT_BTN }}
-        </button>
-    </form>
+<!-- Tabs -->
+<div class="tab-container">
+    <div class="tab-btn active" onclick="switchTab('manual', this)">{{ strings.TASK_TAB_MANUAL }}</div>
+    <div class="tab-btn" onclick="switchTab('auto', this)">{{ strings.TASK_TAB_AUTO }}</div>
 </div>
+
+<div id="tab-manual" class="tab-content active">
+    <!-- Submit Form -->
+    <div class="glass-card">
+        <div class="card-title">{{ strings.TASK_START_SUBMIT_LBL }}</div>
+        <form action="{{ url_for('app_task_submit') }}" method="POST">
+            <div class="form-group">
+                <label class="form-label">{{ strings.TASK_START_SUBMIT_LBL }}</label>
+                <input type="email" name="gmail" class="form-control" placeholder="{{ strings.TASK_START_SUBMIT_PH }}" required>
+            </div>
+            <button type="submit" class="btn btn-primary">
+                <i class="fa-solid fa-paper-plane"></i> {{ strings.TASK_START_SUBMIT_BTN }}
+            </button>
+        </form>
+    </div>
+</div>
+
+<div id="tab-auto" class="tab-content">
+    <div class="glass-card" style="border: 1px solid var(--primary-color);">
+        <div class="card-title" style="color: var(--primary-color)">{{ strings.TASK_TAB_AUTO }}</div>
+        <p style="font-size: 0.85rem; margin-bottom: 1rem; color: var(--text-muted);">{{ strings.TASK_AUTO_INFO }}</p>
+        
+        <div style="background: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px; margin-bottom: 15px; font-family: monospace; font-size: 0.9rem; line-height: 1.6;">
+            <div><b>{{ strings.TASK_AUTO_FNAME }}</b> <span style="user-select: all;">{{ auto.first_name }}</span></div>
+            <div><b>{{ strings.TASK_AUTO_LNAME }}</b> <span style="user-select: all;">{{ auto.last_name }}</span></div>
+            <div><b>{{ strings.TASK_AUTO_EMAIL }}</b> <span style="color:var(--primary-color); user-select: all; font-weight: bold;">{{ auto.email }}</span></div>
+            <div><b>{{ strings.TASK_AUTO_PWD }}</b> <span style="user-select: all;">{{ auto.password }}</span></div>
+        </div>
+        
+        <div style="display:flex; gap:10px; margin-bottom: 1rem;">
+             <a href="{{ url_for('app_task_start') }}" class="btn btn-outline btn-sm" style="flex:1">
+                 {{ strings.TASK_AUTO_REGEN }}
+             </a>
+        </div>
+        
+        <form action="{{ url_for('app_task_submit_auto') }}" method="POST">
+            <input type="hidden" name="gmail" value="{{ auto.email }}">
+            <input type="hidden" name="password" value="{{ auto.password }}">
+            <button type="submit" class="btn btn-primary" style="background: var(--primary-color)">
+                <i class="fa-solid fa-bolt"></i> {{ strings.TASK_AUTO_BTN }}
+            </button>
+        </form>
+    </div>
+</div>
+
+<script>
+function switchTab(tabId, el) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    
+    el.classList.add('active');
+    document.getElementById('tab-' + tabId).classList.add('active');
+}
+</script>
 
 <div style="text-align: center; margin-top: 1rem;">
     <a href="{{ url_for('app_tasks') }}" class="btn btn-outline btn-sm" style="width: auto; display: inline-flex;">
