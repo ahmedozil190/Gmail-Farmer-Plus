@@ -796,7 +796,7 @@ WEBAPP_STRINGS = {
             "🤖 <b>تعليمات الإنشاء السريع</b>\n\n"
             "⚠️ يجب استخدام البيانات المولدة أدناه (الاسم، البريد، الباسورد) بالملي.\n"
             "⛔️ أي تغيير في البيانات سيؤدي لرفض الحساب تلقائياً.\n"
-            "📱 تأكد من إنشاء الحساب من متصفح خفي أو هاتف نظيف."
+            "📱 <b>يجب إنشاء الحساب من الهاتف فقط وليس من الكمبيوتر.</b>"
         ),
         'TASKS_AUTO_STEPS': (
             "🚀 <b>خطوات الإنشاء السريع:</b>\n\n"
@@ -920,7 +920,7 @@ WEBAPP_STRINGS = {
             "🤖 <b>Fast Creation Instructions</b>\n\n"
             "⚠️ You must use the generated data below (Name, Email, Password) exactly.\n"
             "⛔️ Any data discrepancy will lead to automatic rejection.\n"
-            "📱 Make sure to create the account from an incognito window or a clean device."
+            "📱 <b>Account must be created from your phone only, NOT from a computer.</b>"
         ),
         'TASKS_AUTO_STEPS': (
             "🚀 <b>Fast Creation Steps:</b>\n\n"

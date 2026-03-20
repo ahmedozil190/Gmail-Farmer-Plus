@@ -822,6 +822,7 @@ def app_tasks():
         strings=strings,
         tasks=tasks,
         gmail_price=conf["GMAIL_PRICE"],
+        gmail_price_auto=conf["GMAIL_PRICE_AUTO"],
         buying_active=conf["BUYING_ACTIVE"]
     )
 
