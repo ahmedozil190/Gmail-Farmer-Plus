@@ -740,6 +740,9 @@ WEBAPP_STRINGS = {
         'NAV_WALLET': "المحفظة",
         'NAV_REFERRALS': "الإحالات",
         
+        'BANNED_TITLE': "✋ تم حظرك",
+        'BANNED_MSG': "❌ <b>عذراً، تم حظرك من استخدام النظام.</b>\nلقد تم تقييد وصولك إلى لوحة التحكم بسبب مخالفة القوانين.",
+        
         'HOME_WELCOME': "مرحباً بك مجدداً 👋",
         'HOME_GREETING': "نحن سعداء برؤيتك مرة أخرى",
         'HOME_BALANCE': "الرصيد المتاح",
@@ -865,6 +868,9 @@ WEBAPP_STRINGS = {
         'NAV_TASKS': "Tasks",
         'NAV_WALLET': "Wallet",
         'NAV_REFERRALS': "Referrals",
+
+        'BANNED_TITLE': "✋ You are Banned",
+        'BANNED_MSG': "❌ <b>Sorry, you have been banned from using the system.</b>\nYour access to the dashboard has been restricted due to a violation of the rules.",
         
         'HOME_WELCOME': "Welcome back 👋",
         'HOME_GREETING': "We are glad to see you again",

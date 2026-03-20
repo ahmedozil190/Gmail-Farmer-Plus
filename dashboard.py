@@ -765,26 +765,29 @@ def get_webapp_user():
             database.update_user_language(user_id, lang)
         
         if not user:
-            return None, None
+            return None, None, False
 
         # sqlite3.Row does not have a .get method, convert to dict first
         user_dict = dict(user)
+        is_banned = user_dict.get("status") == "banned"
+        
         lang = user_dict.get("language", "ar")
         if lang not in WEBAPP_STRINGS: lang = "ar"
         
-        return user_dict, WEBAPP_STRINGS[lang]
+        return user_dict, WEBAPP_STRINGS[lang], is_banned
     except Exception as e:
         print(f"get_webapp_user CRASH: {traceback.format_exc()}")
-        return None, None
         with open("crash.log", "a", encoding="utf-8") as f:
             f.write(f"get_webapp_user CRASH: {traceback.format_exc()}\n")
-        return None, None
+        return None, None, False
 
 
 @app.route("/app/")
 def app_home():
     try:
-        user, strings = get_webapp_user()
+        user, strings, is_banned = get_webapp_user()
+        if is_banned:
+            return render_template("app/banned.html", strings=strings), 403
         if not user:
             return render_template("app/error.html", user=None, strings=None), 403
 
@@ -825,7 +828,9 @@ def app_home():
 
 @app.route("/app/tasks")
 def app_tasks():
-    user, strings = get_webapp_user()
+    user, strings, is_banned = get_webapp_user()
+    if is_banned:
+        return render_template("app/banned.html", strings=strings), 403
     if not user:
         return redirect(url_for("app_home"))
 
@@ -859,7 +864,9 @@ def app_tasks():
 
 @app.route("/app/tasks/manual")
 def app_task_manual():
-    user, strings = get_webapp_user()
+    user, strings, is_banned = get_webapp_user()
+    if is_banned:
+        return render_template("app/banned.html", strings=strings), 403
     if not user:
         return redirect(url_for("app_home"))
     return render_template("app/task_manual.html", active_page="tasks", user=user, strings=strings)
@@ -867,7 +874,9 @@ def app_task_manual():
 
 @app.route("/app/tasks/auto")
 def app_task_auto():
-    user, strings = get_webapp_user()
+    user, strings, is_banned = get_webapp_user()
+    if is_banned:
+        return render_template("app/banned.html", strings=strings), 403
     if not user:
         return redirect(url_for("app_home"))
     
@@ -880,8 +889,8 @@ def app_task_auto():
 
 @app.route("/app/tasks/api/generate")
 def app_task_api_generate():
-    user, _ = get_webapp_user()
-    if not user:
+    user, _, is_banned = get_webapp_user()
+    if is_banned or not user:
         return {"error": "Unauthorized"}, 403
         
     from utils.name_generator import generate_account_data
@@ -891,8 +900,8 @@ def app_task_api_generate():
 
 @app.route("/app/tasks/submit_auto", methods=["POST"])
 def app_task_submit_auto():
-    user, strings = get_webapp_user()
-    if not user:
+    user, strings, is_banned = get_webapp_user()
+    if is_banned or not user:
         return redirect(url_for("app_home"))
 
     user_id = user["user_id"]
@@ -949,8 +958,8 @@ def app_task_submit_auto():
 
 @app.route("/app/tasks/submit", methods=["POST"])
 def app_task_submit():
-    user, strings = get_webapp_user()
-    if not user:
+    user, strings, is_banned = get_webapp_user()
+    if is_banned or not user:
         return redirect(url_for("app_home"))
 
     user_id = user["user_id"]
@@ -1014,11 +1023,13 @@ def app_task_submit():
 
 @app.route("/app/wallet")
 def app_wallet():
-    try:
-        user, strings = get_webapp_user()
-        if not user:
-            return redirect(url_for("app_home"))
+    user, strings, is_banned = get_webapp_user()
+    if is_banned:
+        return render_template("app/banned.html", strings=strings), 403
+    if not user:
+        return redirect(url_for("app_home"))
 
+    try:
         user_id = user["user_id"]
         balance = user["balance"]
         pending = user["pending_balance"]
@@ -1062,10 +1073,10 @@ def app_wallet():
         return f"Internal Server Error - Check crash.log", 500
 
 
-@app.route("/app/withdraw", methods=["POST"])
-def app_withdraw():
-    user, strings = get_webapp_user()
-    if not user:
+@app.route("/app/wallet/withdraw", methods=["POST"])
+def app_wallet_withdraw():
+    user, strings, is_banned = get_webapp_user()
+    if is_banned or not user:
         return redirect(url_for("app_home"))
 
     user_id = user["user_id"]
@@ -1139,7 +1150,9 @@ def app_withdraw():
 
 @app.route("/app/referrals")
 def app_referrals():
-    user, strings = get_webapp_user()
+    user, strings, is_banned = get_webapp_user()
+    if is_banned:
+        return render_template("app/banned.html", strings=strings), 403
     if not user:
         return redirect(url_for("app_home"))
 

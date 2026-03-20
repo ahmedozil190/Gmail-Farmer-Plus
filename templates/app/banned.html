@@ -1,0 +1,29 @@
+{% extends "app/layout.html" %}
+
+{% block content %}
+<div style="text-align: center; padding: 4rem 2rem; color: #fff;">
+    <div style="font-size: 5rem; margin-bottom: 2.5rem; filter: drop-shadow(0 0 20px rgba(255, 0, 0, 0.3)); animation: pulse 2s infinite;">🛑</div>
+    
+    <div class="glass-card" style="padding: 2.5rem 1.5rem; background: rgba(255, 59, 48, 0.08); border: 1px solid rgba(255, 59, 48, 0.2);">
+        <h2 style="font-weight: 800; font-size: 1.8rem; margin-bottom: 1.5rem; color: #ff3b30;">{{ strings.BANNED_TITLE }}</h2>
+        
+        <div style="height: 2px; width: 50px; background: #ff3b30; margin: 0 auto 1.5rem; border-radius: 2px; opacity: 0.5;"></div>
+        
+        <div style="line-height: 1.6; font-size: 1.05rem; color: rgba(255, 255, 255, 0.9);">
+            {{ strings.BANNED_MSG|safe }}
+        </div>
+    </div>
+
+    <p style="margin-top: 2.5rem; opacity: 0.6; font-size: 0.9rem; font-style: italic;">
+        {{ strings.HOME_GREETING }}
+    </p>
+</div>
+
+<style>
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+</style>
+{% endblock %}
