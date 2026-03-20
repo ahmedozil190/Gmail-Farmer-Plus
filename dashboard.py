@@ -832,10 +832,17 @@ def app_task_start():
     if not user:
         return redirect(url_for("app_home"))
     
+    active_tab = request.args.get('tab', 'manual')
     from utils.name_generator import generate_account_data
     auto_data = generate_account_data()
     
-    return render_template("app/task_start.html", page="tasks", user=user, strings=strings, auto=auto_data)
+    return render_template("app/task_start.html", 
+        active_page="tasks", 
+        active_tab=active_tab,
+        user=user, 
+        strings=strings, 
+        auto=auto_data
+    )
 
 
 @app.route("/app/tasks/api/generate")

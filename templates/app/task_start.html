@@ -41,11 +41,11 @@
 
 <!-- Tabs -->
 <div class="tab-container">
-    <div class="tab-btn active" onclick="switchTab('manual', this)">{{ strings.TASK_TAB_MANUAL }}</div>
-    <div class="tab-btn" onclick="switchTab('auto', this)">{{ strings.TASK_TAB_AUTO }}</div>
+    <div class="tab-btn {% if active_tab == 'manual' %}active{% endif %}" onclick="switchTab('manual', this)">{{ strings.TASK_TAB_MANUAL }}</div>
+    <div class="tab-btn {% if active_tab == 'auto' %}active{% endif %}" onclick="switchTab('auto', this)">{{ strings.TASK_TAB_AUTO }}</div>
 </div>
 
-<div id="tab-manual" class="tab-content active">
+<div id="tab-manual" class="tab-content {% if active_tab == 'manual' %}active{% endif %}">
     <!-- Submit Form -->
     <div class="glass-card">
         <div class="card-title">{{ strings.TASK_START_SUBMIT_LBL }}</div>
