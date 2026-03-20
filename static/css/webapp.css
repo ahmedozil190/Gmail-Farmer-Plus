@@ -214,7 +214,7 @@ body::before {
     font-size: 11px;
     flex-shrink: 0;
 }
-.status-icon.approved { background: #2ecc71; color: #082913; }
+.status-icon.approved, .status-icon.completed { background: #2ecc71; color: #082913; }
 .status-icon.rejected { background: #e74c3c; color: #3d0e0a; }
 .status-icon.pending { background: #f1c40f; color: #3d2f01; }
 

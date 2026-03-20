@@ -1012,7 +1012,7 @@ def app_wallet():
             balance=balance,
             pending=pending,
             min_withdraw=min_withdraw,
-            methods=list(min_methods.keys()),
+            methods=[m for m in min_methods.keys() if m != 'DEFAULT'],
             min_methods=min_methods,
             withdrawals=withdrawals
         )
