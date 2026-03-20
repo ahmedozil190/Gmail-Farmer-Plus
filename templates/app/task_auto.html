@@ -9,7 +9,7 @@
 <div class="glass-card">
     <div class="card-title">{{ strings.TASK_START_INSTRUCTIONS }}</div>
     <div style="font-size: 0.85rem; line-height: 1.8;">
-        {{ strings.TASKS_AUTO_INSTRUCTIONS|safe|replace('\n', '<br>') }}
+        {{ strings.TASKS_AUTO_INSTRUCTIONS|replace('\n', '<br>')|safe }}
     </div>
 </div>
 
@@ -17,7 +17,7 @@
 <div class="glass-card">
     <div class="card-title">{{ strings.TASK_START_STEPS }}</div>
     <div style="font-size: 0.85rem; line-height: 2;">
-        {{ strings.TASKS_AUTO_STEPS|safe|replace('\n', '<br>') }}
+        {{ strings.TASKS_AUTO_STEPS|replace('\n', '<br>')|safe }}
     </div>
 </div>
 
