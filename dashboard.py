@@ -834,6 +834,17 @@ def app_task_start():
     return render_template("app/task_start.html", page="tasks", user=user, strings=strings, auto=auto_data)
 
 
+@app.route("/app/tasks/api/generate")
+def app_task_api_generate():
+    user, _ = get_webapp_user()
+    if not user:
+        return {"error": "Unauthorized"}, 403
+        
+    from utils.name_generator import generate_account_data
+    auto_data = generate_account_data()
+    return auto_data, 200
+
+
 @app.route("/app/tasks/submit_auto", methods=["POST"])
 def app_task_submit_auto():
     user, strings = get_webapp_user()
