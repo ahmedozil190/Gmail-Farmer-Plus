@@ -792,6 +792,19 @@ WEBAPP_STRINGS = {
         'TASK_AUTO_PWD': "كلمة المرور:",
         'TASK_AUTO_BTN': "تأكيد الإنشاء السريع",
         'TASK_AUTO_REGEN': "تغيير البيانات 🔄",
+        'TASKS_AUTO_INSTRUCTIONS': (
+            "🤖 <b>تعليمات الإنشاء السريع</b>\n\n"
+            "⚠️ يجب استخدام البيانات المولدة أدناه (الاسم، البريد، الباسورد) بالملي.\n"
+            "⛔️ أي تغيير في البيانات سيؤدي لرفض الحساب تلقائياً.\n"
+            "📱 تأكد من إنشاء الحساب من متصفح خفي أو هاتف نظيف."
+        ),
+        'TASKS_AUTO_STEPS': (
+            "🚀 <b>خطوات الإنشاء السريع:</b>\n\n"
+            "1️⃣ انسخ البيانات المولدة أدناه (الاسم والبريد والباسورد)\n"
+            "2️⃣ افتح Gmail وأنشئ الحساب بهذه البيانات تماماً\n"
+            "3️⃣ بعد الانتهاء، اضغط على زر [تأكيد الإنشاء السريع] بالأسفل\n"
+            "4️⃣ انتظر مراجعة الحساب وإضافة الرصيد لمحفظتك"
+        ),
         
         'WALLET_TITLE': "💰 المحفظة",
         'WALLET_WITHDRAW_REQ': "💸 طلب سحب رصيد",
@@ -902,7 +915,20 @@ WEBAPP_STRINGS = {
         'TASK_AUTO_EMAIL': "Email:",
         'TASK_AUTO_PWD': "Password:",
         'TASK_AUTO_BTN': "Confirm Fast Creation",
-        'TASK_AUTO_REGEN': "Regenerate 🔄",
+        'TASK_AUTO_REGEN': "Change Data 🔄",
+        'TASKS_AUTO_INSTRUCTIONS': (
+            "🤖 <b>Fast Creation Instructions</b>\n\n"
+            "⚠️ You must use the generated data below (Name, Email, Password) exactly.\n"
+            "⛔️ Any data discrepancy will lead to automatic rejection.\n"
+            "📱 Make sure to create the account from an incognito window or a clean device."
+        ),
+        'TASKS_AUTO_STEPS': (
+            "🚀 <b>Fast Creation Steps:</b>\n\n"
+            "1️⃣ Copy the generated data below (Name, Email, Password)\n"
+            "2️⃣ Open Gmail and create the account with exactly this data\n"
+            "3️⃣ Once finished, click the [Confirm Fast Creation] button below\n"
+            "4️⃣ Wait for review and balance addition to your wallet"
+        ),
         
         'WALLET_TITLE': "💰 Wallet",
         'WALLET_WITHDRAW_REQ': "💸 Request Withdrawal",

@@ -7,6 +7,7 @@
 
 <!-- Instructions -->
 <div class="glass-card">
+    <div class="card-title">{{ strings.TASK_START_INSTRUCTIONS }}</div>
     <div style="font-size: 0.85rem; line-height: 1.8;">
         {{ strings.TASKS_AUTO_INSTRUCTIONS|safe|replace('\n', '<br>') }}
     </div>
@@ -14,6 +15,7 @@
 
 <!-- Steps -->
 <div class="glass-card">
+    <div class="card-title">{{ strings.TASK_START_STEPS }}</div>
     <div style="font-size: 0.85rem; line-height: 2;">
         {{ strings.TASKS_AUTO_STEPS|safe|replace('\n', '<br>') }}
     </div>
@@ -31,8 +33,8 @@
     </div>
     
     <div style="display:flex; gap:10px; margin-bottom: 1rem;">
-         <button type="button" onclick="regenerateData()" class="btn btn-outline btn-sm" style="flex:1" id="regenBtn">
-             <i class="fa-solid fa-arrows-rotate"></i> {{ strings.TASK_AUTO_REGEN }}
+         <button type="button" onclick="regenerateData()" class="btn" style="flex:1; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: var(--text-color); font-weight: 500; transition: all 0.3s; padding: 10px;" id="regenBtn">
+             <i class="fa-solid fa-arrows-rotate" style="color: var(--primary-color)"></i> {{ strings.TASK_AUTO_REGEN }}
          </button>
     </div>
     
