@@ -744,7 +744,7 @@ def get_webapp_user():
         
         user_id = session.get("tg_user_id")
         if not user_id and not tg_user:
-            return None, None
+            return None, None, False
 
         if tg_user:
             user_id = tg_user["id"]
