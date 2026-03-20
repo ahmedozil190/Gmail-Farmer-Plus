@@ -263,10 +263,11 @@ def get_stats():
 
 
 # ── Submission helpers ───────────────────────────────────────────────────────
-def add_submission(user_id: int, gmail: str, password: str) -> int:
-    # Fetch real-time price
-    conf = get_business_config()
-    current_price = conf["GMAIL_PRICE"]
+def add_submission(user_id: int, gmail: str, password: str, price: float = None) -> int:
+    # Fetch real-time price if not provided
+    if price is None:
+        conf = get_business_config()
+        price = conf["GMAIL_PRICE"]
     
     new_id = _generate_unique_id("submissions")
     
@@ -275,12 +276,12 @@ def add_submission(user_id: int, gmail: str, password: str) -> int:
     cur.execute(
         """INSERT INTO submissions (id, user_id, gmail_account, gmail_password, status, submitted_at, price)
            VALUES (?, ?, ?, ?, 'pending', ?, ?)""",
-        (new_id, user_id, gmail, password, datetime.now().strftime("%Y-%m-%d %H:%M:%S"), current_price)
+        (new_id, user_id, gmail, password, datetime.now().strftime("%Y-%m-%d %H:%M:%S"), price)
     )
     # Add to pending balance
     con.execute(
         "UPDATE users SET pending_balance = pending_balance + ? WHERE user_id = ?",
-        (current_price, user_id),
+        (price, user_id),
     )
     con.commit()
     con.close()
@@ -471,7 +472,7 @@ def set_setting(key: str, value: str):
 
 def get_business_config():
     """Returns all relevant business settings as a dict with correct types."""
-    from config import GMAIL_PRICE, REFERRAL_BONUS, EMAILS_CHANNEL_ID, WITHDRAWALS_CHANNEL_ID
+    from config import GMAIL_PRICE, GMAIL_PRICE_AUTO, REFERRAL_BONUS, EMAILS_CHANNEL_ID, WITHDRAWALS_CHANNEL_ID
     
     # Withdrawal Methods mapping
     voda = float(get_setting("MIN_WITHDRAW_VODAFONE", 0.20))
@@ -481,6 +482,7 @@ def get_business_config():
     
     return {
         "GMAIL_PRICE":    float(get_setting("GMAIL_PRICE", GMAIL_PRICE)),
+        "GMAIL_PRICE_AUTO": float(get_setting("GMAIL_PRICE_AUTO", GMAIL_PRICE_AUTO)),
         "REFERRAL_BONUS": float(get_setting("REFERRAL_BONUS", REFERRAL_BONUS)),
         "BUYING_ACTIVE":  get_setting("BUYING_ACTIVE", "1") == "1",
         "REQUIRED_CHANNELS": get_setting("REQUIRED_CHANNELS", ""),

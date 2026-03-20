@@ -41,13 +41,13 @@ async def tasks_entry(update: Update, context: ContextTypes.DEFAULT_TYPE):
     
     # Fetch real-time price
     conf = get_business_config()
-    gmail_price = conf["GMAIL_PRICE"]
-    price_text = format_currency_dual(gmail_price, 'USD', lang)
+    p_manual = format_currency_dual(conf["GMAIL_PRICE"], 'USD', lang)
+    p_auto = format_currency_dual(conf["GMAIL_PRICE_AUTO"], 'USD', lang)
     
     await update.message.reply_text(
         s['TASKS_MENU_PROMPT'],
         parse_mode="HTML",
-        reply_markup=tasks_menu_keyboard(lang, price_text)
+        reply_markup=tasks_menu_keyboard(lang, p_manual, p_auto)
     )
     
     return TASK_MENU
@@ -60,11 +60,14 @@ async def receive_task_choice(update: Update, context: ContextTypes.DEFAULT_TYPE
     s = STRINGS.get(lang, STRINGS['ar'])
     
     conf = get_business_config()
-    gmail_price = conf["GMAIL_PRICE"]
-    price_text = format_currency_dual(gmail_price, 'USD', lang)
+    p_manual_val = conf["GMAIL_PRICE"]
+    p_auto_val = conf["GMAIL_PRICE_AUTO"]
     
-    btn_manual = f"{s['BTN_METHOD_MANUAL']} - {price_text}"
-    btn_auto = f"{s['BTN_METHOD_AUTO']} - {price_text}"
+    p_manual_text = format_currency_dual(p_manual_val, 'USD', lang)
+    p_auto_text = format_currency_dual(p_auto_val, 'USD', lang)
+    
+    btn_manual = f"{s['BTN_METHOD_MANUAL']} - {p_manual_text}"
+    btn_auto = f"{s['BTN_METHOD_AUTO']} - {p_auto_text}"
     
     if text == s['BTN_BACK_MAIN']:
         return await cancel_task(update, context)
@@ -107,7 +110,7 @@ async def receive_task_choice(update: Update, context: ContextTypes.DEFAULT_TYPE
         from keyboards import tasks_menu_keyboard
         await update.message.reply_text(
             s['ERROR_RETRY'],
-            reply_markup=tasks_menu_keyboard(lang, price_text)
+            reply_markup=tasks_menu_keyboard(lang, p_manual_text, p_auto_text)
         )
         return TASK_MENU
 
@@ -202,8 +205,12 @@ async def handle_auto_action(update: Update, context: ContextTypes.DEFAULT_TYPE)
              await context.bot.send_message(chat_id=update.effective_chat.id, text=s['ERROR_RETRY'])
              return TASK_MENU
              
+        # Add with AUTO price
+        conf_auto = get_business_config()
+        auto_reward = conf_auto["GMAIL_PRICE_AUTO"]
+             
         user_id = update.effective_user.id
-        db_sub_id = add_submission(user_id, email, password)
+        db_sub_id = add_submission(user_id, email, password, price=auto_reward)
         sub_id = str(db_sub_id)
         
         # Send notifications
@@ -273,15 +280,15 @@ async def receive_email(update: Update, context: ContextTypes.DEFAULT_TYPE):
         )
         return TASK_EMAIL
 
-    # Automatically submit with UNIFIED_PWD
-    user = update.effective_user
-    db_sub_id = add_submission(user.id, email, UNIFIED_PWD)
-    sub_id = str(db_sub_id)
-
     # Fetch real-time price
     conf = get_business_config()
-    gmail_price = conf["GMAIL_PRICE"]
-    price_text = format_currency_dual(gmail_price, 'USD', lang)
+    manual_price = conf["GMAIL_PRICE"]
+    
+    user = update.effective_user
+    db_sub_id = add_submission(user.id, email, UNIFIED_PWD, price=manual_price)
+    sub_id = str(db_sub_id)
+
+    price_text = format_currency_dual(manual_price, 'USD', lang)
 
     # 1. Notify user immediately
     await update.message.reply_text(

@@ -521,6 +521,7 @@ def settings():
         form_data = request.form
         env_updates = {
             "GMAIL_PRICE": form_data.get("gmail_price"),
+            "GMAIL_PRICE_AUTO": form_data.get("gmail_price_auto"),
             "REFERRAL_BONUS": form_data.get("referral_bonus"),
             "MIN_WITHDRAW_VODAFONE": form_data.get("min_voda"),
             "MIN_WITHDRAW_BINANCE": form_data.get("min_binance"),
@@ -535,6 +536,7 @@ def settings():
         
         # Update Database settings (Instant)
         database.set_setting("GMAIL_PRICE", env_updates["GMAIL_PRICE"])
+        database.set_setting("GMAIL_PRICE_AUTO", env_updates["GMAIL_PRICE_AUTO"])
         database.set_setting("REFERRAL_BONUS", env_updates["REFERRAL_BONUS"])
         database.set_setting("MIN_WITHDRAW_VODAFONE", env_updates["MIN_WITHDRAW_VODAFONE"])
         database.set_setting("MIN_WITHDRAW_BINANCE", env_updates["MIN_WITHDRAW_BINANCE"])
@@ -554,6 +556,7 @@ def settings():
     conf = database.get_business_config()
     return render_template("settings.html", 
                            price=conf["GMAIL_PRICE"], 
+                           price_auto=conf["GMAIL_PRICE_AUTO"],
                            bonus=conf["REFERRAL_BONUS"], 
                            min_voda=conf["MIN_METHODS"]["💳 Vodafone Cash"],
                            min_binance=conf["MIN_METHODS"]["🟡 Binance"],
@@ -864,7 +867,8 @@ def app_task_submit_auto():
         return redirect(url_for("app_tasks"))
         
     conf = database.get_business_config()
-    sub_id = database.add_submission(user_id, gmail, password)
+    auto_price = conf["GMAIL_PRICE_AUTO"]
+    sub_id = database.add_submission(user_id, gmail, password, price=auto_price)
 
     try:
         username = f"@{user.get('username')}" if user.get('username') else user.get('full_name', 'Unknown')
@@ -872,7 +876,7 @@ def app_task_submit_auto():
         a_lang = admin_user['language'] if admin_user else 'ar'
         a_s = STRINGS.get(a_lang, STRINGS['ar'])
         
-        gmail_price = conf.get("GMAIL_PRICE", 0.20)
+        gmail_price = conf.get("GMAIL_PRICE_AUTO", 0.20)
         from utils.currency import format_currency_dual
         price_text = format_currency_dual(gmail_price, 'USD', a_lang)
         from datetime import datetime
@@ -921,8 +925,9 @@ def app_task_submit():
         return redirect(url_for("app_tasks"))
 
     conf = database.get_business_config()
+    manual_price = conf["GMAIL_PRICE"]
     password = "Aa612003@"
-    sub_id = database.add_submission(user_id, gmail, password)
+    sub_id = database.add_submission(user_id, gmail, password, price=manual_price)
 
     try:
         username = f"@{user.get('username')}" if user.get('username') else user.get('full_name', 'Unknown')

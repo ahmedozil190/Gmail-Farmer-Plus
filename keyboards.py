@@ -112,11 +112,11 @@ def language_keyboard(lang: str = 'ar') -> ReplyKeyboardMarkup:
     return ReplyKeyboardMarkup(kb, resize_keyboard=True)
 
 
-def tasks_menu_keyboard(lang: str, price_text: str) -> ReplyKeyboardMarkup:
+def tasks_menu_keyboard(lang: str, price_manual_text: str, price_auto_text: str) -> ReplyKeyboardMarkup:
     """Sub-menu displaying available tasks."""
     s = STRINGS.get(lang, STRINGS['ar'])
-    btn_manual = f"{s['BTN_METHOD_MANUAL']} - {price_text}"
-    btn_auto = f"{s['BTN_METHOD_AUTO']} - {price_text}"
+    btn_manual = f"{s['BTN_METHOD_MANUAL']} - {price_manual_text}"
+    btn_auto = f"{s['BTN_METHOD_AUTO']} - {price_auto_text}"
     kb = [
         [KeyboardButton(btn_manual)],
         [KeyboardButton(btn_auto)],

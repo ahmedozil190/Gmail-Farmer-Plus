@@ -27,7 +27,8 @@ DASHBOARD_URL  = os.getenv("DASHBOARD_URL", "http://localhost:5000")
 
 # ── Business Settings ────────────────────────────────────────────────────────
 BOT_NAME       = os.getenv("BOT_NAME",      "Gmail Farmer Plus")
-GMAIL_PRICE    = float(os.getenv("GMAIL_PRICE",   "0.20"))   # USD per Gmail
+GMAIL_PRICE    = float(os.getenv("GMAIL_PRICE",   "0.20"))   # USD per Gmail (Manual)
+GMAIL_PRICE_AUTO = float(os.getenv("GMAIL_PRICE_AUTO", "0.20")) # USD per Gmail (Auto)
 MIN_WITHDRAW   = float(os.getenv("MIN_WITHDRAW",  "0.20"))   # Default USD minimum (Legacy)
 BASE_CURRENCY  = "USD"
 REFERRAL_BONUS = float(os.getenv("REFERRAL_BONUS", "0.01")) # USD bonus per referral task

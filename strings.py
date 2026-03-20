@@ -1006,7 +1006,8 @@ DASHBOARD_STRINGS = {
 
         'SETTINGS_TITLE': "إعدادات البوت العامة",
         'SETTINGS_CONFIG': "تكوين البوت",
-        'SETTINGS_GMAIL_PRICE': "سعر الجيميل ($)",
+        'SETTINGS_GMAIL_PRICE': "سعر الجيميل اليدوي ($)",
+        'SETTINGS_GMAIL_PRICE_AUTO': "سعر الجيميل السريع ($)",
         'SETTINGS_REF_BONUS': "مكافأة الإحالة ($)",
         'SETTINGS_MIN_WITHDRAWALS': "حدود السحب الأدنى لكل طريقة:",
         'SETTINGS_VODAFONE': "فودافون كاش ($)",
@@ -1111,7 +1112,8 @@ DASHBOARD_STRINGS = {
 
         'SETTINGS_TITLE': "Global Settings",
         'SETTINGS_CONFIG': "Bot Configuration",
-        'SETTINGS_GMAIL_PRICE': "Gmail Price ($)",
+        'SETTINGS_GMAIL_PRICE': "Manual Gmail Price ($)",
+        'SETTINGS_GMAIL_PRICE_AUTO': "Auto Gmail Price ($)",
         'SETTINGS_REF_BONUS': "Ref Bonus ($)",
         'SETTINGS_MIN_WITHDRAWALS': "Minimum withdrawal limits:",
         'SETTINGS_VODAFONE': "Vodafone ($)",
