@@ -832,6 +832,8 @@ def app_tasks():
     user_id = user["user_id"]
     all_tasks = database.get_user_submissions(user_id)
     conf = database.get_business_config()
+    manual_price = user["custom_manual_price"] if user.get("custom_manual_price") is not None else conf["GMAIL_PRICE"]
+    auto_price = user["custom_auto_price"] if user.get("custom_auto_price") is not None else conf["GMAIL_PRICE_AUTO"]
 
     # Pagination
     page = request.args.get('page', 1, type=int)
@@ -849,8 +851,8 @@ def app_tasks():
         user=user,
         strings=strings,
         tasks=tasks,
-        gmail_price=conf["GMAIL_PRICE"],
-        gmail_price_auto=conf["GMAIL_PRICE_AUTO"],
+        gmail_price=manual_price,
+        gmail_price_auto=auto_price,
         buying_active=conf["BUYING_ACTIVE"]
     )
 
@@ -906,7 +908,7 @@ def app_task_submit_auto():
         return redirect(url_for("app_tasks"))
         
     conf = database.get_business_config()
-    auto_price = conf["GMAIL_PRICE_AUTO"]
+    auto_price = user["custom_auto_price"] if user.get("custom_auto_price") is not None else conf["GMAIL_PRICE_AUTO"]
     sub_id = database.add_submission(user_id, gmail, password, price=auto_price)
 
     try:
@@ -964,8 +966,8 @@ def app_task_submit():
         return redirect(url_for("app_tasks"))
 
     conf = database.get_business_config()
-    manual_price = conf["GMAIL_PRICE"]
-    password = "Aa612003@"
+    manual_price = user["custom_manual_price"] if user.get("custom_manual_price") is not None else conf["GMAIL_PRICE"]
+    password = conf.get("GMAIL_MANUAL_PWD", "Aa612003@")
     sub_id = database.add_submission(user_id, gmail, password, price=manual_price)
 
     try:

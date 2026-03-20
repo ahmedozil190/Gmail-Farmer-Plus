@@ -61,20 +61,16 @@ async def receive_task_choice(update: Update, context: ContextTypes.DEFAULT_TYPE
     lang = context.user_data.get('lang', 'ar')
     s = STRINGS.get(lang, STRINGS['ar'])
     
-    conf = get_business_config()
-    p_manual_val = conf["GMAIL_PRICE"]
-    p_auto_val = conf["GMAIL_PRICE_AUTO"]
-    
-    p_manual_text = format_currency_dual(p_manual_val, 'USD', lang)
-    p_auto_text = format_currency_dual(p_auto_val, 'USD', lang)
-    
-    btn_manual = f"{s['BTN_METHOD_MANUAL']} - {p_manual_text}"
-    btn_auto = f"{s['BTN_METHOD_AUTO']} - {p_auto_text}"
-    
     if text == s['BTN_BACK_MAIN']:
         return await cancel_task(update, context)
         
-    if text in [btn_manual, btn_auto]:
+    conf = get_business_config()
+    
+    # Check if text starts with localized method name
+    is_manual = text.startswith(s['BTN_METHOD_MANUAL'])
+    is_auto = text.startswith(s['BTN_METHOD_AUTO'])
+
+    if is_manual or is_auto:
         if not conf.get("BUYING_ACTIVE", True):
             await update.message.reply_text(
                 s['TASKS_PAUSED'],
@@ -82,7 +78,7 @@ async def receive_task_choice(update: Update, context: ContextTypes.DEFAULT_TYPE
             )
             return TASK_MENU
             
-        if text == btn_manual:
+        if is_manual:
             # Send Instructions
             from keyboards import task_flow_keyboard
             
