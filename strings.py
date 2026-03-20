@@ -785,8 +785,8 @@ WEBAPP_STRINGS = {
         
         'TASK_TAB_MANUAL': "إنشاء يدوي",
         'TASK_TAB_AUTO': "توليد أوتوماتيكي ⚡",
-        'BTN_METHOD_MANUAL': "Manual",
-        'BTN_METHOD_AUTO': "Automatic",
+        'BTN_METHOD_MANUAL': "يدوي",
+        'BTN_METHOD_AUTO': "أوتوماتيكي",
         'TASK_AUTO_INFO': "قم بإنشاء حساب Gmail مطابق للبيانات التالية:",
         'TASK_AUTO_FNAME': "الاسم الأول:",
         'TASK_AUTO_LNAME': "اسم العائلة:",
