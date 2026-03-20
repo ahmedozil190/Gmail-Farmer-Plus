@@ -154,9 +154,30 @@
             </form>
 
             <div style="margin-top: 25px; border-top: 1px solid var(--border-card); padding-top: 20px;">
+                <form id="customPriceForm" method="POST">
+                    <div class="form-group">
+                        <label class="form-label" style="font-size: 0.8rem;">{{ strings.LBL_CUSTOM_PRICES or 'Custom Prices (Empty = Global)' }}</label>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                            <div>
+                                <small style="display:block; opacity: 0.6; font-size: 0.65rem;">Manual $</small>
+                                <input type="number" step="0.01" name="manual_price" id="modalCustomManual" class="form-control" style="height: 40px; font-size: 0.85rem;">
+                            </div>
+                            <div>
+                                <small style="display:block; opacity: 0.6; font-size: 0.65rem;">Auto $</small>
+                                <input type="number" step="0.01" name="auto_price" id="modalCustomAuto" class="form-control" style="height: 40px; font-size: 0.85rem;">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="width: 100%; height: 40px; margin-top: 10px; font-size: 0.85rem;">
+                            {{ strings.DASH_UPDATE_BTN }}
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <div style="margin-top: 15px; border-top: 1px solid var(--border-card); padding-top: 15px;">
                 <form id="statusForm" method="POST">
                     <input type="hidden" name="status" id="modalStatusInput">
-                    <button type="submit" id="modalStatusBtn" class="btn" style="height: 44px;"></button>
+                    <button type="submit" id="modalStatusBtn" class="btn" style="height: 44px; width: 100%;"></button>
                 </form>
             </div>
         </div>
@@ -178,7 +199,7 @@
 </style>
 
 <script>
-function openEditModal(userId, username, fullName, balance, status, page) {
+function openEditModal(userId, username, fullName, balance, status, page, customManual, customAuto) {
     const modal = document.getElementById('editModal');
     const q = new URLSearchParams(window.location.search).get('q') || '';
     const p = page || '1';
@@ -192,6 +213,11 @@ function openEditModal(userId, username, fullName, balance, status, page) {
     const baseUrl = window.location.origin;
     document.getElementById('balanceForm').action = `${baseUrl}/users/balance/${userId}?q=${encodeURIComponent(q)}&page=${p}`;
     document.getElementById('statusForm').action = `${baseUrl}/users/status/${userId}?q=${encodeURIComponent(q)}&page=${p}`;
+    document.getElementById('customPriceForm').action = `${baseUrl}/users/custom_prices/${userId}?q=${encodeURIComponent(q)}&page=${p}`;
+    
+    // Custom Prices
+    document.getElementById('modalCustomManual').value = customManual;
+    document.getElementById('modalCustomAuto').value = customAuto;
     
     // Status Logic
     const statusBtn = document.getElementById('modalStatusBtn');

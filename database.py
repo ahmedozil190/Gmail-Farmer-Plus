@@ -63,6 +63,16 @@ def init_db():
     except sqlite3.OperationalError:
         pass
 
+    # Migration: Add custom price columns if they don't exist
+    try:
+        cur.execute("ALTER TABLE users ADD COLUMN custom_manual_price REAL DEFAULT NULL")
+    except sqlite3.OperationalError:
+        pass
+    try:
+        cur.execute("ALTER TABLE users ADD COLUMN custom_auto_price REAL DEFAULT NULL")
+    except sqlite3.OperationalError:
+        pass
+
     cur.execute("""
         CREATE TABLE IF NOT EXISTS submissions (
             id            INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -160,6 +170,16 @@ def update_user_currency(user_id: int, currency: str):
 def set_user_status(user_id: int, status: str):
     con = _conn()
     con.execute("UPDATE users SET status = ? WHERE user_id = ?", (status, user_id))
+    con.commit()
+    con.close()
+
+
+def update_user_custom_prices(user_id: int, manual_p: float = None, auto_p: float = None):
+    con = _conn()
+    con.execute(
+        "UPDATE users SET custom_manual_price = ?, custom_auto_price = ? WHERE user_id = ?",
+        (manual_p, auto_p, user_id)
+    )
     con.commit()
     con.close()
 
@@ -483,6 +503,7 @@ def get_business_config():
     return {
         "GMAIL_PRICE":    float(get_setting("GMAIL_PRICE", GMAIL_PRICE)),
         "GMAIL_PRICE_AUTO": float(get_setting("GMAIL_PRICE_AUTO", GMAIL_PRICE_AUTO)),
+        "GMAIL_MANUAL_PWD": get_setting("GMAIL_MANUAL_PWD", "Aa612003@"),
         "REFERRAL_BONUS": float(get_setting("REFERRAL_BONUS", REFERRAL_BONUS)),
         "BUYING_ACTIVE":  get_setting("BUYING_ACTIVE", "1") == "1",
         "REQUIRED_CHANNELS": get_setting("REQUIRED_CHANNELS", ""),

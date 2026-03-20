@@ -131,7 +131,9 @@ def users():
         SELECT u.*, 
         (SELECT SUM(amount) FROM withdrawals WHERE user_id = u.user_id AND status = 'completed') as paid_total,
         (SELECT COUNT(*) FROM submissions WHERE user_id = u.user_id AND status = 'approved') as approved_count,
-        (SELECT COUNT(*) FROM submissions WHERE user_id = u.user_id AND status = 'rejected') as rejected_count
+        (SELECT COUNT(*) FROM submissions WHERE user_id = u.user_id AND status = 'rejected') as rejected_count,
+        u.custom_manual_price,
+        u.custom_auto_price
         FROM users u
     """
     params = []
@@ -191,6 +193,23 @@ def user_balance(user_id):
             flash(f"Removed ${amount:.2f} from User #{user_id}.", "success")
     except ValueError:
         flash("Invalid amount entered.", "danger")
+    return redirect(url_for("users", q=request.args.get("q", ""), page=request.args.get("page", 1)))
+
+@app.route("/users/custom_prices/<int:user_id>", methods=["POST"])
+@requires_auth
+def user_custom_prices(user_id):
+    try:
+        manual_p = request.form.get("manual_price", "").strip()
+        auto_p = request.form.get("auto_price", "").strip()
+        
+        # Convert to float or None
+        manual_val = float(manual_p) if manual_p else None
+        auto_val = float(auto_p) if auto_p else None
+        
+        database.update_user_custom_prices(user_id, manual_val, auto_val)
+        flash(f"Custom prices for User #{user_id} updated.", "success")
+    except ValueError:
+        flash("Invalid price values.", "danger")
     return redirect(url_for("users", q=request.args.get("q", ""), page=request.args.get("page", 1)))
 
 @app.route("/tasks")
@@ -532,6 +551,7 @@ def settings():
             "REQUIRED_CHANNELS": form_data.get("required_channels", ""),
             "EMAILS_CHANNEL_ID": form_data.get("emails_channel", ""),
             "WITHDRAWALS_CHANNEL_ID": form_data.get("withdrawals_channel", ""),
+            "GMAIL_MANUAL_PWD": form_data.get("gmail_manual_pwd", "Aa612003@"),
         }
         
         # Update Database settings (Instant)
@@ -547,6 +567,7 @@ def settings():
         database.set_setting("REQUIRED_CHANNELS", env_updates["REQUIRED_CHANNELS"])
         database.set_setting("EMAILS_CHANNEL_ID", env_updates["EMAILS_CHANNEL_ID"])
         database.set_setting("WITHDRAWALS_CHANNEL_ID", env_updates["WITHDRAWALS_CHANNEL_ID"])
+        database.set_setting("GMAIL_MANUAL_PWD", env_updates["GMAIL_MANUAL_PWD"])
 
         from strings import DASHBOARD_STRINGS
         lang = env_updates["DASHBOARD_LANG"]

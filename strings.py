@@ -767,7 +767,7 @@ WEBAPP_STRINGS = {
         
         'TASK_START_TITLE': "📱 مهمة Gmail جديدة",
         'TASK_START_INSTRUCTIONS': "📋 التعليمات",
-        'TASK_START_PWD': "🔑 <b>كلمة المرور الموحدة:</b> <code class='copyable' dir='ltr'>Aa612003@</code>",
+        'TASK_START_PWD': "🔑 <b>كلمة المرور الموحدة:</b> <code class='copyable'>{}</code>",
         'TASK_START_RULE1': "📱 أنشئ الحساب من هاتفك فقط",
         'TASK_START_RULE2': "👤 استخدم أي اسم أجنبي",
         'TASK_START_RULE3': "📧 استخدم كلمة المرور الموحدة أعلاه",
@@ -776,7 +776,7 @@ WEBAPP_STRINGS = {
         'TASK_START_STEPS': "📝 الخطوات",
         'TASK_START_STEP1': "1️⃣ أنشئ حساب Gmail بكلمة المرور أعلاه",
         'TASK_START_STEP2': "2️⃣ أدخل عنوان Gmail الجديد بالأسفل",
-        'TASK_START_STEP3': "3️⃣ قم بتسجيل الخروج من الحساب",
+        'TASK_START_STEP_3': '3️⃣ بمجرد الانتهاء، قم بإرسال الإيميل فقط هنا.',
         'TASK_START_STEP4': "4️⃣ انتظر موافقة الأدمن",
         'TASK_START_SUBMIT_LBL': "📧 أدخل بريد Gmail",
         'TASK_START_SUBMIT_PH': "أدخل عنوان الإيميل هنا...",
@@ -859,6 +859,9 @@ WEBAPP_STRINGS = {
         'REF_TASKS_LABEL': "مهمة",
         'PAGE_LABEL': "صفحة",
         'OF_LABEL': "من",
+        'DASH_UPDATE_BTN': 'تعديل',
+        'LBL_UNIFIED_PWD': 'كلمة المرور الموحدة (لليدوي)',
+        'LBL_CUSTOM_PRICES': 'أسعار مخصصة (اتركها فارغة لاستخدام السعر العام)',
     },
     'en': {
         'NAV_HOME': "Home",
@@ -894,7 +897,7 @@ WEBAPP_STRINGS = {
         
         'TASK_START_TITLE': "📱 New Gmail Task",
         'TASK_START_INSTRUCTIONS': "📋 Instructions",
-        'TASK_START_PWD': "🔑 <b>Unified Password:</b> <code class='copyable'>Aa612003@</code>",
+        'TASK_START_PWD': "🔑 <b>Unified Password:</b> <code class='copyable'>{}</code>",
         'TASK_START_RULE1': "📱 Create from your phone only",
         'TASK_START_RULE2': "👤 Use any foreign name",
         'TASK_START_RULE3': "📧 Use unified password above",
@@ -903,7 +906,7 @@ WEBAPP_STRINGS = {
         'TASK_START_STEPS': "📝 Steps",
         'TASK_START_STEP1': "1️⃣ Create Gmail with password above",
         'TASK_START_STEP2': "2️⃣ Enter address below",
-        'TASK_START_STEP3': "3️⃣ Wait for approval",
+        'TASK_START_STEP_3': '3️⃣ Once finished, just send the email here.',
         'TASK_START_SUBMIT_LBL': "📧 Gmail Address",
         'TASK_START_SUBMIT_PH': "Enter your Gmail here...",
         'TASK_START_SUBMIT_BTN': "Submit Task",
@@ -985,6 +988,9 @@ WEBAPP_STRINGS = {
         'REF_TASKS_LABEL': "tasks",
         'PAGE_LABEL': "Page",
         'OF_LABEL': "of",
+        'DASH_UPDATE_BTN': 'Edit',
+        'LBL_UNIFIED_PWD': 'Unified Password (for Manual)',
+        'LBL_CUSTOM_PRICES': 'Custom Prices (leave empty for general price)',
     }
 }
 

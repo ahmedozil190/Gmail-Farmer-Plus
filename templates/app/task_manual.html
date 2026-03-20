@@ -9,7 +9,7 @@
 <div class="glass-card">
     <div class="card-title">{{ strings.TASK_START_INSTRUCTIONS }}</div>
     <div style="font-size: 0.85rem; line-height: 1.8;">
-        <p>{{ strings.TASK_START_PWD|safe }}</p>
+        <p>{{ strings.TASK_START_PWD.format(config.GMAIL_MANUAL_PWD)|safe }}</p>
         <br>
         <p>{{ strings.TASK_START_RULE1 }}</p>
         <p>{{ strings.TASK_START_RULE2 }}</p>

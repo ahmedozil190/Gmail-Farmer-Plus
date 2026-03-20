@@ -21,8 +21,7 @@ import logging
 # States
 TASK_MENU, TASK_CONTINUE, TASK_EMAIL, TASK_METHOD, TASK_AUTO = range(5)
 
-# Unified password for all tasks
-UNIFIED_PWD = "Aa612003@"
+# Removed static UNIFIED_PWD
 
 async def tasks_entry(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Entry-point: user clicked المهام."""
@@ -39,10 +38,13 @@ async def tasks_entry(update: Update, context: ContextTypes.DEFAULT_TYPE):
     
     from keyboards import tasks_menu_keyboard
     
-    # Fetch real-time price
+    # Fetch user-specific or real-time price
     conf = get_business_config()
-    p_manual = format_currency_dual(conf["GMAIL_PRICE"], 'USD', lang)
-    p_auto = format_currency_dual(conf["GMAIL_PRICE_AUTO"], 'USD', lang)
+    manual_price = user_data["custom_manual_price"] if user_data and user_data["custom_manual_price"] is not None else conf["GMAIL_PRICE"]
+    auto_price = user_data["custom_auto_price"] if user_data and user_data["custom_auto_price"] is not None else conf["GMAIL_PRICE_AUTO"]
+    
+    p_manual = format_currency_dual(manual_price, 'USD', lang)
+    p_auto = format_currency_dual(auto_price, 'USD', lang)
     
     await update.message.reply_text(
         s['TASKS_MENU_PROMPT'],
@@ -84,8 +86,11 @@ async def receive_task_choice(update: Update, context: ContextTypes.DEFAULT_TYPE
             # Send Instructions
             from keyboards import task_flow_keyboard
             
+            # Dynamic password instruction
+            pwd_instr = s['TASK_START_PWD'].format(conf["GMAIL_MANUAL_PWD"])
+            
             await update.message.reply_text(
-                s['TASKS_INSTRUCTIONS'],
+                f"{s['TASKS_INSTRUCTIONS']}\n\n{pwd_instr}",
                 parse_mode="HTML"
             )
             
@@ -207,10 +212,13 @@ async def handle_auto_action(update: Update, context: ContextTypes.DEFAULT_TYPE)
              
         # Add with AUTO price
         conf_auto = get_business_config()
-        auto_reward = conf_auto["GMAIL_PRICE_AUTO"]
-             
         user_id = update.effective_user.id
-        db_sub_id = add_submission(user_id, email, password, price=auto_reward)
+        user_data = get_user(user_id)
+        
+        # User-specific auto price or global
+        reward = user_data["custom_auto_price"] if user_data and user_data["custom_auto_price"] is not None else conf_auto["GMAIL_PRICE_AUTO"]
+        
+        db_sub_id = add_submission(user_id, email, password, price=reward)
         sub_id = str(db_sub_id)
         
         # Send notifications
@@ -237,7 +245,7 @@ async def handle_auto_action(update: Update, context: ContextTypes.DEFAULT_TYPE)
                 sub_id=html.escape(str(sub_id)),
                 gmail=html.escape(str(email)),
                 pwd=html.escape(str(password)),
-                price=html.escape(str(p_text)),
+                price=html.escape(format_currency_dual(reward, 'USD', a_lang)),
                 date=html.escape(str(curr_date)),
                 user_id=html.escape(str(user_id))
             )
@@ -282,10 +290,13 @@ async def receive_email(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     # Fetch real-time price
     conf = get_business_config()
-    manual_price = conf["GMAIL_PRICE"]
+    user_id = update.effective_user.id
+    user_data = get_user(user_id)
     
-    user = update.effective_user
-    db_sub_id = add_submission(user.id, email, UNIFIED_PWD, price=manual_price)
+    manual_price = user_data["custom_manual_price"] if user_data and user_data["custom_manual_price"] is not None else conf["GMAIL_PRICE"]
+    pwd = conf["GMAIL_MANUAL_PWD"]
+    
+    db_sub_id = add_submission(user_id, email, pwd, price=manual_price)
     sub_id = str(db_sub_id)
 
     price_text = format_currency_dual(manual_price, 'USD', lang)
@@ -312,10 +323,10 @@ async def receive_email(update: Update, context: ContextTypes.DEFAULT_TYPE):
             status=html.escape(str(st_text)),
             sub_id=html.escape(str(sub_id)),
             gmail=html.escape(str(email)),
-            pwd=html.escape(str(UNIFIED_PWD)),
-            price=html.escape(str(p_text)),
+            pwd=html.escape(str(pwd)),
+            price=html.escape(format_currency_dual(manual_price, 'USD', a_lang)),
             date=html.escape(str(curr_date)),
-            user_id=html.escape(str(user.id))
+            user_id=html.escape(str(user_id))
         )
 
         # Admin DM
