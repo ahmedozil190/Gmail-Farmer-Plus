@@ -859,9 +859,6 @@ WEBAPP_STRINGS = {
         'REF_TASKS_LABEL': "مهمة",
         'PAGE_LABEL': "صفحة",
         'OF_LABEL': "من",
-        'DASH_UPDATE_BTN': 'تعديل',
-        'LBL_UNIFIED_PWD': 'كلمة المرور الموحدة (لليدوي)',
-        'LBL_CUSTOM_PRICES': 'أسعار مخصصة (اتركها فارغة لاستخدام السعر العام)',
     },
     'en': {
         'NAV_HOME': "Home",
@@ -988,9 +985,6 @@ WEBAPP_STRINGS = {
         'REF_TASKS_LABEL': "tasks",
         'PAGE_LABEL': "Page",
         'OF_LABEL': "of",
-        'DASH_UPDATE_BTN': 'Edit',
-        'LBL_UNIFIED_PWD': 'Unified Password (for Manual)',
-        'LBL_CUSTOM_PRICES': 'Custom Prices (leave empty for general price)',
     }
 }
 
@@ -1104,6 +1098,9 @@ DASHBOARD_STRINGS = {
     'en': {
         'NAV_HOME': "Home",
         'NAV_TASKS': "Tasks",
+        'DASH_UPDATE_BTN': 'Update',
+        'LBL_UNIFIED_PWD': 'Unified Manual Password',
+        'LBL_CUSTOM_PRICES': 'Custom Prices',
         'NAV_PAY': "Pay",
         'NAV_USERS': "Users",
         'NAV_MSG': "Msg",

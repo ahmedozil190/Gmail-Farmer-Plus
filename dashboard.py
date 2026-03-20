@@ -198,6 +198,11 @@ def user_balance(user_id):
 @app.route("/users/custom_prices/<int:user_id>", methods=["POST"])
 @requires_auth
 def user_custom_prices(user_id):
+    conf = database.get_business_config()
+    lang = conf.get("DASHBOARD_LANG", "en")
+    from strings import DASHBOARD_STRINGS
+    s = DASHBOARD_STRINGS.get(lang, DASHBOARD_STRINGS["ar"])
+    
     try:
         manual_p = request.form.get("manual_price", "").strip()
         auto_p = request.form.get("auto_price", "").strip()
@@ -207,9 +212,11 @@ def user_custom_prices(user_id):
         auto_val = float(auto_p) if auto_p else None
         
         database.update_user_custom_prices(user_id, manual_val, auto_val)
-        flash(f"Custom prices for User #{user_id} updated.", "success")
+        flash(s.get('ALERT_SETTINGS_SAVED', "Updated successfully!"), "success")
     except ValueError:
         flash("Invalid price values.", "danger")
+    except Exception as e:
+        flash(f"Error: {str(e)}", "danger")
     return redirect(url_for("users", q=request.args.get("q", ""), page=request.args.get("page", 1)))
 
 @app.route("/tasks")
