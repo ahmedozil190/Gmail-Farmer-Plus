@@ -7,15 +7,15 @@
 
 <!-- Instructions -->
 <div class="glass-card">
-    <div class="card-title">{{ strings.TASK_START_INSTRUCTIONS }}</div>
     <div style="font-size: 0.85rem; line-height: 1.8;">
-        <p>{{ strings.TASK_START_PWD|safe }}</p>
-        <br>
-        <p>{{ strings.TASK_START_RULE1 }}</p>
-        <p>{{ strings.TASK_START_RULE2 }}</p>
-        <p>{{ strings.TASK_START_RULE3 }}</p>
-        <p>{{ strings.TASK_START_RULE4 }}</p>
-        <p>{{ strings.TASK_START_RULE5 }}</p>
+        {{ strings.TASKS_AUTO_INSTRUCTIONS|safe|replace('\n', '<br>') }}
+    </div>
+</div>
+
+<!-- Steps -->
+<div class="glass-card">
+    <div style="font-size: 0.85rem; line-height: 2;">
+        {{ strings.TASKS_AUTO_STEPS|safe|replace('\n', '<br>') }}
     </div>
 </div>
 
