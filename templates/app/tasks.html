@@ -31,8 +31,10 @@
 <div class="list-item">
     <div class="list-row">
         <span style="font-size: 0.85rem; font-weight: 600;">{{ task.gmail_account }}</span>
-        <span class="badge {{ task.status }}">
-            {{ strings['STATUS_' + task.status.upper()] if ('STATUS_' + task.status.upper()) in strings else task.status }}
+        <span class="status-icon {{ task.status }}">
+            {% if task.status == 'approved' %}<i class="fa-solid fa-check"></i>
+            {% elif task.status == 'rejected' %}<i class="fa-solid fa-xmark"></i>
+            {% else %}<i class="fa-solid fa-clock"></i>{% endif %}
         </span>
     </div>
     <div class="list-row" style="margin-top: 6px;">

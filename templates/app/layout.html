@@ -41,19 +41,19 @@
 
     <!-- Bottom Navigation -->
     <nav class="bottom-nav">
-        <a href="{{ url_for('app_home') }}" class="nav-item {% if page == 'home' %}active{% endif %}">
+        <a href="{{ url_for('app_home') }}" class="nav-item {% if active_page == 'home' %}active{% endif %}">
             <i class="fa-solid fa-house"></i>
             <span>{{ strings.NAV_HOME if strings else 'Home' }}</span>
         </a>
-        <a href="{{ url_for('app_tasks') }}" class="nav-item {% if page == 'tasks' %}active{% endif %}">
+        <a href="{{ url_for('app_tasks') }}" class="nav-item {% if active_page == 'tasks' %}active{% endif %}">
             <i class="fa-solid fa-list-check"></i>
             <span>{{ strings.NAV_TASKS if strings else 'Tasks' }}</span>
         </a>
-        <a href="{{ url_for('app_wallet') }}" class="nav-item {% if page == 'wallet' %}active{% endif %}">
+        <a href="{{ url_for('app_wallet') }}" class="nav-item {% if active_page == 'wallet' %}active{% endif %}">
             <i class="fa-solid fa-wallet"></i>
             <span>{{ strings.NAV_WALLET if strings else 'Wallet' }}</span>
         </a>
-        <a href="{{ url_for('app_referrals') }}" class="nav-item {% if page == 'referrals' %}active{% endif %}">
+        <a href="{{ url_for('app_referrals') }}" class="nav-item {% if active_page == 'referrals' %}active{% endif %}">
             <i class="fa-solid fa-users"></i>
             <span>{{ strings.NAV_REFERRALS if strings else 'Referrals' }}</span>
         </a>

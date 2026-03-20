@@ -781,7 +781,7 @@ def app_home():
         con.close()
 
         return render_template("app/home.html",
-            page="home",
+            active_page="home",
             user=user,
             strings=strings,
             balance=balance,
@@ -816,6 +816,7 @@ def app_tasks():
 
     return render_template("app/tasks.html",
         page=page,
+        active_page="tasks",
         total_pages=total_pages,
         user=user,
         strings=strings,
@@ -1001,10 +1002,9 @@ def app_wallet():
     end = start + per_page
     withdrawals = all_withdrawals[start:end]
 
-    from config import PAYMENT_METHODS
-
     return render_template("app/wallet.html",
         page=page,
+        active_page="wallet",
         total_pages=total_pages,
         user=user,
         strings=strings,
@@ -1130,6 +1130,7 @@ def app_referrals():
 
     return render_template("app/referrals.html",
         page=page,
+        active_page="referrals",
         total_pages=total_pages,
         user=user,
         strings=strings,

@@ -43,9 +43,9 @@
         <span style="font-weight: 600;">
             {% if ref.full_name %}{{ ref.full_name }}{% elif ref.username %}@{{ ref.username }}{% else %}Account #{{ ref.user_id % 10000 }}{% endif %}
         </span>
-        <span class="badge {% if ref.approved_tasks > 0 %}approved{% else %}pending{% endif %}">
-            {% if ref.approved_tasks > 0 %}{{ strings.REF_STATUS_ACTIVE }}{% else %}{{ strings.REF_STATUS_WAITING }}{%
-            endif %}
+        <span class="status-icon {% if ref.approved_tasks > 0 %}approved{% else %}pending{% endif %}">
+            {% if ref.approved_tasks > 0 %}<i class="fa-solid fa-check"></i>
+            {% else %}<i class="fa-solid fa-clock"></i>{% endif %}
         </span>
     </div>
     <div class="list-row" style="margin-top: 4px;">

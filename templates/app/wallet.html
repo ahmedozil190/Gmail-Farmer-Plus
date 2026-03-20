@@ -61,8 +61,10 @@
 <div class="list-item">
     <div class="list-row">
         <span style="font-weight: 600;">{{ w.method }}</span>
-        <span class="badge {{ w.status }}">
-            {{ strings['STATUS_' + w.status.upper()] if ('STATUS_' + w.status.upper()) in strings else w.status }}
+        <span class="status-icon {{ w.status }}">
+            {% if w.status == 'approved' or w.status == 'completed' %}<i class="fa-solid fa-check"></i>
+            {% elif w.status == 'rejected' %}<i class="fa-solid fa-xmark"></i>
+            {% else %}<i class="fa-solid fa-clock"></i>{% endif %}
         </span>
     </div>
     <div class="list-row" style="margin-top: 6px;">
