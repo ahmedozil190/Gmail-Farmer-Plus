@@ -6,7 +6,6 @@
 <style>
     .form-control {
         background: #101118 !important;
-        /* Extremely dark */
         color: white !important;
         border: 1px solid rgba(255, 255, 255, 0.1) !important;
         height: 50px;
@@ -22,6 +21,40 @@
         margin-bottom: 8px;
         display: block;
         color: var(--text-secondary);
+    }
+
+    .settings-nav {
+        display: flex;
+        gap: 8px;
+        overflow-x: auto;
+        padding-bottom: 15px;
+        margin-bottom: 20px;
+        scrollbar-width: none; /* Firefox */
+        -ms-overflow-style: none; /* IE/Edge */
+    }
+    
+    .settings-nav::-webkit-scrollbar {
+        display: none; /* Chrome/Safari */
+    }
+
+    .nav-tab {
+        padding: 10px 18px;
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        color: var(--text-secondary);
+        font-weight: 600;
+        font-size: 0.9rem;
+        white-space: nowrap;
+        cursor: pointer;
+        text-decoration: none;
+        transition: all 0.2s ease;
+    }
+
+    .nav-tab.active {
+        background: rgba(96, 165, 250, 0.1);
+        border-color: var(--accent-blue);
+        color: var(--accent-blue);
     }
 
     .status-btn-group {
@@ -48,7 +81,6 @@
         display: none;
     }
 
-    /* Active States */
     .status-radio:checked+.status-btn-item.active-btn {
         background: rgba(34, 197, 94, 0.12);
         border-color: #22c55e;
@@ -69,154 +101,195 @@
 
     .glass-card {
         padding: 2rem !important;
+        animation: fadeIn 0.3s ease-out;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .save-btn {
+        height: 55px; 
+        font-size: 1rem; 
+        border-radius: 15px; 
+        font-weight: 700; 
+        box-shadow: 0 5px 15px rgba(0,0,0,0.3); 
+        width: 100%;
+        margin-top: 1rem;
+        transition: all 0.2s;
     }
 </style>
 
+<div class="settings-nav">
+    <a href="{{ url_for('settings', cat='general') }}" class="nav-tab {% if category == 'general' %}active{% endif %}">
+        <i class="fa-solid fa-dollar-sign"></i> {{ strings.SETTINGS_CAT_GENERAL }}
+    </a>
+    <a href="{{ url_for('settings', cat='channels') }}" class="nav-tab {% if category == 'channels' %}active{% endif %}">
+        <i class="fa-solid fa-tower-broadcast"></i> {{ strings.SETTINGS_CAT_CHANNELS }}
+    </a>
+    <a href="{{ url_for('settings', cat='limits') }}" class="nav-tab {% if category == 'limits' %}active{% endif %}">
+        <i class="fa-solid fa-gauge-high"></i> {{ strings.SETTINGS_CAT_LIMITS }}
+    </a>
+    <a href="{{ url_for('settings', cat='control') }}" class="nav-tab {% if category == 'control' %}active{% endif %}">
+        <i class="fa-solid fa-gamepad"></i> {{ strings.SETTINGS_CAT_CONTROL }}
+    </a>
+    <a href="{{ url_for('settings', cat='reset') }}" class="nav-tab {% if category == 'reset' %}active{% endif %}">
+        <i class="fa-solid fa-trash-can"></i> {{ strings.SETTINGS_CAT_RESET }}
+    </a>
+</div>
+
+{% if category == 'general' %}
     <form action="{{ url_for('settings') }}" method="POST">
-        <!-- 1. General Configuration -->
-        <div class="glass-card" style="margin-bottom: 1.5rem;">
+        <input type="hidden" name="category" value="general">
+        <div class="glass-card">
             <div style="margin-bottom: 1.5rem; display: flex; align-items: center; gap: 10px;">
                 <i class="fa-solid fa-sliders" style="color: var(--accent-blue);"></i>
-                <h2 style="margin: 0; font-size: 1.1rem; color: white; font-weight: 700;">{{ strings.SETTINGS_CONFIG }}</h2>
+                <h2 style="margin: 0; font-size: 1.1rem; color: white; font-weight: 700;">{{ strings.SETTINGS_CAT_GENERAL }}</h2>
             </div>
             
-            <div style="display: grid; grid-template-columns: 1fr; gap: 15px;">
-                <div class="form-group" style="grid-column: span 1;">
-                    <label class="form-label">{{ strings.SETTINGS_GMAIL_PRICE }}</label>
-                    <input type="number" step="0.01" name="gmail_price" class="form-control" value="{{ price }}" required>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">{{ strings.SETTINGS_GMAIL_PRICE_AUTO }}</label>
-                    <input type="number" step="0.01" name="gmail_price_auto" class="form-control" value="{{ price_auto }}" required>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">{{ strings.LBL_UNIFIED_PWD or 'Unified Manual Password' }}</label>
-                    <input type="text" name="gmail_manual_pwd" class="form-control" value="{{ config.GMAIL_MANUAL_PWD }}" required>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">{{ strings.SETTINGS_REF_BONUS }}</label>
-                    <input type="number" step="0.01" name="referral_bonus" class="form-control" value="{{ bonus }}" required>
-                </div>
+            <div class="form-group">
+                <label class="form-label">{{ strings.SETTINGS_GMAIL_PRICE }}</label>
+                <input type="number" step="0.01" name="gmail_price" class="form-control" value="{{ price }}" required>
             </div>
 
-            <div class="form-group" style="margin-top: 15px; margin-bottom: 0;">
-                <label class="form-label">{{ strings.SETTINGS_REQ_CHANNELS }}</label>
-                <input type="text" name="required_channels" class="form-control" placeholder="@channel1, @channel2" value="{{ required_channels }}">
-                <small style="color: var(--text-secondary); display: block; margin-top: 5px;">{{ strings.SETTINGS_REQ_CHANNELS_HELP }}</small>
-            </div>
-        </div>
-
-        <!-- 2. Notification Channels -->
-        <div class="glass-card" style="margin-bottom: 1.5rem;">
-            <div style="margin-bottom: 1.5rem; display: flex; align-items: center; gap: 10px;">
-                <i class="fa-solid fa-bell" style="color: var(--accent-blue);"></i>
-                <h2 style="margin: 0; font-size: 1.1rem; color: white; font-weight: 700;">{{ strings.SETTINGS_NOTIFY_CHANNELS }}</h2>
+            <div class="form-group">
+                <label class="form-label">{{ strings.SETTINGS_GMAIL_PRICE_AUTO }}</label>
+                <input type="number" step="0.01" name="gmail_price_auto" class="form-control" value="{{ price_auto }}" required>
             </div>
 
-            <div style="display: flex; flex-direction: column; gap: 15px;">
-                <div class="form-group" style="margin-bottom: 0;">
-                    <label class="form-label">{{ strings.SETTINGS_EMAILS_CHANNEL }}</label>
-                    <input type="text" name="emails_channel" class="form-control" placeholder="-100..." value="{{ config.EMAILS_CHANNEL_ID }}">
-                </div>
-
-                <div class="form-group" style="margin-bottom: 0;">
-                    <label class="form-label">{{ strings.SETTINGS_WITHDRAWALS_CHANNEL }}</label>
-                    <input type="text" name="withdrawals_channel" class="form-control" placeholder="-100..." value="{{ config.WITHDRAWALS_CHANNEL_ID }}">
-                </div>
-            </div>
-        </div>
-
-        <!-- 3. Withdrawal Limits -->
-        <div class="glass-card" style="margin-bottom: 1.5rem;">
-            <div style="margin-bottom: 1.5rem; display: flex; align-items: center; gap: 10px;">
-                <i class="fa-solid fa-circle-info" style="color: var(--accent-blue);"></i>
-                <h2 style="margin: 0; font-size: 1.1rem; color: white; font-weight: 700;">{{ strings.SETTINGS_MIN_WITHDRAWALS }}</h2>
+            <div class="form-group">
+                <label class="form-label">{{ strings.LBL_UNIFIED_PWD or 'Unified Manual Password' }}</label>
+                <input type="text" name="gmail_manual_pwd" class="form-control" value="{{ config.GMAIL_MANUAL_PWD }}" required>
             </div>
 
-            <div style="display: grid; grid-template-columns: 1fr; gap: 15px;">
-                <div class="form-group">
-                    <label class="form-label">{{ strings.SETTINGS_VODAFONE }}</label>
-                    <input type="number" step="0.01" name="min_voda" class="form-control" value="{{ min_voda }}" required>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">{{ strings.SETTINGS_BINANCE }}</label>
-                    <input type="number" step="0.01" name="min_binance" class="form-control" value="{{ min_binance }}" required>
-                </div>
-
-                <div class="form-group" style="margin-bottom: 0;">
-                    <label class="form-label">{{ strings.SETTINGS_USDT }}</label>
-                    <input type="number" step="0.01" name="min_usdt" class="form-control" value="{{ min_usdt }}" required>
-                </div>
-
-                <div class="form-group" style="margin-bottom: 0;">
-                    <label class="form-label">{{ strings.SETTINGS_TRX }}</label>
-                    <input type="number" step="0.01" name="min_trx" class="form-control" value="{{ min_trx }}" required>
-                </div>
-            </div>
-        </div>
-
-        <!-- 4. Bot Operations -->
-        <div class="glass-card" style="margin-bottom: 1.5rem;">
-            <div style="margin-bottom: 1.5rem; display: flex; align-items: center; gap: 10px;">
-                <i class="fa-solid fa-power-off" style="color: var(--accent-blue);"></i>
-                <h2 style="margin: 0; font-size: 1.1rem; color: white; font-weight: 700;">{{ strings.SETTINGS_BUYING_STATUS }}</h2>
+            <div class="form-group">
+                <label class="form-label">{{ strings.SETTINGS_REF_BONUS }}</label>
+                <input type="number" step="0.01" name="referral_bonus" class="form-control" value="{{ bonus }}" required>
             </div>
 
-            <div class="status-btn-group">
-                <label style="flex: 1;">
-                    <input type="radio" name="buying_active" value="1" class="status-radio" {% if buying_active
-                        %}checked{% endif %}>
-                    <div class="status-btn-item active-btn">{{ strings.SETTINGS_ACTIVE }}</div>
-                </label>
-                <label style="flex: 1;">
-                    <input type="radio" name="buying_active" value="0" class="status-radio" {% if not buying_active
-                        %}checked{% endif %}>
-                    <div class="status-btn-item paused-btn">{{ strings.SETTINGS_PAUSED }}</div>
-                </label>
-            </div>
-        </div>
-
-        <!-- 5. Dashboard Language -->
-        <div class="glass-card" style="margin-bottom: 2rem;">
-            <div style="margin-bottom: 1.5rem; display: flex; align-items: center; gap: 10px;">
-                <i class="fa-solid fa-language" style="color: var(--accent-blue);"></i>
-                <h2 style="margin: 0; font-size: 1.1rem; color: white; font-weight: 700;">{{ strings.SETTINGS_LANG }}</h2>
-            </div>
-
-            <div class="status-btn-group">
-                <label style="flex: 1;">
-                    <input type="radio" name="dash_lang" value="en" class="status-radio" {% if dash_lang=='en'
-                        %}checked{% endif %}>
-                    <div class="status-btn-item lang-btn">English 🇺🇸</div>
-                </label>
-                <label style="flex: 1;">
-                    <input type="radio" name="dash_lang" value="ar" class="status-radio" {% if dash_lang=='ar'
-                        %}checked{% endif %}>
-                    <div class="status-btn-item lang-btn">العربية 🇪🇬</div>
-                </label>
-            </div>
-        </div>
-
-        <!-- Global Save Button -->
-        <div style="margin-bottom: 3rem;">
-            <button type="submit" class="btn btn-primary"
-                style="height: 60px; font-size: 1.1rem; border-radius: 18px; font-weight: 700; box-shadow: 0 8px 25px rgba(0,0,0,0.4); width: 100%;">
-                <i class="fa-solid fa-floppy-disk" style="margin-right: 8px;"></i> {{ strings.SETTINGS_UPDATE_BTN }}
+            <button type="submit" class="btn btn-primary save-btn">
+                <i class="fa-solid fa-floppy-disk"></i> {{ strings.SETTINGS_UPDATE_BTN }}
             </button>
         </div>
     </form>
 
-    <div class="glass-card" style="margin-top: 2rem;">
+{% elif category == 'channels' %}
+    <form action="{{ url_for('settings') }}" method="POST">
+        <input type="hidden" name="category" value="channels">
+        <div class="glass-card">
+            <div style="margin-bottom: 1.5rem; display: flex; align-items: center; gap: 10px;">
+                <i class="fa-solid fa-tower-broadcast" style="color: var(--accent-blue);"></i>
+                <h2 style="margin: 0; font-size: 1.1rem; color: white; font-weight: 700;">{{ strings.SETTINGS_CAT_CHANNELS }}</h2>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">{{ strings.SETTINGS_REQ_CHANNELS }}</label>
+                <input type="text" name="required_channels" class="form-control" placeholder="@channel1, @channel2" value="{{ required_channels }}">
+                <small style="color: var(--text-secondary);">{{ strings.SETTINGS_REQ_CHANNELS_HELP }}</small>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">{{ strings.SETTINGS_EMAILS_CHANNEL }}</label>
+                <input type="text" name="emails_channel" class="form-control" placeholder="-100..." value="{{ config.EMAILS_CHANNEL_ID }}">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">{{ strings.SETTINGS_WITHDRAWALS_CHANNEL }}</label>
+                <input type="text" name="withdrawals_channel" class="form-control" placeholder="-100..." value="{{ config.WITHDRAWALS_CHANNEL_ID }}">
+            </div>
+
+            <button type="submit" class="btn btn-primary save-btn">
+                <i class="fa-solid fa-floppy-disk"></i> {{ strings.SETTINGS_UPDATE_BTN }}
+            </button>
+        </div>
+    </form>
+
+{% elif category == 'limits' %}
+    <form action="{{ url_for('settings') }}" method="POST">
+        <input type="hidden" name="category" value="limits">
+        <div class="glass-card">
+            <div style="margin-bottom: 1.5rem; display: flex; align-items: center; gap: 10px;">
+                <i class="fa-solid fa-gauge-high" style="color: var(--accent-blue);"></i>
+                <h2 style="margin: 0; font-size: 1.1rem; color: white; font-weight: 700;">{{ strings.SETTINGS_CAT_LIMITS }}</h2>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">{{ strings.SETTINGS_VODAFONE }}</label>
+                <input type="number" step="0.01" name="min_voda" class="form-control" value="{{ min_voda }}" required>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">{{ strings.SETTINGS_BINANCE }}</label>
+                <input type="number" step="0.01" name="min_binance" class="form-control" value="{{ min_binance }}" required>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">{{ strings.SETTINGS_USDT }}</label>
+                <input type="number" step="0.01" name="min_usdt" class="form-control" value="{{ min_usdt }}" required>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">{{ strings.SETTINGS_TRX }}</label>
+                <input type="number" step="0.01" name="min_trx" class="form-control" value="{{ min_trx }}" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary save-btn">
+                <i class="fa-solid fa-floppy-disk"></i> {{ strings.SETTINGS_UPDATE_BTN }}
+            </button>
+        </div>
+    </form>
+
+{% elif category == 'control' %}
+    <form action="{{ url_for('settings') }}" method="POST">
+        <input type="hidden" name="category" value="control">
+        <div class="glass-card">
+            <div style="margin-bottom: 1.5rem; display: flex; align-items: center; gap: 10px;">
+                <i class="fa-solid fa-gamepad" style="color: var(--accent-blue);"></i>
+                <h2 style="margin: 0; font-size: 1.1rem; color: white; font-weight: 700;">{{ strings.SETTINGS_CAT_CONTROL }}</h2>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">{{ strings.SETTINGS_BUYING_STATUS }}</label>
+                <div class="status-btn-group">
+                    <label style="flex: 1;">
+                        <input type="radio" name="buying_active" value="1" class="status-radio" {% if buying_active %}checked{% endif %}>
+                        <div class="status-btn-item active-btn">{{ strings.SETTINGS_ACTIVE }}</div>
+                    </label>
+                    <label style="flex: 1;">
+                        <input type="radio" name="buying_active" value="0" class="status-radio" {% if not buying_active %}checked{% endif %}>
+                        <div class="status-btn-item paused-btn">{{ strings.SETTINGS_PAUSED }}</div>
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">{{ strings.SETTINGS_LANG }}</label>
+                <div class="status-btn-group">
+                    <label style="flex: 1;">
+                        <input type="radio" name="dash_lang" value="en" class="status-radio" {% if dash_lang == 'en' %}checked{% endif %}>
+                        <div class="status-btn-item lang-btn">English 🇺🇸</div>
+                    </label>
+                    <label style="flex: 1;">
+                        <input type="radio" name="dash_lang" value="ar" class="status-radio" {% if dash_lang == 'ar' %}checked{% endif %}>
+                        <div class="status-btn-item lang-btn">العربية 🇪🇬</div>
+                    </label>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary save-btn">
+                <i class="fa-solid fa-floppy-disk"></i> {{ strings.SETTINGS_UPDATE_BTN }}
+            </button>
+        </div>
+    </form>
+
+{% elif category == 'reset' %}
+    <div class="glass-card">
         <div style="margin-bottom: 2rem; display: flex; align-items: center; gap: 10px;">
             <i class="fa-solid fa-trash-can" style="color: #ef4444;"></i>
             <h2 style="margin: 0; font-size: 1.15rem; color: white; font-weight: 700;">{{ strings.LBL_RESET_SETTINGS }}</h2>
         </div>
 
-        <!-- Global Reset Sub-Card -->
         <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.06); padding: 22px; margin-bottom: 20px; border-radius: 20px;">
             <div style="display: flex; flex-direction: column; gap: 16px;">
                 <div style="display: flex; align-items: flex-start; gap: 12px;">
@@ -229,14 +302,13 @@
                     </div>
                 </div>
                 <form action="{{ url_for('reset_global') }}" method="POST" id="global-reset-form">
-                    <button type="button" class="btn" onclick="openResetModal('global-reset-form')" style="background: #ef4444; color: white !important; height: 50px; border-radius: 14px; font-weight: 700; width: 100%; border: none; box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3); transition: all 0.2s;">
+                    <button type="button" class="btn" onclick="openResetModal('global-reset-form')" style="background: #ef4444; color: white !important; height: 50px; border-radius: 14px; font-weight: 700; width: 100%; border: none;">
                         {{ strings.BTN_RESET_GLOBAL }}
                     </button>
                 </form>
             </div>
         </div>
 
-        <!-- User Reset Sub-Card -->
         <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.06); padding: 22px; border-radius: 20px;">
             <div style="font-weight: 700; color: white; font-size: 1.05rem; margin-bottom: 16px; display: flex; align-items: center; gap: 10px;">
                 <div style="width: 40px; height: 40px; background: rgba(245, 158, 11, 0.1); border-radius: 10px; display: flex; align-items: center; justify-content: center;">
@@ -248,86 +320,35 @@
                 <div style="display: flex; flex-direction: column; gap: 12px;">
                     <div class="form-group" style="margin-bottom: 0;">
                         <label class="form-label" style="font-size: 0.75rem;">{{ strings.LBL_USER_ID }}</label>
-                        <input type="text" name="user_id" class="form-control" placeholder="12345678" required style="width: 100%; margin-bottom: 0; background: rgba(0,0,0,0.3); border-color: rgba(255,255,255,0.05);">
+                        <input type="text" name="user_id" class="form-control" placeholder="12345678" required>
                     </div>
-                    <button type="button" class="btn" onclick="openResetModal('user-reset-form')" style="background: var(--warning); color: #000 !important; font-weight: 700; border-radius: 14px; border: none; height: 50px; width: 100%; transition: all 0.2s;">
+                    <button type="button" class="btn" onclick="openResetModal('user-reset-form')" style="background: var(--warning); color: #000 !important; font-weight: 700; border-radius: 14px; border: none; height: 50px; width: 100%;">
                         {{ strings.BTN_RESET_USER }}
                     </button>
                 </div>
             </form>
         </div>
     </div>
-</div>
+{% endif %}
 
 <!-- ═══════════════ CUSTOM RESET CONFIRMATION MODAL ═══════════════ -->
-<div id="reset-confirm-modal" style="
-    display: none;
-    position: fixed;
-    inset: 0;
-    z-index: 10000;
-    background: rgba(0,0,0,0.8);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    align-items: center;
-    justify-content: center;
-    padding: 1.5rem;
-">
-    <div style="
-        background: rgba(22,24,33,0.98);
-        border: 1px solid rgba(239,68,68,0.3);
-        border-radius: 28px;
-        padding: 2.5rem 1.5rem 1.5rem;
-        max-width: 380px;
-        width: 100%;
-        box-shadow: 0 25px 70px rgba(0,0,0,0.8), 0 0 0 1px rgba(239,68,68,0.1);
-        text-align: center;
-        animation: resetModalIn 0.3s cubic-bezier(0.34,1.56,0.64,1) both;
-    ">
-        <div style="
-            width: 72px; height: 72px;
-            background: rgba(239,68,68,0.1);
-            border: 1px solid rgba(239,68,68,0.3);
-            border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            margin: 0 auto 1.5rem;
-        ">
+<div id="reset-confirm-modal" style="display: none; position: fixed; inset: 0; z-index: 10000; background: rgba(0,0,0,0.8); backdrop-filter: blur(8px); align-items: center; justify-content: center; padding: 1.5rem;">
+    <div style="background: rgba(22,24,33,0.98); border: 1px solid rgba(239,68,68,0.3); border-radius: 28px; padding: 2.5rem 1.5rem 1.5rem; max-width: 380px; width: 100%; text-align: center;">
+        <div style="width: 72px; height: 72px; background: rgba(239,68,68,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem;">
             <i class="fa-solid fa-triangle-exclamation" style="font-size: 2rem; color: #ef4444;"></i>
         </div>
         <div style="font-size: 1.2rem; font-weight: 700; color: #fff; margin-bottom: 0.75rem;">{{ strings.MSG_RESET_CONFIRM }}</div>
-        <div id="modal-subtitle" style="font-size: 0.9rem; color: #94a3b8; margin-bottom: 2rem; line-height: 1.6;">
-            {{ strings.LBL_GLOBAL_RESET }}
-        </div>
+        <div id="modal-subtitle" style="font-size: 0.9rem; color: #94a3b8; margin-bottom: 2rem;"></div>
         <div style="display: flex; flex-direction: column; gap: 10px;">
-            <button onclick="confirmResetAction()" style="
-                height: 52px; border-radius: 16px;
-                background: #ef4444;
-                border: none;
-                color: #fff; font-family: inherit;
-                font-size: 1rem; font-weight: 700;
-                cursor: pointer; transition: all 0.2s;
-            " onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+            <button onclick="confirmResetAction()" style="height: 52px; border-radius: 16px; background: #ef4444; border: none; color: #fff; font-weight: 700;">
                 {{ strings.DASH_MODAL_REJECT_BTN }}
             </button>
-            <button onclick="closeResetModal()" style="
-                height: 52px; border-radius: 16px;
-                background: rgba(255,255,255,0.05);
-                border: 1px solid rgba(255,255,255,0.1);
-                color: #94a3b8; font-family: inherit;
-                font-size: 0.95rem; font-weight: 600;
-                cursor: pointer; transition: all 0.2s;
-            " onmouseover="this.style.background='rgba(255,255,255,0.1)'" onmouseout="this.style.background='rgba(255,255,255,0.05)'">
+            <button onclick="closeResetModal()" style="height: 52px; border-radius: 16px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #94a3b8;">
                 {{ strings.DASH_CANCEL }}
             </button>
         </div>
     </div>
 </div>
-
-<style>
-@keyframes resetModalIn {
-    from { opacity: 0; transform: scale(0.9) translateY(30px); }
-    to   { opacity: 1; transform: scale(1) translateY(0); }
-}
-</style>
 
 <script>
     var _activeResetFormId = null;
@@ -336,30 +357,16 @@
         _activeResetFormId = formId;
         var modal = document.getElementById('reset-confirm-modal');
         var subtitle = document.getElementById('modal-subtitle');
-        
-        if (formId === 'global-reset-form') {
-            subtitle.innerText = "{{ strings.LBL_GLOBAL_RESET }}";
-        } else {
-            subtitle.innerText = "{{ strings.LBL_USER_RESET }}";
-        }
-        
+        subtitle.innerText = (formId === 'global-reset-form') ? "{{ strings.LBL_GLOBAL_RESET }}" : "{{ strings.LBL_USER_RESET }}";
         modal.style.display = 'flex';
     }
 
     function closeResetModal() {
         document.getElementById('reset-confirm-modal').style.display = 'none';
-        _activeResetFormId = null;
     }
 
     function confirmResetAction() {
-        if (_activeResetFormId) {
-            document.getElementById(_activeResetFormId).submit();
-        }
+        if (_activeResetFormId) document.getElementById(_activeResetFormId).submit();
     }
-
-    // Close on backdrop click
-    document.getElementById('reset-confirm-modal').addEventListener('click', function(e) {
-        if (e.target === this) closeResetModal();
-    });
 </script>
 {% endblock %}

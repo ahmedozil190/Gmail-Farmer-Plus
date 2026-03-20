@@ -542,47 +542,41 @@ def reject_withdrawal_route(wid):
 @app.route("/settings", methods=["GET", "POST"])
 @requires_auth
 def settings():
+    category = request.args.get("cat", "general")
     if request.method == "POST":
-        # Updated .env file directly (handled keys)
+        category = request.form.get("category", "general")
         form_data = request.form
-        env_updates = {
-            "GMAIL_PRICE": form_data.get("gmail_price"),
-            "GMAIL_PRICE_AUTO": form_data.get("gmail_price_auto"),
-            "REFERRAL_BONUS": form_data.get("referral_bonus"),
-            "MIN_WITHDRAW_VODAFONE": form_data.get("min_voda"),
-            "MIN_WITHDRAW_BINANCE": form_data.get("min_binance"),
-            "MIN_WITHDRAW_USDT": form_data.get("min_usdt"),
-            "MIN_WITHDRAW_TRX": form_data.get("min_trx"),
-            "BUYING_ACTIVE": form_data.get("buying_active", "0"),
-            "DASHBOARD_LANG": form_data.get("dash_lang", "ar"),
-            "REQUIRED_CHANNELS": form_data.get("required_channels", ""),
-            "EMAILS_CHANNEL_ID": form_data.get("emails_channel", ""),
-            "WITHDRAWALS_CHANNEL_ID": form_data.get("withdrawals_channel", ""),
-            "GMAIL_MANUAL_PWD": form_data.get("gmail_manual_pwd", "Aa612003@"),
-        }
         
-        # Update Database settings (Instant)
-        database.set_setting("GMAIL_PRICE", env_updates["GMAIL_PRICE"])
-        database.set_setting("GMAIL_PRICE_AUTO", env_updates["GMAIL_PRICE_AUTO"])
-        database.set_setting("REFERRAL_BONUS", env_updates["REFERRAL_BONUS"])
-        database.set_setting("MIN_WITHDRAW_VODAFONE", env_updates["MIN_WITHDRAW_VODAFONE"])
-        database.set_setting("MIN_WITHDRAW_BINANCE", env_updates["MIN_WITHDRAW_BINANCE"])
-        database.set_setting("MIN_WITHDRAW_USDT", env_updates["MIN_WITHDRAW_USDT"])
-        database.set_setting("MIN_WITHDRAW_TRX", env_updates["MIN_WITHDRAW_TRX"])
-        database.set_setting("BUYING_ACTIVE", env_updates["BUYING_ACTIVE"])
-        database.set_setting("DASHBOARD_LANG", env_updates["DASHBOARD_LANG"])
-        database.set_setting("REQUIRED_CHANNELS", env_updates["REQUIRED_CHANNELS"])
-        database.set_setting("EMAILS_CHANNEL_ID", env_updates["EMAILS_CHANNEL_ID"])
-        database.set_setting("WITHDRAWALS_CHANNEL_ID", env_updates["WITHDRAWALS_CHANNEL_ID"])
-        database.set_setting("GMAIL_MANUAL_PWD", env_updates["GMAIL_MANUAL_PWD"])
+        if category == "general":
+            database.set_setting("GMAIL_PRICE", form_data.get("gmail_price"))
+            database.set_setting("GMAIL_PRICE_AUTO", form_data.get("gmail_price_auto"))
+            database.set_setting("REFERRAL_BONUS", form_data.get("referral_bonus"))
+            database.set_setting("GMAIL_MANUAL_PWD", form_data.get("gmail_manual_pwd", "Aa612003@"))
+        
+        elif category == "limits":
+            database.set_setting("MIN_WITHDRAW_VODAFONE", form_data.get("min_voda"))
+            database.set_setting("MIN_WITHDRAW_BINANCE", form_data.get("min_binance"))
+            database.set_setting("MIN_WITHDRAW_USDT", form_data.get("min_usdt"))
+            database.set_setting("MIN_WITHDRAW_TRX", form_data.get("min_trx"))
+            
+        elif category == "channels":
+            database.set_setting("REQUIRED_CHANNELS", form_data.get("required_channels", ""))
+            database.set_setting("EMAILS_CHANNEL_ID", form_data.get("emails_channel", ""))
+            database.set_setting("WITHDRAWALS_CHANNEL_ID", form_data.get("withdrawals_channel", ""))
+            
+        elif category == "control":
+            database.set_setting("BUYING_ACTIVE", form_data.get("buying_active", "0"))
+            database.set_setting("DASHBOARD_LANG", form_data.get("dash_lang", "ar"))
 
         from strings import DASHBOARD_STRINGS
-        lang = env_updates["DASHBOARD_LANG"]
+        lang = database.get_setting("DASHBOARD_LANG", "ar")
         flash(DASHBOARD_STRINGS.get(lang, DASHBOARD_STRINGS["ar"])['ALERT_SETTINGS_SAVED'], "success")
-        return redirect(url_for("settings"))
+        return redirect(url_for("settings", cat=category))
 
     conf = database.get_business_config()
     return render_template("settings.html", 
+                           category=category,
+                           config=conf,
                            price=conf["GMAIL_PRICE"], 
                            price_auto=conf["GMAIL_PRICE_AUTO"],
                            bonus=conf["REFERRAL_BONUS"], 
@@ -591,7 +585,8 @@ def settings():
                            min_usdt=conf["MIN_METHODS"]["🟢 USDT (BEP20)"],
                            min_trx=conf["MIN_METHODS"]["💎 TRX (TRC20)"],
                            buying_active=conf["BUYING_ACTIVE"],
-                           required_channels=conf["REQUIRED_CHANNELS"])
+                           required_channels=conf["REQUIRED_CHANNELS"],
+                           dash_lang=conf.get("DASHBOARD_LANG", "ar"))
 
 @app.route("/admin/reset_global", methods=["POST"])
 @requires_auth

@@ -1069,8 +1069,14 @@ DASHBOARD_STRINGS = {
         'DASH_BS_PH': "اكتب رسالتك هنا...",
         'DASH_BS_USER_ID': "معرف المستخدم (ID)",
 
-        'SETTINGS_TITLE': "إعدادات البوت العامة",
-        'SETTINGS_CONFIG': "تكوين البوت",
+        'SETTINGS_TITLE': "إعدادات البوت",
+        'SETTINGS_CAT_GENERAL': "الأسعار والعمولات",
+        'SETTINGS_CAT_CHANNELS': "القنوات والاشتراكات",
+        'SETTINGS_CAT_LIMITS': "حدود السحب",
+        'SETTINGS_CAT_CONTROL': "التحكم واللغة",
+        'SETTINGS_CAT_RESET': "إعادة الضبط",
+        
+        'SETTINGS_CONFIG': "إعدادات البوت",
         'SETTINGS_GMAIL_PRICE': "سعر الجيميل اليدوي ($)",
         'SETTINGS_GMAIL_PRICE_AUTO': "سعر الجيميل السريع ($)",
         'SETTINGS_REF_BONUS': "مكافأة الإحالة ($)",
@@ -1179,6 +1185,12 @@ DASHBOARD_STRINGS = {
         'DASH_BS_USER_ID': "User ID",
 
         'SETTINGS_TITLE': "Global Settings",
+        'SETTINGS_CAT_GENERAL': "Prices & Commissions",
+        'SETTINGS_CAT_CHANNELS': "Channels & Subscriptions",
+        'SETTINGS_CAT_LIMITS': "Withdrawal Limits",
+        'SETTINGS_CAT_CONTROL': "Control & Language",
+        'SETTINGS_CAT_RESET': "Reset Options",
+
         'SETTINGS_CONFIG': "Bot Configuration",
         'SETTINGS_GMAIL_PRICE': "Manual Gmail Price ($)",
         'SETTINGS_GMAIL_PRICE_AUTO': "Auto Gmail Price ($)",
