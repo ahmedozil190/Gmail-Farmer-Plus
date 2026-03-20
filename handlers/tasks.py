@@ -151,6 +151,12 @@ async def send_auto_account_data(update: Update, context: ContextTypes.DEFAULT_T
             parse_mode="HTML",
             reply_markup=InlineKeyboardMarkup(keyboard)
         )
+    else:
+        await update.message.reply_text(
+            text=text,
+            parse_mode="HTML",
+            reply_markup=InlineKeyboardMarkup(keyboard)
+        )
     return TASK_AUTO
 
 async def handle_auto_action(update: Update, context: ContextTypes.DEFAULT_TYPE):
