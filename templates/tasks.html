@@ -118,7 +118,9 @@
                 <div style="font-size: 0.95rem;">
                     <span style="font-weight: 600; color: var(--text-secondary);">Date:</span>
                     <span style="opacity: 0.8;">{{ task.submitted_at[:16].replace('T', ' ') }}</span>
+                    {% if task.age_text %}
                     <span style="font-size: 0.8rem; opacity: 0.6; margin-left: 5px;">({{ task.age_text }})</span>
+                    {% endif %}
                 </div>
 
                 <div style="font-size: 0.95rem;">
