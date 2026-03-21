@@ -2,297 +2,319 @@
 
 {% block content %}
 <style>
-/* Custom Premium Styles for Home */
-.premium-greeting {
-    padding: 0.5rem 1.25rem 1.5rem;
-}
-.greeting-text {
-    font-size: 0.95rem;
-    color: #888;
-    font-weight: 600;
-}
-.user-name {
-    font-size: 1.5rem;
-    font-weight: 800;
-    color: #fff;
-    letter-spacing: -0.5px;
-    margin-top: 4px;
+/* ── Luxurious Glassmorphism V4 ───────────────────────────── */
+:root {
+    --glass: rgba(255, 255, 255, 0.03);
+    --glass-border: rgba(255, 255, 255, 0.07);
+    --glass-accent: rgba(96, 165, 250, 0.15);
 }
 
-/* Balance Card */
-.premium-balance-card {
-    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-    border-radius: 24px;
+.home-container {
+    position: relative;
+    padding-top: 5px;
+}
+
+/* Background Animated Blobs */
+.bg-blob {
+    position: fixed;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.08) 0%, transparent 70%);
+    filter: blur(60px);
+    z-index: -1;
+    pointer-events: none;
+    animation: blob-float 20s infinite alternate;
+}
+.blob-1 { top: -100px; right: -50px; background: radial-gradient(circle, rgba(139, 92, 246, 0.08) 0%, transparent 70%); }
+.blob-2 { bottom: 100px; left: -100px; }
+
+@keyframes blob-float {
+    0% { transform: translate(0, 0) scale(1); }
+    100% { transform: translate(30px, 40px) scale(1.1); }
+}
+
+/* Hero Section */
+.hero-header {
+    margin-bottom: 2rem;
+}
+.hero-welcome {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+.hero-user {
+    font-size: 1.75rem;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    background: linear-gradient(to right, #fff, #94a3b8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Premium Balance Card (Glass Card Style) */
+.balance-glass-card {
+    background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.01) 100%);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: 28px;
     padding: 1.8rem;
-    margin: 0 1.25rem 1.5rem;
+    margin-bottom: 2rem;
     position: relative;
     overflow: hidden;
-    border: 1px solid rgba(255,255,255,0.05);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
 }
-.premium-balance-card::before {
+.balance-glass-card::before {
     content: '';
     position: absolute;
     top: -50%;
     right: -20%;
-    width: 200px;
-    height: 200px;
-    background: radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, rgba(0,0,0,0) 70%);
-    border-radius: 50%;
+    width: 250px;
+    height: 250px;
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.12) 0%, transparent 70%);
     pointer-events: none;
 }
-[dir="rtl"] .premium-balance-card::before {
-    right: auto;
-    left: -20%;
+.card-chip {
+    width: 45px;
+    height: 34px;
+    background: linear-gradient(135deg, #ffd70033 0%, #b8860b33 100%);
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    border: 1px solid rgba(255,215,0,0.1);
 }
-.balance-title {
-    font-size: 0.8rem;
+.balance-lbl {
+    font-size: 0.75rem;
     text-transform: uppercase;
-    letter-spacing: 1px;
-    color: rgba(255,255,255,0.6);
+    letter-spacing: 2px;
+    color: rgba(255,255,255,0.5);
     margin-bottom: 0.5rem;
     font-weight: 600;
 }
-.balance-value {
-    font-size: 3.2rem;
+.balance-val {
+    font-size: 3rem;
     font-weight: 800;
-    color: white;
-    line-height: 1;
-    letter-spacing: -1px;
-    margin-bottom: 1.2rem;
+    color: #fff;
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 8px;
+    letter-spacing: -1px;
 }
-.balance-value .currency-symbol {
-    font-size: 1.5rem;
-    color: #3b82f6;
-    opacity: 0.8;
+.balance-val span { color: var(--accent); opacity: 0.9; font-size: 1.5rem; }
+
+.balance-footer {
+    margin-top: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
-.pending-pill {
-    display: inline-flex;
+.pending-badge {
+    background: rgba(245, 158, 11, 0.1);
+    border: 1px solid rgba(245, 158, 11, 0.15);
+    color: #f59e0b;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    display: flex;
     align-items: center;
     gap: 6px;
-    background: rgba(245, 158, 11, 0.1);
-    border: 1px solid rgba(245, 158, 11, 0.2);
-    padding: 6px 12px;
-    border-radius: 20px;
-    color: #f59e0b;
-    font-size: 0.85rem;
-    font-weight: 600;
 }
 
-/* Action Buttons */
-.action-grid {
+/* Bento Grid Actions */
+.bento-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 110px);
     gap: 12px;
-    margin: 0 1.25rem 2rem;
+    margin-bottom: 2rem;
 }
-.action-item {
+.bento-item {
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(10px);
+    border-radius: 24px;
+    padding: 1.2rem;
+    text-decoration: none;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background: rgba(255,255,255,0.03);
-    border: 1px solid rgba(255,255,255,0.05);
-    border-radius: 16px;
-    padding: 15px 5px;
-    text-decoration: none;
-    color: #fff;
-    transition: all 0.2s;
-    backdrop-filter: blur(10px);
-}
-.action-item:active {
-    transform: scale(0.95);
-    background: rgba(255,255,255,0.08);
-}
-.action-icon {
-    width: 44px;
-    height: 44px;
-    border-radius: 14px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.3rem;
-    margin-bottom: 8px;
-}
-.action-icon.task { background: rgba(59, 130, 246, 0.1); color: #3b82f6; }
-.action-icon.withdraw { background: rgba(16, 185, 129, 0.1); color: #10b981; }
-.action-icon.invite { background: rgba(168, 85, 247, 0.1); color: #a855f7; }
-.action-label {
-    font-size: 0.75rem;
-    font-weight: 600;
-}
-
-/* Stats Row */
-.premium-stats {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-    margin: 0 1.25rem 2rem;
-}
-.stat-box {
-    background: rgba(255,255,255,0.02);
-    border-radius: 16px;
-    padding: 1.2rem 1rem;
-    border: 1px solid rgba(255,255,255,0.05);
-    text-align: center;
-}
-.stat-box .stat-val {
-    font-size: 1.6rem;
-    font-weight: 800;
-    margin-bottom: 4px;
-}
-.stat-box .stat-lbl {
-    font-size: 0.7rem;
-    color: rgba(255,255,255,0.5);
-    text-transform: uppercase;
-    font-weight: 600;
-    letter-spacing: 0.5px;
-}
-.stat-box.success .stat-val { color: #10b981; }
-.stat-box.warning .stat-val { color: #f59e0b; }
-.stat-box.danger .stat-val { color: #ef4444; }
-
-/* Recent Activity */
-.activity-section {
-    margin: 0 1.25rem 2rem;
-}
-.activity-header {
-    display: flex;
     justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1rem;
+    transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
 }
-.activity-title {
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: #fff;
+.bento-item:active { transform: scale(0.96); background: rgba(255,255,255,0.06); }
+.bento-item.large {
+    grid-column: span 1;
+    grid-row: span 2;
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(255,255,255,0.02) 100%);
 }
-.activity-link {
-    font-size: 0.85rem;
-    color: #3b82f6;
-    text-decoration: none;
-    font-weight: 600;
-}
-.activity-card {
-    background: rgba(255,255,255,0.02);
-    border-radius: 16px;
-    padding: 1rem;
-    border: 1px solid rgba(255,255,255,0.05);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 10px;
-}
-.act-icon {
+.bento-icon {
     width: 40px;
     height: 40px;
     border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.1rem;
+    font-size: 1.2rem;
 }
-.act-icon.approved { background: rgba(16, 185, 129, 0.1); color: #10b981; }
-.act-icon.pending { background: rgba(245, 158, 11, 0.1); color: #f59e0b; }
-.act-icon.rejected { background: rgba(239, 68, 68, 0.1); color: #ef4444; }
+.bento-item.large .bento-icon { width: 48px; height: 48px; font-size: 1.5rem; background: rgba(59,130,246,0.15); color: #3b82f6; }
+.bento-icon.green { background: rgba(16,185,129,0.1); color: #10b981; }
+.bento-icon.purple { background: rgba(168,85,247,0.1); color: #a855f7; }
 
-.act-details {
-    flex: 1;
-    margin: 0 12px;
+.bento-title { font-size: 0.95rem; font-weight: 700; color: #fff; }
+.bento-desc { font-size: 0.75rem; color: var(--text-secondary); margin-top: 2px; }
+
+/* Stats Mini Horizontal */
+.stats-pills {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    padding-bottom: 5px;
+    margin-bottom: 2rem;
+    scrollbar-width: none;
 }
-.act-name {
-    font-weight: 700;
-    font-size: 0.9rem;
-    margin-bottom: 2px;
-    color: #fff;
+.stats-pills::-webkit-scrollbar { display: none; }
+.stat-pill {
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    padding: 10px 16px;
+    border-radius: 100px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
 }
-.act-time {
-    font-size: 0.75rem;
-    color: #888;
+.stat-pill i { font-size: 0.9rem; }
+.stat-pill .s-val { font-weight: 800; color: #fff; }
+.stat-pill .s-lbl { font-size: 0.75rem; color: var(--text-secondary); font-weight: 600; }
+.stat-pill.success i { color: #10b981; }
+.stat-pill.warning i { color: #f59e0b; }
+.stat-pill.danger i { color: #ef4444; }
+
+/* Activity Section */
+.recent-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.25rem;
 }
-.act-price {
-    font-weight: 800;
-    font-size: 1rem;
-    color: #fff;
+.recent-title { font-size: 1.1rem; font-weight: 700; }
+.recent-view-all { font-size: 0.85rem; color: var(--accent); text-decoration: none; font-weight: 600; }
+
+.lux-list-item {
+    background: linear-gradient(90deg, rgba(255,255,255,0.02) 0%, transparent 100%);
+    border-left: 4px solid var(--glass-border);
+    padding: 1.2rem;
+    border-radius: 0 16px 16px 0;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: all 0.2s;
 }
+[dir="rtl"] .lux-list-item { border-left: none; border-right: 4px solid var(--glass-border); border-radius: 16px 0 0 16px; }
+.lux-list-item:active { background: rgba(255,255,255,0.05); }
+
+.lux-details { flex: 1; margin: 0 15px; }
+.lux-status-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 8px; }
+[dir="rtl"] .lux-status-dot { margin-right: 0; margin-left: 8px; }
+.status-dot.approved { background: #10b981; box-shadow: 0 0 8px #10b98166; }
+.status-dot.pending { background: #f59e0b; box-shadow: 0 0 8px #f59e0b66; }
+.status-dot.rejected { background: #ef4444; box-shadow: 0 0 8px #ef444466; }
+
+.lux-name { font-weight: 700; font-size: 0.95rem; color: #fff; margin-bottom: 2px; }
+.lux-meta { font-size: 0.75rem; color: var(--text-secondary); }
+.lux-amount { font-weight: 800; font-size: 1.1rem; color: #fff; }
 </style>
 
-<div class="premium-greeting">
-    <div class="greeting-text">{{ strings.HOME_WELCOME }}</div>
-    <div class="user-name">{{ user.full_name or 'User' }}</div>
-</div>
+<div class="home-container">
+    <div class="bg-blob blob-1"></div>
+    <div class="bg-blob blob-2"></div>
 
-<div class="premium-balance-card">
-    <div class="balance-title">{{ strings.HOME_BALANCE }}</div>
-    <div class="balance-value">
-        <span class="currency-symbol">$</span>{{ "%.2f"|format(balance) }}
+    <div class="hero-header">
+        <div class="hero-welcome">{{ strings.HOME_WELCOME }}</div>
+        <div class="hero-user">{{ user.full_name or 'Friend' }}</div>
     </div>
-    {% if pending > 0 %}
-    <div class="pending-pill">
-        <i class="fa-solid fa-clock-rotate-left"></i>
-        <span>{{ strings.HOME_PENDING|format(pending) }}</span>
+
+    <div class="balance-glass-card">
+        <div class="card-chip"></div>
+        <div class="balance-lbl">{{ strings.HOME_BALANCE }}</div>
+        <div class="balance-val">
+            <span>$</span>{{ "%.2f"|format(balance) }}
+        </div>
+        <div class="balance-footer">
+            {% if pending > 0 %}
+            <div class="pending-badge">
+                <i class="fa-solid fa-hourglass-half"></i>
+                <span>{{ strings.HOME_PENDING|format(pending) }}</span>
+            </div>
+            {% else %}
+            <div style="font-size: 0.75rem; color: rgba(255,255,255,0.3); font-weight: 600;">ACTIVE PLAN</div>
+            {% endif %}
+            <i class="fa-brands fa-cc-visa" style="font-size: 1.8rem; opacity: 0.2;"></i>
+        </div>
+    </div>
+
+    <div class="bento-grid">
+        <a href="{{ url_for('app_tasks') }}" class="bento-item large">
+            <div class="bento-icon"><i class="fa-solid fa-plus"></i></div>
+            <div>
+                <div class="bento-title">{{ strings.HOME_NEW_TASK }}</div>
+                <div class="bento-desc">Earn rewards now</div>
+            </div>
+        </a>
+        <a href="{{ url_for('app_wallet') }}" class="bento-item">
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <div class="bento-icon green"><i class="fa-solid fa-wallet"></i></div>
+                <div class="bento-title">{{ strings.NAV_WALLET }}</div>
+            </div>
+            <i class="fa-solid fa-arrow-right" style="font-size: 0.8rem; opacity: 0.4;"></i>
+        </a>
+        <a href="{{ url_for('app_referrals') }}" class="bento-item">
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <div class="bento-icon purple"><i class="fa-solid fa-users"></i></div>
+                <div class="bento-title">{{ strings.NAV_REFERRALS }}</div>
+            </div>
+            <i class="fa-solid fa-arrow-right" style="font-size: 0.8rem; opacity: 0.4;"></i>
+        </a>
+    </div>
+
+    <div class="stats-pills">
+        <div class="stat-pill success">
+            <i class="fa-solid fa-circle-check"></i>
+            <span class="s-val">{{ approved_tasks }}</span>
+            <span class="s-lbl">{{ strings.HOME_APPROVED }}</span>
+        </div>
+        <div class="stat-pill warning">
+            <i class="fa-solid fa-clock"></i>
+            <span class="s-val">{{ pending_tasks }}</span>
+            <span class="s-lbl">{{ strings.HOME_REQ_PENDING }}</span>
+        </div>
+        <div class="stat-pill danger">
+            <i class="fa-solid fa-circle-xmark"></i>
+            <span class="s-val">{{ rejected_tasks }}</span>
+            <span class="s-lbl">{{ strings.HOME_REJECTED }}</span>
+        </div>
+    </div>
+
+    {% if recent_tasks %}
+    <div class="recent-header">
+        <span class="recent-title">{{ strings.HOME_RECENT_TASKS }}</span>
+        <a href="{{ url_for('app_tasks') }}" class="recent-view-all">{{ strings.HOME_VIEW_ALL }}</a>
+    </div>
+
+    <div class="recent-list">
+        {% for task in recent_tasks[:4] %}
+        <div class="lux-list-item" style="border-color: {% if task.status == 'approved' %}#10b981{% elif task.status == 'rejected' %}#ef4444{% else %}#f59e0b{% endif %};">
+            <div class="lux-details">
+                <div class="lux-name">
+                    <span class="lux-status-dot status-dot {{ task.status }}"></span>
+                    {{ task.gmail_account }}
+                </div>
+                <div class="lux-meta">{{ task.submitted_at[:10] }}</div>
+            </div>
+            <div class="lux-amount">${{ "%.2f"|format(task.price or 0) }}</div>
+        </div>
+        {% endfor %}
     </div>
     {% endif %}
 </div>
-
-<div class="action-grid">
-    <a href="{{ url_for('app_tasks') }}" class="action-item">
-        <div class="action-icon task"><i class="fa-solid fa-plus"></i></div>
-        <span class="action-label">{{ strings.HOME_NEW_TASK }}</span>
-    </a>
-    <a href="{{ url_for('app_wallet') }}" class="action-item">
-        <div class="action-icon withdraw"><i class="fa-solid fa-money-bill-transfer"></i></div>
-        <span class="action-label">{{ strings.HOME_WITHDRAW }}</span>
-    </a>
-    <a href="{{ url_for('app_referrals') }}" class="action-item">
-        <div class="action-icon invite"><i class="fa-solid fa-user-plus"></i></div>
-        <span class="action-label">{{ strings.HOME_INVITE }}</span>
-    </a>
-</div>
-
-<div class="premium-stats">
-    <div class="stat-box success">
-        <div class="stat-val">{{ approved_tasks }}</div>
-        <div class="stat-lbl">{{ strings.HOME_APPROVED }}</div>
-    </div>
-    <div class="stat-box warning">
-        <div class="stat-val">{{ pending_tasks }}</div>
-        <div class="stat-lbl">{{ strings.HOME_REQ_PENDING }}</div>
-    </div>
-    <div class="stat-box danger">
-        <div class="stat-val">{{ rejected_tasks }}</div>
-        <div class="stat-lbl">{{ strings.HOME_REJECTED }}</div>
-    </div>
-</div>
-
-{% if recent_tasks %}
-<div class="activity-section">
-    <div class="activity-header">
-        <span class="activity-title">{{ strings.HOME_RECENT_TASKS }}</span>
-        {% if recent_tasks|length > 3 %}
-        <a href="{{ url_for('app_tasks') }}" class="activity-link">{{ strings.HOME_VIEW_ALL }}</a>
-        {% endif %}
-    </div>
-    
-    {% for task in recent_tasks[:3] %}
-    <div class="list-item">
-        <div class="list-row">
-            <span style="font-size: 0.85rem; font-weight: 600;">{{ task.gmail_account }}</span>
-            <span class="status-icon {{ task.status }}">
-                {% if task.status == 'approved' %}<i class="fa-solid fa-check"></i>
-                {% elif task.status == 'rejected' %}<i class="fa-solid fa-xmark"></i>
-                {% else %}<i class="fa-solid fa-clock"></i>{% endif %}
-            </span>
-        </div>
-        <div class="list-row" style="margin-top: 6px;">
-            <span class="list-label">{{ task.submitted_at[:10] if task.submitted_at else '' }}</span>
-            <span class="list-value">${{ "%.2f"|format(task.price or 0) }}</span>
-        </div>
-    </div>
-    {% endfor %}
-</div>
-{% endif %}
 {% endblock %}
