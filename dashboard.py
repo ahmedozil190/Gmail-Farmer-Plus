@@ -823,9 +823,9 @@ def app_home():
             "SELECT * FROM submissions WHERE user_id = ? ORDER BY submitted_at DESC LIMIT 5", (user_id,)
         ).fetchall()
         
-        # Total withdrawn (sum of approved withdrawals)
+        # Total withdrawn (sum of completed withdrawals)
         total_withdrawn = con.execute(
-            "SELECT SUM(amount) FROM withdrawals WHERE user_id = ? AND status = 'approved'", (user_id,)
+            "SELECT SUM(amount) FROM withdrawals WHERE user_id = ? AND status = 'completed'", (user_id,)
         ).fetchone()[0] or 0
         
         con.close()

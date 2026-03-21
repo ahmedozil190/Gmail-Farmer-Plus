@@ -196,11 +196,11 @@
         
         <div class="elite-card-footer">
             <div class="footer-item" style="text-align: left;">
-                <span class="footer-label">{{ strings.NAV_WALLET if strings else 'Withdrawn' }}</span>
+                <span class="footer-label">{{ strings.DASH_U_TOTAL_WITHDRAWN if strings else 'Total Withdrawn' }}</span>
                 <span class="footer-value withdrawn">${{ "%.2f"|format(total_withdrawn or 0) }}</span>
             </div>
             <div class="footer-item" style="text-align: right;">
-                <span class="footer-label">{{ strings.HOME_PENDING_TITLE if strings else 'Pending' }}</span>
+                <span class="footer-label">{{ strings.DASH_FILTER_PENDING if strings else 'Pending' }}</span>
                 <span class="footer-value pending">${{ "%.2f"|format(pending or 0) }}</span>
             </div>
         </div>
