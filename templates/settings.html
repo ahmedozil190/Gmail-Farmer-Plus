@@ -177,7 +177,7 @@
             <i class="fa-solid fa-chevron-right nav-arrow"></i>
         </a>
 
-        <a href="{{ url_for('settings', cat='reset') }}" class="nav-card" style="border-color: rgba(239, 68, 68, 0.1);">
+        <a href="{{ url_for('settings', cat='reset') }}" class="nav-card">
             <div class="nav-icon" style="background: rgba(239, 68, 68, 0.1); color: #ef4444;">
                 <i class="fa-solid fa-trash-can"></i>
             </div>
@@ -186,12 +186,12 @@
         </a>
 
         <!-- Logout Option -->
-        <a href="{{ url_for('logout') }}" class="nav-card" style="margin-top: 2rem; background: rgba(239, 68, 68, 0.05); border-color: rgba(239, 68, 68, 0.2);">
-            <div class="nav-icon" style="background: #ef4444; color: white;">
+        <a href="{{ url_for('logout') }}" class="nav-card" style="margin-top: 2rem;">
+            <div class="nav-icon" style="background: rgba(239, 68, 68, 0.1); color: #ef4444;">
                 <i class="fa-solid fa-right-from-bracket"></i>
             </div>
-            <span class="nav-text" style="color: #ef4444;">{{ strings.SETTINGS_LOGOUT }}</span>
-            <i class="fa-solid fa-chevron-right nav-arrow" style="color: #ef4444;"></i>
+            <span class="nav-text">{{ strings.SETTINGS_LOGOUT }}</span>
+            <i class="fa-solid fa-chevron-right nav-arrow"></i>
         </a>
     </div>
 
