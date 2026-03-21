@@ -68,6 +68,46 @@
     .glass-card {
         padding: 2rem !important;
         margin-bottom: 2rem;
+        animation: fadeIn 0.3s ease-out;
+    }
+
+    .nav-card {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        padding: 1.5rem;
+        border-radius: 20px;
+        margin-bottom: 1rem;
+        text-decoration: none;
+        transition: all 0.2s;
+    }
+
+    .nav-card:active {
+        transform: scale(0.97);
+        background: rgba(255, 255, 255, 0.06);
+    }
+
+    .nav-icon {
+        width: 45px; 
+        height: 45px; 
+        border-radius: 12px; 
+        display: flex; 
+        align-items: center; 
+        justify-content: center;
+        font-size: 1.2rem;
+    }
+
+    .nav-text {
+        flex: 1;
+        font-weight: 700;
+        color: white;
+        font-size: 1.05rem;
+    }
+
+    .nav-arrow {
+        color: rgba(255, 255, 255, 0.3);
     }
 
     .save-btn {
@@ -78,228 +118,245 @@
         box-shadow: 0 5px 15px rgba(0,0,0,0.3); 
         width: 100%;
         margin-top: 1rem;
-        transition: all 0.2s;
+        border: none;
     }
 
-    .save-btn:active {
-        transform: scale(0.98);
+    .back-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        color: var(--text-secondary);
+        text-decoration: none;
+        margin-bottom: 1.5rem;
+        font-weight: 600;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
     }
 </style>
 
-<div class="settings-container" style="padding-bottom: 5rem;">
-    <!-- 1. Prices & Commissions -->
-    <form action="{{ url_for('settings') }}" method="POST" id="form-general">
-        <input type="hidden" name="category" value="general">
-        <div class="glass-card">
-            <div style="margin-bottom: 2rem; display: flex; align-items: center; gap: 12px;">
-                <div style="width: 45px; height: 45px; background: rgba(96, 165, 250, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
-                    <i class="fa-solid fa-dollar-sign" style="color: var(--accent-blue); font-size: 1.2rem;"></i>
-                </div>
-                <h2 style="margin: 0; font-size: 1.2rem; color: white; font-weight: 700;">{{ strings.SETTINGS_CAT_GENERAL }}</h2>
+{% if not request.args.get('cat') %}
+    <!-- ═══════════════ SETTINGS MENU VIEW ═══════════════ -->
+    <div style="margin-bottom: 2rem;">
+        <h2 style="font-size: 1.5rem; color: white; font-weight: 800; margin-bottom: 0.5rem;">{{ strings.NAV_SET }}</h2>
+        <p style="color: var(--text-secondary); font-size: 0.9rem;">{{ strings.SETTINGS_CONFIG }}</p>
+    </div>
+
+    <div class="settings-menu">
+        <a href="{{ url_for('settings', cat='general') }}" class="nav-card">
+            <div class="nav-icon" style="background: rgba(96, 165, 250, 0.1); color: #60a5fa;">
+                <i class="fa-solid fa-dollar-sign"></i>
             </div>
-            
-            <div class="form-group">
-                <label class="form-label">{{ strings.SETTINGS_GMAIL_PRICE }}</label>
-                <input type="number" step="0.01" name="gmail_price" class="form-control" value="{{ price }}" required>
+            <span class="nav-text">{{ strings.SETTINGS_CAT_GENERAL }}</span>
+            <i class="fa-solid fa-chevron-right nav-arrow"></i>
+        </a>
+
+        <a href="{{ url_for('settings', cat='channels') }}" class="nav-card">
+            <div class="nav-icon" style="background: rgba(168, 85, 247, 0.1); color: #a855f7;">
+                <i class="fa-solid fa-tower-broadcast"></i>
             </div>
+            <span class="nav-text">{{ strings.SETTINGS_CAT_CHANNELS }}</span>
+            <i class="fa-solid fa-chevron-right nav-arrow"></i>
+        </a>
 
-            <div class="form-group">
-                <label class="form-label">{{ strings.SETTINGS_GMAIL_PRICE_AUTO }}</label>
-                <input type="number" step="0.01" name="gmail_price_auto" class="form-control" value="{{ price_auto }}" required>
+        <a href="{{ url_for('settings', cat='limits') }}" class="nav-card">
+            <div class="nav-icon" style="background: rgba(34, 197, 94, 0.1); color: #22c55e;">
+                <i class="fa-solid fa-gauge-high"></i>
             </div>
+            <span class="nav-text">{{ strings.SETTINGS_CAT_LIMITS }}</span>
+            <i class="fa-solid fa-chevron-right nav-arrow"></i>
+        </a>
 
-            <div class="form-group">
-                <label class="form-label">{{ strings.LBL_UNIFIED_PWD or 'Unified Manual Password' }}</label>
-                <input type="text" name="gmail_manual_pwd" class="form-control" value="{{ config.GMAIL_MANUAL_PWD }}" required>
+        <a href="{{ url_for('settings', cat='control') }}" class="nav-card">
+            <div class="nav-icon" style="background: rgba(245, 158, 11, 0.1); color: #f59e0b;">
+                <i class="fa-solid fa-gamepad"></i>
             </div>
+            <span class="nav-text">{{ strings.SETTINGS_CAT_CONTROL }}</span>
+            <i class="fa-solid fa-chevron-right nav-arrow"></i>
+        </a>
 
-            <div class="form-group">
-                <label class="form-label">{{ strings.SETTINGS_REF_BONUS }}</label>
-                <input type="number" step="0.01" name="referral_bonus" class="form-control" value="{{ bonus }}" required>
+        <a href="{{ url_for('settings', cat='reset') }}" class="nav-card" style="border-color: rgba(239, 68, 68, 0.1);">
+            <div class="nav-icon" style="background: rgba(239, 68, 68, 0.1); color: #ef4444;">
+                <i class="fa-solid fa-trash-can"></i>
             </div>
+            <span class="nav-text">{{ strings.SETTINGS_CAT_RESET }}</span>
+            <i class="fa-solid fa-chevron-right nav-arrow"></i>
+        </a>
+    </div>
 
-            <button type="submit" class="btn btn-primary save-btn">
-                <i class="fa-solid fa-floppy-disk"></i> {{ strings.SETTINGS_UPDATE_BTN }}
-            </button>
-        </div>
-    </form>
+{% else %}
+    <!-- ═══════════════ SUB-PAGE VIEW ═══════════════ -->
+    <a href="{{ url_for('settings') }}" class="back-btn">
+        <i class="fa-solid fa-arrow-left"></i> {{ strings.DASH_CANCEL or 'Back' }}
+    </a>
 
-    <!-- 2. Channels & Subscriptions -->
-    <form action="{{ url_for('settings') }}" method="POST" id="form-channels">
-        <input type="hidden" name="category" value="channels">
-        <div class="glass-card">
-            <div style="margin-bottom: 2rem; display: flex; align-items: center; gap: 12px;">
-                <div style="width: 45px; height: 45px; background: rgba(168, 85, 247, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
-                    <i class="fa-solid fa-tower-broadcast" style="color: #a855f7; font-size: 1.2rem;"></i>
-                </div>
-                <h2 style="margin: 0; font-size: 1.2rem; color: white; font-weight: 700;">{{ strings.SETTINGS_CAT_CHANNELS }}</h2>
-            </div>
+    {% set cat = request.args.get('cat') %}
 
-            <div class="form-group">
-                <label class="form-label">{{ strings.SETTINGS_REQ_CHANNELS }}</label>
-                <input type="text" name="required_channels" class="form-control" placeholder="@channel1, @channel2" value="{{ required_channels }}">
-                <small style="color: var(--text-secondary); display: block; margin-top: 5px;">{{ strings.SETTINGS_REQ_CHANNELS_HELP }}</small>
-            </div>
-
-            <div class="form-group">
-                <label class="form-label">{{ strings.SETTINGS_EMAILS_CHANNEL }}</label>
-                <input type="text" name="emails_channel" class="form-control" placeholder="-100..." value="{{ config.EMAILS_CHANNEL_ID }}">
-            </div>
-
-            <div class="form-group">
-                <label class="form-label">{{ strings.SETTINGS_WITHDRAWALS_CHANNEL }}</label>
-                <input type="text" name="withdrawals_channel" class="form-control" placeholder="-100..." value="{{ config.WITHDRAWALS_CHANNEL_ID }}">
-            </div>
-
-            <button type="submit" class="btn btn-primary save-btn" style="background: linear-gradient(135deg, #a855f7, #6b21a8); border: none;">
-                <i class="fa-solid fa-floppy-disk"></i> {{ strings.SETTINGS_UPDATE_BTN }}
-            </button>
-        </div>
-    </form>
-
-    <!-- 3. Withdrawal Limits -->
-    <form action="{{ url_for('settings') }}" method="POST" id="form-limits">
-        <input type="hidden" name="category" value="limits">
-        <div class="glass-card">
-            <div style="margin-bottom: 2rem; display: flex; align-items: center; gap: 12px;">
-                <div style="width: 45px; height: 45px; background: rgba(34, 197, 94, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
-                    <i class="fa-solid fa-gauge-high" style="color: #22c55e; font-size: 1.2rem;"></i>
-                </div>
-                <h2 style="margin: 0; font-size: 1.2rem; color: white; font-weight: 700;">{{ strings.SETTINGS_CAT_LIMITS }}</h2>
-            </div>
-
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+    {% if cat == 'general' %}
+        <form action="{{ url_for('settings') }}" method="POST">
+            <input type="hidden" name="category" value="general">
+            <div class="glass-card">
+                <h2 style="margin-bottom: 2rem; font-size: 1.3rem; color: white; display: flex; align-items: center; gap: 10px;">
+                    <i class="fa-solid fa-dollar-sign" style="color: #60a5fa;"></i> {{ strings.SETTINGS_CAT_GENERAL }}
+                </h2>
                 <div class="form-group">
-                    <label class="form-label">{{ strings.SETTINGS_VODAFONE }}</label>
-                    <input type="number" step="0.01" name="min_voda" class="form-control" value="{{ min_voda }}" required>
+                    <label class="form-label">{{ strings.SETTINGS_GMAIL_PRICE }}</label>
+                    <input type="number" step="0.01" name="gmail_price" class="form-control" value="{{ price }}" required>
                 </div>
-
                 <div class="form-group">
-                    <label class="form-label">{{ strings.SETTINGS_BINANCE }}</label>
-                    <input type="number" step="0.01" name="min_binance" class="form-control" value="{{ min_binance }}" required>
+                    <label class="form-label">{{ strings.SETTINGS_GMAIL_PRICE_AUTO }}</label>
+                    <input type="number" step="0.01" name="gmail_price_auto" class="form-control" value="{{ price_auto }}" required>
                 </div>
-
                 <div class="form-group">
-                    <label class="form-label">{{ strings.SETTINGS_USDT }}</label>
-                    <input type="number" step="0.01" name="min_usdt" class="form-control" value="{{ min_usdt }}" required>
+                    <label class="form-label">{{ strings.LBL_UNIFIED_PWD or 'Unified Manual Password' }}</label>
+                    <input type="text" name="gmail_manual_pwd" class="form-control" value="{{ config.GMAIL_MANUAL_PWD }}" required>
                 </div>
-
                 <div class="form-group">
-                    <label class="form-label">{{ strings.SETTINGS_TRX }}</label>
-                    <input type="number" step="0.01" name="min_trx" class="form-control" value="{{ min_trx }}" required>
+                    <label class="form-label">{{ strings.SETTINGS_REF_BONUS }}</label>
+                    <input type="number" step="0.01" name="referral_bonus" class="form-control" value="{{ bonus }}" required>
                 </div>
+                <button type="submit" class="btn btn-primary save-btn" style="background: #60a5fa; color: white;">
+                    <i class="fa-solid fa-floppy-disk"></i> {{ strings.SETTINGS_UPDATE_BTN }}
+                </button>
             </div>
+        </form>
 
-            <button type="submit" class="btn btn-primary save-btn" style="background: linear-gradient(135deg, #22c55e, #15803d); border: none;">
-                <i class="fa-solid fa-floppy-disk"></i> {{ strings.SETTINGS_UPDATE_BTN }}
-            </button>
-        </div>
-    </form>
-
-    <!-- 4. Control & Language -->
-    <form action="{{ url_for('settings') }}" method="POST" id="form-control">
-        <input type="hidden" name="category" value="control">
-        <div class="glass-card">
-            <div style="margin-bottom: 2rem; display: flex; align-items: center; gap: 12px;">
-                <div style="width: 45px; height: 45px; background: rgba(245, 158, 11, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
-                    <i class="fa-solid fa-gamepad" style="color: #f59e0b; font-size: 1.2rem;"></i>
+    {% elif cat == 'channels' %}
+        <form action="{{ url_for('settings') }}" method="POST">
+            <input type="hidden" name="category" value="channels">
+            <div class="glass-card">
+                <h2 style="margin-bottom: 2rem; font-size: 1.3rem; color: white; display: flex; align-items: center; gap: 10px;">
+                    <i class="fa-solid fa-tower-broadcast" style="color: #a855f7;"></i> {{ strings.SETTINGS_CAT_CHANNELS }}
+                </h2>
+                <div class="form-group">
+                    <label class="form-label">{{ strings.SETTINGS_REQ_CHANNELS }}</label>
+                    <input type="text" name="required_channels" class="form-control" placeholder="@channel1, @channel2" value="{{ required_channels }}">
                 </div>
-                <h2 style="margin: 0; font-size: 1.2rem; color: white; font-weight: 700;">{{ strings.SETTINGS_CAT_CONTROL }}</h2>
-            </div>
-
-            <div class="form-group">
-                <label class="form-label">{{ strings.SETTINGS_BUYING_STATUS }}</label>
-                <div class="status-btn-group">
-                    <label style="flex: 1;">
-                        <input type="radio" name="buying_active" value="1" class="status-radio" {% if buying_active %}checked{% endif %}>
-                        <div class="status-btn-item active-btn">{{ strings.SETTINGS_ACTIVE }}</div>
-                    </label>
-                    <label style="flex: 1;">
-                        <input type="radio" name="buying_active" value="0" class="status-radio" {% if not buying_active %}checked{% endif %}>
-                        <div class="status-btn-item paused-btn">{{ strings.SETTINGS_PAUSED }}</div>
-                    </label>
+                <div class="form-group">
+                    <label class="form-label">{{ strings.SETTINGS_EMAILS_CHANNEL }}</label>
+                    <input type="text" name="emails_channel" class="form-control" placeholder="-100..." value="{{ config.EMAILS_CHANNEL_ID }}">
                 </div>
-            </div>
-
-            <div class="form-group">
-                <label class="form-label">{{ strings.SETTINGS_LANG }}</label>
-                <div class="status-btn-group">
-                    <label style="flex: 1;">
-                        <input type="radio" name="dash_lang" value="en" class="status-radio" {% if dash_lang == 'en' %}checked{% endif %}>
-                        <div class="status-btn-item lang-btn">English 🇺🇸</div>
-                    </label>
-                    <label style="flex: 1;">
-                        <input type="radio" name="dash_lang" value="ar" class="status-radio" {% if dash_lang == 'ar' %}checked{% endif %}>
-                        <div class="status-btn-item lang-btn">العربية 🇪🇬</div>
-                    </label>
+                <div class="form-group">
+                    <label class="form-label">{{ strings.SETTINGS_WITHDRAWALS_CHANNEL }}</label>
+                    <input type="text" name="withdrawals_channel" class="form-control" placeholder="-100..." value="{{ config.WITHDRAWALS_CHANNEL_ID }}">
                 </div>
+                <button type="submit" class="btn btn-primary save-btn" style="background: #a855f7; color: white;">
+                    <i class="fa-solid fa-floppy-disk"></i> {{ strings.SETTINGS_UPDATE_BTN }}
+                </button>
             </div>
+        </form>
 
-            <button type="submit" class="btn btn-primary save-btn" style="background: linear-gradient(135deg, #f59e0b, #b45309); border: none;">
-                <i class="fa-solid fa-floppy-disk"></i> {{ strings.SETTINGS_UPDATE_BTN }}
-            </button>
-        </div>
-    </form>
-
-    <!-- 5. Reset Options -->
-    <div class="glass-card" style="border: 1px solid rgba(239, 68, 68, 0.2);">
-        <div style="margin-bottom: 2rem; display: flex; align-items: center; gap: 12px;">
-            <div style="width: 45px; height: 45px; background: rgba(239, 68, 68, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
-                <i class="fa-solid fa-trash-can" style="color: #ef4444; font-size: 1.2rem;"></i>
-            </div>
-            <h2 style="margin: 0; font-size: 1.2rem; color: white; font-weight: 700;">{{ strings.SETTINGS_CAT_RESET }}</h2>
-        </div>
-
-        <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.06); padding: 22px; margin-bottom: 20px; border-radius: 20px;">
-            <div style="display: flex; flex-direction: column; gap: 16px;">
-                <div style="display: flex; align-items: flex-start; gap: 12px;">
-                    <i class="fa-solid fa-triangle-exclamation" style="color: #ef4444; font-size: 1.2rem; margin-top: 3px;"></i>
-                    <div>
-                        <div style="font-weight: 700; color: white; font-size: 1.05rem; margin-bottom: 4px;">{{ strings.LBL_GLOBAL_RESET }}</div>
-                        <div style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5;">{{ strings.MSG_RESET_CONFIRM }}</div>
+    {% elif cat == 'limits' %}
+        <form action="{{ url_for('settings') }}" method="POST">
+            <input type="hidden" name="category" value="limits">
+            <div class="glass-card">
+                <h2 style="margin-bottom: 2rem; font-size: 1.3rem; color: white; display: flex; align-items: center; gap: 10px;">
+                    <i class="fa-solid fa-gauge-high" style="color: #22c55e;"></i> {{ strings.SETTINGS_CAT_LIMITS }}
+                </h2>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                    <div class="form-group">
+                        <label class="form-label">{{ strings.SETTINGS_VODAFONE }}</label>
+                        <input type="number" step="0.01" name="min_voda" class="form-control" value="{{ min_voda }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">{{ strings.SETTINGS_BINANCE }}</label>
+                        <input type="number" step="0.01" name="min_binance" class="form-control" value="{{ min_binance }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">{{ strings.SETTINGS_USDT }}</label>
+                        <input type="number" step="0.01" name="min_usdt" class="form-control" value="{{ min_usdt }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">{{ strings.SETTINGS_TRX }}</label>
+                        <input type="number" step="0.01" name="min_trx" class="form-control" value="{{ min_trx }}" required>
                     </div>
                 </div>
-                <form action="{{ url_for('reset_global') }}" method="POST" id="global-reset-form">
-                    <button type="button" class="btn" onclick="openResetModal('global-reset-form')" style="background: #ef4444; color: white !important; height: 50px; border-radius: 14px; font-weight: 700; width: 100%; border: none;">
-                        {{ strings.BTN_RESET_GLOBAL }}
+                <button type="submit" class="btn btn-primary save-btn" style="background: #22c55e; color: white;">
+                    <i class="fa-solid fa-floppy-disk"></i> {{ strings.SETTINGS_UPDATE_BTN }}
+                </button>
+            </div>
+        </form>
+
+    {% elif cat == 'control' %}
+        <form action="{{ url_for('settings') }}" method="POST">
+            <input type="hidden" name="category" value="control">
+            <div class="glass-card">
+                <h2 style="margin-bottom: 2rem; font-size: 1.3rem; color: white; display: flex; align-items: center; gap: 10px;">
+                    <i class="fa-solid fa-gamepad" style="color: #f59e0b;"></i> {{ strings.SETTINGS_CAT_CONTROL }}
+                </h2>
+                <div class="form-group">
+                    <label class="form-label">{{ strings.SETTINGS_BUYING_STATUS }}</label>
+                    <div class="status-btn-group">
+                        <label style="flex: 1;">
+                            <input type="radio" name="buying_active" value="1" class="status-radio" {% if buying_active %}checked{% endif %}>
+                            <div class="status-btn-item active-btn">{{ strings.SETTINGS_ACTIVE }}</div>
+                        </label>
+                        <label style="flex: 1;">
+                            <input type="radio" name="buying_active" value="0" class="status-radio" {% if not buying_active %}checked{% endif %}>
+                            <div class="status-btn-item paused-btn">{{ strings.SETTINGS_PAUSED }}</div>
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">{{ strings.SETTINGS_LANG }}</label>
+                    <div class="status-btn-group">
+                        <label style="flex: 1;">
+                            <input type="radio" name="dash_lang" value="en" class="status-radio" {% if dash_lang == 'en' %}checked{% endif %}>
+                            <div class="status-btn-item lang-btn">English 🇺🇸</div>
+                        </label>
+                        <label style="flex: 1;">
+                            <input type="radio" name="dash_lang" value="ar" class="status-radio" {% if dash_lang == 'ar' %}checked{% endif %}>
+                            <div class="status-btn-item lang-btn">العربية 🇪🇬</div>
+                        </label>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary save-btn" style="background: #f59e0b; color: white;">
+                    <i class="fa-solid fa-floppy-disk"></i> {{ strings.SETTINGS_UPDATE_BTN }}
+                </button>
+            </div>
+        </form>
+
+    {% elif cat == 'reset' %}
+        <div class="glass-card">
+            <h2 style="margin-bottom: 2rem; font-size: 1.3rem; color: white; display: flex; align-items: center; gap: 10px;">
+                <i class="fa-solid fa-trash-can" style="color: #ef4444;"></i> {{ strings.SETTINGS_CAT_RESET }}
+            </h2>
+            <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.06); padding: 22px; margin-bottom: 20px; border-radius: 20px;">
+                <div style="display: flex; flex-direction: column; gap: 12px;">
+                    <div style="font-weight: 700; color: white;">{{ strings.LBL_GLOBAL_RESET }}</div>
+                    <form action="{{ url_for('reset_global') }}" method="POST" id="global-reset-form">
+                        <button type="button" class="btn" onclick="openResetModal('global-reset-form')" style="background: #ef4444; color: white; height: 50px; border-radius: 12px; width: 100%; border: none;">
+                            {{ strings.BTN_RESET_GLOBAL }}
+                        </button>
+                    </form>
+                </div>
+            </div>
+            <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.06); padding: 22px; border-radius: 20px;">
+                <div style="font-weight: 700; color: white; margin-bottom: 12px;">{{ strings.LBL_USER_RESET }}</div>
+                <form action="{{ url_for('reset_user_data') }}" method="POST" id="user-reset-form">
+                    <input type="text" name="user_id" class="form-control" placeholder="12345678" required style="margin-bottom: 15px;">
+                    <button type="button" class="btn" onclick="openResetModal('user-reset-form')" style="background: var(--warning); color: black; height: 50px; border-radius: 12px; width: 100%; border: none; font-weight: 700;">
+                        {{ strings.BTN_RESET_USER }}
                     </button>
                 </form>
             </div>
         </div>
+    {% endif %}
+{% endif %}
 
-        <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.06); padding: 22px; border-radius: 20px;">
-            <div style="font-weight: 700; color: white; font-size: 1.05rem; margin-bottom: 16px; display: flex; align-items: center; gap: 10px;">
-                <i class="fa-solid fa-user-gear" style="color: var(--warning);"></i>
-                {{ strings.LBL_USER_RESET }}
-            </div>
-            <form action="{{ url_for('reset_user_data') }}" method="POST" id="user-reset-form">
-                <div style="display: flex; flex-direction: column; gap: 12px;">
-                    <div class="form-group" style="margin-bottom: 0;">
-                        <label class="form-label" style="font-size: 0.75rem;">{{ strings.LBL_USER_ID }}</label>
-                        <input type="text" name="user_id" class="form-control" placeholder="12345678" required>
-                    </div>
-                    <button type="button" class="btn" onclick="openResetModal('user-reset-form')" style="background: var(--warning); color: #000 !important; font-weight: 700; border-radius: 14px; border: none; height: 50px; width: 100%;">
-                        {{ strings.BTN_RESET_USER }}
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-<!-- ═══════════════ CUSTOM RESET CONFIRMATION MODAL ═══════════════ -->
+<!-- ═══════════════ RESET MODAL ═══════════════ -->
 <div id="reset-confirm-modal" style="display: none; position: fixed; inset: 0; z-index: 10000; background: rgba(0,0,0,0.8); backdrop-filter: blur(8px); align-items: center; justify-content: center; padding: 1.5rem;">
-    <div style="background: rgba(22,24,33,0.98); border: 1px solid rgba(239,68,68,0.3); border-radius: 28px; padding: 2.5rem 1.5rem 1.5rem; max-width: 380px; width: 100%; text-align: center;">
-        <div style="width: 72px; height: 72px; background: rgba(239,68,68,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem;">
-            <i class="fa-solid fa-triangle-exclamation" style="font-size: 2rem; color: #ef4444;"></i>
-        </div>
+    <div style="background: rgba(22,24,33,0.98); border: 1px solid rgba(239,68,68,0.3); border-radius: 28px; padding: 2rem; max-width: 380px; width: 100; text-align: center;">
+        <i class="fa-solid fa-triangle-exclamation" style="font-size: 2.5rem; color: #ef4444; margin-bottom: 1.5rem;"></i>
         <div style="font-size: 1.2rem; font-weight: 700; color: #fff; margin-bottom: 0.75rem;">{{ strings.MSG_RESET_CONFIRM }}</div>
         <div id="modal-subtitle" style="font-size: 0.9rem; color: #94a3b8; margin-bottom: 2rem;"></div>
         <div style="display: flex; flex-direction: column; gap: 10px;">
-            <button onclick="confirmResetAction()" style="height: 52px; border-radius: 16px; background: #ef4444; border: none; color: #fff; font-weight: 700;">
+            <button onclick="confirmResetAction()" style="height: 52px; border-radius: 14px; background: #ef4444; border: none; color: #fff; font-weight: 700;">
                 {{ strings.DASH_MODAL_REJECT_BTN }}
             </button>
-            <button onclick="closeResetModal()" style="height: 52px; border-radius: 16px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #94a3b8;">
+            <button onclick="closeResetModal()" style="height: 52px; border-radius: 14px; background: rgba(255,255,255,0.05); color: #94a3b8; border: none;">
                 {{ strings.DASH_CANCEL }}
             </button>
         </div>
@@ -308,21 +365,12 @@
 
 <script>
     var _activeResetFormId = null;
-
     function openResetModal(formId) {
         _activeResetFormId = formId;
-        var modal = document.getElementById('reset-confirm-modal');
-        var subtitle = document.getElementById('modal-subtitle');
-        subtitle.innerText = (formId === 'global-reset-form') ? "{{ strings.LBL_GLOBAL_RESET }}" : "{{ strings.LBL_USER_RESET }}";
-        modal.style.display = 'flex';
+        document.getElementById('reset-confirm-modal').style.display = 'flex';
+        document.getElementById('modal-subtitle').innerText = (formId === 'global-reset-form') ? "{{ strings.LBL_GLOBAL_RESET }}" : "{{ strings.LBL_USER_RESET }}";
     }
-
-    function closeResetModal() {
-        document.getElementById('reset-confirm-modal').style.display = 'none';
-    }
-
-    function confirmResetAction() {
-        if (_activeResetFormId) document.getElementById(_activeResetFormId).submit();
-    }
+    function closeResetModal() { document.getElementById('reset-confirm-modal').style.display = 'none'; }
+    function confirmResetAction() { if (_activeResetFormId) document.getElementById(_activeResetFormId).submit(); }
 </script>
 {% endblock %}
