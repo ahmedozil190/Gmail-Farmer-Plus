@@ -2,205 +2,280 @@
 
 {% block content %}
 <style>
-/* ── Elite Minimalist V5 ────────────────────────────────── */
-:root {
-    --elite-bg: #0a0b0d;
-    --elite-border: rgba(255, 255, 255, 0.05);
-    --elite-accent: #3b82f6;
-    --elite-card: rgba(255, 255, 255, 0.02);
-}
+    /* ── Elite Minimalist V5 ────────────────────────────────── */
+    :root {
+        --elite-bg: #0a0b0d;
+        --elite-border: rgba(255, 255, 255, 0.05);
+        --elite-accent: #3b82f6;
+        --elite-card: rgba(255, 255, 255, 0.02);
+    }
 
-.elite-home {
-    padding-top: 10px;
-}
+    .elite-home {
+        padding-top: 10px;
+    }
 
 .elite-hero-card {
     background: var(--elite-card);
     border: 1px solid var(--elite-border);
-    border-radius: 28px;
+    border-radius: 24px;
     padding: 1.5rem;
     margin-bottom: 2rem;
-    position: relative;
-    overflow: hidden;
 }
 
-.elite-hero-balance {
-    font-size: 2rem;
+.hero-data-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.hero-data-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.hero-data-label {
+    font-size: 0.95rem;
+    color: #888;
+    font-weight: 600;
+}
+
+.hero-data-value {
+    font-size: 1.25rem;
     font-weight: 800;
     color: #fff;
-    letter-spacing: -1px;
-    line-height: 1;
     display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 1.5rem;
+    align-items: baseline;
+    gap: 4px;
 }
-.balance-label-inline {
+
+.hero-data-value.main {
+    font-size: 1.8rem;
+    color: #fff;
+}
+
+.hero-data-value.withdrawn { color: #10b981; }
+.hero-data-value.pending { color: #f59e0b; }
+
+.hero-data-value .symbol {
     font-size: 0.9rem;
-    color: #888;
-    font-weight: 600;
-    text-transform: uppercase;
-}
-.elite-hero-balance .symbol {
-    font-size: 1rem;
     color: var(--elite-accent);
-}
-.elite-card-footer {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    padding-top: 15px;
-    border-top: 1px solid rgba(255,255,255,0.05);
-}
-.footer-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-.footer-label {
-    font-size: 0.85rem;
-    color: #888;
-    font-weight: 600;
-}
-.footer-value {
-    font-size: 1rem;
     font-weight: 700;
 }
-.footer-value.pending { color: #f59e0b; }
-.footer-value.withdrawn { color: #10b981; }
 
-/* Quick Actions Bento */
-.elite-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
-    margin-bottom: 2.5rem;
-}
-.elite-card {
-    background: var(--elite-card);
-    border: 1px solid var(--elite-border);
-    border-radius: 20px;
-    padding: 1.5rem;
-    text-decoration: none;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    min-height: 120px;
-}
-.elite-card:active {
-    background: rgba(255, 255, 255, 0.05);
-    transform: scale(0.97);
-}
-.elite-card i {
-    font-size: 1.4rem;
-    color: var(--elite-accent);
-    margin-bottom: 1rem;
-}
-.elite-card .title {
-    font-size: 1rem;
-    font-weight: 700;
-    color: #fff;
-    display: block;
-}
-.elite-card .desc {
-    font-size: 0.75rem;
-    color: #666;
-    margin-top: 4px;
+.hero-data-row.main-row {
+    margin-bottom: 5px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
 }
 
-/* Stats Row */
-.elite-stats {
-    display: flex;
-    gap: 8px;
-    margin-bottom: 2.5rem;
-}
-.e-stat-pill {
-    flex: 1;
-    background: var(--elite-card);
-    border: 1px solid var(--elite-border);
-    border-radius: 12px;
-    padding: 12px;
-    text-align: center;
-}
-.e-stat-pill .val {
-    font-size: 1.2rem;
-    font-weight: 800;
-    display: block;
-}
-.e-stat-pill .lbl {
-    font-size: 0.65rem;
-    color: #555;
-    text-transform: uppercase;
-    font-weight: 700;
-    letter-spacing: 0.5px;
-}
-.e-stat-pill.blue .val { color: var(--elite-accent); }
-.e-stat-pill.orange .val { color: #f59e0b; }
-.e-stat-pill.red .val { color: #ef4444; }
+    /* Quick Actions Bento */
+    .elite-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+        margin-bottom: 2.5rem;
+    }
 
-/* Activity List */
-.elite-section-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1.25rem;
-    padding: 0 5px;
-}
-.elite-section-title { font-size: 1.1rem; font-weight: 700; color: #fff; }
-.elite-section-link { font-size: 0.8rem; color: var(--elite-accent); text-decoration: none; font-weight: 600; }
+    .elite-card {
+        background: var(--elite-card);
+        border: 1px solid var(--elite-border);
+        border-radius: 20px;
+        padding: 1.5rem;
+        text-decoration: none;
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        min-height: 120px;
+    }
 
-.elite-list-item {
-    background: var(--elite-card);
-    border-bottom: 1px solid var(--elite-border);
-    padding: 1rem 0.5rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    transition: background 0.2s;
-}
-.elite-list-item:active { background: rgba(255,255,255,0.02); }
+    .elite-card:active {
+        background: rgba(255, 255, 255, 0.05);
+        transform: scale(0.97);
+    }
 
-.e-item-info { flex: 1; }
-.e-item-name { font-weight: 600; font-size: 0.9rem; color: #eee; margin-bottom: 2px; }
-.e-item-date { font-size: 0.75rem; color: #444; }
+    .elite-card i {
+        font-size: 1.4rem;
+        color: var(--elite-accent);
+        margin-bottom: 1rem;
+    }
 
-.e-item-status {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.8rem;
-    margin-right: 12px;
-}
-[dir="rtl"] .e-item-status { margin-right: 0; margin-left: 12px; }
-.e-status.approved { background: rgba(16, 185, 129, 0.1); color: #10b981; }
-.e-status.pending { background: rgba(245, 158, 11, 0.1); color: #f59e0b; }
-.e-status.rejected { background: rgba(239, 68, 68, 0.1); color: #ef4444; }
+    .elite-card .title {
+        font-size: 1rem;
+        font-weight: 700;
+        color: #fff;
+        display: block;
+    }
 
-.e-item-price { font-weight: 800; font-size: 1rem; color: #fff; text-align: right; }
-[dir="rtl"] .e-item-price { text-align: left; }
+    .elite-card .desc {
+        font-size: 0.75rem;
+        color: #666;
+        margin-top: 4px;
+    }
+
+    /* Stats Row */
+    .elite-stats {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 2.5rem;
+    }
+
+    .e-stat-pill {
+        flex: 1;
+        background: var(--elite-card);
+        border: 1px solid var(--elite-border);
+        border-radius: 12px;
+        padding: 12px;
+        text-align: center;
+    }
+
+    .e-stat-pill .val {
+        font-size: 1.2rem;
+        font-weight: 800;
+        display: block;
+    }
+
+    .e-stat-pill .lbl {
+        font-size: 0.65rem;
+        color: #555;
+        text-transform: uppercase;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+    }
+
+    .e-stat-pill.blue .val {
+        color: var(--elite-accent);
+    }
+
+    .e-stat-pill.orange .val {
+        color: #f59e0b;
+    }
+
+    .e-stat-pill.red .val {
+        color: #ef4444;
+    }
+
+    /* Activity List */
+    .elite-section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.25rem;
+        padding: 0 5px;
+    }
+
+    .elite-section-title {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: #fff;
+    }
+
+    .elite-section-link {
+        font-size: 0.8rem;
+        color: var(--elite-accent);
+        text-decoration: none;
+        font-weight: 600;
+    }
+
+    .elite-list-item {
+        background: var(--elite-card);
+        border-bottom: 1px solid var(--elite-border);
+        padding: 1rem 0.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        transition: background 0.2s;
+    }
+
+    .elite-list-item:active {
+        background: rgba(255, 255, 255, 0.02);
+    }
+
+    .e-item-info {
+        flex: 1;
+    }
+
+    .e-item-name {
+        font-weight: 600;
+        font-size: 0.9rem;
+        color: #eee;
+        margin-bottom: 2px;
+    }
+
+    .e-item-date {
+        font-size: 0.75rem;
+        color: #444;
+    }
+
+    .e-item-status {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.8rem;
+        margin-right: 12px;
+    }
+
+    [dir="rtl"] .e-item-status {
+        margin-right: 0;
+        margin-left: 12px;
+    }
+
+    .e-status.approved {
+        background: rgba(16, 185, 129, 0.1);
+        color: #10b981;
+    }
+
+    .e-status.pending {
+        background: rgba(245, 158, 11, 0.1);
+        color: #f59e0b;
+    }
+
+    .e-status.rejected {
+        background: rgba(239, 68, 68, 0.1);
+        color: #ef4444;
+    }
+
+    .e-item-price {
+        font-weight: 800;
+        font-size: 1rem;
+        color: #fff;
+        text-align: right;
+    }
+
+    [dir="rtl"] .e-item-price {
+        text-align: left;
+    }
 </style>
 
 <div class="elite-home">
     <div class="elite-hero-card">
-        <div class="elite-hero-balance">
-            <span class="balance-label-inline">{{ strings.BTN_BALANCE if strings else 'Balance' }}</span>
-            <div style="display: flex; align-items: baseline;">
-                <span class="symbol">$</span>{{ "%.2f"|format(balance) }}
+        <div class="hero-data-list">
+            <!-- Main Balance Row -->
+            <div class="hero-data-row main-row">
+                <span class="hero-data-label">{{ strings.BTN_BALANCE if strings else 'Current Balance' }}</span>
+                <div class="hero-data-value main">
+                    <span class="symbol">$</span>{{ "%.2f"|format(balance) }}
+                </div>
             </div>
-        </div>
-        
-        <div class="elite-card-footer">
-            <div class="footer-row">
-                <span class="footer-label">{{ strings.DASH_U_TOTAL_WITHDRAWN if strings else 'Withdrawn' }}</span>
-                <span class="footer-value withdrawn">${{ "%.2f"|format(total_withdrawn or 0) }}</span>
+            
+            <!-- Withdrawn Row -->
+            <div class="hero-data-row">
+                <span class="hero-data-label">{{ strings.DASH_U_TOTAL_WITHDRAWN if strings else 'Withdrawn' }}</span>
+                <div class="hero-data-value withdrawn">
+                    <span class="symbol">$</span>{{ "%.2f"|format(total_withdrawn or 0) }}
+                </div>
             </div>
-            <div class="footer-row">
-                <span class="footer-label">{{ strings.DASH_FILTER_PENDING if strings else 'Pending' }}</span>
-                <span class="footer-value pending">${{ "%.2f"|format(pending or 0) }}</span>
+
+            <!-- Pending Row -->
+            <div class="hero-data-row">
+                <span class="hero-data-label">{{ strings.DASH_FILTER_PENDING if strings else 'Pending' }}</span>
+                <div class="hero-data-value pending">
+                    <span class="symbol">$</span>{{ "%.2f"|format(pending or 0) }}
+                </div>
             </div>
         </div>
     </div>
