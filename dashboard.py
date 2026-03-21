@@ -242,11 +242,11 @@ def tasks():
     params = []
     
     if status_filter == "1d":
-        base_query += " AND status = 'pending' AND submitted_at <= ?"
-        params.append(d1)
+        base_query += " AND status = 'pending' AND submitted_at <= ? AND submitted_at > ?"
+        params.extend([d1, d2])
     elif status_filter == "2d":
-        base_query += " AND status = 'pending' AND submitted_at <= ?"
-        params.append(d2)
+        base_query += " AND status = 'pending' AND submitted_at <= ? AND submitted_at > ?"
+        params.extend([d2, d3])
     elif status_filter in ["3d", "ready"]:
         base_query += " AND status = 'pending' AND submitted_at <= ?"
         params.append(d3)
@@ -294,8 +294,8 @@ def tasks():
             p.append(f"{date_filter}%")
         return con.execute(q, p).fetchone()[0]
 
-    stats['1d'] = get_count("submitted_at <= ?", (d1,))
-    stats['2d'] = get_count("submitted_at <= ?", (d2,))
+    stats['1d'] = get_count("submitted_at <= ? AND submitted_at > ?", (d1, d2))
+    stats['2d'] = get_count("submitted_at <= ? AND submitted_at > ?", (d2, d3))
     stats['3d'] = get_count("submitted_at <= ?", (d3,))
     stats['ready'] = stats['3d']
         
