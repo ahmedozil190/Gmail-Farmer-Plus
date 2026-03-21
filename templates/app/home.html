@@ -278,18 +278,18 @@
     </div>
     
     {% for task in recent_tasks[:3] %}
-    <div class="activity-card">
-        <div class="act-icon {{ task.status }}">
-            {% if task.status == 'approved' %}<i class="fa-solid fa-check"></i>
-            {% elif task.status == 'rejected' %}<i class="fa-solid fa-xmark"></i>
-            {% else %}<i class="fa-solid fa-clock"></i>{% endif %}
+    <div class="list-item">
+        <div class="list-row">
+            <span style="font-size: 0.85rem; font-weight: 600;">{{ task.gmail_account }}</span>
+            <span class="status-icon {{ task.status }}">
+                {% if task.status == 'approved' %}<i class="fa-solid fa-check"></i>
+                {% elif task.status == 'rejected' %}<i class="fa-solid fa-xmark"></i>
+                {% else %}<i class="fa-solid fa-clock"></i>{% endif %}
+            </span>
         </div>
-        <div class="act-details">
-            <div class="act-name">{{ task.gmail_account }}</div>
-            <div class="act-time">{{ task.submitted_at[:10] }}</div>
-        </div>
-        <div class="act-price">
-            ${{ "%.2f"|format(task.price or 0) }}
+        <div class="list-row" style="margin-top: 6px;">
+            <span class="list-label">{{ task.submitted_at[:10] if task.submitted_at else '' }}</span>
+            <span class="list-value">${{ "%.2f"|format(task.price or 0) }}</span>
         </div>
     </div>
     {% endfor %}
