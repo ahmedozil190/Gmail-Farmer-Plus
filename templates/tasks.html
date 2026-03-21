@@ -92,7 +92,7 @@
                 </div>
 
                 <div style="font-size: 0.95rem;">
-                    <span style="font-weight: 600; color: var(--text-secondary);">Task ID:</span>
+                    <span style="font-weight: 600; color: var(--text-secondary);">{{ strings.DASH_LBL_TASK_ID }}</span>
                     <span style="font-family: monospace; color: var(--accent-purple); font-weight: 700;">#{{ task.id
                         }}</span>
                     {% if task.is_ready %}<span
@@ -101,22 +101,22 @@
                 </div>
 
                 <div style="font-size: 0.95rem;">
-                    <span style="font-weight: 600; color: var(--text-secondary);">Gmail:</span>
+                    <span style="font-weight: 600; color: var(--text-secondary);">{{ strings.DASH_LBL_GMAIL }}</span>
                     <span style="word-break: break-all;">{{ task.gmail_account }}</span>
                 </div>
 
                 <div style="font-size: 0.95rem;">
-                    <span style="font-weight: 600; color: var(--text-secondary);">Password:</span>
+                    <span style="font-weight: 600; color: var(--text-secondary);">{{ strings.DASH_LBL_PASSWORD }}</span>
                     <span style="font-family: monospace; color: var(--accent-purple);">{{ task.gmail_password }}</span>
                 </div>
 
                 <div style="font-size: 0.95rem;">
-                    <span style="font-weight: 600; color: var(--text-secondary);">Price:</span>
+                    <span style="font-weight: 600; color: var(--text-secondary);">{{ strings.DASH_LBL_PRICE }}</span>
                     <span style="color: var(--success); font-weight: 700;">${{ "%.2f"|format(task.price) }}</span>
                 </div>
 
                 <div style="font-size: 0.95rem;">
-                    <span style="font-weight: 600; color: var(--text-secondary);">Date:</span>
+                    <span style="font-weight: 600; color: var(--text-secondary);">{{ strings.DASH_LBL_DATE }}</span>
                     <span style="opacity: 0.8;">{{ task.submitted_at[:16].replace('T', ' ') }}</span>
                     {% if task.age_text %}
                     <span style="font-size: 0.8rem; opacity: 0.6; margin-left: 5px;">({{ task.age_text }})</span>
@@ -124,14 +124,14 @@
                 </div>
 
                 <div style="font-size: 0.95rem;">
-                    <span style="font-weight: 600; color: var(--text-secondary);">User ID:</span>
+                    <span style="font-weight: 600; color: var(--text-secondary);">{{ strings.DASH_LBL_USER_ID }}</span>
                     <span style="opacity: 0.8;">{{ task.user_id }}</span>
                 </div>
 
                 {% if task.status == 'rejected' and task.reject_reason %}
                 <div
                     style="margin-top: 5px; padding: 8px; background: rgba(239, 68, 68, 0.05); border-radius: 6px; border: 1px solid rgba(239, 68, 68, 0.1); font-size: 0.9rem;">
-                    <span style="color: var(--danger); font-weight: 600;">Reason:</span> {{ task.reject_reason }}
+                    <span style="color: var(--danger); font-weight: 600;">{{ strings.DASH_REASON }}:</span> {{ task.reject_reason }}
                 </div>
                 {% endif %}
             </div>
