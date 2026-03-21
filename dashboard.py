@@ -43,10 +43,6 @@ def login():
         password = request.form.get('password')
         if check_auth(username, password):
             session['logged_in'] = True
-            import database
-            from strings import DASHBOARD_STRINGS
-            lang = database.get_business_config().get("DASHBOARD_LANG", "en")
-            flash(DASHBOARD_STRINGS.get(lang, DASHBOARD_STRINGS["ar"])['ALERT_LOGIN_SUCCESS'], 'success')
             next_url = request.args.get('next')
             return redirect(next_url or url_for('index'))
         else:
