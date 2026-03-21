@@ -1069,7 +1069,7 @@ DASHBOARD_STRINGS = {
         'DASH_BS_PH': "اكتب رسالتك هنا...",
         'DASH_BS_USER_ID': "معرف المستخدم (ID)",
 
-        'SETTINGS_TITLE': "إعدادات البوت",
+        'SETTINGS_TITLE': "الإعدادات",
         'SETTINGS_CAT_GENERAL': "الأسعار والعمولات",
         'SETTINGS_CAT_CHANNELS': "القنوات والاشتراكات",
         'SETTINGS_CAT_LIMITS': "حدود السحب",
@@ -1120,7 +1120,7 @@ DASHBOARD_STRINGS = {
         'NAV_PAY': "Pay",
         'NAV_USERS': "Users",
         'NAV_MSG': "Msg",
-        'NAV_SET': "Set",
+        'NAV_SET': "Settings",
         
         'DASH_INDEX_TITLE': "Overview",
         'DASH_USERS_SECTION': "Users",
@@ -1185,7 +1185,7 @@ DASHBOARD_STRINGS = {
         'DASH_BS_PH': "Type your message here...",
         'DASH_BS_USER_ID': "User ID",
 
-        'SETTINGS_TITLE': "Global Settings",
+        'SETTINGS_TITLE': "Settings",
         'SETTINGS_CAT_GENERAL': "Prices & Commissions",
         'SETTINGS_CAT_CHANNELS': "Channels & Subscriptions",
         'SETTINGS_CAT_LIMITS': "Withdrawal Limits",

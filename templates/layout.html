@@ -19,7 +19,24 @@
         <main class="main-content">
 
             <!-- Page Title -->
-            <div class="page-title">
+            {% if request.endpoint == 'settings' and request.args.get('cat') %}
+            <div class="page-title no-border">
+                <a href="{{ url_for('settings') }}" class="page-title-back"><i class="fa-solid fa-arrow-left"></i></a>
+                {% set cat = request.args.get('cat') %}
+                {% if cat == 'general' %}
+                    <span>{{ strings.SETTINGS_CAT_GENERAL }}</span>
+                {% elif cat == 'channels' %}
+                    <span>{{ strings.SETTINGS_CAT_CHANNELS }}</span>
+                {% elif cat == 'limits' %}
+                    <span>{{ strings.SETTINGS_CAT_LIMITS }}</span>
+                {% elif cat == 'control' %}
+                    <span>{{ strings.SETTINGS_CAT_CONTROL }}</span>
+                {% elif cat == 'reset' %}
+                    <span>{{ strings.SETTINGS_CAT_RESET }}</span>
+                {% endif %}
+            </div>
+            {% else %}
+            <div class="page-title {% if request.endpoint == 'settings' %}no-border{% endif %}">
                 {% if request.endpoint == 'index' %}
                     <span>{{ strings.DASH_INDEX_TITLE }}</span>
                 {% elif request.endpoint == 'tasks' %}
@@ -34,6 +51,8 @@
                     <span>{{ strings.SETTINGS_TITLE }}</span>
                 {% endif %}
             </div>
+            {% endif %}
+
 
             <!-- Bottom Navigation for TMA -->
             <nav class="bottom-nav">

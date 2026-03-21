@@ -146,10 +146,6 @@
 
 {% if not request.args.get('cat') %}
 <!-- ═══════════════ SETTINGS MENU VIEW ═══════════════ -->
-<div style="margin-bottom: 2rem;">
-    <h2 style="font-size: 1.5rem; color: white; font-weight: 800; margin-bottom: 0.5rem;">{{ strings.NAV_SET }}</h2>
-    <p style="color: var(--text-secondary); font-size: 0.9rem;">{{ strings.SETTINGS_CONFIG }}</p>
-</div>
 
 <div class="settings-menu">
     <a href="{{ url_for('settings', cat='general') }}" class="nav-card">
@@ -204,9 +200,6 @@
 
 {% else %}
 <!-- ═══════════════ SUB-PAGE VIEW ═══════════════ -->
-<a href="{{ url_for('settings') }}" class="back-btn">
-    <i class="fa-solid fa-arrow-left"></i> {{ strings.DASH_CANCEL or 'Back' }}
-</a>
 
 {% set cat = request.args.get('cat') %}
 
@@ -214,10 +207,7 @@
 <form action="{{ url_for('settings') }}" method="POST">
     <input type="hidden" name="category" value="general">
     <div class="glass-card">
-        <h2
-            style="margin-bottom: 2rem; font-size: 1.3rem; color: white; display: flex; align-items: center; gap: 10px;">
-            <i class="fa-solid fa-dollar-sign" style="color: #60a5fa;"></i> {{ strings.SETTINGS_CAT_GENERAL }}
-        </h2>
+
         <div class="form-group">
             <label class="form-label">{{ strings.SETTINGS_GMAIL_PRICE }}</label>
             <input type="number" step="0.01" name="gmail_price" class="form-control" value="{{ price }}" required>
@@ -246,10 +236,7 @@
 <form action="{{ url_for('settings') }}" method="POST">
     <input type="hidden" name="category" value="channels">
     <div class="glass-card">
-        <h2
-            style="margin-bottom: 2rem; font-size: 1.3rem; color: white; display: flex; align-items: center; gap: 10px;">
-            <i class="fa-solid fa-tower-broadcast" style="color: #a855f7;"></i> {{ strings.SETTINGS_CAT_CHANNELS }}
-        </h2>
+
         <div class="form-group">
             <label class="form-label">{{ strings.SETTINGS_REQ_CHANNELS }}</label>
             <input type="text" name="required_channels" class="form-control" placeholder="@channel1, @channel2"
@@ -275,10 +262,7 @@
 <form action="{{ url_for('settings') }}" method="POST">
     <input type="hidden" name="category" value="limits">
     <div class="glass-card">
-        <h2
-            style="margin-bottom: 2rem; font-size: 1.3rem; color: white; display: flex; align-items: center; gap: 10px;">
-            <i class="fa-solid fa-gauge-high" style="color: #22c55e;"></i> {{ strings.SETTINGS_CAT_LIMITS }}
-        </h2>
+
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
             <div class="form-group">
                 <label class="form-label">{{ strings.SETTINGS_VODAFONE }}</label>
@@ -308,10 +292,7 @@
 <form action="{{ url_for('settings') }}" method="POST">
     <input type="hidden" name="category" value="control">
     <div class="glass-card">
-        <h2
-            style="margin-bottom: 2rem; font-size: 1.3rem; color: white; display: flex; align-items: center; gap: 10px;">
-            <i class="fa-solid fa-gamepad" style="color: #f59e0b;"></i> {{ strings.SETTINGS_CAT_CONTROL }}
-        </h2>
+
         <div class="form-group">
             <label class="form-label">{{ strings.SETTINGS_BUYING_STATUS }}</label>
             <div class="status-btn-group">
@@ -350,9 +331,7 @@
 
 {% elif cat == 'reset' %}
 <div class="glass-card">
-    <h2 style="margin-bottom: 2rem; font-size: 1.3rem; color: white; display: flex; align-items: center; gap: 10px;">
-        <i class="fa-solid fa-trash-can" style="color: #ef4444;"></i> {{ strings.SETTINGS_CAT_RESET }}
-    </h2>
+
     <div
         style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.06); padding: 22px; margin-bottom: 20px; border-radius: 20px;">
         <div style="display: flex; flex-direction: column; gap: 12px;">

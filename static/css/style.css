@@ -59,6 +59,25 @@ body::before {
     color: var(--text-primary);
     border-bottom: 1px solid var(--border-card);
     margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.page-title.no-border {
+    border-bottom: none;
+}
+
+.page-title-back {
+    color: var(--text-secondary);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    transition: color 0.2s ease;
+}
+
+.page-title-back:hover {
+    color: var(--accent-blue);
 }
 
 
