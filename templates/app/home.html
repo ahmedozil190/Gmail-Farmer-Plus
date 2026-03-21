@@ -14,31 +14,47 @@
     padding-top: 10px;
 }
 
-/* Minimal Hero */
-.elite-hero {
-    margin-bottom: 2.5rem;
-    padding: 0 5px;
+.elite-hero-card {
+    background: var(--elite-card);
+    border: 1px solid var(--elite-border);
+    border-radius: 28px;
+    padding: 1.8rem;
+    margin-bottom: 2rem;
+    position: relative;
+    overflow: hidden;
 }
+
 .elite-hero-top {
-    font-size: 0.85rem;
+    font-size: 0.9rem;
     color: #888;
-    font-weight: 500;
-    margin-bottom: 2px;
+    font-weight: 600;
+    margin-bottom: 8px;
 }
 .elite-hero-balance {
-    font-size: 3.5rem;
+    font-size: 3.2rem;
     font-weight: 800;
     color: #fff;
     letter-spacing: -2px;
     line-height: 1;
     display: flex;
-    align-items: flex-start;
+    align-items: baseline;
 }
-.elite-hero-balance span {
+.elite-hero-balance .symbol {
     font-size: 1.5rem;
-    margin-top: 10px;
     margin-right: 5px;
     color: var(--elite-accent);
+    font-weight: 700;
+}
+.elite-pending-row {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid rgba(255,255,255,0.03);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.85rem;
+    color: #f59e0b;
+    font-weight: 600;
 }
 
 /* Quick Actions Bento */
@@ -157,14 +173,15 @@
 </style>
 
 <div class="elite-home">
-    <div class="elite-hero">
-        <div class="elite-hero-top">{{ strings.HOME_WELCOME }}, {{ user.full_name or 'User' }}</div>
+    <div class="elite-hero-card">
+        <div class="elite-hero-top">{{ strings.HOME_WELCOME }}, {{ user.full_name or 'User' }} 👋</div>
         <div class="elite-hero-balance">
-            <span>$</span>{{ "%.2f"|format(balance) }}
+            <span class="symbol">$</span>{{ "%.2f"|format(balance) }}
         </div>
         {% if pending > 0 %}
-        <div style="font-size: 0.8rem; color: #f59e0b; font-weight: 600; margin-top: 5px;">
-            <i class="fa-solid fa-clock-rotate-left"></i> {{ strings.HOME_PENDING|format(pending) }}
+        <div class="elite-pending-row">
+            <i class="fa-solid fa-hourglass-half"></i>
+            {{ strings.HOME_PENDING|format(pending) }}
         </div>
         {% endif %}
     </div>
