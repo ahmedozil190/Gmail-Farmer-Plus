@@ -2,21 +2,48 @@
 
 {% block content %}
 <!-- Header -->
-<div class="wa-header">
-    <div class="wa-avatar">{{ user.full_name[0] if user.full_name else '?' }}</div>
-    <div>
-        <div class="wa-greeting">{{ strings.HOME_WELCOME }}</div>
-        <div class="wa-username">{{ user.full_name or 'User' }}</div>
+<div style="display: flex; justify-content: space-between; align-items: center; padding: 15px 20px;">
+    <div style="display: flex; align-items: center; gap: 15px;">
+        <i class="fa-solid fa-bars" style="font-size: 1.2rem; color: #fff; opacity: 0.6;"></i>
+        <span style="font-weight: 700; font-size: 1.1rem; color: #fff;">TG-Lion</span>
+    </div>
+    <div style="display: flex; align-items: center; gap: 12px;">
+        <span style="font-weight: 700; font-size: 0.95rem; color: #fff;">${{ "%.2f"|format(balance) }}</span>
+        <span style="color: #666; font-size: 0.85rem;">|</span>
+        <span style="color: #666; font-size: 0.8rem; font-weight: 600;">{% if user.custom_manual_price or user.custom_auto_price %}VIP1{% else %}USER{% endif %}</span>
+        <div style="width: 32px; height: 32px; border-radius: 50%; background: #1a1a1a; border: 1px solid #333; display: flex; align-items: center; justify-content: center; color: #aaa; font-size: 0.9rem;">
+            <i class="fa-regular fa-user"></i>
+        </div>
     </div>
 </div>
 
+<div style="padding: 0 20px; margin-top: 15px; margin-bottom: 25px;">
+    <h1 style="font-size: 1.8rem; font-weight: 700; margin: 0; color: #fff; letter-spacing: -0.5px;">Account</h1>
+    <p style="color: #777; font-size: 0.95rem; margin-top: 6px;">Manage your account settings and view your activity</p>
+</div>
+
 <!-- Balance Card -->
-<div class="glass-card balance-card">
-    <div class="balance-label">{{ strings.HOME_BALANCE }}</div>
-    <div class="balance-amount">${{ "%.2f"|format(balance) }} <span class="currency">{{ strings.HOME_USD }}</span></div>
-    {% if pending > 0 %}
-    <div class="balance-pending">{{ strings.HOME_PENDING|format(pending) }}</div>
-    {% endif %}
+<div style="background: #111; border-radius: 20px; padding: 25px; margin: 0 15px 25px 15px; border: 1px solid #222; display: flex; flex-direction: column;">
+    <div style="color: #666; font-size: 0.75rem; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 8px;">{{ strings.HOME_BALANCE }}</div>
+    <div style="font-size: 2.8rem; font-weight: 700; color: #fff; line-height: 1; margin-bottom: 30px; letter-spacing: -1px;">${{ "%.2f"|format(balance) }}</div>
+    
+    <div style="display: flex; flex-direction: column; gap: 18px;">
+        <div style="display: flex; align-items: center; gap: 12px;">
+            <div style="width: 10px; height: 10px; border-radius: 50%; background: #3b82f6;"></div>
+            <div>
+                <div style="color: #666; font-size: 0.7rem; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 2px;">{{ strings.HOME_APPROVED }}</div>
+                <div style="color: #dfdfdf; font-size: 1.05rem; font-weight: 500;">${{ "%.2f"|format(user.paid_total or 0) }}</div>
+            </div>
+        </div>
+        
+        <div style="display: flex; align-items: center; gap: 12px;">
+            <div style="width: 10px; height: 10px; border-radius: 50%; background: #a855f7;"></div>
+            <div>
+                <div style="color: #666; font-size: 0.7rem; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 2px;">{{ strings.HOME_REQ_PENDING }}</div>
+                <div style="color: #dfdfdf; font-size: 1.05rem; font-weight: 500;">${{ "%.2f"|format(pending) }}</div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- Quick Actions -->
