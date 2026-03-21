@@ -822,6 +822,12 @@ def app_home():
         recent = con.execute(
             "SELECT * FROM submissions WHERE user_id = ? ORDER BY submitted_at DESC LIMIT 5", (user_id,)
         ).fetchall()
+        
+        # Total withdrawn (sum of approved withdrawals)
+        total_withdrawn = con.execute(
+            "SELECT SUM(amount) FROM withdrawals WHERE user_id = ? AND status = 'approved'", (user_id,)
+        ).fetchone()[0] or 0
+        
         con.close()
 
         return render_template("app/home.html",
@@ -833,7 +839,8 @@ def app_home():
             approved_tasks=approved_tasks,
             pending_tasks=pending_tasks,
             rejected_tasks=rejected_tasks,
-            recent_tasks=recent
+            recent_tasks=recent,
+            total_withdrawn=total_withdrawn
         )
     except Exception as e:
         return f"<pre>Error Route /app/:\n{traceback.format_exc()}</pre>", 500

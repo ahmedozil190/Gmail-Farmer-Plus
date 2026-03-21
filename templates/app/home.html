@@ -18,44 +18,59 @@
     background: var(--elite-card);
     border: 1px solid var(--elite-border);
     border-radius: 28px;
-    padding: 1.8rem;
+    padding: 1.5rem;
     margin-bottom: 2rem;
     position: relative;
     overflow: hidden;
 }
 
 .elite-hero-top {
-    font-size: 0.9rem;
-    color: #888;
-    font-weight: 600;
-    margin-bottom: 8px;
+    font-size: 1.1rem;
+    color: #fff;
+    font-weight: 700;
+    margin-bottom: 12px;
 }
 .elite-hero-balance {
-    font-size: 3.2rem;
+    font-size: 2.2rem;
     font-weight: 800;
     color: #fff;
-    letter-spacing: -2px;
+    letter-spacing: -1px;
     line-height: 1;
     display: flex;
     align-items: baseline;
+    margin-bottom: 1.5rem;
 }
 .elite-hero-balance .symbol {
-    font-size: 1.5rem;
-    margin-right: 5px;
+    font-size: 1.2rem;
+    margin-right: 4px;
     color: var(--elite-accent);
     font-weight: 700;
 }
-.elite-pending-row {
-    margin-top: 15px;
-    padding-top: 15px;
-    border-top: 1px solid rgba(255,255,255,0.03);
+.elite-card-footer {
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    gap: 8px;
-    font-size: 0.85rem;
-    color: #f59e0b;
-    font-weight: 600;
+    padding-top: 15px;
+    border-top: 1px solid rgba(255,255,255,0.05);
 }
+.footer-item {
+    display: flex;
+    flex-direction: column;
+}
+.footer-label {
+    font-size: 0.7rem;
+    color: #666;
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    margin-bottom: 2px;
+}
+.footer-value {
+    font-size: 0.95rem;
+    font-weight: 700;
+}
+.footer-value.pending { color: #f59e0b; }
+.footer-value.withdrawn { color: #10b981; }
 
 /* Quick Actions Bento */
 .elite-grid {
@@ -174,16 +189,21 @@
 
 <div class="elite-home">
     <div class="elite-hero-card">
-        <div class="elite-hero-top">{{ strings.HOME_WELCOME }}, {{ user.full_name or 'User' }} 👋</div>
+        <div class="elite-hero-top">{{ user.full_name or 'User' }}</div>
         <div class="elite-hero-balance">
             <span class="symbol">$</span>{{ "%.2f"|format(balance) }}
         </div>
-        {% if pending > 0 %}
-        <div class="elite-pending-row">
-            <i class="fa-solid fa-hourglass-half"></i>
-            {{ strings.HOME_PENDING|format(pending) }}
+        
+        <div class="elite-card-footer">
+            <div class="footer-item" style="text-align: left;">
+                <span class="footer-label">{{ strings.NAV_WALLET if strings else 'Withdrawn' }}</span>
+                <span class="footer-value withdrawn">${{ "%.2f"|format(total_withdrawn or 0) }}</span>
+            </div>
+            <div class="footer-item" style="text-align: right;">
+                <span class="footer-label">{{ strings.HOME_PENDING_TITLE if strings else 'Pending' }}</span>
+                <span class="footer-value pending">${{ "%.2f"|format(pending or 0) }}</span>
+            </div>
         </div>
-        {% endif %}
     </div>
 
     <div class="elite-grid">
