@@ -13,7 +13,7 @@
     </div>
     <div class="glass-card stat-card">
         <div class="stat-title">{{ strings.DASH_BANNED_USERS }}</div>
-        <div class="stat-value">{{ banned_users }}</div>
+        <div class="stat-value" style="color: var(--danger);">{{ banned_users }}</div>
     </div>
 </div>
 
@@ -35,7 +35,7 @@
     </div>
     <div class="glass-card stat-card">
         <div class="stat-title">{{ strings.DASH_REJECTED }}</div>
-        <div class="stat-value">{{ rejected_tasks }}</div>
+        <div class="stat-value" style="color: var(--danger);">{{ rejected_tasks }}</div>
     </div>
 </div>
 
@@ -58,7 +58,7 @@
     </div>
     <div class="glass-card stat-card">
         <div class="stat-title">{{ strings.DASH_REJECTED }}</div>
-        <div class="stat-value">{{ rejected_withdrawals }}</div>
+        <div class="stat-value" style="color: var(--danger);">{{ rejected_withdrawals }}</div>
     </div>
 </div>
 
@@ -72,7 +72,7 @@
     </div>
     <div class="glass-card stat-card">
         <div class="stat-title">{{ strings.DASH_REJECTED_TASKS_VALUE }}</div>
-        <div class="stat-value">${{ "%.2f"|format(rejected_tasks_amount) }}</div>
+        <div class="stat-value" style="color: var(--danger);">${{ "%.2f"|format(rejected_tasks_amount) }}</div>
     </div>
 </div>
 {% endblock %}
