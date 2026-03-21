@@ -20,9 +20,8 @@
             <div class="list-header" style="margin-bottom: 12px;">
                 <span class="list-title" style="font-size: 1.1rem;">{% if user.full_name %}{{ user.full_name }}{% else %}{{ user.user_id }}{% endif %}</span>
                 <form action="{{ url_for('reset_custom_price', user_id=user.user_id) }}" method="POST" style="margin: 0;">
-                    <button type="submit" class="btn btn-danger" style="display: flex; align-items: center; gap: 6px; font-size: 0.75rem; padding: 6px 12px; border-radius: 8px; font-weight: 600;">
+                    <button type="submit" class="btn btn-danger" style="width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; padding: 0; border-radius: 8px; font-weight: 600; cursor: pointer; border: none;" title="{{ strings.DASH_CP_RESET_BTN }}">
                         <i class="fa-solid fa-rotate-left"></i>
-                        {{ strings.DASH_CP_RESET_BTN }}
                     </button>
                 </form>
             </div>
