@@ -2,316 +2,238 @@
 
 {% block content %}
 <style>
-/* ── Luxurious Glassmorphism V4 ───────────────────────────── */
+/* ── Elite Minimalist V5 ────────────────────────────────── */
 :root {
-    --glass: rgba(255, 255, 255, 0.03);
-    --glass-border: rgba(255, 255, 255, 0.07);
-    --glass-accent: rgba(96, 165, 250, 0.15);
+    --elite-bg: #0a0b0d;
+    --elite-border: rgba(255, 255, 255, 0.05);
+    --elite-accent: #3b82f6;
+    --elite-card: rgba(255, 255, 255, 0.02);
 }
 
-.home-container {
-    position: relative;
-    padding-top: 5px;
+.elite-home {
+    padding-top: 10px;
 }
 
-/* Background Animated Blobs */
-.bg-blob {
-    position: fixed;
-    width: 300px;
-    height: 300px;
-    background: radial-gradient(circle, rgba(59, 130, 246, 0.08) 0%, transparent 70%);
-    filter: blur(60px);
-    z-index: -1;
-    pointer-events: none;
-    animation: blob-float 20s infinite alternate;
+/* Minimal Hero */
+.elite-hero {
+    margin-bottom: 2.5rem;
+    padding: 0 5px;
 }
-.blob-1 { top: -100px; right: -50px; background: radial-gradient(circle, rgba(139, 92, 246, 0.08) 0%, transparent 70%); }
-.blob-2 { bottom: 100px; left: -100px; }
-
-@keyframes blob-float {
-    0% { transform: translate(0, 0) scale(1); }
-    100% { transform: translate(30px, 40px) scale(1.1); }
-}
-
-/* Hero Section */
-.hero-header {
-    margin-bottom: 2rem;
-}
-.hero-welcome {
-    font-size: 0.9rem;
-    color: var(--text-secondary);
+.elite-hero-top {
+    font-size: 0.85rem;
+    color: #888;
     font-weight: 500;
+    margin-bottom: 2px;
 }
-.hero-user {
-    font-size: 1.75rem;
-    font-weight: 800;
-    letter-spacing: -0.5px;
-    background: linear-gradient(to right, #fff, #94a3b8);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-
-/* Premium Balance Card (Glass Card Style) */
-.balance-glass-card {
-    background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.01) 100%);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid var(--glass-border);
-    border-radius: 28px;
-    padding: 1.8rem;
-    margin-bottom: 2rem;
-    position: relative;
-    overflow: hidden;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-}
-.balance-glass-card::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    right: -20%;
-    width: 250px;
-    height: 250px;
-    background: radial-gradient(circle, rgba(59, 130, 246, 0.12) 0%, transparent 70%);
-    pointer-events: none;
-}
-.card-chip {
-    width: 45px;
-    height: 34px;
-    background: linear-gradient(135deg, #ffd70033 0%, #b8860b33 100%);
-    border-radius: 8px;
-    margin-bottom: 1.5rem;
-    border: 1px solid rgba(255,215,0,0.1);
-}
-.balance-lbl {
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    color: rgba(255,255,255,0.5);
-    margin-bottom: 0.5rem;
-    font-weight: 600;
-}
-.balance-val {
-    font-size: 3rem;
+.elite-hero-balance {
+    font-size: 3.5rem;
     font-weight: 800;
     color: #fff;
+    letter-spacing: -2px;
+    line-height: 1;
     display: flex;
-    align-items: center;
-    gap: 8px;
-    letter-spacing: -1px;
+    align-items: flex-start;
 }
-.balance-val span { color: var(--accent); opacity: 0.9; font-size: 1.5rem; }
-
-.balance-footer {
-    margin-top: 1.5rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-.pending-badge {
-    background: rgba(245, 158, 11, 0.1);
-    border: 1px solid rgba(245, 158, 11, 0.15);
-    color: #f59e0b;
-    padding: 6px 14px;
-    border-radius: 20px;
-    font-size: 0.8rem;
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    gap: 6px;
+.elite-hero-balance span {
+    font-size: 1.5rem;
+    margin-top: 10px;
+    margin-right: 5px;
+    color: var(--elite-accent);
 }
 
-/* Bento Grid Actions */
-.bento-grid {
+/* Quick Actions Bento */
+.elite-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: repeat(2, 110px);
     gap: 12px;
-    margin-bottom: 2rem;
+    margin-bottom: 2.5rem;
 }
-.bento-item {
-    background: var(--glass);
-    border: 1px solid var(--glass-border);
-    backdrop-filter: blur(10px);
-    border-radius: 24px;
-    padding: 1.2rem;
+.elite-card {
+    background: var(--elite-card);
+    border: 1px solid var(--elite-border);
+    border-radius: 20px;
+    padding: 1.5rem;
     text-decoration: none;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+    min-height: 120px;
 }
-.bento-item:active { transform: scale(0.96); background: rgba(255,255,255,0.06); }
-.bento-item.large {
-    grid-column: span 1;
-    grid-row: span 2;
-    background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(255,255,255,0.02) 100%);
+.elite-card:active {
+    background: rgba(255, 255, 255, 0.05);
+    transform: scale(0.97);
 }
-.bento-icon {
-    width: 40px;
-    height: 40px;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.2rem;
+.elite-card i {
+    font-size: 1.4rem;
+    color: var(--elite-accent);
+    margin-bottom: 1rem;
 }
-.bento-item.large .bento-icon { width: 48px; height: 48px; font-size: 1.5rem; background: rgba(59,130,246,0.15); color: #3b82f6; }
-.bento-icon.green { background: rgba(16,185,129,0.1); color: #10b981; }
-.bento-icon.purple { background: rgba(168,85,247,0.1); color: #a855f7; }
+.elite-card .title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #fff;
+    display: block;
+}
+.elite-card .desc {
+    font-size: 0.75rem;
+    color: #666;
+    margin-top: 4px;
+}
 
-.bento-title { font-size: 0.95rem; font-weight: 700; color: #fff; }
-.bento-desc { font-size: 0.75rem; color: var(--text-secondary); margin-top: 2px; }
-
-/* Stats Mini Horizontal */
-.stats-pills {
+/* Stats Row */
+.elite-stats {
     display: flex;
-    gap: 10px;
-    overflow-x: auto;
-    padding-bottom: 5px;
-    margin-bottom: 2rem;
-    scrollbar-width: none;
-}
-.stats-pills::-webkit-scrollbar { display: none; }
-.stat-pill {
-    background: var(--glass);
-    border: 1px solid var(--glass-border);
-    padding: 10px 16px;
-    border-radius: 100px;
-    display: flex;
-    align-items: center;
     gap: 8px;
-    white-space: nowrap;
+    margin-bottom: 2.5rem;
 }
-.stat-pill i { font-size: 0.9rem; }
-.stat-pill .s-val { font-weight: 800; color: #fff; }
-.stat-pill .s-lbl { font-size: 0.75rem; color: var(--text-secondary); font-weight: 600; }
-.stat-pill.success i { color: #10b981; }
-.stat-pill.warning i { color: #f59e0b; }
-.stat-pill.danger i { color: #ef4444; }
+.e-stat-pill {
+    flex: 1;
+    background: var(--elite-card);
+    border: 1px solid var(--elite-border);
+    border-radius: 12px;
+    padding: 12px;
+    text-align: center;
+}
+.e-stat-pill .val {
+    font-size: 1.2rem;
+    font-weight: 800;
+    display: block;
+}
+.e-stat-pill .lbl {
+    font-size: 0.65rem;
+    color: #555;
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+.e-stat-pill.blue .val { color: var(--elite-accent); }
+.e-stat-pill.orange .val { color: #f59e0b; }
+.e-stat-pill.red .val { color: #ef4444; }
 
-/* Activity Section */
-.recent-header {
+/* Activity List */
+.elite-section-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 1.25rem;
+    padding: 0 5px;
 }
-.recent-title { font-size: 1.1rem; font-weight: 700; }
-.recent-view-all { font-size: 0.85rem; color: var(--accent); text-decoration: none; font-weight: 600; }
+.elite-section-title { font-size: 1.1rem; font-weight: 700; color: #fff; }
+.elite-section-link { font-size: 0.8rem; color: var(--elite-accent); text-decoration: none; font-weight: 600; }
 
-.lux-list-item {
-    background: linear-gradient(90deg, rgba(255,255,255,0.02) 0%, transparent 100%);
-    border-left: 4px solid var(--glass-border);
-    padding: 1.2rem;
-    border-radius: 0 16px 16px 0;
-    margin-bottom: 12px;
+.elite-list-item {
+    background: var(--elite-card);
+    border-bottom: 1px solid var(--elite-border);
+    padding: 1rem 0.5rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    transition: all 0.2s;
+    transition: background 0.2s;
 }
-[dir="rtl"] .lux-list-item { border-left: none; border-right: 4px solid var(--glass-border); border-radius: 16px 0 0 16px; }
-.lux-list-item:active { background: rgba(255,255,255,0.05); }
+.elite-list-item:active { background: rgba(255,255,255,0.02); }
 
-.lux-details { flex: 1; margin: 0 15px; }
-.lux-status-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 8px; }
-[dir="rtl"] .lux-status-dot { margin-right: 0; margin-left: 8px; }
-.status-dot.approved { background: #10b981; box-shadow: 0 0 8px #10b98166; }
-.status-dot.pending { background: #f59e0b; box-shadow: 0 0 8px #f59e0b66; }
-.status-dot.rejected { background: #ef4444; box-shadow: 0 0 8px #ef444466; }
+.e-item-info { flex: 1; }
+.e-item-name { font-weight: 600; font-size: 0.9rem; color: #eee; margin-bottom: 2px; }
+.e-item-date { font-size: 0.75rem; color: #444; }
 
-.lux-name { font-weight: 700; font-size: 0.95rem; color: #fff; margin-bottom: 2px; }
-.lux-meta { font-size: 0.75rem; color: var(--text-secondary); }
-.lux-amount { font-weight: 800; font-size: 1.1rem; color: #fff; }
+.e-item-status {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    margin-right: 12px;
+}
+[dir="rtl"] .e-item-status { margin-right: 0; margin-left: 12px; }
+.e-status.approved { background: rgba(16, 185, 129, 0.1); color: #10b981; }
+.e-status.pending { background: rgba(245, 158, 11, 0.1); color: #f59e0b; }
+.e-status.rejected { background: rgba(239, 68, 68, 0.1); color: #ef4444; }
+
+.e-item-price { font-weight: 800; font-size: 1rem; color: #fff; text-align: right; }
+[dir="rtl"] .e-item-price { text-align: left; }
 </style>
 
-<div class="home-container">
-    <div class="bg-blob blob-1"></div>
-    <div class="bg-blob blob-2"></div>
-
-    <div class="hero-header">
-        <div class="hero-welcome">{{ strings.HOME_WELCOME }}</div>
-        <div class="hero-user">{{ user.full_name or 'Friend' }}</div>
-    </div>
-
-    <div class="balance-glass-card">
-        <div class="card-chip"></div>
-        <div class="balance-lbl">{{ strings.HOME_BALANCE }}</div>
-        <div class="balance-val">
+<div class="elite-home">
+    <div class="elite-hero">
+        <div class="elite-hero-top">{{ strings.HOME_WELCOME }}, {{ user.full_name or 'User' }}</div>
+        <div class="elite-hero-balance">
             <span>$</span>{{ "%.2f"|format(balance) }}
         </div>
-        <div class="balance-footer">
-            {% if pending > 0 %}
-            <div class="pending-badge">
-                <i class="fa-solid fa-hourglass-half"></i>
-                <span>{{ strings.HOME_PENDING|format(pending) }}</span>
-            </div>
-            {% else %}
-            <div style="font-size: 0.75rem; color: rgba(255,255,255,0.3); font-weight: 600;">ACTIVE PLAN</div>
-            {% endif %}
-            <i class="fa-brands fa-cc-visa" style="font-size: 1.8rem; opacity: 0.2;"></i>
+        {% if pending > 0 %}
+        <div style="font-size: 0.8rem; color: #f59e0b; font-weight: 600; margin-top: 5px;">
+            <i class="fa-solid fa-clock-rotate-left"></i> {{ strings.HOME_PENDING|format(pending) }}
         </div>
+        {% endif %}
     </div>
 
-    <div class="bento-grid">
-        <a href="{{ url_for('app_tasks') }}" class="bento-item large">
-            <div class="bento-icon"><i class="fa-solid fa-plus"></i></div>
+    <div class="elite-grid">
+        <a href="{{ url_for('app_tasks') }}" class="elite-card">
+            <i class="fa-solid fa-circle-plus"></i>
             <div>
-                <div class="bento-title">{{ strings.HOME_NEW_TASK }}</div>
-                <div class="bento-desc">Earn rewards now</div>
+                <span class="title">{{ strings.HOME_NEW_TASK }}</span>
+                <span class="desc">Start earning rewards</span>
             </div>
         </a>
-        <a href="{{ url_for('app_wallet') }}" class="bento-item">
-            <div style="display: flex; align-items: center; gap: 10px;">
-                <div class="bento-icon green"><i class="fa-solid fa-wallet"></i></div>
-                <div class="bento-title">{{ strings.NAV_WALLET }}</div>
+        <a href="{{ url_for('app_wallet') }}" class="elite-card">
+            <i class="fa-solid fa-wallet"></i>
+            <div>
+                <span class="title">{{ strings.NAV_WALLET }}</span>
+                <span class="desc">Manage your funds</span>
             </div>
-            <i class="fa-solid fa-arrow-right" style="font-size: 0.8rem; opacity: 0.4;"></i>
         </a>
-        <a href="{{ url_for('app_referrals') }}" class="bento-item">
-            <div style="display: flex; align-items: center; gap: 10px;">
-                <div class="bento-icon purple"><i class="fa-solid fa-users"></i></div>
-                <div class="bento-title">{{ strings.NAV_REFERRALS }}</div>
+        <a href="{{ url_for('app_referrals') }}" class="elite-card">
+            <i class="fa-solid fa-user-group"></i>
+            <div>
+                <span class="title">{{ strings.NAV_REFERRALS }}</span>
+                <span class="desc">Invite and earn</span>
             </div>
-            <i class="fa-solid fa-arrow-right" style="font-size: 0.8rem; opacity: 0.4;"></i>
         </a>
+        <div class="elite-card" style="opacity: 0.5;">
+            <i class="fa-solid fa-shield-halved"></i>
+            <div>
+                <span class="title">Secure</span>
+                <span class="desc">End-to-end encrypted</span>
+            </div>
+        </div>
     </div>
 
-    <div class="stats-pills">
-        <div class="stat-pill success">
-            <i class="fa-solid fa-circle-check"></i>
-            <span class="s-val">{{ approved_tasks }}</span>
-            <span class="s-lbl">{{ strings.HOME_APPROVED }}</span>
+    <div class="elite-stats">
+        <div class="e-stat-pill blue">
+            <span class="val">{{ approved_tasks }}</span>
+            <span class="lbl">{{ strings.HOME_APPROVED }}</span>
         </div>
-        <div class="stat-pill warning">
-            <i class="fa-solid fa-clock"></i>
-            <span class="s-val">{{ pending_tasks }}</span>
-            <span class="s-lbl">{{ strings.HOME_REQ_PENDING }}</span>
+        <div class="e-stat-pill orange">
+            <span class="val">{{ pending_tasks }}</span>
+            <span class="lbl">{{ strings.HOME_REQ_PENDING }}</span>
         </div>
-        <div class="stat-pill danger">
-            <i class="fa-solid fa-circle-xmark"></i>
-            <span class="s-val">{{ rejected_tasks }}</span>
-            <span class="s-lbl">{{ strings.HOME_REJECTED }}</span>
+        <div class="e-stat-pill red">
+            <span class="val">{{ rejected_tasks }}</span>
+            <span class="lbl">{{ strings.HOME_REJECTED }}</span>
         </div>
     </div>
 
     {% if recent_tasks %}
-    <div class="recent-header">
-        <span class="recent-title">{{ strings.HOME_RECENT_TASKS }}</span>
-        <a href="{{ url_for('app_tasks') }}" class="recent-view-all">{{ strings.HOME_VIEW_ALL }}</a>
+    <div class="elite-section-header">
+        <span class="elite-section-title">{{ strings.HOME_RECENT_TASKS }}</span>
+        <a href="{{ url_for('app_tasks') }}" class="elite-section-link">{{ strings.HOME_VIEW_ALL }}</a>
     </div>
 
-    <div class="recent-list">
+    <div class="elite-list">
         {% for task in recent_tasks[:4] %}
-        <div class="lux-list-item" style="border-color: {% if task.status == 'approved' %}#10b981{% elif task.status == 'rejected' %}#ef4444{% else %}#f59e0b{% endif %};">
-            <div class="lux-details">
-                <div class="lux-name">
-                    <span class="lux-status-dot status-dot {{ task.status }}"></span>
-                    {{ task.gmail_account }}
-                </div>
-                <div class="lux-meta">{{ task.submitted_at[:10] }}</div>
+        <div class="elite-list-item">
+            <div class="e-item-status e-status {{ task.status }}">
+                {% if task.status == 'approved' %}<i class="fa-solid fa-check"></i>
+                {% elif task.status == 'rejected' %}<i class="fa-solid fa-xmark"></i>
+                {% else %}<i class="fa-solid fa-clock"></i>{% endif %}
             </div>
-            <div class="lux-amount">${{ "%.2f"|format(task.price or 0) }}</div>
+            <div class="e-item-info">
+                <div class="e-item-name">{{ task.gmail_account }}</div>
+                <div class="e-item-date">{{ task.submitted_at[:10] }}</div>
+            </div>
+            <div class="e-item-price">${{ "%.2f"|format(task.price or 0) }}</div>
         </div>
         {% endfor %}
     </div>
