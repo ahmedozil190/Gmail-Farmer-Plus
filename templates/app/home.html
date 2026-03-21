@@ -256,7 +256,7 @@
         <div class="hero-data-list">
             <!-- Main Balance Row -->
             <div class="hero-data-row main-row">
-                <span class="hero-data-label">{{ strings.BTN_BALANCE if strings else 'Current Balance' }}</span>
+                <span class="hero-data-label">{{ strings.HOME_CURRENT_BALANCE if strings else 'Current Balance' }}</span>
                 <div class="hero-data-value main">
                     <span class="symbol">$</span>{{ "%.2f"|format(balance) }}
                 </div>
@@ -264,7 +264,7 @@
             
             <!-- Withdrawn Row -->
             <div class="hero-data-row">
-                <span class="hero-data-label">{{ strings.DASH_U_TOTAL_WITHDRAWN if strings else 'Withdrawn' }}</span>
+                <span class="hero-data-label">{{ strings.HOME_TOTAL_WITHDRAWN if strings else 'Total Withdrawn' }}</span>
                 <div class="hero-data-value withdrawn">
                     <span class="symbol">$</span>{{ "%.2f"|format(total_withdrawn or 0) }}
                 </div>
@@ -272,7 +272,7 @@
 
             <!-- Pending Row -->
             <div class="hero-data-row">
-                <span class="hero-data-label">{{ strings.DASH_FILTER_PENDING if strings else 'Pending' }}</span>
+                <span class="hero-data-label">{{ strings.HOME_REQ_PENDING if strings else 'Pending' }}</span>
                 <div class="hero-data-value pending">
                     <span class="symbol">$</span>{{ "%.2f"|format(pending or 0) }}
                 </div>
