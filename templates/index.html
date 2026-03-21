@@ -11,9 +11,9 @@
         <div class="stat-title">{{ strings.DASH_TOTAL_USERS }}</div>
         <div class="stat-value">{{ total_users }}</div>
     </div>
-    <div class="glass-card stat-card" style="background: rgba(239, 68, 68, 0.05);">
-        <div class="stat-title" style="color: var(--danger);">{{ strings.DASH_BANNED_USERS }}</div>
-        <div class="stat-value" style="color: var(--danger);">{{ banned_users }}</div>
+    <div class="glass-card stat-card">
+        <div class="stat-title">{{ strings.DASH_BANNED_USERS }}</div>
+        <div class="stat-value">{{ banned_users }}</div>
     </div>
 </div>
 
@@ -33,9 +33,9 @@
         <div class="stat-title">{{ strings.DASH_PENDING }}</div>
         <div class="stat-value">{{ pending_tasks }}</div>
     </div>
-    <div class="glass-card stat-card" style="background: rgba(239, 68, 68, 0.05);">
-        <div class="stat-title" style="color: var(--danger);">{{ strings.DASH_REJECTED }}</div>
-        <div class="stat-value" style="color: var(--danger);">{{ rejected_tasks }}</div>
+    <div class="glass-card stat-card">
+        <div class="stat-title">{{ strings.DASH_REJECTED }}</div>
+        <div class="stat-value">{{ rejected_tasks }}</div>
     </div>
 </div>
 
@@ -56,9 +56,9 @@
         <div class="stat-title">{{ strings.DASH_PENDING }}</div>
         <div class="stat-value">{{ pending_withdrawals }}</div>
     </div>
-    <div class="glass-card stat-card" style="background: rgba(239, 68, 68, 0.05);">
-        <div class="stat-title" style="color: var(--danger);">{{ strings.DASH_REJECTED }}</div>
-        <div class="stat-value" style="color: var(--danger);">{{ rejected_withdrawals }}</div>
+    <div class="glass-card stat-card">
+        <div class="stat-title">{{ strings.DASH_REJECTED }}</div>
+        <div class="stat-value">{{ rejected_withdrawals }}</div>
     </div>
 </div>
 
@@ -70,9 +70,9 @@
         <div class="stat-title">{{ strings.DASH_TOTAL_PAID_AMOUNT }}</div>
         <div class="stat-value">${{ "%.2f"|format(paid_amount) }}</div>
     </div>
-    <div class="glass-card stat-card" style="background: rgba(239, 68, 68, 0.05);">
-        <div class="stat-title" style="color: var(--danger);">{{ strings.DASH_REJECTED_TASKS_VALUE }}</div>
-        <div class="stat-value" style="color: var(--danger);">${{ "%.2f"|format(rejected_tasks_amount) }}</div>
+    <div class="glass-card stat-card">
+        <div class="stat-title">{{ strings.DASH_REJECTED_TASKS_VALUE }}</div>
+        <div class="stat-value">${{ "%.2f"|format(rejected_tasks_amount) }}</div>
     </div>
 </div>
 {% endblock %}
