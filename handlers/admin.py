@@ -65,12 +65,14 @@ async def admin_panel(update: Update, context: ContextTypes.DEFAULT_TYPE):
         [InlineKeyboardButton(s.get('OPEN_DASHBOARD', "Open Dashboard 🖥️"), web_app=WebAppInfo(url=dashboard_url))]
     ])
 
+    stats_text = s['ADMIN_PANEL_STATS'].format(
+        total=total, approved=approved, pending=pending,
+        pending_w=pending_w, paid_text=paid_text
+    )
+    text = f"{s['ADMIN_PANEL_TITLE']}{stats_text}"
+
     await update.message.reply_text(
-        f"{s['ADMIN_PANEL_TITLE']}"
-        f"{s['ADMIN_PANEL_STATS'].format(
-            total=total, approved=approved, pending=pending,
-            pending_w=pending_w, paid_text=paid_text
-        )}",
+        text,
         parse_mode="HTML",
         reply_markup=keyboard
     )
