@@ -1044,6 +1044,8 @@ DASHBOARD_STRINGS = {
         
         'DASH_W_PAGE_TITLE': "عمليات السحب",
         'DASH_W_REQS': "طلبات السحب",
+        'DASH_TOTAL_PAID_AMOUNT': "إجمالي المبالغ المدفوعة",
+        'DASH_REJECTED_TASKS_VALUE': "قيمة المهام المرفوضة",
         'DASH_NO_WITHDRAWALS': "لا توجد طلبات سحب.",
         'DASH_MARK_PAID': "تحديد كمدفوع",
         'DASH_REASON': "السبب",
@@ -1161,6 +1163,8 @@ DASHBOARD_STRINGS = {
         
         'DASH_W_PAGE_TITLE': "Withdrawals",
         'DASH_W_REQS': "Withdrawal Requests",
+        'DASH_TOTAL_PAID_AMOUNT': "Total Amount Paid",
+        'DASH_REJECTED_TASKS_VALUE': "Rejected Tasks Value",
         'DASH_NO_WITHDRAWALS': "No requests found.",
         'DASH_MARK_PAID': "Mark Paid",
         'DASH_REASON': "Reason",

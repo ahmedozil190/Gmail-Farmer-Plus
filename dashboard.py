@@ -99,6 +99,10 @@ def index():
     pending_withdrawals = con.execute("SELECT COUNT(*) FROM withdrawals WHERE status = 'pending'").fetchone()[0]
     rejected_withdrawals = con.execute("SELECT COUNT(*) FROM withdrawals WHERE status = 'rejected'").fetchone()[0]
     
+    # Financial Stats
+    paid_amount = con.execute("SELECT SUM(amount) FROM withdrawals WHERE status = 'completed'").fetchone()[0] or 0.0
+    rejected_tasks_amount = con.execute("SELECT SUM(price) FROM submissions WHERE status = 'rejected'").fetchone()[0] or 0.0
+    
     con.close()
     
     return render_template("index.html", 
@@ -111,7 +115,9 @@ def index():
                            total_withdrawals=total_withdrawals,
                            completed_withdrawals=completed_withdrawals,
                            pending_withdrawals=pending_withdrawals,
-                           rejected_withdrawals=rejected_withdrawals)
+                           rejected_withdrawals=rejected_withdrawals,
+                           paid_amount=paid_amount,
+                           rejected_tasks_amount=rejected_tasks_amount)
 
 @app.route("/users")
 @requires_auth

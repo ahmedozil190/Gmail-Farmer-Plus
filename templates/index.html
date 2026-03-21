@@ -43,7 +43,7 @@
 <h2 style="font-size: 1.1rem; color: var(--text-secondary); margin-bottom: 1rem;"><i
         class="fa-solid fa-money-bill-transfer" style="margin-right: 8px;"></i>{{ strings.DASH_WITHDRAWALS_SECTION }}
 </h2>
-<div class="stats-grid" style="grid-template-columns: 1fr 1fr; margin-bottom: 1rem;">
+<div class="stats-grid" style="grid-template-columns: 1fr 1fr; margin-bottom: 2rem;">
     <div class="glass-card stat-card blue">
         <div class="stat-title">{{ strings.DASH_TOTAL_REQS }}</div>
         <div class="stat-value">{{ total_withdrawals }}</div>
@@ -59,6 +59,20 @@
     <div class="glass-card stat-card" style="background: rgba(239, 68, 68, 0.05);">
         <div class="stat-title" style="color: var(--danger);">{{ strings.DASH_REJECTED }}</div>
         <div class="stat-value" style="color: var(--danger);">{{ rejected_withdrawals }}</div>
+    </div>
+</div>
+
+<h2 style="font-size: 1.1rem; color: var(--text-secondary); margin-bottom: 1rem;"><i
+        class="fa-solid fa-sack-dollar" style="margin-right: 8px;"></i>الماليات (Financials)
+</h2>
+<div class="stats-grid" style="grid-template-columns: 1fr 1fr; margin-bottom: 1rem;">
+    <div class="glass-card stat-card green">
+        <div class="stat-title">{{ strings.DASH_TOTAL_PAID_AMOUNT }}</div>
+        <div class="stat-value">${{ "%.2f"|format(paid_amount) }}</div>
+    </div>
+    <div class="glass-card stat-card" style="background: rgba(239, 68, 68, 0.05);">
+        <div class="stat-title" style="color: var(--danger);">{{ strings.DASH_REJECTED_TASKS_VALUE }}</div>
+        <div class="stat-value" style="color: var(--danger);">${{ "%.2f"|format(rejected_tasks_amount) }}</div>
     </div>
 </div>
 {% endblock %}
