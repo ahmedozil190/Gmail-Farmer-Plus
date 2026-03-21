@@ -221,6 +221,22 @@ def user_custom_prices(user_id):
         flash(f"Error: {str(e)}", "danger")
     return redirect(url_for("users", q=request.args.get("q", ""), page=request.args.get("page", 1)))
 
+@app.route("/custom_pricing")
+@requires_auth
+def custom_pricing():
+    con = database._conn()
+    users_list = con.execute("SELECT * FROM users WHERE custom_manual_price IS NOT NULL OR custom_auto_price IS NOT NULL ORDER BY join_date DESC").fetchall()
+    con.close()
+    
+    return render_template("custom_prices.html", users=users_list)
+
+@app.route("/custom_pricing/reset/<int:user_id>", methods=["POST"])
+@requires_auth
+def reset_custom_price(user_id):
+    database.update_user_custom_prices(user_id, None, None)
+    flash(f"Custom prices removed for User #{user_id}.", "success")
+    return redirect(url_for("custom_pricing"))
+
 @app.route("/tasks")
 @requires_auth
 def tasks():

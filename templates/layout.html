@@ -90,6 +90,10 @@
                         <i class="fa-solid fa-users"></i>
                         <span>{{ strings.NAV_USERS }}</span>
                     </a>
+                    <a href="{{ url_for('custom_pricing') }}" class="sidebar-item {% if request.endpoint == 'custom_pricing' %}active{% endif %}">
+                        <i class="fa-solid fa-star"></i>
+                        <span>{{ strings.NAV_CUSTOM_PRICES }}</span>
+                    </a>
                     <a href="{{ url_for('broadcast') }}" class="sidebar-item {% if request.endpoint == 'broadcast' %}active{% endif %}">
                         <i class="fa-solid fa-bullhorn"></i>
                         <span>{{ strings.NAV_MSG }}</span>

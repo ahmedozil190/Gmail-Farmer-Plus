@@ -1,0 +1,53 @@
+{% extends "layout.html" %}
+
+{% block title %}{{ strings.DASH_CP_PAGE_TITLE }}{% endblock %}
+
+{% block content %}
+<div class="glass-card">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+        <h2 style="margin: 0; font-size: 1.1rem; font-weight: 700;">{{ strings.DASH_CP_PAGE_TITLE }}</h2>
+        <span
+            style="font-size: 0.75rem; opacity: 0.6; background: rgba(255,255,255,0.05); padding: 4px 10px; border-radius: 20px;">
+            {{ users|length }} {{ strings.DASH_RESULTS }}
+        </span>
+    </div>
+
+    <div class="table-container">
+        {% for user in users %}
+        <div class="list-item" style="display: flex; justify-content: space-between; align-items: center; padding: 15px;">
+            <div>
+                <div style="font-weight: 700; font-size: 1.05rem; margin-bottom: 4px;">
+                    {% if user.full_name %}{{ user.full_name }}{% else %}{{ user.user_id }}{% endif %}
+                </div>
+                <div style="font-size: 0.85rem; color: var(--text-secondary);">
+                    @{{ user.username or 'NoUser' }} &bull; ID: {{ user.user_id }}
+                </div>
+                <div style="margin-top: 8px; display: flex; gap: 15px;">
+                    {% if user.custom_manual_price is not none %}
+                    <div style="background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.2); padding: 4px 10px; border-radius: 6px; font-size: 0.8rem;">
+                        <span style="opacity: 0.7;">{{ strings.DASH_CP_MANUAL }}</span> 
+                        <span style="color: var(--success); font-weight: 700;">${{ "%.2f"|format(user.custom_manual_price) }}</span>
+                    </div>
+                    {% endif %}
+                    {% if user.custom_auto_price is not none %}
+                    <div style="background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.2); padding: 4px 10px; border-radius: 6px; font-size: 0.8rem;">
+                        <span style="opacity: 0.7;">{{ strings.DASH_CP_AUTO }}</span> 
+                        <span style="color: var(--accent-blue); font-weight: 700;">${{ "%.2f"|format(user.custom_auto_price) }}</span>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <form action="{{ url_for('reset_custom_price', user_id=user.user_id) }}" method="POST">
+                <button type="submit" class="btn btn-danger" style="display: flex; align-items: center; gap: 6px; font-size: 0.85rem; padding: 8px 12px; border: none; cursor: pointer; border-radius: 8px;">
+                    <i class="fa-solid fa-rotate-left"></i>
+                    {{ strings.DASH_CP_RESET_BTN }}
+                </button>
+            </form>
+        </div>
+        {% else %}
+        <p style="text-align:center; padding:2rem; color:var(--text-secondary); font-style: italic;">{{ strings.DASH_CP_NO_USERS }}</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
