@@ -1,6 +1,29 @@
-{% extends "layout.html" %}
-
-{% block title %}{{ strings.NAV_SET }}{% endblock %}
+{% block header %}
+<div class="page-header">
+    {% if not request.args.get('cat') %}
+        <i class="fa-solid fa-gear"></i>
+        <h1>{{ strings.NAV_SET }}</h1>
+    {% else %}
+        {% set cat = request.args.get('cat') %}
+        {% if cat == 'general' %}
+            <i class="fa-solid fa-dollar-sign"></i>
+            <h1>{{ strings.SETTINGS_CAT_GENERAL }}</h1>
+        {% elif cat == 'channels' %}
+            <i class="fa-solid fa-tower-broadcast"></i>
+            <h1>{{ strings.SETTINGS_CAT_CHANNELS }}</h1>
+        {% elif cat == 'limits' %}
+            <i class="fa-solid fa-gauge-high"></i>
+            <h1>{{ strings.SETTINGS_CAT_LIMITS }}</h1>
+        {% elif cat == 'control' %}
+            <i class="fa-solid fa-gamepad"></i>
+            <h1>{{ strings.SETTINGS_CAT_CONTROL }}</h1>
+        {% elif cat == 'reset' %}
+            <i class="fa-solid fa-trash-can"></i>
+            <h1>{{ strings.SETTINGS_CAT_RESET }}</h1>
+        {% endif %}
+    {% endif %}
+</div>
+{% endblock %}
 
 {% block content %}
 <style>
@@ -140,7 +163,6 @@
 {% if not request.args.get('cat') %}
     <!-- ═══════════════ SETTINGS MENU VIEW ═══════════════ -->
     <div style="margin-bottom: 2rem;">
-        <h2 style="font-size: 1.5rem; color: white; font-weight: 800; margin-bottom: 0.5rem;">{{ strings.NAV_SET }}</h2>
         <p style="color: var(--text-secondary); font-size: 0.9rem;">{{ strings.SETTINGS_CONFIG }}</p>
     </div>
 
