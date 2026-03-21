@@ -18,6 +18,22 @@
         <!-- Main Content -->
         <main class="main-content">
 
+            <!-- Page Title -->
+            <div class="page-title">
+                {% if request.endpoint == 'index' %}
+                    <span>{{ strings.DASH_INDEX_TITLE }}</span>
+                {% elif request.endpoint == 'tasks' %}
+                    <span>{{ strings.DASH_TASKS_PAGE_TITLE }}</span>
+                {% elif request.endpoint == 'withdrawals' %}
+                    <span>{{ strings.DASH_W_PAGE_TITLE }}</span>
+                {% elif request.endpoint == 'users' %}
+                    <span>{{ strings.DASH_U_PAGE_TITLE }}</span>
+                {% elif request.endpoint == 'broadcast' %}
+                    <span>{{ strings.DASH_BS_PAGE_TITLE }}</span>
+                {% elif request.endpoint == 'settings' %}
+                    <span>{{ strings.SETTINGS_TITLE }}</span>
+                {% endif %}
+            </div>
 
             <!-- Bottom Navigation for TMA -->
             <nav class="bottom-nav">
