@@ -1,10 +1,12 @@
-{% block header %}
-    <i class="fa-solid fa-bullhorn"></i>
-    <span>{{ strings.NAV_MSG }}</span>
-{% endblock %}
+{% extends "layout.html" %}
+
+{% block title %}{{ strings.DASH_BS_PAGE_TITLE }}{% endblock %}
 
 {% block content %}
 <div class="glass-card" style="max-width: 800px; margin-bottom: 2rem;">
+    <h2
+        style="margin-top:0; font-size:1.1rem; border-bottom:1px solid rgba(255,255,255,0.05); padding-bottom:1rem; margin-bottom:1.5rem;">
+        {{ strings.DASH_BS_ALL }}</h2>
 
     <form action="{{ url_for('broadcast') }}" method="POST">
         <div class="form-group">

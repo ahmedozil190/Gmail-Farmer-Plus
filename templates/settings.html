@@ -1,16 +1,6 @@
-{% block header %}
-    <i class="fa-solid fa-gear"></i>
-    <span>
-        {% if cat == 'general' %}{{ strings.DASH_S_GENERAL }}
-        {% elif cat == 'channels' %}{{ strings.DASH_S_CHANNELS }}
-        {% elif cat == 'limits' %}{{ strings.DASH_S_LIMITS }}
-        {% elif cat == 'prices' %}{{ strings.DASH_S_PRICES }}
-        {% elif cat == 'admins' %}{{ strings.DASH_S_ADMINS }}
-        {% elif cat == 'reset' %}{{ strings.DASH_S_RESET }}
-        {% else %}{{ strings.NAV_SET }}
-        {% endif %}
-    </span>
-{% endblock %}
+{% extends "layout.html" %}
+
+{% block title %}{{ strings.NAV_SET }}{% endblock %}
 
 {% block content %}
 <style>
@@ -224,6 +214,10 @@
 <form action="{{ url_for('settings') }}" method="POST">
     <input type="hidden" name="category" value="general">
     <div class="glass-card">
+        <h2
+            style="margin-bottom: 2rem; font-size: 1.3rem; color: white; display: flex; align-items: center; gap: 10px;">
+            <i class="fa-solid fa-dollar-sign" style="color: #60a5fa;"></i> {{ strings.SETTINGS_CAT_GENERAL }}
+        </h2>
         <div class="form-group">
             <label class="form-label">{{ strings.SETTINGS_GMAIL_PRICE }}</label>
             <input type="number" step="0.01" name="gmail_price" class="form-control" value="{{ price }}" required>
