@@ -1075,6 +1075,7 @@ DASHBOARD_STRINGS = {
         'SETTINGS_CAT_LIMITS': "حدود السحب",
         'SETTINGS_CAT_CONTROL': "التحكم واللغة",
         'SETTINGS_CAT_RESET': "إعادة الضبط",
+        'SETTINGS_LOGOUT': "تسجيل الخروج",
         
         'SETTINGS_CONFIG': "إعدادات البوت",
         'SETTINGS_GMAIL_PRICE': "سعر الجيميل اليدوي ($)",
@@ -1190,6 +1191,7 @@ DASHBOARD_STRINGS = {
         'SETTINGS_CAT_LIMITS': "Withdrawal Limits",
         'SETTINGS_CAT_CONTROL': "Control & Language",
         'SETTINGS_CAT_RESET': "Reset Options",
+        'SETTINGS_LOGOUT': "Logout",
 
         'SETTINGS_CONFIG': "Bot Configuration",
         'SETTINGS_GMAIL_PRICE': "Manual Gmail Price ($)",

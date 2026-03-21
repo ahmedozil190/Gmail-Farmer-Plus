@@ -184,6 +184,15 @@
             <span class="nav-text">{{ strings.SETTINGS_CAT_RESET }}</span>
             <i class="fa-solid fa-chevron-right nav-arrow"></i>
         </a>
+
+        <!-- Logout Option -->
+        <a href="{{ url_for('logout') }}" class="nav-card" style="margin-top: 2rem; background: rgba(239, 68, 68, 0.05); border-color: rgba(239, 68, 68, 0.2);">
+            <div class="nav-icon" style="background: #ef4444; color: white;">
+                <i class="fa-solid fa-right-from-bracket"></i>
+            </div>
+            <span class="nav-text" style="color: #ef4444;">{{ strings.SETTINGS_LOGOUT }}</span>
+            <i class="fa-solid fa-chevron-right nav-arrow" style="color: #ef4444;"></i>
+        </a>
     </div>
 
 {% else %}
