@@ -7,18 +7,15 @@
     <title>Gmail Farmer - Admin Dashboard</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <!-- Load FontAwesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Telegram WebApp Script -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 
 <body>
     <div class="app-container">
-        <!-- Main Content -->
         <main class="main-content">
 
-            <!-- Page Title -->
+            <!-- Page Title with Hamburger -->
             {% if request.endpoint == 'settings' and request.args.get('cat') %}
             <div class="page-title">
                 <a href="{{ url_for('settings') }}" class="page-title-back"><i class="fa-solid fa-arrow-left"></i></a>
@@ -34,6 +31,9 @@
                 {% elif cat == 'reset' %}
                     <span>{{ strings.SETTINGS_CAT_RESET }}</span>
                 {% endif %}
+                <button class="hamburger-btn" onclick="toggleSidebar()">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
             </div>
             {% else %}
             <div class="page-title">
@@ -50,45 +50,55 @@
                 {% elif request.endpoint == 'settings' %}
                     <span>{{ strings.SETTINGS_TITLE }}</span>
                 {% endif %}
+                <button class="hamburger-btn" onclick="toggleSidebar()">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
             </div>
             {% endif %}
 
+            <!-- Sidebar Overlay -->
+            <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
 
-            <!-- Bottom Navigation for TMA -->
-            <nav class="bottom-nav">
-                <a href="{{ url_for('index') }}" class="nav-item {% if request.endpoint == 'index' %}active{% endif %}">
-                    <i class="fa-solid fa-chart-pie"></i>
-                    <span>{{ strings.NAV_HOME }}</span>
-                </a>
-                <a href="{{ url_for('tasks') }}" class="nav-item {% if request.endpoint == 'tasks' %}active{% endif %}">
-                    <i class="fa-solid fa-envelope"></i>
-                    <span>{{ strings.NAV_TASKS }}</span>
-                    {% if stats_pending_tasks > 0 %}
-                    <span class="badge">{{ stats_pending_tasks }}</span>
-                    {% endif %}
-                </a>
-                <a href="{{ url_for('withdrawals') }}"
-                    class="nav-item {% if request.endpoint == 'withdrawals' %}active{% endif %}">
-                    <i class="fa-solid fa-money-bill-transfer"></i>
-                    <span>{{ strings.NAV_PAY }}</span>
-                    {% if stats_pending_withdrawals > 0 %}
-                    <span class="badge">{{ stats_pending_withdrawals }}</span>
-                    {% endif %}
-                </a>
-                <a href="{{ url_for('users') }}" class="nav-item {% if request.endpoint == 'users' %}active{% endif %}">
-                    <i class="fa-solid fa-users"></i>
-                    <span>{{ strings.NAV_USERS }}</span>
-                </a>
-                <a href="{{ url_for('broadcast') }}"
-                    class="nav-item {% if request.endpoint == 'broadcast' %}active{% endif %}">
-                    <i class="fa-solid fa-bullhorn"></i>
-                    <span>{{ strings.NAV_MSG }}</span>
-                </a>
-                <a href="{{ url_for('settings') }}"
-                    class="nav-item {% if request.endpoint == 'settings' %}active{% endif %}">
-                    <i class="fa-solid fa-gear"></i>
-                    <span>{{ strings.NAV_SET }}</span>
-                </a>
+            <!-- Sidebar Navigation -->
+            <nav class="sidebar" id="sidebar">
+                <div class="sidebar-header">
+                    <span class="sidebar-title">Gmail Farmer</span>
+                    <button class="sidebar-close" onclick="toggleSidebar()">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+                <div class="sidebar-nav">
+                    <a href="{{ url_for('index') }}" class="sidebar-item {% if request.endpoint == 'index' %}active{% endif %}">
+                        <i class="fa-solid fa-chart-pie"></i>
+                        <span>{{ strings.NAV_HOME }}</span>
+                    </a>
+                    <a href="{{ url_for('tasks') }}" class="sidebar-item {% if request.endpoint == 'tasks' %}active{% endif %}">
+                        <i class="fa-solid fa-envelope"></i>
+                        <span>{{ strings.NAV_TASKS }}</span>
+                        {% if stats_pending_tasks > 0 %}
+                        <span class="sidebar-badge">{{ stats_pending_tasks }}</span>
+                        {% endif %}
+                    </a>
+                    <a href="{{ url_for('withdrawals') }}" class="sidebar-item {% if request.endpoint == 'withdrawals' %}active{% endif %}">
+                        <i class="fa-solid fa-money-bill-transfer"></i>
+                        <span>{{ strings.NAV_PAY }}</span>
+                        {% if stats_pending_withdrawals > 0 %}
+                        <span class="sidebar-badge">{{ stats_pending_withdrawals }}</span>
+                        {% endif %}
+                    </a>
+                    <a href="{{ url_for('users') }}" class="sidebar-item {% if request.endpoint == 'users' %}active{% endif %}">
+                        <i class="fa-solid fa-users"></i>
+                        <span>{{ strings.NAV_USERS }}</span>
+                    </a>
+                    <a href="{{ url_for('broadcast') }}" class="sidebar-item {% if request.endpoint == 'broadcast' %}active{% endif %}">
+                        <i class="fa-solid fa-bullhorn"></i>
+                        <span>{{ strings.NAV_MSG }}</span>
+                    </a>
+                    <a href="{{ url_for('settings') }}" class="sidebar-item {% if request.endpoint == 'settings' %}active{% endif %}">
+                        <i class="fa-solid fa-gear"></i>
+                        <span>{{ strings.NAV_SET }}</span>
+                    </a>
+                </div>
             </nav>
 
             <!-- Flash Messages -->
@@ -106,6 +116,15 @@
             {% block content %}{% endblock %}
         </main>
     </div>
+
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            sidebar.classList.toggle('open');
+            overlay.classList.toggle('open');
+        }
+    </script>
 </body>
 
 </html>

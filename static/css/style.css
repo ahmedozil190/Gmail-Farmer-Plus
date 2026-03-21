@@ -25,8 +25,6 @@ body {
     color: var(--text-primary);
     line-height: 1.5;
     min-height: 100vh;
-    padding-bottom: 80px;
-    /* Space for bottom nav */
     overflow-x: hidden;
 }
 
@@ -63,6 +61,10 @@ body::before {
     gap: 12px;
 }
 
+.page-title span {
+    flex: 1;
+}
+
 .page-title-back {
     color: var(--text-secondary);
     text-decoration: none;
@@ -75,69 +77,155 @@ body::before {
     color: var(--accent-blue);
 }
 
-
-/* Bottom Navigation */
-.bottom-nav {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 70px;
-    background: var(--nav-bg);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border-top: 1px solid var(--border-card);
+/* Hamburger Button */
+.hamburger-btn {
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 1.3rem;
+    cursor: pointer;
+    padding: 8px;
     display: flex;
-    justify-content: space-around;
     align-items: center;
-    padding: 0 10px;
-    z-index: 1000;
+    justify-content: center;
+    transition: color 0.2s ease;
 }
 
-.bottom-nav .nav-item {
+.hamburger-btn:hover {
+    color: var(--text-primary);
+}
+
+/* Sidebar Overlay */
+.sidebar-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    z-index: 1500;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.sidebar-overlay.open {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Sidebar */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 280px;
+    height: 100vh;
+    background: var(--nav-bg);
+    border-right: 1px solid var(--border-card);
+    z-index: 2000;
+    transform: translateX(-100%);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     display: flex;
     flex-direction: column;
+    overflow-y: auto;
+}
+
+[dir="rtl"] .sidebar {
+    left: auto;
+    right: 0;
+    border-right: none;
+    border-left: 1px solid var(--border-card);
+    transform: translateX(100%);
+}
+
+.sidebar.open {
+    transform: translateX(0);
+}
+
+.sidebar-header {
+    display: flex;
     align-items: center;
+    justify-content: space-between;
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid var(--border-card);
+}
+
+.sidebar-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.sidebar-close {
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 6px;
+    display: flex;
+    align-items: center;
+    transition: color 0.2s ease;
+}
+
+.sidebar-close:hover {
+    color: var(--danger);
+}
+
+.sidebar-nav {
+    padding: 0.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.sidebar-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 16px;
+    border-radius: 14px;
     text-decoration: none;
     color: var(--text-secondary);
-    font-size: 0.7rem;
-    gap: 4px;
-    transition: all 0.3s ease;
-    position: relative;
-    padding: 10px;
-    flex: 1;
-}
-
-.bottom-nav .nav-item i {
-    font-size: 1.3rem;
-    transition: transform 0.3s ease;
-}
-
-.bottom-nav .nav-item span {
     font-weight: 500;
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
 }
 
-.bottom-nav .nav-item.active {
+.sidebar-item:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-primary);
+}
+
+.sidebar-item.active {
+    background: rgba(96, 165, 250, 0.1);
     color: var(--accent-blue);
 }
 
-.bottom-nav .nav-item.active i {
-    transform: translateY(-2px);
-    filter: drop-shadow(0 0 8px rgba(96, 165, 250, 0.4));
+.sidebar-item i {
+    font-size: 1.15rem;
+    width: 24px;
+    text-align: center;
 }
 
-.bottom-nav .badge {
-    position: absolute;
-    top: 5px;
-    right: 20%;
+.sidebar-badge {
+    margin-left: auto;
     background: var(--warning);
     color: #000;
-    font-size: 0.65rem;
+    font-size: 0.7rem;
     font-weight: 800;
-    padding: 2px 6px;
-    border-radius: 8px;
-    min-width: 18px;
+    padding: 3px 8px;
+    border-radius: 10px;
+    min-width: 22px;
     text-align: center;
+}
+
+[dir="rtl"] .sidebar-badge {
+    margin-left: 0;
+    margin-right: auto;
 }
 
 /* Glass Cards */
