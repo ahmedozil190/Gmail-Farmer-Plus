@@ -6,11 +6,17 @@
 </div>
 
 <!-- Balance -->
-<div class="glass-card balance-card">
-    <div class="balance-label">{{ strings.HOME_BALANCE }}</div>
-    <div class="balance-amount">${{ "%.2f"|format(balance) }} <span class="currency">{{ strings.HOME_USD }}</span></div>
+<div style="background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); border-radius: 20px; padding: 25px; margin-bottom: 25px; border: 1px solid rgba(255,255,255,0.05); box-shadow: 0 10px 30px rgba(0,0,0,0.3); position: relative; overflow: hidden; display: flex; flex-direction: column;">
+    <div style="content: ''; position: absolute; top: -50%; right: -20%; width: 200px; height: 200px; background: radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, rgba(0,0,0,0) 70%); border-radius: 50%; pointer-events: none;"></div>
+    <div style="color: rgba(255,255,255,0.6); font-size: 0.75rem; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 8px; font-weight: 600;">{{ strings.HOME_BALANCE }}</div>
+    <div style="font-size: 2.8rem; font-weight: 700; color: #fff; line-height: 1; margin-bottom: 10px; letter-spacing: -1px; display: flex; align-items: center; gap: 5px;">
+        <span style="font-size: 1.5rem; color: #3b82f6; opacity: 0.8;">$</span>{{ "%.2f"|format(balance) }}
+    </div>
     {% if pending > 0 %}
-    <div class="balance-pending">{{ strings.HOME_PENDING|format(pending) }}</div>
+    <div style="display: inline-flex; align-items: center; gap: 6px; background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.2); padding: 6px 12px; border-radius: 20px; color: #f59e0b; font-size: 0.85rem; font-weight: 600; width: fit-content; margin-top: 10px;">
+        <i class="fa-solid fa-clock-rotate-left"></i>
+        <span>{{ strings.HOME_PENDING|format(pending) }}</span>
+    </div>
     {% endif %}
 </div>
 

@@ -34,13 +34,12 @@
             left: 0;
             width: 100%;
             height: 60px;
-            background: #111;
+            background: transparent;
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 0 15px;
             z-index: 1000;
-            border-bottom: 1px solid #222;
         }
         .app-container.with-header {
             padding-top: 75px; 
@@ -99,7 +98,7 @@
             left: -280px; 
             width: 260px;
             height: 100vh;
-            background: #151515;
+            background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
             z-index: 1020;
             transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
             box-shadow: 5px 0 25px rgba(0,0,0,0.5);
@@ -199,7 +198,6 @@
         <button class="menu-toggle" onclick="toggleSidebar()">
             <i class="fa-solid fa-bars"></i>
         </button>
-        <div class="app-title">TG-Lion</div>
         <div class="app-header-right">
             {% if user %}
             <div class="app-header-avatar">{{ user.full_name[0]|upper if user.full_name else '?' }}</div>
