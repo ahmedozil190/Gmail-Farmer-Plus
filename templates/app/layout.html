@@ -136,21 +136,22 @@
             font-size: 1.5rem;
         }
         .close-sidebar {
-            background: #252525;
-            border: none;
-            color: #aaa;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: #fff;
             width: 32px;
             height: 32px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1rem;
+            font-size: 1.1rem;
             cursor: pointer;
-            transition: background 0.2s;
+            transition: all 0.2s;
         }
         .close-sidebar:active {
-            background: #333;
+            background: rgba(255,255,255,0.1);
+            transform: scale(0.95);
         }
         .sidebar-nav {
             padding: 15px;
@@ -212,7 +213,7 @@
     <aside class="app-sidebar" id="appSidebar">
         <div class="sidebar-header">
             <div class="sidebar-logo">
-                <i class="fa-solid fa-robot"></i> TG-Lion
+                <i class="fa-solid fa-robot"></i> Gmail Faarmer Plus
             </div>
             <button class="close-sidebar" onclick="toggleSidebar()">
                 <i class="fa-solid fa-xmark"></i>

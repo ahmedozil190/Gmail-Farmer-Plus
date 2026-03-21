@@ -28,7 +28,7 @@
         {{ strings.WALLET_MIN_LIMIT|format(min_withdraw) }}
 </div>
 {% else %}
-    <form id="withdrawForm" method="POST" action="{{ url_for('app_withdraw') }}">
+    <form id="withdrawForm" method="POST" action="{{ url_for('app_wallet_withdraw') }}">
     <div class="form-group">
         <label class="form-label">{{ strings.WALLET_METHOD_LBL }}</label>
         <div class="custom-select-trigger" id="methodTrigger">
