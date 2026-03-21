@@ -1,9 +1,6 @@
-{% block title %}{{ strings.DASH_U_PAGE_TITLE }}{% endblock %}
+{% extends "layout.html" %}
 
-{% block header %}
-    <i class="fa-solid fa-users"></i>
-    <h1>{{ strings.NAV_USERS }}</h1>
-{% endblock %}
+{% block title %}{{ strings.DASH_U_PAGE_TITLE }}{% endblock %}
 
 {% block content %}
 <!-- Stats Overview -->
@@ -273,22 +270,22 @@
     }
 </style>
 
-<script>    
+<script>
     function openEditModal(userId, username, fullName, balance, status, page, customManual, customAut        
         const modal = document.getElementById('edit        l');
-        const q = new URLSearchParams(window.location.search).get        ) || '';
-        const p        || '1';
+        const q = new URLSearchParams(window.location.search).get) || '';
+    const p        || '1';
 
                Set headers
-        document.getElementById('modalUserIdDisplay')        erText = userId;
-        document.getElementById('modalFullNameDisplay').innerText = fullName && fullName !== 'None' ? fullName : (username && username !== 'None' ? '@' + usern        : 'Anonymous User');
-        document.getElementById('modalCurrentBalance').innerText = '$' + paro        alance).toFix        );
+    document.getElementById('modalUserIdDisplay')        erText = userId;
+    document.getElementById('modalFullNameDisplay').innerText = fullName && fullName !== 'None' ? fullName : (username && username !== 'None' ? '@' + usern : 'Anonymous User');
+    document.getElementById('modalCurrentBalance').innerText = '$' + paro        alance).toFix        );
 
-        // Set Forms
-        const b        rl = window.location.origin;
-        document.getElementById('balanceForm').action = `${baseUrl}/users/balance/${userId}?q=        codeURIComponent(q)}&page=${p}`;
-        document.getElementById('statusForm').action = `${baseUrl}/users/status/${userId        ${encodeURIComponent(q)}&page=${p}`;
-        document.getElementById('customPriceForm').action = `${baseUrl}/users/custom_prices/${us}        {encodeURICompone        )}&page=${p}`;
+    // Set Forms
+    const b        rl = window.location.origin;
+    document.getElementById('balanceForm').action = `${baseUrl}/users/balance/${userId}?q=        codeURIComponent(q)}&page=${p}`;
+    document.getElementById('statusForm').action = `${baseUrl}/users/status/${userId        ${ encodeURIComponent(q) }& page=${ p } `;
+        document.getElementById('customPriceForm').action = `${ baseUrl } /users/custom_prices / ${ us } {encodeURICompone        ) }& page=${ p }`;
 
         // Custom Prices
         document.getElemen        d('modalCustomManual').value = customManual;

@@ -56,30 +56,8 @@ body::before {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0.8rem 0 0.5rem 0;
-    margin-bottom: 0.75rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-.page-title {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-.page-title h1 {
-    font-size: 1.15rem;
-    font-weight: 700;
-    margin: 0;
-    color: white;
-    letter-spacing: -0.02em;
-}
-
-.page-title i {
-    font-size: 1.1rem;
-    color: var(--accent-blue);
-    width: 20px;
-    text-align: center;
+    padding: 1.5rem 0;
+    margin-bottom: 1rem;
 }
 
 .brand {
