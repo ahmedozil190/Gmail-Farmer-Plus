@@ -25,24 +25,34 @@
 .hero-data-list {
     display: flex;
     flex-direction: column;
-    gap: 15px;
 }
 
 .hero-data-row {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.03);
+}
+
+.hero-data-row:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.hero-data-row:first-child {
+    padding-top: 0;
 }
 
 .hero-data-label {
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     color: #888;
     font-weight: 600;
 }
 
 .hero-data-value {
-    font-size: 1.25rem;
-    font-weight: 800;
+    font-size: 1.1rem;
+    font-weight: 700;
     color: #fff;
     display: flex;
     align-items: baseline;
@@ -50,8 +60,8 @@
 }
 
 .hero-data-value.main {
-    font-size: 1.8rem;
-    color: #fff;
+    font-size: 1.3rem;
+    font-weight: 800;
 }
 
 .hero-data-value.withdrawn { color: #10b981; }
