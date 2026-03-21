@@ -1,13 +1,14 @@
+{% block title %}{{ strings.DASH_INDEX_TITLE }}{% endblock %}
+
 {% block header %}
-<div class="page-header">
     <i class="fa-solid fa-chart-pie"></i>
     <h1>{{ strings.NAV_HOME }}</h1>
-</div>
 {% endblock %}
 
 {% block content %}
 <!-- Users Section -->
-<h2 style="font-size: 1.1rem; color: var(--text-secondary); margin-bottom: 1rem;"><i class="fa-solid fa-users" style="margin-right: 8px;"></i>{{ strings.DASH_USERS_SECTION }}</h2>
+<h2 style="font-size: 1.1rem; color: var(--text-secondary); margin-bottom: 1rem;"><i class="fa-solid fa-users"
+        style="margin-right: 8px;"></i>{{ strings.DASH_USERS_SECTION }}</h2>
 <div class="stats-grid" style="margin-bottom: 2rem;">
     <div class="glass-card stat-card blue">
         <div class="stat-title">{{ strings.DASH_TOTAL_USERS }}</div>
@@ -20,7 +21,8 @@
 </div>
 
 <!-- Tasks Section -->
-<h2 style="font-size: 1.1rem; color: var(--text-secondary); margin-bottom: 1rem;"><i class="fa-solid fa-envelope" style="margin-right: 8px;"></i>{{ strings.DASH_TASKS_SECTION }}</h2>
+<h2 style="font-size: 1.1rem; color: var(--text-secondary); margin-bottom: 1rem;"><i class="fa-solid fa-envelope"
+        style="margin-right: 8px;"></i>{{ strings.DASH_TASKS_SECTION }}</h2>
 <div class="stats-grid" style="grid-template-columns: 1fr 1fr; margin-bottom: 2rem;">
     <div class="glass-card stat-card purple">
         <div class="stat-title">{{ strings.DASH_TOTAL_TASKS }}</div>
@@ -41,7 +43,9 @@
 </div>
 
 <!-- Withdrawals Section -->
-<h2 style="font-size: 1.1rem; color: var(--text-secondary); margin-bottom: 1rem;"><i class="fa-solid fa-money-bill-transfer" style="margin-right: 8px;"></i>{{ strings.DASH_WITHDRAWALS_SECTION }}</h2>
+<h2 style="font-size: 1.1rem; color: var(--text-secondary); margin-bottom: 1rem;"><i
+        class="fa-solid fa-money-bill-transfer" style="margin-right: 8px;"></i>{{ strings.DASH_WITHDRAWALS_SECTION }}
+</h2>
 <div class="stats-grid" style="grid-template-columns: 1fr 1fr; margin-bottom: 1rem;">
     <div class="glass-card stat-card blue">
         <div class="stat-title">{{ strings.DASH_TOTAL_REQS }}</div>

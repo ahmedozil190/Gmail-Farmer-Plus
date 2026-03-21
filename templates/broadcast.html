@@ -1,29 +1,33 @@
+{% block title %}{{ strings.DASH_BS_PAGE_TITLE }}{% endblock %}
+
 {% block header %}
-<div class="page-header">
     <i class="fa-solid fa-bullhorn"></i>
     <h1>{{ strings.NAV_MSG }}</h1>
-</div>
 {% endblock %}
 
 {% block content %}
 <div class="glass-card" style="max-width: 800px; margin-bottom: 2rem;">
-    <h2 style="margin-top:0; font-size:1.1rem; border-bottom:1px solid rgba(255,255,255,0.05); padding-bottom:1rem; margin-bottom:1.5rem;">{{ strings.DASH_BS_ALL }}</h2>
-    
+    <form action="{{ url_for('broadcast') }}" method="POST">
+
     <form action="{{ url_for('broadcast') }}" method="POST">
         <div class="form-group">
             <label class="form-label">{{ strings.DASH_BS_CONTENT }}</label>
-            <textarea name="message" class="form-control" rows="6" placeholder="{{ strings.DASH_BS_PH }}" required></textarea>
+            <textarea name="message" class="form-control" rows="6" placeholder="{{ strings.DASH_BS_PH }}"
+                required></textarea>
         </div>
-        
+
         <div style="margin-top:1.5rem;">
-            <button type="submit" class="btn btn-primary"><i class="fa-solid fa-bullhorn fa-fw" style="margin-right:5px;"></i> {{ strings.DASH_BS_SEND_BTN }}</button>
+            <button type="submit" class="btn btn-primary"><i class="fa-solid fa-bullhorn fa-fw"
+                    style="margin-right:5px;"></i> {{ strings.DASH_BS_SEND_BTN }}</button>
         </div>
     </form>
 </div>
 
 <div class="glass-card" style="max-width: 800px;">
-    <h2 style="margin-top:0; font-size:1.1rem; border-bottom:1px solid rgba(255,255,255,0.05); padding-bottom:1rem; margin-bottom:1.5rem;">{{ strings.DASH_BS_USER }}</h2>
-    
+    <h2
+        style="margin-top:0; font-size:1.1rem; border-bottom:1px solid rgba(255,255,255,0.05); padding-bottom:1rem; margin-bottom:1.5rem;">
+        {{ strings.DASH_BS_USER }}</h2>
+
     <form action="{{ url_for('broadcast') }}" method="POST">
         <div class="form-group">
             <label class="form-label">{{ strings.DASH_BS_USER_ID }}</label>
@@ -31,11 +35,14 @@
         </div>
         <div class="form-group">
             <label class="form-label">{{ strings.DASH_BS_CONTENT }}</label>
-            <textarea name="message" class="form-control" rows="4" placeholder="{{ strings.DASH_BS_PH }}" required></textarea>
+            <textarea name="message" class="form-control" rows="4" placeholder="{{ strings.DASH_BS_PH }}"
+                required></textarea>
         </div>
-        
+
         <div style="margin-top:1.5rem;">
-            <button type="submit" class="btn btn-primary" style="background: linear-gradient(135deg, #10b981, #059669);"><i class="fa-solid fa-paper-plane fa-fw" style="margin-right:5px;"></i> {{ strings.DASH_BS_SEND_BTN }}</button>
+            <button type="submit" class="btn btn-primary"
+                style="background: linear-gradient(135deg, #10b981, #059669);"><i class="fa-solid fa-paper-plane fa-fw"
+                    style="margin-right:5px;"></i> {{ strings.DASH_BS_SEND_BTN }}</button>
         </div>
     </form>
 </div>

@@ -1,19 +1,21 @@
+{% block title %}{{ strings.DASH_W_PAGE_TITLE }}{% endblock %}
+
 {% block header %}
-<div class="page-header">
     <i class="fa-solid fa-money-bill-transfer"></i>
     <h1>{{ strings.NAV_PAY }}</h1>
-</div>
 {% endblock %}
 
 {% block content %}
 
 <!-- Stats Overview -->
 <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 1rem;">
-    <div class="glass-card" style="padding: 10px; text-align: center; background: rgba(59, 130, 246, 0.05); border: 1px solid rgba(59, 130, 246, 0.1);">
+    <div class="glass-card"
+        style="padding: 10px; text-align: center; background: rgba(59, 130, 246, 0.05); border: 1px solid rgba(59, 130, 246, 0.1);">
         <div style="font-size: 0.7rem; opacity: 0.7; text-transform: uppercase;">{{ strings.DASH_FILTER_PENDING }}</div>
         <div style="font-size: 1.2rem; font-weight: 700; color: var(--accent-blue);">{{ stats.pending or 0 }}</div>
     </div>
-    <div class="glass-card" style="padding: 10px; text-align: center; background: rgba(34, 197, 94, 0.05); border: 1px solid rgba(34, 197, 94, 0.1);">
+    <div class="glass-card"
+        style="padding: 10px; text-align: center; background: rgba(34, 197, 94, 0.05); border: 1px solid rgba(34, 197, 94, 0.1);">
         <div style="font-size: 0.7rem; opacity: 0.7; text-transform: uppercase;">{{ strings.DASH_FILTER_PAID }}</div>
         <div style="font-size: 1.2rem; font-weight: 700; color: var(--success);">{{ stats.completed or 0 }}</div>
     </div>
@@ -21,11 +23,13 @@
 
 <!-- Filters Section -->
 <div class="glass-card" style="padding: 1.25rem;">
-    <div style="display: flex; gap: 4px; background: rgba(0,0,0,0.2); padding: 4px; border-radius: 12px; margin-bottom: 1rem;">
-        {% for tab, label in [('all', strings.DASH_FILTER_ALL), ('pending', strings.DASH_FILTER_PENDING), ('completed', strings.DASH_FILTER_PAID), ('rejected', strings.DASH_FILTER_REJECTED)] %}
-        <a href="{{ url_for('withdrawals', status=tab, user_id=search_user, date=d_date) }}" 
-           style="flex: 1; text-align: center; padding: 8px; border-radius: 8px; text-decoration: none; font-size: 0.85rem; font-weight: 600; color: {% if current_status == tab %}white{% else %}var(--text-secondary){% endif %}; background: {% if current_status == tab %}var(--accent-blue){% else %}transparent{% endif %}; transition: all 0.3s;">
-           {{ label }}
+    <div
+        style="display: flex; gap: 4px; background: rgba(0,0,0,0.2); padding: 4px; border-radius: 12px; margin-bottom: 1rem;">
+        {% for tab, label in [('all', strings.DASH_FILTER_ALL), ('pending', strings.DASH_FILTER_PENDING), ('completed',
+        strings.DASH_FILTER_PAID), ('rejected', strings.DASH_FILTER_REJECTED)] %}
+        <a href="{{ url_for('withdrawals', status=tab, user_id=search_user, date=d_date) }}"
+            style="flex: 1; text-align: center; padding: 8px; border-radius: 8px; text-decoration: none; font-size: 0.85rem; font-weight: 600; color: {% if current_status == tab %}white{% else %}var(--text-secondary){% endif %}; background: {% if current_status == tab %}var(--accent-blue){% else %}transparent{% endif %}; transition: all 0.3s;">
+            {{ label }}
         </a>
         {% endfor %}
     </div>
@@ -33,17 +37,18 @@
     <form action="{{ url_for('withdrawals') }}" method="GET" style="display: flex; flex-direction: column; gap: 10px;">
         <input type="hidden" name="status" value="{{ current_status }}">
         <div style="display: flex; gap: 8px;">
-            <input type="text" name="user_id" class="form-control" style="height: 44px; font-size: 0.85rem; flex: 2;" placeholder="{{ strings.DASH_PAY_SEARCH_PH }}" value="{{ search_user }}">
-            <input type="text" name="date" class="form-control" style="height: 44px; font-size: 0.85rem; flex: 1; min-width: 120px;" 
-                   placeholder="{{ strings.DASH_SEARCH_DATE_PH }}" 
-                   onfocus="(this.type='date')" 
-                   onblur="if(!this.value)this.type='text'"
-                   value="{{ d_date }}"
-                   {% if d_date %}type="date"{% endif %}>
+            <input type="text" name="user_id" class="form-control" style="height: 44px; font-size: 0.85rem; flex: 2;"
+                placeholder="{{ strings.DASH_PAY_SEARCH_PH }}" value="{{ search_user }}">
+            <input type="text" name="date" class="form-control"
+                style="height: 44px; font-size: 0.85rem; flex: 1; min-width: 120px;"
+                placeholder="{{ strings.DASH_SEARCH_DATE_PH }}" onfocus="(this.type='date')"
+                onblur="if(!this.value)this.type='text'" value="{{ d_date }}" {% if d_date %}type="date" {% endif %}>
         </div>
-        <button type="submit" class="btn btn-primary" style="height: 44px; border-radius: 12px; margin-bottom: 8px;">{{ strings.DASH_FIND_BTN }}</button>
+        <button type="submit" class="btn btn-primary" style="height: 44px; border-radius: 12px; margin-bottom: 8px;">{{
+            strings.DASH_FIND_BTN }}</button>
         {% if search_user or d_date %}
-        <a href="{{ url_for('withdrawals') }}" class="btn" style="height: 44px; border-radius: 12px; background: rgba(255,255,255,0.05); color: var(--text-secondary); border: 1px solid var(--border-card); display: flex; align-items: center; justify-content: center;">
+        <a href="{{ url_for('withdrawals') }}" class="btn"
+            style="height: 44px; border-radius: 12px; background: rgba(255,255,255,0.05); color: var(--text-secondary); border: 1px solid var(--border-card); display: flex; align-items: center; justify-content: center;">
             {{ strings.DASH_RESET_BTN }}
         </a>
         {% endif %}
@@ -61,41 +66,57 @@
         {% for w in withdrawals %}
         <div class="list-item">
             <div class="list-header" style="align-items: flex-start;">
-                <div style="display: flex; align-items: flex-start; gap: 8px; flex: 1; min-width: 0; margin-right: 10px; flex-wrap: wrap;">
-                    <span style="font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; background: rgba(139, 92, 246, 0.1); color: var(--accent-purple); padding: 2px 8px; border-radius: 6px; border: 1px solid rgba(139, 92, 246, 0.2); font-weight: 700; white-space: nowrap;">#{{ w.id }}</span>
-                    <span class="list-title" style="font-size: 0.95rem; word-break: break-all; white-space: normal; line-height: 1.4;">{{ w.method.replace('💳','').replace('🟡','').replace('🟢','').replace('💎','').strip() }}</span>
+                <div
+                    style="display: flex; align-items: flex-start; gap: 8px; flex: 1; min-width: 0; margin-right: 10px; flex-wrap: wrap;">
+                    <span
+                        style="font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; background: rgba(139, 92, 246, 0.1); color: var(--accent-purple); padding: 2px 8px; border-radius: 6px; border: 1px solid rgba(139, 92, 246, 0.2); font-weight: 700; white-space: nowrap;">#{{
+                        w.id }}</span>
+                    <span class="list-title"
+                        style="font-size: 0.95rem; word-break: break-all; white-space: normal; line-height: 1.4;">{{
+                        w.method.replace('💳','').replace('🟡','').replace('🟢','').replace('💎','').strip() }}</span>
                 </div>
                 {% if w.status == 'completed' %}
-                    <span class="badge" title="{{ strings.DASH_COMPLETED }}"><i class="fa-solid fa-circle-check" style="color: var(--success); font-size: 1.2rem;"></i></span>
+                <span class="badge" title="{{ strings.DASH_COMPLETED }}"><i class="fa-solid fa-circle-check"
+                        style="color: var(--success); font-size: 1.2rem;"></i></span>
                 {% elif w.status == 'rejected' %}
-                    <span class="badge" title="{{ strings.DASH_REJECTED }}"><i class="fa-solid fa-circle-xmark" style="color: var(--danger); font-size: 1.2rem;"></i></span>
+                <span class="badge" title="{{ strings.DASH_REJECTED }}"><i class="fa-solid fa-circle-xmark"
+                        style="color: var(--danger); font-size: 1.2rem;"></i></span>
                 {% else %}
-                    <span class="badge" title="{{ strings.DASH_PENDING }}"><i class="fa-solid fa-clock" style="color: #fbbf24; font-size: 1.2rem;"></i></span>
+                <span class="badge" title="{{ strings.DASH_PENDING }}"><i class="fa-solid fa-clock"
+                        style="color: #fbbf24; font-size: 1.2rem;"></i></span>
                 {% endif %}
             </div>
-            
+
             <div class="list-meta">
                 <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 8px;">
-                    <div style="color: var(--success); font-weight: 700; font-size: 1.1rem;">${{ "%.2f"|format(w.amount) }}</div>
-                    <div style="text-align: right;"><i class="fa-solid fa-user" style="font-size: 0.7rem; opacity: 0.7;"></i> {{ w.user_id }}</div>
-                    
+                    <div style="color: var(--success); font-weight: 700; font-size: 1.1rem;">${{ "%.2f"|format(w.amount)
+                        }}</div>
+                    <div style="text-align: right;"><i class="fa-solid fa-user"
+                            style="font-size: 0.7rem; opacity: 0.7;"></i> {{ w.user_id }}</div>
 
 
-                    <div style="grid-column: span 2; font-family: monospace; font-size: 0.75rem; word-break: break-all; background: rgba(255,255,255,0.03); padding: 6px; border-radius: 8px; border: 1px solid var(--border-card);">
+
+                    <div
+                        style="grid-column: span 2; font-family: monospace; font-size: 0.75rem; word-break: break-all; background: rgba(255,255,255,0.03); padding: 6px; border-radius: 8px; border: 1px solid var(--border-card);">
                         {{ w.wallet_address }}
                     </div>
-                    <div style="grid-column: span 2; font-size: 0.7rem; opacity: 0.6; margin-top: 4px;">{{ w.created_at[:16].replace('T', ', ') }}</div>
+                    <div style="grid-column: span 2; font-size: 0.7rem; opacity: 0.6; margin-top: 4px;">{{
+                        w.created_at[:16].replace('T', ', ') }}</div>
                 </div>
             </div>
 
             {% if w.status == 'pending' %}
             <div style="margin-top: 12px; display: flex; gap: 8px;">
-                <form action="{{ url_for('mark_paid', wid=w.id, status=current_status, user_id=search_user, date=d_date, page=page) }}" method="POST" style="flex: 2;">
+                <form
+                    action="{{ url_for('mark_paid', wid=w.id, status=current_status, user_id=search_user, date=d_date, page=page) }}"
+                    method="POST" style="flex: 2;">
                     <button type="submit" class="btn btn-primary" style="height: 42px; font-size: 0.85rem;">
                         <i class="fa-solid fa-check"></i> {{ strings.DASH_MARK_PAID }}
                     </button>
                 </form>
-                <form action="{{ url_for('reject_withdrawal_route', wid=w.id, status=current_status, user_id=search_user, date=d_date, page=page) }}" method="POST" style="flex: 1;">
+                <form
+                    action="{{ url_for('reject_withdrawal_route', wid=w.id, status=current_status, user_id=search_user, date=d_date, page=page) }}"
+                    method="POST" style="flex: 1;">
                     <button type="submit" class="btn btn-danger" style="height: 42px;">
                         <i class="fa-solid fa-xmark"></i>
                     </button>
@@ -104,7 +125,8 @@
             {% endif %}
         </div>
         {% else %}
-        <p style="text-align:center; padding:2rem; color:var(--text-secondary); font-style: italic;">{{ strings.DASH_NO_WITHDRAWALS }}</p>
+        <p style="text-align:center; padding:2rem; color:var(--text-secondary); font-style: italic;">{{
+            strings.DASH_NO_WITHDRAWALS }}</p>
         {% endfor %}
     </div>
 
@@ -112,28 +134,33 @@
     {% if total_pages > 1 %}
     <div style="margin-top: 1.5rem; display: flex; justify-content: center; align-items: center; gap: 15px;">
         {% if page > 1 %}
-        <a href="{{ url_for('withdrawals', status=current_status, user_id=search_user, date=d_date, page=page-1) }}" 
-           class="btn" style="width: 40px; height: 40px; padding: 0; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.05); border: 1px solid var(--border-card);">
+        <a href="{{ url_for('withdrawals', status=current_status, user_id=search_user, date=d_date, page=page-1) }}"
+            class="btn"
+            style="width: 40px; height: 40px; padding: 0; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.05); border: 1px solid var(--border-card);">
             <i class="fa-solid fa-chevron-left"></i>
         </a>
         {% else %}
-        <div style="width: 40px; height: 40px; opacity: 0.3; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.02); border: 1px solid var(--border-card); border-radius: 12px;">
+        <div
+            style="width: 40px; height: 40px; opacity: 0.3; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.02); border: 1px solid var(--border-card); border-radius: 12px;">
             <i class="fa-solid fa-chevron-left"></i>
         </div>
         {% endif %}
 
-        <span style="font-size: 0.9rem; font-weight: 600;">{{ strings.PAGE_LABEL }} {{ page }} {{ strings.OF_LABEL }} {{ total_pages }}</span>
+        <span style="font-size: 0.9rem; font-weight: 600;">{{ strings.PAGE_LABEL }} {{ page }} {{ strings.OF_LABEL }} {{
+            total_pages }}</span>
 
-        {% if page < total_pages %}
-        <a href="{{ url_for('withdrawals', status=current_status, user_id=search_user, date=d_date, page=page+1) }}" 
-           class="btn" style="width: 40px; height: 40px; padding: 0; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.05); border: 1px solid var(--border-card);">
+        {% if page < total_pages %} <a
+            href="{{ url_for('withdrawals', status=current_status, user_id=search_user, date=d_date, page=page+1) }}"
+            class="btn"
+            style="width: 40px; height: 40px; padding: 0; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.05); border: 1px solid var(--border-card);">
             <i class="fa-solid fa-chevron-right"></i>
-        </a>
-        {% else %}
-        <div style="width: 40px; height: 40px; opacity: 0.3; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.02); border: 1px solid var(--border-card); border-radius: 12px;">
-            <i class="fa-solid fa-chevron-right"></i>
-        </div>
-        {% endif %}
+            </a>
+            {% else %}
+            <div
+                style="width: 40px; height: 40px; opacity: 0.3; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.02); border: 1px solid var(--border-card); border-radius: 12px;">
+                <i class="fa-solid fa-chevron-right"></i>
+            </div>
+            {% endif %}
     </div>
     {% endif %}
 </div>

@@ -1,8 +1,8 @@
+{% block title %}{{ strings.DASH_TASKS_PAGE_TITLE }}{% endblock %}
+
 {% block header %}
-<div class="page-header">
     <i class="fa-solid fa-envelope"></i>
     <h1>{{ strings.NAV_TASKS }}</h1>
-</div>
 {% endblock %}
 
 {% block content %}
@@ -10,10 +10,12 @@
 <!-- Stats Overview -->
 <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 1rem;">
     <div class="glass-card" style="padding: 10px; text-align: center; border: 1px solid rgba(59, 130, 246, 0.1);">
-        <div style="font-size: 0.65rem; opacity: 0.7; text-transform: uppercase;">{{ strings.DASH_FILTER_PENDING }}</div>
+        <div style="font-size: 0.65rem; opacity: 0.7; text-transform: uppercase;">{{ strings.DASH_FILTER_PENDING }}
+        </div>
         <div style="font-size: 1.1rem; font-weight: 700; color: var(--accent-blue);">{{ stats.pending or 0 }}</div>
     </div>
-    <div class="glass-card" style="padding: 10px; text-align: center; border: 1px solid rgba(168, 85, 247, 0.2); background: rgba(168, 85, 247, 0.05);">
+    <div class="glass-card"
+        style="padding: 10px; text-align: center; border: 1px solid rgba(168, 85, 247, 0.2); background: rgba(168, 85, 247, 0.05);">
         <div style="font-size: 0.65rem; opacity: 0.7; text-transform: uppercase;">READY</div>
         <div style="font-size: 1.1rem; font-weight: 700; color: var(--accent-purple);">{{ stats.ready or 0 }}</div>
     </div>
@@ -26,21 +28,25 @@
 <!-- Filters Section -->
 <div class="glass-card" style="padding: 1.25rem;">
     <!-- Type Filters -->
-    <div style="display: flex; gap: 4px; background: rgba(0,0,0,0.2); padding: 4px; border-radius: 12px; margin-bottom: 0.75rem; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none;">
-        {% for tab, label in [('all', strings.DASH_FILTER_ALL), ('pending', strings.DASH_FILTER_PENDING), ('approved', strings.DASH_FILTER_PAID), ('rejected', strings.DASH_FILTER_REJECTED)] %}
-        <a href="{{ url_for('tasks', status=tab, user_id=search_user, date=d_date) }}" 
-           style="flex: 1; min-width: 70px; text-align: center; padding: 8px; border-radius: 8px; text-decoration: none; font-size: 0.8rem; font-weight: 600; color: {% if current_status == tab %}white{% else %}var(--text-secondary){% endif %}; background: {% if current_status == tab %}var(--accent-blue){% else %}transparent{% endif %}; transition: all 0.3s; white-space: nowrap;">
-           {{ label }}
+    <div
+        style="display: flex; gap: 4px; background: rgba(0,0,0,0.2); padding: 4px; border-radius: 12px; margin-bottom: 0.75rem; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none;">
+        {% for tab, label in [('all', strings.DASH_FILTER_ALL), ('pending', strings.DASH_FILTER_PENDING), ('approved',
+        strings.DASH_FILTER_PAID), ('rejected', strings.DASH_FILTER_REJECTED)] %}
+        <a href="{{ url_for('tasks', status=tab, user_id=search_user, date=d_date) }}"
+            style="flex: 1; min-width: 70px; text-align: center; padding: 8px; border-radius: 8px; text-decoration: none; font-size: 0.8rem; font-weight: 600; color: {% if current_status == tab %}white{% else %}var(--text-secondary){% endif %}; background: {% if current_status == tab %}var(--accent-blue){% else %}transparent{% endif %}; transition: all 0.3s; white-space: nowrap;">
+            {{ label }}
         </a>
         {% endfor %}
     </div>
 
     <!-- Age Filters -->
-    <div style="display: flex; gap: 4px; background: rgba(255,255,255,0.03); padding: 4px; border-radius: 12px; margin-bottom: 1rem; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; border: 1px solid rgba(255,255,255,0.05);">
+    <div
+        style="display: flex; gap: 4px; background: rgba(255,255,255,0.03); padding: 4px; border-radius: 12px; margin-bottom: 1rem; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; border: 1px solid rgba(255,255,255,0.05);">
         {% for tab, label in [('1d', strings.DASH_AGE_1D), ('2d', strings.DASH_AGE_2D), ('3d', strings.DASH_AGE_3D)] %}
-        <a href="{{ url_for('tasks', status=tab, user_id=search_user, date=d_date) }}" 
-           style="flex: 1; min-width: 90px; text-align: center; padding: 8px; border-radius: 8px; text-decoration: none; font-size: 0.75rem; font-weight: 600; color: {% if current_status == tab %}white{% else %}var(--text-secondary){% endif %}; background: {% if current_status == tab %}var(--accent-purple){% else %}transparent{% endif %}; transition: all 0.3s; white-space: nowrap;">
-           <i class="fa-solid fa-clock" style="font-size: 0.7rem; opacity: 0.7; margin-right: 4px;"></i> {{ label }} ({{ stats[tab] or 0 }})
+        <a href="{{ url_for('tasks', status=tab, user_id=search_user, date=d_date) }}"
+            style="flex: 1; min-width: 90px; text-align: center; padding: 8px; border-radius: 8px; text-decoration: none; font-size: 0.75rem; font-weight: 600; color: {% if current_status == tab %}white{% else %}var(--text-secondary){% endif %}; background: {% if current_status == tab %}var(--accent-purple){% else %}transparent{% endif %}; transition: all 0.3s; white-space: nowrap;">
+            <i class="fa-solid fa-clock" style="font-size: 0.7rem; opacity: 0.7; margin-right: 4px;"></i> {{ label }}
+            ({{ stats[tab] or 0 }})
         </a>
         {% endfor %}
     </div>
@@ -51,12 +57,12 @@
             <input type="text" name="user_id" class="form-control" style="height: 44px; font-size: 0.85rem; flex: 2;"
                 placeholder="{{ strings.DASH_SEARCH_USER_PH }}" value="{{ search_user }}">
             <input type="text" name="date" class="form-control"
-                style="height: 44px; font-size: 0.85rem; flex: 1; min-width: 120px;" placeholder="{{ strings.DASH_SEARCH_DATE_PH }}"
-                onfocus="(this.type='date')" onblur="if(!this.value)this.type='text'" value="{{ d_date }}" {% if d_date
-                %}type="date" {% endif %}>
+                style="height: 44px; font-size: 0.85rem; flex: 1; min-width: 120px;"
+                placeholder="{{ strings.DASH_SEARCH_DATE_PH }}" onfocus="(this.type='date')"
+                onblur="if(!this.value)this.type='text'" value="{{ d_date }}" {% if d_date %}type="date" {% endif %}>
         </div>
-        <button type="submit" class="btn btn-primary"
-            style="height: 44px; border-radius: 12px; margin-bottom: 8px;">{{ strings.DASH_FIND_BTN }}</button>
+        <button type="submit" class="btn btn-primary" style="height: 44px; border-radius: 12px; margin-bottom: 8px;">{{
+            strings.DASH_FIND_BTN }}</button>
         {% if search_user or d_date %}
         <a href="{{ url_for('tasks', status='pending') }}" class="btn"
             style="height: 44px; border-radius: 12px; background: rgba(255,255,255,0.05); color: var(--text-secondary); border: 1px solid var(--border-card); display: flex; align-items: center; justify-content: center;">
@@ -90,8 +96,11 @@
 
                 <div style="font-size: 0.95rem;">
                     <span style="font-weight: 600; color: var(--text-secondary);">Task ID:</span>
-                    <span style="font-family: monospace; color: var(--accent-purple); font-weight: 700;">#{{ task.id }}</span>
-                    {% if task.is_ready %}<span style="font-size: 0.7rem; background: var(--accent-purple); color: white; padding: 1px 5px; border-radius: 4px; font-weight: 700; margin-left: 5px;">READY</span>{% endif %}
+                    <span style="font-family: monospace; color: var(--accent-purple); font-weight: 700;">#{{ task.id
+                        }}</span>
+                    {% if task.is_ready %}<span
+                        style="font-size: 0.7rem; background: var(--accent-purple); color: white; padding: 1px 5px; border-radius: 4px; font-weight: 700; margin-left: 5px;">READY</span>{%
+                    endif %}
                 </div>
 
                 <div style="font-size: 0.95rem;">
@@ -121,7 +130,8 @@
                 </div>
 
                 {% if task.status == 'rejected' and task.reject_reason %}
-                <div style="margin-top: 5px; padding: 8px; background: rgba(239, 68, 68, 0.05); border-radius: 6px; border: 1px solid rgba(239, 68, 68, 0.1); font-size: 0.9rem;">
+                <div
+                    style="margin-top: 5px; padding: 8px; background: rgba(239, 68, 68, 0.05); border-radius: 6px; border: 1px solid rgba(239, 68, 68, 0.1); font-size: 0.9rem;">
                     <span style="color: var(--danger); font-weight: 600;">Reason:</span> {{ task.reject_reason }}
                 </div>
                 {% endif %}
@@ -138,8 +148,7 @@
                     </button>
                 </form>
 
-                <form
-                    id="reject-form-{{ task.id }}"
+                <form id="reject-form-{{ task.id }}"
                     action="{{ url_for('handle_task', action='reject', task_id=task.id, status=current_status, user_id=search_user, date=d_date, page=page) }}"
                     method="POST">
                     <button type="button" class="btn btn-danger"
@@ -152,7 +161,8 @@
             {% endif %}
         </div>
         {% else %}
-        <p style="text-align:center; padding:2rem; color:var(--text-secondary); font-style: italic;">{{ strings.DASH_NO_TASKS }}</p>
+        <p style="text-align:center; padding:2rem; color:var(--text-secondary); font-style: italic;">{{
+            strings.DASH_NO_TASKS }}</p>
         {% endfor %}
     </div>
 
@@ -172,7 +182,8 @@
         </div>
         {% endif %}
 
-        <span style="font-size: 0.9rem; font-weight: 600;">{{ strings.PAGE_LABEL }} {{ page }} {{ strings.OF_LABEL }} {{ total_pages }}</span>
+        <span style="font-size: 0.9rem; font-weight: 600;">{{ strings.PAGE_LABEL }} {{ page }} {{ strings.OF_LABEL }} {{
+            total_pages }}</span>
 
         {% if page < total_pages %} <a
             href="{{ url_for('tasks', status=current_status, user_id=search_user, date=d_date, page=page+1) }}"
@@ -225,7 +236,8 @@
             <i class="fa-solid fa-triangle-exclamation" style="font-size: 1.6rem; color: #ef4444;"></i>
         </div>
         <!-- Title -->
-        <div style="font-size: 1.1rem; font-weight: 700; color: #fff; margin-bottom: 0.5rem;">{{ strings.DASH_CONFIRM_REJECT }}</div>
+        <div style="font-size: 1.1rem; font-weight: 700; color: #fff; margin-bottom: 0.5rem;">{{
+            strings.DASH_CONFIRM_REJECT }}</div>
         <!-- Body -->
         <div style="font-size: 0.85rem; color: #94a3b8; margin-bottom: 1.75rem; line-height: 1.6;">
             {{ strings.DASH_REJECT_MSG }}
@@ -239,7 +251,8 @@
                 color: #94a3b8; font-family: inherit;
                 font-size: 0.9rem; font-weight: 600;
                 cursor: pointer; transition: all 0.2s;
-            " onmouseover="this.style.background='rgba(255,255,255,0.1)'" onmouseout="this.style.background='rgba(255,255,255,0.06)'">
+            " onmouseover="this.style.background='rgba(255,255,255,0.1)'"
+                onmouseout="this.style.background='rgba(255,255,255,0.06)'">
                 {{ strings.DASH_CANCEL }}
             </button>
             <button onclick="confirmReject()" style="
@@ -249,7 +262,8 @@
                 color: #ef4444; font-family: inherit;
                 font-size: 0.9rem; font-weight: 700;
                 cursor: pointer; transition: all 0.2s;
-            " onmouseover="this.style.background='rgba(239,68,68,0.25)'" onmouseout="this.style.background='rgba(239,68,68,0.15)'">
+            " onmouseover="this.style.background='rgba(239,68,68,0.25)'"
+                onmouseout="this.style.background='rgba(239,68,68,0.15)'">
                 <i class="fa-solid fa-xmark" style="margin-left: 4px;"></i> {{ strings.DASH_MODAL_REJECT_BTN }}
             </button>
         </div>
@@ -257,40 +271,50 @@
 </div>
 
 <style>
-@keyframes modalIn {
-    from { opacity: 0; transform: scale(0.85) translateY(20px); }
-    to   { opacity: 1; transform: scale(1) translateY(0); }
-}
-#reject-modal.open { display: flex; }
+    @keyframes modalIn {
+        from {
+            opacity: 0;
+            transform: scale(0.85) translateY(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+        }
+    }
+
+    #reject-modal.open {
+        display: flex;
+    }
 </style>
 
 <script>
-var _rejectFormId = null;
+    var _rejectFormId = null;
 
-function openRejectModal(formId) {
-    _rejectFormId = formId;
-    var modal = document.getElementById('reject-modal');
-    modal.style.display = 'flex';
-    // tiny delay so display:flex registers before class triggers animation
-    requestAnimationFrame(function() { modal.classList.add('open'); });
-}
-
-function closeRejectModal() {
-    var modal = document.getElementById('reject-modal');
-    modal.classList.remove('open');
-    modal.style.display = 'none';
-    _rejectFormId = null;
-}
-
-function confirmReject() {
-    if (_rejectFormId) {
-        document.getElementById(_rejectFormId).submit();
+    function openRejectModal(formId) {
+        _rejectFormId = formId;
+        var modal = document.getElementById('reject-modal');
+        modal.style.display = 'flex';
+        // tiny delay so display:flex registers before class triggers animation
+        requestAnimationFrame(function () { modal.classList.add('open'); });
     }
-}
 
-// Close on backdrop click
-document.getElementById('reject-modal').addEventListener('click', function(e) {
-    if (e.target === this) closeRejectModal();
-});
+    function closeRejectModal() {
+        var modal = document.getElementById('reject-modal');
+        modal.classList.remove('open');
+        modal.style.display = 'none';
+        _rejectFormId = null;
+    }
+
+    function confirmReject() {
+        if (_rejectFormId) {
+            document.getElementById(_rejectFormId).submit();
+        }
+    }
+
+    // Close on backdrop click
+    document.getElementById('reject-modal').addEventListener('click', function (e) {
+        if (e.target === this) closeRejectModal();
+    });
 </script>
 {% endblock %}
