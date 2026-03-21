@@ -77,6 +77,10 @@ body::before {
     color: var(--accent-blue);
 }
 
+[dir="rtl"] .page-title-back i {
+    transform: scaleX(-1);
+}
+
 /* Hamburger Button */
 .hamburger-btn {
     background: none;
@@ -214,7 +218,7 @@ body::before {
 .sidebar-badge {
     margin-left: auto;
     background: var(--warning);
-    color: #000;
+    color: #fff;
     font-size: 0.7rem;
     font-weight: 800;
     padding: 3px 8px;

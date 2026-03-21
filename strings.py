@@ -1003,7 +1003,7 @@ DASHBOARD_STRINGS = {
         'DASH_INDEX_TITLE': "نظرة عامة",
         'NAV_PAY': "الدفع",
         'NAV_USERS': "المستخدمين",
-        'NAV_MSG': "رسائل",
+        'NAV_MSG': "البث",
         'NAV_SET': "الإعدادات",
         
         'DASH_INDEX_TITLE': "نظرة عامة",
@@ -1110,6 +1110,7 @@ DASHBOARD_STRINGS = {
         
         'PAGE_LABEL': "صفحة",
         'OF_LABEL': "من",
+        'TITLE_APP': "جيميل فارمر",
     },
     'en': {
         'NAV_HOME': "Home",
@@ -1119,7 +1120,7 @@ DASHBOARD_STRINGS = {
         'LBL_CUSTOM_PRICES': 'Custom Prices',
         'NAV_PAY': "Pay",
         'NAV_USERS': "Users",
-        'NAV_MSG': "Msg",
+        'NAV_MSG': "Broadcast",
         'NAV_SET': "Settings",
         
         'DASH_INDEX_TITLE': "Overview",
