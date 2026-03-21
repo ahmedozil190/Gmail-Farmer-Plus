@@ -26,7 +26,221 @@
     </script>
 </head>
 <body>
-    <div class="app-container">
+    <style>
+        /* Header CSS */
+        .app-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background: #111;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 15px;
+            z-index: 1000;
+            border-bottom: 1px solid #222;
+        }
+        .app-container.with-header {
+            padding-top: 75px; 
+            padding-bottom: 20px;
+        }
+        .menu-toggle {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 1.3rem;
+            padding: 5px;
+            cursor: pointer;
+        }
+        .app-title {
+            font-weight: 800;
+            font-size: 1.15rem;
+            color: #fff;
+            letter-spacing: 0.5px;
+        }
+        .app-header-avatar {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.95rem;
+            box-shadow: 0 2px 10px rgba(59, 130, 246, 0.3);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        /* Sidebar CSS */
+        .sidebar-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: rgba(0,0,0,0.6);
+            z-index: 1010;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(3px);
+        }
+        .sidebar-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .app-sidebar {
+            position: fixed;
+            top: 0;
+            left: -280px; 
+            width: 260px;
+            height: 100vh;
+            background: #151515;
+            z-index: 1020;
+            transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+            box-shadow: 5px 0 25px rgba(0,0,0,0.5);
+            display: flex;
+            flex-direction: column;
+        }
+        [dir="rtl"] .app-sidebar {
+            left: auto;
+            right: -280px;
+            box-shadow: -5px 0 25px rgba(0,0,0,0.5);
+        }
+        .app-sidebar.active {
+            left: 0;
+        }
+        [dir="rtl"] .app-sidebar.active {
+            right: 0;
+        }
+        .sidebar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            border-bottom: 1px solid #222;
+        }
+        .sidebar-logo {
+            font-size: 1.35rem;
+            font-weight: 800;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .sidebar-logo i {
+            color: #3b82f6;
+            font-size: 1.5rem;
+        }
+        .close-sidebar {
+            background: #252525;
+            border: none;
+            color: #aaa;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .close-sidebar:active {
+            background: #333;
+        }
+        .sidebar-nav {
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .side-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 14px 16px;
+            border-radius: 14px;
+            color: #a0a0a0;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.05rem;
+            transition: all 0.2s;
+        }
+        .side-item i {
+            font-size: 1.25rem;
+            width: 24px;
+            text-align: center;
+        }
+        .side-item:active {
+            background: rgba(255,255,255,0.05);
+            color: #fff;
+            transform: scale(0.98);
+        }
+        .side-item.active {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.15), rgba(139, 92, 246, 0.15));
+            color: #3b82f6;
+            border-left: 3px solid #3b82f6;
+        }
+        [dir="rtl"] .side-item.active {
+            border-left: none;
+            border-right: 3px solid #3b82f6;
+        }
+        /* Hide bottom nav entirely now */
+        .bottom-nav { display: none !important; }
+    </style>
+
+    <!-- Top Global Header -->
+    <header class="app-header">
+        <button class="menu-toggle" onclick="toggleSidebar()">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+        <div class="app-title">TG-Lion</div>
+        <div class="app-header-right">
+            {% if user %}
+            <div class="app-header-avatar">{{ user.full_name[0]|upper if user.full_name else '?' }}</div>
+            {% endif %}
+        </div>
+    </header>
+
+    <!-- Sidebar Overlay -->
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+    
+    <!-- Sidebar Menu -->
+    <aside class="app-sidebar" id="appSidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo">
+                <i class="fa-solid fa-robot"></i> TG-Lion
+            </div>
+            <button class="close-sidebar" onclick="toggleSidebar()">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="{{ url_for('app_home') }}" class="side-item {% if active_page == 'home' %}active{% endif %}">
+                <i class="fa-solid fa-house"></i>
+                <span>{{ strings.NAV_HOME if strings else 'Home' }}</span>
+            </a>
+            <a href="{{ url_for('app_tasks') }}" class="side-item {% if active_page == 'tasks' %}active{% endif %}">
+                <i class="fa-solid fa-list-check"></i>
+                <span>{{ strings.NAV_TASKS if strings else 'Tasks' }}</span>
+            </a>
+            <a href="{{ url_for('app_wallet') }}" class="side-item {% if active_page == 'wallet' %}active{% endif %}">
+                <i class="fa-solid fa-wallet"></i>
+                <span>{{ strings.NAV_WALLET if strings else 'Wallet' }}</span>
+            </a>
+            <a href="{{ url_for('app_referrals') }}" class="side-item {% if active_page == 'referrals' %}active{% endif %}">
+                <i class="fa-solid fa-users"></i>
+                <span>{{ strings.NAV_REFERRALS if strings else 'Referrals' }}</span>
+            </a>
+        </nav>
+    </aside>
+
+    <div class="app-container with-header">
         <!-- Flash Messages -->
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
@@ -39,26 +253,20 @@
         {% block content %}{% endblock %}
     </div>
 
-    <!-- Bottom Navigation -->
-    <nav class="bottom-nav">
-        <a href="{{ url_for('app_home') }}" class="nav-item {% if active_page == 'home' %}active{% endif %}">
-            <i class="fa-solid fa-house"></i>
-            <span>{{ strings.NAV_HOME if strings else 'Home' }}</span>
-        </a>
-        <a href="{{ url_for('app_tasks') }}" class="nav-item {% if active_page == 'tasks' %}active{% endif %}">
-            <i class="fa-solid fa-list-check"></i>
-            <span>{{ strings.NAV_TASKS if strings else 'Tasks' }}</span>
-        </a>
-        <a href="{{ url_for('app_wallet') }}" class="nav-item {% if active_page == 'wallet' %}active{% endif %}">
-            <i class="fa-solid fa-wallet"></i>
-            <span>{{ strings.NAV_WALLET if strings else 'Wallet' }}</span>
-        </a>
-        <a href="{{ url_for('app_referrals') }}" class="nav-item {% if active_page == 'referrals' %}active{% endif %}">
-            <i class="fa-solid fa-users"></i>
-            <span>{{ strings.NAV_REFERRALS if strings else 'Referrals' }}</span>
-        </a>
-    </nav>
-
+    <!-- Script to Handle Sidebar Toggle -->
+    <script>
+        function toggleSidebar() {
+            var sidebar = document.getElementById('appSidebar');
+            var overlay = document.getElementById('sidebarOverlay');
+            if (sidebar.classList.contains('active')) {
+                sidebar.classList.remove('active');
+                overlay.classList.remove('active');
+            } else {
+                sidebar.classList.add('active');
+                overlay.classList.add('active');
+            }
+        }
+    </script>
     {% block scripts %}{% endblock %}
 </body>
 </html>
