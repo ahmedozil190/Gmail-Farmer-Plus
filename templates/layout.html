@@ -20,7 +20,7 @@
 
             <!-- Page Title -->
             {% if request.endpoint == 'settings' and request.args.get('cat') %}
-            <div class="page-title no-border">
+            <div class="page-title">
                 <a href="{{ url_for('settings') }}" class="page-title-back"><i class="fa-solid fa-arrow-left"></i></a>
                 {% set cat = request.args.get('cat') %}
                 {% if cat == 'general' %}
@@ -36,7 +36,7 @@
                 {% endif %}
             </div>
             {% else %}
-            <div class="page-title {% if request.endpoint == 'settings' %}no-border{% endif %}">
+            <div class="page-title">
                 {% if request.endpoint == 'index' %}
                     <span>{{ strings.DASH_INDEX_TITLE }}</span>
                 {% elif request.endpoint == 'tasks' %}

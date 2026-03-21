@@ -57,15 +57,10 @@ body::before {
     font-size: 1.25rem;
     font-weight: 700;
     color: var(--text-primary);
-    border-bottom: 1px solid var(--border-card);
     margin-bottom: 1rem;
     display: flex;
     align-items: center;
     gap: 12px;
-}
-
-.page-title.no-border {
-    border-bottom: none;
 }
 
 .page-title-back {

@@ -271,51 +271,54 @@
 </style>
 
 <script>
-    function openEditModal(userId, username, fullName, balance, status, page, customManual, customAut        
-        const modal = document.getElementById('edit        l');
-        const q = new URLSearchParams(window.location.search).get) || '';
-    const p        || '1';
+    function openEditModal(userId, username, fullName, balance, status, page, customManual, customAuto) {
+        const modal = document.getElementById('editModal');
+        const q = new URLSearchParams(window.location.search).get('q') || '';
+        const p = page || '1';
 
-               Set headers
-    document.getElementById('modalUserIdDisplay')        erText = userId;
-    document.getElementById('modalFullNameDisplay').innerText = fullName && fullName !== 'None' ? fullName : (username && username !== 'None' ? '@' + usern : 'Anonymous User');
-    document.getElementById('modalCurrentBalance').innerText = '$' + paro        alance).toFix        );
+        // Set headers
+        document.getElementById('modalUserIdDisplay').innerText = userId;
+        document.getElementById('modalFullNameDisplay').innerText = fullName && fullName !== 'None' ? fullName : (username && username !== 'None' ? '@' + username : 'Anonymous User');
+        document.getElementById('modalCurrentBalance').innerText = '$' + parseFloat(balance).toFixed(2);
 
-    // Set Forms
-    const b        rl = window.location.origin;
-    document.getElementById('balanceForm').action = `${baseUrl}/users/balance/${userId}?q=        codeURIComponent(q)}&page=${p}`;
-    document.getElementById('statusForm').action = `${baseUrl}/users/status/${userId        ${ encodeURIComponent(q) }& page=${ p } `;
-        document.getElementById('customPriceForm').action = `${ baseUrl } /users/custom_prices / ${ us } {encodeURICompone        ) }& page=${ p }`;
+        // Set Forms
+        const baseUrl = window.location.origin;
+        document.getElementById('balanceForm').action = `${baseUrl}/users/balance/${userId}?q=${encodeURIComponent(q)}&page=${p}`;
+        document.getElementById('statusForm').action = `${baseUrl}/users/status/${userId}?q=${encodeURIComponent(q)}&page=${p}`;
+        document.getElementById('customPriceForm').action = `${baseUrl}/users/custom_prices/${userId}?q=${encodeURIComponent(q)}&page=${p}`;
 
         // Custom Prices
-        document.getElemen        d('modalCustomManual').value = customManual;
-        document.ge        ById('modalCusto        o').value = customAuto;
+        document.getElementById('modalCustomManual').value = customManual;
+        document.getElementById('modalCustomAuto').value = customAuto;
 
         // Status Logic
-        cons        atusBtn = document.getElementById('modalStatusBtn');
-        consa        np ut = document.getElement            dalStatusInput');
+        const statusBtn = document.getElementById('modalStatusBtn');
+        const statusInput = document.getElementById('modalStatusInput');
 
-        if (status === 'banned')                   statusBtn.innerText = "{{ strings.D            BAN }}";
-            statusBtn        ssName =             -primary';
-            statusInput.value = 'active               } else {
-            statusBtn.innerT            { strings.DASH_U_BAN }}";
-              a        tn.className = 'btn btn-danger'    ;
-                statusInput.value        banned';
+        if (status === 'banned') {
+            statusBtn.innerText = "{{ strings.DASH_U_UNBAN }}";
+            statusBtn.className = 'btn btn-primary';
+            statusInput.value = 'active';
+        } else {
+            statusBtn.innerText = "{{ strings.DASH_U_BAN }}";
+            statusBtn.className = 'btn btn-danger';
+            statusInput.value = 'banned';
         }
 
         modal.classList.add('active');
     }
-    
-        function closeEditModal()     {
-        document.getElementById('editModal').classList.remove('activ e');
-         
+
+    function closeEditModal() {
+        document.getElementById('editModal').classList.remove('active');
+    }
 
     // Close on backdrop click
-    docu    ment.    getElementById('editMod    al').addEventListener('click', function (e) { 
-             f (e.target === this) closeEditModal();
-        });
-on Escape key
-    document.addEventListener('keydown', function (e) {
+    document.getElementById('editModal').addEventListener('click', function(e) {
+        if (e.target === this) closeEditModal();
+    });
+
+    // Close on Escape key
+    document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape') closeEditModal();
     });
 </script>
