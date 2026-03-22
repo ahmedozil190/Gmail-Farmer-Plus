@@ -149,7 +149,16 @@
     {% for w in withdrawals %}
     <div class="task-card">
         <div class="task-info">
-            <span class="task-name">{{ w.method }}</span>
+            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+                <span class="task-name" style="margin-bottom: 0;">
+                    {% if 'Vodafone' in w.method %}<i class="fa-solid fa-mobile-screen-button" style="font-size: 0.85rem; color: var(--accent); opacity: 0.8;"></i>
+                    {% elif 'Binance' in w.method %}<i class="fa-solid fa-coins" style="font-size: 0.85rem; color: var(--accent); opacity: 0.8;"></i>
+                    {% elif 'USDT' in w.method %}<i class="fa-solid fa-dollar-sign" style="font-size: 0.85rem; color: var(--accent); opacity: 0.8;"></i>
+                    {% elif 'TRX' in w.method %}<i class="fa-solid fa-gem" style="font-size: 0.85rem; color: var(--accent); opacity: 0.8;"></i>
+                    {% endif %}
+                    {{ w.method.replace('💳 ', '').replace('🟡 ', '').replace('🟢 ', '').replace('💎 ', '') }}
+                </span>
+            </div>
             <span class="task-date">{{ w.created_at[:10] if w.created_at else '' }}</span>
             <div style="font-size: 0.7rem; color: var(--text-secondary); margin-top: 2px; word-break: break-all;">{{ w.wallet_address if w.wallet_address else '' }}</div>
         </div>
@@ -206,7 +215,14 @@
         <div class="bs-options">
             {% for m in methods %}
             <div class="bs-option" data-value="{{ m }}">
-                <div class="option-name">{{ m }}</div>
+                <div class="option-icon">
+                    {% if 'Vodafone' in m %}<i class="fa-solid fa-mobile-screen-button"></i>
+                    {% elif 'Binance' in m %}<i class="fa-solid fa-coins"></i>
+                    {% elif 'USDT' in m %}<i class="fa-solid fa-dollar-sign"></i>
+                    {% elif 'TRX' in m %}<i class="fa-solid fa-gem"></i>
+                    {% else %}<i class="fa-solid fa-wallet"></i>{% endif %}
+                </div>
+                <div class="option-name">{{ m.replace('💳 ', '').replace('🟡 ', '').replace('🟢 ', '').replace('💎 ', '') }}</div>
                 <div class="option-check"><i class="fa-solid fa-check"></i></div>
             </div>
             {% endfor %}
@@ -407,7 +423,10 @@
         opt.addEventListener('click', function () {
             const val = this.getAttribute('data-value');
             methodInput.value = val;
-            selectedMethodText.textContent = val;
+            
+            // Strip emojis for display
+            const displayVal = val.replace('💳 ', '').replace('🟡 ', '').replace('🟢 ', '').replace('💎 ', '');
+            selectedMethodText.textContent = displayVal;
             selectedMethodText.style.color = "var(--text-primary)";
 
             // Highlight selected
@@ -435,8 +454,9 @@
         if (!confirmModal.classList.contains('confirmed')) {
             e.preventDefault();
 
-            // Populate modal
-            document.getElementById('confirmMethodText').textContent = methodInput.value;
+            // Populate modal (stripped of emojis)
+            const cleanMethod = methodInput.value.replace('💳 ', '').replace('🟡 ', '').replace('🟢 ', '').replace('💎 ', '');
+            document.getElementById('confirmMethodText').textContent = cleanMethod;
             document.getElementById('confirmAmountText').textContent = '$' + this.amount.value;
             document.getElementById('confirmWalletText').textContent = this.wallet.value;
             document.getElementById('confirmWalletLabel').textContent = walletLabel.textContent;
