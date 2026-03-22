@@ -494,6 +494,21 @@ body::before {
     color: var(--text-secondary);
 }
 
+/* ── Elite Section Headers (Global) ───────────────────── */
+.elite-section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.25rem;
+    padding: 0 5px;
+}
+
+.elite-section-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #fff;
+}
+
 .hero-title {
     font-size: 1.25rem;
     font-weight: 800;

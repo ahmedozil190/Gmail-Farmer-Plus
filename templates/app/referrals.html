@@ -1,9 +1,10 @@
 {% extends "app/layout.html" %}
 
 {% block content %}
-<div style="padding-top: 1.25rem;">
-    <h2 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 1rem;">{{ strings.REF_TITLE }}</h2>
-</div>
+<div class="elite-home">
+    <div class="elite-section-header" style="margin-bottom: 1rem; padding-top: 5px;">
+        <span class="elite-section-title">{{ strings.REF_TITLE }}</span>
+    </div>
 
 <!-- Referral Link -->
 <div class="glass-card">
@@ -62,7 +63,7 @@
             </span>
         </div>
         <div class="elite-row">
-            <span class="elite-label">{{ strings.REF_PROFIT_EARNED }}</span>
+            <span class="elite-label">Earning:</span>
             <span class="elite-value" style="font-weight: 800; color: #f59e0b;">${{ "%.2f"|format(ref.profit or 0) }}</span>
         </div>
     </div>
