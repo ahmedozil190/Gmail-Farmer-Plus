@@ -32,12 +32,15 @@
     <style>
         /* Header CSS */
         .app-header {
-            position: absolute;
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 60px;
-            background: transparent;
+            background: var(--bg-card);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-card);
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -64,6 +67,10 @@
             font-size: 1.15rem;
             color: #fff;
             letter-spacing: 0.5px;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            white-space: nowrap;
         }
 
         .app-header-avatar {
@@ -225,6 +232,7 @@
         <button class="menu-toggle" onclick="toggleSidebar()">
             <i class="fa-solid fa-bars"></i>
         </button>
+        <div class="app-title">Gmail Farmer Plus</div>
         <div class="app-header-right">
             {% if user %}
             <div class="app-header-avatar">{{ user.full_name[0]|upper if user.full_name else '?' }}</div>
