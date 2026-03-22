@@ -56,17 +56,15 @@
                     </button>
                     <a href="{{ url_for('settings') }}" class="page-title-back"><i class="fa-solid fa-arrow-left"></i></a>
                     {% set cat = request.args.get('cat') %}
-                    {% if cat == 'general' %}
-                        <span>{{ strings.SETTINGS_CAT_GENERAL }}</span>
-                    {% elif cat == 'channels' %}
-                        <span>{{ strings.SETTINGS_CAT_CHANNELS }}</span>
-                    {% elif cat == 'limits' %}
-                        <span>{{ strings.SETTINGS_CAT_LIMITS }}</span>
-                    {% elif cat == 'control' %}
-                        <span>{{ strings.SETTINGS_CAT_CONTROL }}</span>
-                    {% elif cat == 'reset' %}
-                        <span>{{ strings.SETTINGS_CAT_RESET }}</span>
-                    {% endif %}
+                    <span>
+                        {% if cat == 'general' %}{{ strings.SETTINGS_CAT_GENERAL }}
+                        {% elif cat == 'channels' %}{{ strings.SETTINGS_CAT_CHANNELS }}
+                        {% elif cat == 'limits' %}{{ strings.SETTINGS_CAT_LIMITS }}
+                        {% elif cat == 'control' %}{{ strings.SETTINGS_CAT_CONTROL }}
+                        {% elif cat == 'reset' %}{{ strings.SETTINGS_CAT_RESET }}
+                        {% endif %}
+                    </span>
+                    <div class="page-title-avatar">A</div>
                 </div>
             </div>
             {% else %}
@@ -75,19 +73,17 @@
                     <button class="hamburger-btn" onclick="toggleSidebar()">
                         <i class="fa-solid fa-bars"></i>
                     </button>
-                    {% if request.endpoint == 'index' %}
-                        <span>{{ strings.DASH_INDEX_TITLE }}</span>
-                    {% elif request.endpoint == 'tasks' %}
-                        <span>{{ strings.DASH_TASKS_PAGE_TITLE }}</span>
-                    {% elif request.endpoint == 'withdrawals' %}
-                        <span>{{ strings.DASH_W_PAGE_TITLE }}</span>
-                    {% elif request.endpoint == 'users' %}
-                        <span>{{ strings.DASH_U_PAGE_TITLE }}</span>
-                    {% elif request.endpoint == 'broadcast' %}
-                        <span>{{ strings.DASH_BS_PAGE_TITLE }}</span>
-                    {% elif request.endpoint == 'settings' %}
-                        <span>{{ strings.SETTINGS_TITLE }}</span>
-                    {% endif %}
+                    <span>
+                        {% if request.endpoint == 'index' %}{{ strings.DASH_INDEX_TITLE }}
+                        {% elif request.endpoint == 'tasks' %}{{ strings.DASH_TASKS_PAGE_TITLE }}
+                        {% elif request.endpoint == 'withdrawals' %}{{ strings.DASH_W_PAGE_TITLE }}
+                        {% elif request.endpoint == 'users' %}{{ strings.DASH_U_PAGE_TITLE }}
+                        {% elif request.endpoint == 'broadcast' %}{{ strings.DASH_BS_PAGE_TITLE }}
+                        {% elif request.endpoint == 'settings' %}{{ strings.SETTINGS_TITLE }}
+                        {% elif request.endpoint == 'custom_pricing' %}{{ strings.NAV_CUSTOM_PRICES }}
+                        {% endif %}
+                    </span>
+                    <div class="page-title-avatar">A</div>
                 </div>
             </div>
             {% endif %}
