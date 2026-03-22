@@ -25,32 +25,19 @@
     {% endif %}
 </div>
 
-<!-- Task Stats Card -->
-<div class="elite-hero-card" style="margin-top: 1rem; margin-bottom: 2.5rem;">
-    <div class="hero-data-list">
-        <!-- Approved Row -->
-        <div class="hero-data-row">
-            <span class="hero-data-label">{{ strings.HOME_APPROVED }}</span>
-            <div class="hero-data-value approved">
-                {{ approved_tasks }}
-            </div>
-        </div>
-        
-        <!-- Pending Row -->
-        <div class="hero-data-row">
-            <span class="hero-data-label">{{ strings.HOME_REQ_PENDING }}</span>
-            <div class="hero-data-value pending">
-                {{ pending_tasks }}
-            </div>
-        </div>
-
-        <!-- Rejected Row -->
-        <div class="hero-data-row">
-            <span class="hero-data-label">{{ strings.HOME_REJECTED }}</span>
-            <div class="hero-data-value rejected">
-                {{ rejected_tasks }}
-            </div>
-        </div>
+<!-- Task Stats Pills -->
+<div class="elite-stats" style="margin-top: 1.5rem; margin-bottom: 2rem;">
+    <div class="e-stat-pill blue">
+        <span class="val">{{ approved_tasks }}</span>
+        <span class="lbl">{{ strings.HOME_APPROVED }}</span>
+    </div>
+    <div class="e-stat-pill orange">
+        <span class="val">{{ pending_tasks }}</span>
+        <span class="lbl">{{ strings.HOME_REQ_PENDING }}</span>
+    </div>
+    <div class="e-stat-pill red">
+        <span class="val">{{ rejected_tasks }}</span>
+        <span class="lbl">{{ strings.HOME_REJECTED }}</span>
     </div>
 </div>
 
