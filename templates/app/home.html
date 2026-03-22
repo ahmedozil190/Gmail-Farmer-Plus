@@ -81,8 +81,8 @@
 
     /* Quick Actions Bento */
     .elite-grid {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
+        display: flex;
+        flex-direction: column;
         gap: 12px;
         margin-bottom: 2.5rem;
     }
@@ -91,13 +91,13 @@
         background: var(--elite-card);
         border: 1px solid var(--elite-border);
         border-radius: 20px;
-        padding: 1.5rem;
+        padding: 1.25rem;
         text-decoration: none;
         transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
         display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        min-height: 120px;
+        flex-direction: row;
+        align-items: center;
+        gap: 1.25rem;
     }
 
     .elite-card:active {
@@ -108,7 +108,6 @@
     .elite-card i {
         font-size: 1.4rem;
         color: var(--elite-accent);
-        margin-bottom: 1rem;
     }
 
     .elite-card .title {
@@ -121,7 +120,6 @@
     .elite-card .desc {
         font-size: 0.75rem;
         color: #666;
-        margin-top: 4px;
     }
 
     /* Stats Row */
@@ -219,19 +217,14 @@
     }
 
     .e-item-status {
-        width: 32px;
-        height: 32px;
+        width: 28px;
+        height: 28px;
         border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 0.8rem;
-        margin-right: 12px;
-    }
-
-    [dir="rtl"] .e-item-status {
-        margin-right: 0;
-        margin-left: 12px;
+        font-size: 0.75rem;
+        margin-bottom: 4px;
     }
 
     .e-status.approved {
@@ -345,16 +338,18 @@
     <div class="elite-list">
         {% for task in recent_tasks[:4] %}
         <div class="elite-list-item">
-            <div class="e-item-status e-status {{ task.status }}">
-                {% if task.status == 'approved' %}<i class="fa-solid fa-check"></i>
-                {% elif task.status == 'rejected' %}<i class="fa-solid fa-xmark"></i>
-                {% else %}<i class="fa-solid fa-clock"></i>{% endif %}
-            </div>
             <div class="e-item-info">
                 <div class="e-item-name">{{ task.gmail_account }}</div>
                 <div class="e-item-date">{{ task.submitted_at[:10] }}</div>
             </div>
-            <div class="e-item-price">${{ "%.2f"|format(task.price or 0) }}</div>
+            <div style="display: flex; flex-direction: column; align-items: flex-end;">
+                <div class="e-item-status e-status {{ task.status }}">
+                    {% if task.status == 'approved' %}<i class="fa-solid fa-check"></i>
+                    {% elif task.status == 'rejected' %}<i class="fa-solid fa-xmark"></i>
+                    {% else %}<i class="fa-solid fa-clock"></i>{% endif %}
+                </div>
+                <div class="e-item-price">${{ "%.2f"|format(task.price or 0) }}</div>
+            </div>
         </div>
         {% endfor %}
     </div>
