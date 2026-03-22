@@ -747,45 +747,33 @@ select.form-control {
 
 /* ── Referral ────────────────────────────────────────────────── */
 .ref-link-box {
-    background: rgba(0, 0, 0, 0.35);
-    border: 1px solid var(--border-card);
-    border-radius: 14px;
-    padding: 8px 12px;
+    background: rgba(0, 0, 0, 0.25);
+    border: 1px dashed var(--border-card);
+    border-radius: 12px;
+    padding: 12px;
     display: flex;
     align-items: center;
-    gap: 12px;
-    margin: 15px 0;
-    box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+    gap: 10px;
+    margin-bottom: 1rem;
 }
 
 .ref-link-box code {
     flex: 1;
-    font-size: 0.82rem;
-    font-family: 'Outfit', monospace;
+    font-size: 0.75rem;
     word-break: break-all;
-    line-height: 1.4;
-    color: var(--accent);
-    font-weight: 500;
+    color: var(--link-color);
 }
 
 .ref-link-box button {
     flex-shrink: 0;
-    width: 42px;
-    height: 42px;
-    background: linear-gradient(135deg, var(--accent), var(--purple));
+    background: var(--accent);
     border: none;
-    color: white;
+    color: var(--accent-text);
+    padding: 8px 14px;
     border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    font-weight: 600;
+    font-size: 0.8rem;
     cursor: pointer;
-    transition: all 0.2s;
-    box-shadow: 0 4px 12px rgba(96, 165, 250, 0.2);
-}
-
-.ref-link-box button:active {
-    transform: scale(0.92);
 }
 
 /* ── Bottom Nav ──────────────────────────────────────────────── */
