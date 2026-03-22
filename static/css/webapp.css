@@ -443,6 +443,52 @@ body::before {
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
+/* ── Elite Grid & Cards (Global) ────────────────────────── */
+.elite-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-bottom: 2rem;
+}
+
+.elite-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-card);
+    border-radius: 20px;
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    color: #fff;
+    transition: all 0.3s ease;
+}
+
+.elite-card:hover:not(.no-interaction) {
+    background: rgba(255, 255, 255, 0.05);
+    transform: translateY(-2px);
+}
+
+.elite-card.no-interaction {
+    cursor: default;
+}
+
+.elite-card i {
+    font-size: 1.4rem;
+    color: var(--accent);
+}
+
+.elite-card .title {
+    display: block;
+    font-size: 0.95rem;
+    font-weight: 700;
+}
+
+.elite-card .desc {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+}
+
 .hero-title {
     font-size: 1.25rem;
     font-weight: 800;
