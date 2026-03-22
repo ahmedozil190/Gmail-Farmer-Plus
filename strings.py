@@ -878,7 +878,7 @@ WEBAPP_STRINGS = {
         'REF_USER_ID': "آيدي المستخدم:",
         'REF_DATE': "تاريخ الانضمام:",
         'REF_TASKS': "التاسكات:",
-        'REF_PROFIT_EARNED': "الأرباح:",
+        'REF_PROFIT_EARNED': "الأرباح",
         'PAGE_LABEL': "صفحة",
         'OF_LABEL': "من",
     },
@@ -1025,6 +1025,7 @@ WEBAPP_STRINGS = {
         'REF_USER_ID': "User ID:",
         'REF_DATE': "Join Date:",
         'REF_TASKS': "Tasks:",
+        'REF_PROFIT_EARNED': "Earning:",
         'PAGE_LABEL': "Page",
         'OF_LABEL': "of",
     }
