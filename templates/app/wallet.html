@@ -151,10 +151,10 @@
         <div class="task-info">
             <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
                 <span class="task-name" style="margin-bottom: 0;">
-                    {% if 'Vodafone' in w.method %}<i class="fa-solid fa-mobile-screen-button" style="font-size: 0.85rem; color: var(--accent); opacity: 0.8;"></i>
-                    {% elif 'Binance' in w.method %}<i class="fa-solid fa-coins" style="font-size: 0.85rem; color: var(--accent); opacity: 0.8;"></i>
-                    {% elif 'USDT' in w.method %}<i class="fa-solid fa-dollar-sign" style="font-size: 0.85rem; color: var(--accent); opacity: 0.8;"></i>
-                    {% elif 'TRX' in w.method %}<i class="fa-solid fa-gem" style="font-size: 0.85rem; color: var(--accent); opacity: 0.8;"></i>
+                    {% if 'Vodafone' in w.method %}<i class="fa-solid fa-mobile-screen-button" style="font-size: 0.85rem; color: var(--danger); margin-right: 8px;"></i>
+                    {% elif 'Binance' in w.method %}<i class="fa-solid fa-coins" style="font-size: 0.85rem; color: var(--warning); margin-right: 8px;"></i>
+                    {% elif 'USDT' in w.method %}<i class="fa-solid fa-dollar-sign" style="font-size: 0.85rem; color: var(--success); margin-right: 8px;"></i>
+                    {% elif 'TRX' in w.method %}<i class="fa-solid fa-gem" style="font-size: 0.85rem; color: #ef4444; margin-right: 8px;"></i>
                     {% endif %}
                     {{ w.method.replace('💳 ', '').replace('🟡 ', '').replace('🟢 ', '').replace('💎 ', '') }}
                 </span>
@@ -216,10 +216,10 @@
             {% for m in methods %}
             <div class="bs-option" data-value="{{ m }}">
                 <div class="option-icon">
-                    {% if 'Vodafone' in m %}<i class="fa-solid fa-mobile-screen-button"></i>
-                    {% elif 'Binance' in m %}<i class="fa-solid fa-coins"></i>
-                    {% elif 'USDT' in m %}<i class="fa-solid fa-dollar-sign"></i>
-                    {% elif 'TRX' in m %}<i class="fa-solid fa-gem"></i>
+                    {% if 'Vodafone' in m %}<i class="fa-solid fa-mobile-screen-button" style="color: var(--danger);"></i>
+                    {% elif 'Binance' in m %}<i class="fa-solid fa-coins" style="color: var(--warning);"></i>
+                    {% elif 'USDT' in m %}<i class="fa-solid fa-dollar-sign" style="color: var(--success);"></i>
+                    {% elif 'TRX' in m %}<i class="fa-solid fa-gem" style="color: #ef4444;"></i>
                     {% else %}<i class="fa-solid fa-wallet"></i>{% endif %}
                 </div>
                 <div class="option-name">{{ m.replace('💳 ', '').replace('🟡 ', '').replace('🟢 ', '').replace('💎 ', '') }}</div>
@@ -238,7 +238,10 @@
         <div style="margin: 1.5rem 0;">
             <div class="confirm-row">
                 <span class="confirm-label">{{ strings.CONFIRM_METHOD }}</span>
-                <span class="confirm-value" id="confirmMethodText"></span>
+                <span class="confirm-value">
+                    <span id="confirmMethodIcon"></span>
+                    <span id="confirmMethodText"></span>
+                </span>
             </div>
             <div class="confirm-row">
                 <span class="confirm-label">{{ strings.CONFIRM_AMOUNT }}</span>
@@ -454,9 +457,17 @@
         if (!confirmModal.classList.contains('confirmed')) {
             e.preventDefault();
 
-            // Populate modal (stripped of emojis)
+            // Populate modal (stripped of emojis and added colored icons)
             const cleanMethod = methodInput.value.replace('💳 ', '').replace('🟡 ', '').replace('🟢 ', '').replace('💎 ', '');
             document.getElementById('confirmMethodText').textContent = cleanMethod;
+            
+            let iconHtml = '';
+            if (cleanMethod.includes('Vodafone')) iconHtml = '<i class="fa-solid fa-mobile-screen-button" style="color: var(--danger); margin-right: 8px;"></i>';
+            else if (cleanMethod.includes('Binance')) iconHtml = '<i class="fa-solid fa-coins" style="color: var(--warning); margin-right: 8px;"></i>';
+            else if (cleanMethod.includes('USDT')) iconHtml = '<i class="fa-solid fa-dollar-sign" style="color: var(--success); margin-right: 8px;"></i>';
+            else if (cleanMethod.includes('TRX')) iconHtml = '<i class="fa-solid fa-gem" style="color: #ef4444; margin-right: 8px;"></i>';
+            
+            document.getElementById('confirmMethodIcon').innerHTML = iconHtml;
             document.getElementById('confirmAmountText').textContent = '$' + this.amount.value;
             document.getElementById('confirmWalletText').textContent = this.wallet.value;
             document.getElementById('confirmWalletLabel').textContent = walletLabel.textContent;
