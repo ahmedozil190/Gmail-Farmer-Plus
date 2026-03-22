@@ -311,11 +311,12 @@ body::before {
 }
 
 .e-stat-pill .lbl {
-    font-size: 0.65rem;
-    color: #555;
+    font-size: 0.7rem;
+    color: #fff;
     text-transform: uppercase;
     font-weight: 700;
     letter-spacing: 0.5px;
+    margin-top: 4px;
 }
 
 .e-stat-pill.blue .val {
