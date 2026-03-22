@@ -4,103 +4,108 @@
 
 {% block content %}
 <style>
-    :root { --elite-label-width: 90px; }
+    :root {
+        --elite-label-width: 90px;
+    }
 </style>
 <div class="elite-home">
 
-<!-- Referral Link -->
-<div class="glass-card">
-    <div class="card-title"><i class="fa-solid fa-link" style="margin-right: 8px; color: var(--accent);"></i>{{ strings.REF_LINK_TITLE }}</div>
-    <div class="ref-link-box">
-        <code id="refLink">{{ ref_link }}</code>
-        <button onclick="copyLink()" id="copyBtn">
-            <i class="fa-solid fa-copy"></i>
-        </button>
-    </div>
-    <div style="font-size: 0.8rem; color: var(--text-secondary);">
-        {{ strings.REF_BONUS_TEXT|format(ref_bonus|float)|safe }}
-    </div>
-</div>
-
-<!-- Stats -->
-<div class="elite-stats" style="margin-top: 1.5rem; margin-bottom: 2rem;">
-    <div class="e-stat-pill blue">
-        <span class="val">{{ invited }}</span>
-        <span class="lbl">{{ strings.REF_INVITED }}</span>
-    </div>
-    <div class="e-stat-pill orange">
-        <span class="val">{{ total_ref_tasks }}</span>
-        <span class="lbl">Tasks</span>
-    </div>
-    <div class="e-stat-pill green">
-        <span class="val">${{ "%.2f"|format(profit) }}</span>
-        <span class="lbl">{{ strings.REF_PROFIT }}</span>
-    </div>
-</div>
-
-<!-- Referral List -->
-<div class="card-title" style="margin-top: 0.5rem;">{{ strings.REF_LIST_TITLE }}</div>
-
-{% if referrals %}
-<div class="elite-list">
-    {% for ref in referrals %}
-    <div class="elite-card-detailed">
-        <div class="elite-row">
-            <span class="elite-label">{{ strings.REF_USERNAME if strings.REF_USERNAME else 'Username' }}</span>
-            <span class="elite-value">
-                {% if ref.full_name %}{{ ref.full_name }}{% elif ref.username %}@{{ ref.username }}{% else %}Account #{{ ref.user_id % 10000 }}{% endif %}
-            </span>
+    <!-- Referral Link -->
+    <div class="glass-card">
+        <div class="card-title"><i class="fa-solid fa-link" style="margin-inline-end: 8px; color: var(--accent);"></i>{{ strings.REF_LINK_TITLE }}</div>
+        <div class="ref-link-box">
+            <code id="refLink">{{ ref_link }}</code>
+            <button onclick="copyLink()" id="copyBtn">
+                <i class="fa-solid fa-copy"></i>
+            </button>
         </div>
-        <div class="elite-row">
-            <span class="elite-label">{{ strings.REF_USER_ID }}</span>
-            <span class="elite-value" style="color: #60a5fa;">{{ ref.user_id }}</span>
-        </div>
-        <div class="elite-row">
-            <span class="elite-label">{{ strings.REF_DATE }}</span>
-            <span class="elite-value">{{ ref.join_date[:10] if ref.join_date else '' }}</span>
-        </div>
-        <div class="elite-row">
-            <span class="elite-label">{{ strings.REF_TASKS }}</span>
-            <span class="elite-value">
-                <span style="font-weight: 800; color: #f59e0b; margin-right: 4px;">{{ ref.approved_tasks }}</span>
-                {{ strings.REF_TASKS_LABEL }}
-            </span>
-        </div>
-        <div class="elite-row">
-            <span class="elite-label">{{ strings.REF_PROFIT_EARNED }}</span>
-            <span class="elite-value" style="font-weight: 800; color: #10b981;">${{ "%.2f"|format(ref.profit or 0) }}</span>
+        <div style="font-size: 0.8rem; color: var(--text-secondary);">
+            {{ strings.REF_BONUS_TEXT|format(ref_bonus|float)|safe }}
         </div>
     </div>
-    {% endfor %}
-</div>
 
-{% if total_pages > 1 %}
-<div class="pagination">
-    {% if page > 1 %}
-    <a href="{{ url_for('app_referrals', page=page-1) }}" class="btn btn-sm btn-outline">
-        <i class="fa-solid fa-chevron-left"></i>
-    </a>
-    {% else %}
-    <div class="btn btn-sm btn-outline disabled"><i class="fa-solid fa-chevron-left"></i></div>
-    {% endif %}
+    <!-- Stats -->
+    <div class="elite-stats" style="margin-top: 1.5rem; margin-bottom: 2rem;">
+        <div class="e-stat-pill blue">
+            <span class="val">{{ invited }}</span>
+            <span class="lbl">{{ strings.REF_INVITED }}</span>
+        </div>
+        <div class="e-stat-pill orange">
+            <span class="val">{{ total_ref_tasks }}</span>
+            <span class="lbl">Tasks</span>
+        </div>
+        <div class="e-stat-pill green">
+            <span class="val">${{ "%.2f"|format(profit) }}</span>
+            <span class="lbl">{{ strings.REF_PROFIT }}</span>
+        </div>
+    </div>
 
-    <span class="page-info">{{ strings.PAGE_LABEL }} {{ page }} {{ strings.OF_LABEL }} {{ total_pages }}</span>
+    <!-- Referral List -->
+    <div class="card-title" style="margin-top: 0.5rem;">{{ strings.REF_LIST_TITLE }}</div>
 
-    {% if page < total_pages %} <a href="{{ url_for('app_referrals', page=page+1) }}" class="btn btn-sm btn-outline">
-        <i class="fa-solid fa-chevron-right"></i>
+    {% if referrals %}
+    <div class="elite-list">
+        {% for ref in referrals %}
+        <div class="elite-card-detailed">
+            <div class="elite-row">
+                <span class="elite-label">{{ strings.REF_USERNAME if strings.REF_USERNAME else 'Username' }}</span>
+                <span class="elite-value">
+                    {% if ref.full_name %}{{ ref.full_name }}{% elif ref.username %}@{{ ref.username }}{% else %}Account
+                    #{{ ref.user_id % 10000 }}{% endif %}
+                </span>
+            </div>
+            <div class="elite-row">
+                <span class="elite-label">{{ strings.REF_USER_ID }}</span>
+                <span class="elite-value" style="color: #60a5fa;">{{ ref.user_id }}</span>
+            </div>
+            <div class="elite-row">
+                <span class="elite-label">{{ strings.REF_DATE }}</span>
+                <span class="elite-value">{{ ref.join_date[:10] if ref.join_date else '' }}</span>
+            </div>
+            <div class="elite-row">
+                <span class="elite-label">{{ strings.REF_TASKS }}</span>
+                <span class="elite-value">
+                    <span style="font-weight: 800; color: #f59e0b; margin-right: 4px;">{{ ref.approved_tasks }}</span>
+                    {{ strings.REF_TASKS_LABEL }}
+                </span>
+            </div>
+            <div class="elite-row">
+                <span class="elite-label">{{ strings.REF_PROFIT_EARNED }}</span>
+                <span class="elite-value" style="font-weight: 800; color: #10b981;">${{ "%.2f"|format(ref.profit or 0)
+                    }}</span>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    {% if total_pages > 1 %}
+    <div class="pagination">
+        {% if page > 1 %}
+        <a href="{{ url_for('app_referrals', page=page-1) }}" class="btn btn-sm btn-outline">
+            <i class="fa-solid fa-chevron-left"></i>
         </a>
         {% else %}
-        <div class="btn btn-sm btn-outline disabled"><i class="fa-solid fa-chevron-right"></i></div>
+        <div class="btn btn-sm btn-outline disabled"><i class="fa-solid fa-chevron-left"></i></div>
         {% endif %}
-</div>
-{% endif %}
 
-{% else %}
-<div class="empty-state">
-    <i class="fa-solid fa-user-plus"></i>
-    <p>{{ strings.REF_EMPTY|safe }}</p>
-</div>
-{% endif %}
+        <span class="page-info">{{ strings.PAGE_LABEL }} {{ page }} {{ strings.OF_LABEL }} {{ total_pages }}</span>
+
+        {% if page < total_pages %} <a href="{{ url_for('app_referrals', page=page+1) }}"
+            class="btn btn-sm btn-outline">
+            <i class="fa-solid fa-chevron-right"></i>
+            </a>
+            {% else %}
+            <div class="btn btn-sm btn-outline disabled"><i class="fa-solid fa-chevron-right"></i></div>
+            {% endif %}
+    </div>
+    {% endif %}
+
+    {% else %}
+    <div class="empty-state">
+        <i class="fa-solid fa-user-plus"></i>
+        <p>{{ strings.REF_EMPTY|safe }}</p>
+    </div>
+    {% endif %}
 </div>
 {% endblock %}
 
