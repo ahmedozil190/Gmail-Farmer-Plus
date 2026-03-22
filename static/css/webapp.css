@@ -331,6 +331,10 @@ body::before {
     color: #ef4444;
 }
 
+.e-stat-pill.green .val {
+    color: #10b981;
+}
+
 .task-price {
     font-weight: 800;
     font-size: 1.05rem;

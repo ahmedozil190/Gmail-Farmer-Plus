@@ -19,18 +19,18 @@
 </div>
 
 <!-- Stats -->
-<div class="stats-row">
-    <div class="mini-stat blue">
-        <div class="value">{{ invited }}</div>
-        <div class="label">{{ strings.REF_INVITED }}</div>
+<div class="elite-stats" style="margin-top: 1.5rem; margin-bottom: 2rem;">
+    <div class="e-stat-pill blue">
+        <span class="val">{{ invited }}</span>
+        <span class="lbl">{{ strings.REF_INVITED }}</span>
     </div>
-    <div class="mini-stat green">
-        <div class="value">{{ active }}</div>
-        <div class="label">{{ strings.REF_ACTIVE }}</div>
+    <div class="e-stat-pill orange">
+        <span class="val">{{ total_ref_tasks }}</span>
+        <span class="lbl">{{ strings.REF_TASKS }}</span>
     </div>
-    <div class="mini-stat purple">
-        <div class="value">${{ "%.2f"|format(profit) }}</div>
-        <div class="label">{{ strings.REF_PROFIT }}</div>
+    <div class="e-stat-pill green">
+        <span class="val">${{ "%.2f"|format(profit) }}</span>
+        <span class="lbl">{{ strings.REF_PROFIT }}</span>
     </div>
 </div>
 
@@ -42,18 +42,18 @@
     {% for ref in referrals %}
     <div class="elite-card-detailed">
         <div class="elite-row">
-            <span class="elite-label">{{ strings.REF_USERNAME }}</span>
+            <span class="elite-label">{{ strings.REF_USERNAME if strings.REF_USERNAME else 'Username' }}</span>
             <span class="elite-value">
                 {% if ref.full_name %}{{ ref.full_name }}{% elif ref.username %}@{{ ref.username }}{% else %}Account #{{ ref.user_id % 10000 }}{% endif %}
             </span>
         </div>
         <div class="elite-row">
             <span class="elite-label">{{ strings.REF_USER_ID }}</span>
-            <span class="elite-value" style="font-family: monospace; color: #60a5fa;">{{ ref.user_id }}</span>
+            <span class="elite-value" style="color: #fff;">{{ ref.user_id }}</span>
         </div>
         <div class="elite-row">
             <span class="elite-label">{{ strings.REF_DATE }}</span>
-            <span class="elite-value" style="font-weight: 500;">{{ ref.join_date[:10] if ref.join_date else '' }}</span>
+            <span class="elite-value">{{ ref.join_date[:10] if ref.join_date else '' }}</span>
         </div>
         <div class="elite-row">
             <span class="elite-label">{{ strings.REF_TASKS }}</span>
@@ -63,8 +63,8 @@
             </span>
         </div>
         <div class="elite-row">
-            <span class="elite-label">Earnings:</span>
-            <span class="elite-value" style="font-weight: 800; color: #f59e0b;">${{ "%.2f"|format(ref.profit or 0) }}</span>
+            <span class="elite-label">Earning:</span>
+            <span class="elite-value" style="font-weight: 800; color: #10b981;">${{ "%.2f"|format(ref.profit or 0) }}</span>
         </div>
     </div>
     {% endfor %}
