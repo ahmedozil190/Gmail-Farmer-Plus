@@ -176,12 +176,12 @@
         {% if w.wallet_address %}
         <div class="w-row">
             <span class="w-label">{{ strings.HISTORY_ADDR }}</span>
-            <span class="w-value" style="color: #60a5fa; margin-left: 8px; font-size: 0.85rem; font-family: 'Space Mono', monospace; word-break: break-all;">{{ w.wallet_address }}</span>
+            <span class="w-value" style="color: #fff; margin-left: 8px; font-size: 0.85rem; font-family: sans-serif; word-break: break-all;">{{ w.wallet_address }}</span>
         </div>
         {% endif %}
         <div class="w-row">
             <span class="w-label">{{ strings.HISTORY_DATE }}</span>
-            <span class="w-value" style="color: #94a3b8; margin-left: 8px; font-size: 0.85rem;">{{ w.created_at[:10] if w.created_at else '' }}</span>
+            <span class="w-value" style="color: #fff; margin-left: 8px; font-size: 0.85rem;">{{ w.created_at[:10] if w.created_at else '' }}</span>
         </div>
     </div>
     {% endfor %}
