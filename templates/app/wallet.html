@@ -154,13 +154,14 @@
 <!-- Tab filters -->
 <div class="card-title" style="margin-top: 0.5rem;">{{ strings.WALLET_HISTORY }}</div>
 
+{% if withdrawals %}
 <div class="task-list">
     {% for w in withdrawals %}
     <div class="task-card">
         <div class="task-info">
             <span class="task-name">{{ w.method }}</span>
             <span class="task-date">{{ w.created_at[:10] if w.created_at else '' }}</span>
-            <div style="font-size: 0.7rem; color: var(--text-secondary); margin-top: 2px;">{{ w.wallet_address[:20] }}...</div>
+            <div style="font-size: 0.7rem; color: var(--text-secondary); margin-top: 2px;">{{ (w.wallet_address[:20] + '...') if w.wallet_address else '' }}</div>
         </div>
         <div class="task-right">
             <div class="status-pill {{ w.status }}">
@@ -173,6 +174,7 @@
     </div>
     {% endfor %}
 </div>
+{% endif %}
 
 {% if total_pages > 1 %}
 <div class="pagination">
