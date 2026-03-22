@@ -1,4 +1,36 @@
-# Translation strings for Gmail Store Bot
+Error Route /app/:
+Traceback (most recent call last):
+  File "/app/dashboard.py", line 833, in app_home
+    return render_template("app/home.html",
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/app/.venv/lib/python3.11/site-packages/flask/templating.py", line 151, in render_template
+    return _render(app, template, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/app/.venv/lib/python3.11/site-packages/flask/templating.py", line 132, in _render
+    rv = template.render(context)
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/app/.venv/lib/python3.11/site-packages/jinja2/environment.py", line 1295, in render
+    self.environment.handle_exception()
+  File "/app/.venv/lib/python3.11/site-packages/jinja2/environment.py", line 942, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "/app/templates/app/home.html", line 1, in top-level template code
+    {% extends "app/layout.html" %}
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/app/templates/app/layout.html", line 278, in top-level template code
+    {% block content %}{% endblock %}
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/app/templates/app/home.html", line 63, in block 'content'
+    
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/app/.venv/lib/python3.11/site-packages/flask/app.py", line 1121, in url_for
+    return self.handle_url_build_error(error, endpoint, values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/app/.venv/lib/python3.11/site-packages/flask/app.py", line 1110, in url_for
+    rv = url_adapter.build(  # type: ignore[union-attr]
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/app/.venv/lib/python3.11/site-packages/werkzeug/routing/map.py", line 901, in build
+    raise BuildError(endpoint, values, method, self)
+werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'app_task'. Did you mean 'app_tasks' instead?# Translation strings for Gmail Store Bot
 
 STRINGS = {
     'ar': {
