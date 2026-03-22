@@ -177,19 +177,6 @@ body::before {
 .btn-danger { background: rgba(239,68,68,0.15); color: var(--danger); border: 1px solid rgba(239,68,68,0.2); }
 .btn-sm { padding: 0.6rem 1rem; font-size: 0.8rem; border-radius: 12px; }
 
-/* ── List Items ──────────────────────────────────────────────── */
-.list-item {
-    background: rgba(255,255,255,0.03);
-    border: 1px solid var(--border-card);
-    border-radius: 16px;
-    padding: 1rem;
-    margin-bottom: 10px;
-}
-
-.list-row { display: flex; justify-content: space-between; align-items: center; }
-.list-label { font-size: 0.8rem; color: var(--text-secondary); }
-.list-value { font-size: 0.85rem; font-weight: 600; }
-
 .badge {
     padding: 3px 10px;
     border-radius: 10px;
@@ -203,20 +190,68 @@ body::before {
 .badge.rejected { background: rgba(239,68,68,0.12); color: var(--danger); }
 .badge.completed { background: rgba(16,185,129,0.12); color: var(--success); }
 
-/* ── Status Icons (Used in Home Recent Tasks) ────────────────── */
-.status-icon {
+/* ── Task Card (Universal) ──────────────────────────────────── */
+.task-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border-card);
+    border-radius: 20px;
+    padding: 1.25rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.2s;
+    margin-bottom: 12px;
+}
+
+.task-card:active {
+    background: rgba(255, 255, 255, 0.06);
+    transform: scale(0.98);
+}
+
+.task-info {
+    flex: 1;
+}
+
+.task-name {
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: #fff;
+    margin-bottom: 4px;
+    display: block;
+}
+
+.task-date {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+}
+
+.task-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
+}
+
+.status-pill {
+    padding: 4px 10px;
+    border-radius: 8px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
     display: inline-flex;
     align-items: center;
-    justify-content: center;
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    font-size: 11px;
-    flex-shrink: 0;
+    gap: 5px;
 }
-.status-icon.approved, .status-icon.completed { background: #2ecc71; color: #082913; }
-.status-icon.rejected { background: #e74c3c; color: #3d0e0a; }
-.status-icon.pending { background: #f1c40f; color: #3d2f01; }
+
+.status-pill.approved { background: rgba(16, 185, 129, 0.15); color: #10b981; }
+.status-pill.pending { background: rgba(245, 158, 11, 0.15); color: #f59e0b; }
+.status-pill.rejected { background: rgba(239, 68, 68, 0.15); color: #ef4444; }
+
+.task-price {
+    font-weight: 800;
+    font-size: 1.05rem;
+    color: #fff;
+}
 
 /* ── Form ────────────────────────────────────────────────────── */
 .form-group { margin-bottom: 1rem; }

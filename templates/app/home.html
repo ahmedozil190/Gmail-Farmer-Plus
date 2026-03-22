@@ -186,77 +186,6 @@
         font-weight: 600;
     }
 
-    .elite-list {
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
-    }
-
-    .elite-list-item {
-        background: var(--elite-card);
-        border: 1px solid var(--elite-border);
-        border-radius: 20px;
-        padding: 1.25rem;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        transition: all 0.2s;
-    }
-
-    .elite-list-item:active {
-        background: rgba(255, 255, 255, 0.02);
-    }
-
-    .e-item-info {
-        flex: 1;
-    }
-
-    .e-item-name {
-        font-weight: 600;
-        font-size: 0.9rem;
-        color: #eee;
-        margin-bottom: 2px;
-    }
-
-    .e-item-date {
-        font-size: 0.75rem;
-        color: #444;
-    }
-
-    .e-item-status {
-        width: 24px;
-        height: 24px;
-        border-radius: 8px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 0.7rem;
-        margin-bottom: 6px;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-    }
-
-    .e-status.approved {
-        background: rgba(16, 185, 129, 0.1);
-        color: #10b981;
-    }
-
-    .e-status.pending {
-        background: rgba(245, 158, 11, 0.1);
-        color: #f59e0b;
-    }
-
-    .e-status.rejected {
-        background: rgba(239, 68, 68, 0.1);
-        color: #ef4444;
-    }
-
-    .e-item-price {
-        font-weight: 800;
-        font-size: 1rem;
-        color: #fff;
-        text-align: right;
-    }
-
     [dir="rtl"] .e-item-price {
         text-align: left;
     }
@@ -343,20 +272,20 @@
         <a href="{{ url_for('app_tasks') }}" class="elite-section-link">{{ strings.HOME_VIEW_ALL }}</a>
     </div>
 
-    <div class="elite-list">
+    <div class="task-list">
         {% for task in recent_tasks[:4] %}
-        <div class="elite-list-item">
-            <div class="e-item-info">
-                <div class="e-item-name">{{ task.gmail_account }}</div>
-                <div class="e-item-date">{{ task.submitted_at[:10] }}</div>
+        <div class="task-card">
+            <div class="task-info">
+                <span class="task-name">{{ task.gmail_account }}</span>
+                <span class="task-date">{{ task.submitted_at[:10] }}</span>
             </div>
-            <div style="display: flex; flex-direction: column; align-items: flex-end;">
-                <div class="e-item-status e-status {{ task.status }}">
+            <div class="task-right">
+                <div class="status-pill {{ task.status }}">
                     {% if task.status == 'approved' %}<i class="fa-solid fa-check"></i>
                     {% elif task.status == 'rejected' %}<i class="fa-solid fa-xmark"></i>
                     {% else %}<i class="fa-solid fa-clock"></i>{% endif %}
                 </div>
-                <div class="e-item-price">${{ "%.2f"|format(task.price or 0) }}</div>
+                <div class="task-price">${{ "%.2f"|format(task.price or 0) }}</div>
             </div>
         </div>
         {% endfor %}
