@@ -297,8 +297,8 @@ body::before {
 
 .e-stat-pill {
     flex: 1;
-    background: var(--elite-card);
-    border: 1px solid var(--elite-border);
+    background: var(--bg-card);
+    border: 1px solid var(--border-card);
     border-radius: 12px;
     padding: 12px;
     text-align: center;
@@ -319,7 +319,7 @@ body::before {
 }
 
 .e-stat-pill.blue .val {
-    color: var(--elite-accent);
+    color: var(--accent);
 }
 
 .e-stat-pill.orange .val {
@@ -372,6 +372,74 @@ body::before {
     font-size: 1.8rem;
     color: var(--accent);
     backdrop-filter: blur(10px);
+}
+
+/* ── Elite Hero Card (Global) ─────────────────────────────── */
+.elite-hero-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-card);
+    border-radius: 24px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.hero-data-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.hero-data-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.hero-data-row:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.hero-data-row:first-child {
+    padding-top: 0;
+}
+
+.hero-data-label {
+    font-size: 0.9rem;
+    color: #fff;
+    font-weight: 600;
+}
+
+.hero-data-value {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #fff;
+    display: flex;
+    align-items: baseline;
+}
+
+.hero-data-value.main {
+    font-size: 1.1rem;
+    font-weight: 800;
+}
+
+.hero-data-value.approved { color: var(--accent); }
+.hero-data-value.withdrawn { color: #10b981; }
+.hero-data-value.pending { color: #f59e0b; }
+.hero-data-value.rejected { color: #ef4444; }
+
+.hero-data-value .symbol {
+    font-size: 0.85rem;
+    color: inherit;
+    font-weight: 700;
+    margin-left: 2px;
+}
+
+.hero-data-row.main-row {
+    margin-bottom: 5px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .hero-title {

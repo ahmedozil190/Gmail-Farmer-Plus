@@ -5,22 +5,6 @@
     <h2 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 1rem;">{{ strings.TASKS_TITLE }}</h2>
 </div>
 
-<!-- Task Stats Pills -->
-<div class="elite-stats">
-    <div class="e-stat-pill blue">
-        <span class="val">{{ approved_tasks }}</span>
-        <span class="lbl">{{ strings.HOME_APPROVED }}</span>
-    </div>
-    <div class="e-stat-pill orange">
-        <span class="val">{{ pending_tasks }}</span>
-        <span class="lbl">{{ strings.HOME_REQ_PENDING }}</span>
-    </div>
-    <div class="e-stat-pill red">
-        <span class="val">{{ rejected_tasks }}</span>
-        <span class="lbl">{{ strings.HOME_REJECTED }}</span>
-    </div>
-</div>
-
 <!-- Task Action -->
 <div class="hero-action-card">
     <div class="hero-icon-wrapper">
@@ -39,6 +23,35 @@
         <i class="fa-solid fa-circle-exclamation"></i> {{ strings.TASKS_PAUSED }}
     </div>
     {% endif %}
+</div>
+
+<!-- Task Stats Card -->
+<div class="elite-hero-card" style="margin-top: 1rem; margin-bottom: 2.5rem;">
+    <div class="hero-data-list">
+        <!-- Approved Row -->
+        <div class="hero-data-row">
+            <span class="hero-data-label">{{ strings.HOME_APPROVED }}</span>
+            <div class="hero-data-value approved">
+                {{ approved_tasks }}
+            </div>
+        </div>
+        
+        <!-- Pending Row -->
+        <div class="hero-data-row">
+            <span class="hero-data-label">{{ strings.HOME_REQ_PENDING }}</span>
+            <div class="hero-data-value pending">
+                {{ pending_tasks }}
+            </div>
+        </div>
+
+        <!-- Rejected Row -->
+        <div class="hero-data-row">
+            <span class="hero-data-label">{{ strings.HOME_REJECTED }}</span>
+            <div class="hero-data-value rejected">
+                {{ rejected_tasks }}
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- Task History -->
