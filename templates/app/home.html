@@ -1,5 +1,7 @@
 {% extends "app/layout.html" %}
 
+{% block app_title %}{{ strings.NAV_HOME }}{% endblock %}
+
 {% block content %}
 <style>
     /* ── Elite Minimalist V5 ────────────────────────────────── */
@@ -106,11 +108,6 @@
     </div>
 
     {% if recent_tasks %}
-    <div class="elite-section-header">
-        <span class="elite-section-title">{{ strings.HOME_RECENT_TASKS }}</span>
-        <a href="{{ url_for('app_tasks') }}" class="elite-section-link">{{ strings.HOME_VIEW_ALL }}</a>
-    </div>
-
     <div class="elite-list">
         {% for task in recent_tasks[:4] %}
         <div class="elite-card-detailed">

@@ -232,7 +232,7 @@
         <button class="menu-toggle" onclick="toggleSidebar()">
             <i class="fa-solid fa-bars"></i>
         </button>
-        <div class="app-title">Gmail Farmer Plus</div>
+        <div class="app-title">{% block app_title %}{{ strings.NAV_HOME }}{% endblock %}</div>
         <div class="app-header-right">
             {% if user %}
             <div class="app-header-avatar">{{ user.full_name[0]|upper if user.full_name else '?' }}</div>
@@ -246,8 +246,7 @@
     <!-- Sidebar Menu -->
     <aside class="app-sidebar" id="appSidebar">
         <div class="sidebar-header">
-            <span class="sidebar-title" style="font-size: 1.25rem; font-weight: 700; color: #60a5fa;">Gmail Farmer
-                Plus</span>
+            <span class="sidebar-title">Gmail Farmer Plus</span>
             <button class="close-sidebar" onclick="toggleSidebar()">
                 <i class="fa-solid fa-xmark"></i>
             </button>
