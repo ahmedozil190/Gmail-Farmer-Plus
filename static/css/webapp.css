@@ -247,6 +247,43 @@ body::before {
 .status-pill.pending { background: rgba(245, 158, 11, 0.15); color: #f59e0b; }
 .status-pill.rejected { background: rgba(239, 68, 68, 0.15); color: #ef4444; }
 
+/* ── Detailed Card (Labels & Values) ─────────────────────────── */
+.elite-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+.elite-card-detailed {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border-card);
+    border-radius: 20px;
+    padding: 1.25rem;
+    transition: all 0.2s;
+}
+.elite-row {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 10px;
+    gap: 2px;
+}
+.elite-row:last-child { margin-bottom: 0; }
+.elite-label {
+    font-size: 0.85rem;
+    color: #94a3b8;
+    font-weight: 600;
+    white-space: nowrap;
+}
+.elite-value {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-left: 8px;
+}
+
 .task-price {
     font-weight: 800;
     font-size: 1.05rem;
