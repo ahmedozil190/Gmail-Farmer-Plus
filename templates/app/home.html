@@ -60,32 +60,32 @@
     </div>
 
     <div class="elite-grid">
-        <a href="{{ url_for('app_tasks') }}" class="elite-card">
+        <a href="{{ url_for('app_task') }}" class="elite-card">
             <i class="fa-solid fa-circle-plus"></i>
             <div>
                 <span class="title">{{ strings.HOME_NEW_TASK }}</span>
-                <span class="desc">Start earning rewards</span>
+                <span class="desc">{{ strings.HOME_EARN_REWARDS }}</span>
             </div>
         </a>
         <a href="{{ url_for('app_wallet') }}" class="elite-card">
             <i class="fa-solid fa-wallet"></i>
             <div>
                 <span class="title">{{ strings.NAV_WALLET }}</span>
-                <span class="desc">Manage your funds</span>
+                <span class="desc">{{ strings.HOME_MANAGE_FUNDS }}</span>
             </div>
         </a>
         <a href="{{ url_for('app_referrals') }}" class="elite-card">
             <i class="fa-solid fa-user-group"></i>
             <div>
                 <span class="title">{{ strings.NAV_REFERRALS }}</span>
-                <span class="desc">Invite and earn</span>
+                <span class="desc">{{ strings.HOME_INVITE_EARN }}</span>
             </div>
         </a>
         <div class="elite-card no-interaction">
             <i class="fa-solid fa-shield-halved"></i>
             <div>
-                <span class="title">Secure</span>
-                <span class="desc">End-to-end encrypted</span>
+                <span class="title">{{ strings.HOME_SECURE }}</span>
+                <span class="desc">{{ strings.HOME_ENCRYPTED }}</span>
             </div>
         </div>
     </div>
