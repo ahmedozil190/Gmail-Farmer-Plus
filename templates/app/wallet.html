@@ -1,114 +1,104 @@
 {% extends "app/layout.html" %}
 
 {% block content %}
-<div style="padding-top: 1.25rem;">
-    <h2 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 1rem;">{{ strings.WALLET_TITLE }}</h2>
-</div>
+<div class="elite-home">
+    <div class="elite-section-header" style="margin-bottom: 1rem; padding-top: 5px;">
+        <span class="elite-section-title">{{ strings.WALLET_TITLE }}</span>
+    </div>
 
 <!-- Balance Dashboard -->
-<div class="elite-balance-card">
-    <div class="eb-label">{{ strings.HOME_BALANCE }}</div>
-    <div class="eb-amount">
-        <span class="eb-symbol">$</span>{{ "%.2f"|format(balance) }}
-    </div>
-    <div class="eb-sub-row">
-        <div class="eb-sub-item">
-            <i class="fa-solid fa-money-bill-transfer"></i>
-            <div>
-                <span class="eb-sub-label">{{ strings.HOME_TOTAL_WITHDRAWN }}</span>
-                <span class="eb-sub-value">${{ "%.2f"|format(total_withdrawn) }}</span>
+<div class="elite-hero-card">
+    <div class="hero-data-list">
+        <!-- Main Balance Row -->
+        <div class="hero-data-row main-row">
+            <span class="hero-data-label">{{ strings.HOME_CURRENT_BALANCE if strings else 'Current Balance' }}</span>
+            <div class="hero-data-value main">
+                {{ "%.2f"|format(balance) }}<span class="symbol">$</span>
             </div>
         </div>
-        <div class="eb-sub-item">
-            <i class="fa-solid fa-clock"></i>
-            <div>
-                <span class="eb-sub-label">{{ strings.HOME_REQ_PENDING }}</span>
-                <span class="eb-sub-value">${{ "%.2f"|format(pending) }}</span>
+        
+        <!-- Withdrawn Row -->
+        <div class="hero-data-row">
+            <span class="hero-data-label">{{ strings.HOME_TOTAL_WITHDRAWN if strings else 'Total Withdrawn' }}</span>
+            <div class="hero-data-value withdrawn">
+                {{ "%.2f"|format(total_withdrawn or 0) }}<span class="symbol">$</span>
+            </div>
+        </div>
+
+        <!-- Pending Row -->
+        <div class="hero-data-row">
+            <span class="hero-data-label">{{ strings.HOME_REQ_PENDING if strings else 'Pending' }}</span>
+            <div class="hero-data-value pending">
+                {{ "%.2f"|format(pending or 0) }}<span class="symbol">$</span>
             </div>
         </div>
     </div>
 </div>
 
 <style>
-    .elite-balance-card {
-        background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+    .elite-hero-card {
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(255, 255, 255, 0.05);
         border-radius: 24px;
         padding: 1.5rem;
-        margin-bottom: 1.5rem;
-        border: 1px solid rgba(255, 255, 255, 0.05);
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-        position: relative;
-        overflow: hidden;
+        margin-bottom: 2rem;
     }
 
-    .elite-balance-card::before {
-        content: '';
-        position: absolute;
-        top: -50%;
-        right: -10%;
-        width: 150px;
-        height: 150px;
-        background: radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, transparent 70%);
-        pointer-events: none;
+    .hero-data-list {
+        display: flex;
+        flex-direction: column;
     }
 
-    .eb-label {
-        font-size: 0.75rem;
-        text-transform: uppercase;
-        letter-spacing: 1.5px;
-        color: var(--text-secondary);
-        font-weight: 700;
-        margin-bottom: 0.5rem;
+    .hero-data-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 0;
+        border-bottom: 1px solid rgba(255,255,255,0.03);
     }
 
-    .eb-amount {
-        font-size: 2.5rem;
-        font-weight: 800;
+    .hero-data-row:last-child {
+        border-bottom: none;
+        padding-bottom: 0;
+    }
+
+    .hero-data-row:first-child {
+        padding-top: 0;
+    }
+
+    .hero-data-label {
+        font-size: 0.9rem;
         color: #fff;
-        margin-bottom: 1.25rem;
-        display: flex;
-        align-items: center;
-        gap: 4px;
-    }
-
-    .eb-symbol {
-        font-size: 1.25rem;
-        color: var(--accent);
-        opacity: 0.9;
-    }
-
-    .eb-sub-row {
-        display: flex;
-        gap: 15px;
-        border-top: 1px solid rgba(255, 255, 255, 0.05);
-        padding-top: 1.25rem;
-    }
-
-    .eb-sub-item {
-        flex: 1;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-    }
-
-    .eb-sub-item i {
-        font-size: 1.1rem;
-        color: var(--accent);
-        opacity: 0.8;
-    }
-
-    .eb-sub-label {
-        display: block;
-        font-size: 0.65rem;
-        color: var(--text-secondary);
-        text-transform: uppercase;
         font-weight: 600;
     }
 
-    .eb-sub-value {
-        font-size: 0.95rem;
+    .hero-data-value {
+        font-size: 1.1rem;
         font-weight: 700;
         color: #fff;
+        display: flex;
+        align-items: baseline;
+    }
+
+    .hero-data-value.main {
+        font-size: 1.1rem;
+        font-weight: 800;
+    }
+
+    .hero-data-value.withdrawn { color: #10b981; }
+    .hero-data-value.pending { color: #f59e0b; }
+
+    .hero-data-value .symbol {
+        font-size: 0.85rem;
+        color: inherit;
+        font-weight: 700;
+        margin-left: 2px;
+    }
+
+    .hero-data-row.main-row {
+        margin-bottom: 5px;
+        padding-bottom: 15px;
+        border-bottom: 1px solid rgba(255,255,255,0.05);
     }
 </style>
 
@@ -161,7 +151,7 @@
         <div class="task-info">
             <span class="task-name">{{ w.method }}</span>
             <span class="task-date">{{ w.created_at[:10] if w.created_at else '' }}</span>
-            <div style="font-size: 0.7rem; color: var(--text-secondary); margin-top: 2px;">{{ (w.wallet_address[:20] + '...') if w.wallet_address else '' }}</div>
+            <div style="font-size: 0.7rem; color: var(--text-secondary); margin-top: 2px; word-break: break-all;">{{ w.wallet_address if w.wallet_address else '' }}</div>
         </div>
         <div class="task-right">
             <div class="status-pill {{ w.status }}">
@@ -216,13 +206,6 @@
         <div class="bs-options">
             {% for m in methods %}
             <div class="bs-option" data-value="{{ m }}">
-                <div class="option-icon">
-                    {% if 'Vodafone' in m %}<i class="fa-solid fa-mobile-screen-button"></i>
-                    {% elif 'Binance' in m %}<i class="fa-solid fa-coins"></i>
-                    {% elif 'USDT' in m %}<i class="fa-solid fa-dollar-sign"></i>
-                    {% elif 'TRX' in m %}<i class="fa-solid fa-gem"></i>
-                    {% else %}<i class="fa-solid fa-wallet"></i>{% endif %}
-                </div>
                 <div class="option-name">{{ m }}</div>
                 <div class="option-check"><i class="fa-solid fa-check"></i></div>
             </div>
@@ -471,4 +454,5 @@
         withdrawForm.submit();
     });
 </script>
+</div>
 {% endblock %}

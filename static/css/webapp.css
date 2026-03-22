@@ -243,7 +243,7 @@ body::before {
     gap: 5px;
 }
 
-.status-pill.approved { background: rgba(16, 185, 129, 0.15); color: #10b981; }
+.status-pill.approved, .status-pill.completed { background: rgba(16, 185, 129, 0.15); color: #10b981; }
 .status-pill.pending { background: rgba(245, 158, 11, 0.15); color: #f59e0b; }
 .status-pill.rejected { background: rgba(239, 68, 68, 0.15); color: #ef4444; }
 
