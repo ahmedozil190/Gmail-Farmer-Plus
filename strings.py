@@ -873,6 +873,7 @@ WEBAPP_STRINGS = {
         'REF_USER_ID': "آيدي المستخدم:",
         'REF_DATE': "تاريخ الانضمام:",
         'REF_TASKS': "التاسكات:",
+        'REF_PROFIT_EARNED': "الأرباح:",
         'PAGE_LABEL': "صفحة",
         'OF_LABEL': "من",
     },

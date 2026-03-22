@@ -252,6 +252,9 @@ def get_referrals_list_data(referrer_id: int):
         (referrer_id,)
     ).fetchall()
     
+    conf = get_business_config()
+    ref_bonus = conf["REFERRAL_BONUS"]
+    
     data = []
     for r in referrals:
         # Get approved tasks for this referral
@@ -265,7 +268,8 @@ def get_referrals_list_data(referrer_id: int):
             "username": r["username"],
             "full_name": r["full_name"],
             "join_date": r["join_date"],
-            "approved_tasks": tasks
+            "approved_tasks": tasks,
+            "profit": tasks * ref_bonus
         })
         
     con.close()

@@ -265,7 +265,7 @@ body::before {
     justify-content: flex-start;
     align-items: center;
     margin-bottom: 10px;
-    gap: 2px;
+    gap: 8px;
 }
 .elite-row:last-child { margin-bottom: 0; }
 .elite-label {
