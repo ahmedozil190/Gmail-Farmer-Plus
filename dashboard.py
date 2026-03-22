@@ -1062,8 +1062,13 @@ def app_wallet():
         min_methods = conf["MIN_METHODS"]
         min_withdraw = min(min_methods.values())
 
-        # Get withdrawals
+        # Total withdrawn (sum of completed withdrawals)
         con = database._conn()
+        total_withdrawn = con.execute(
+            "SELECT SUM(amount) FROM withdrawals WHERE user_id = ? AND status = 'completed'", (user_id,)
+        ).fetchone()[0] or 0
+        
+        # Get withdrawals
         all_withdrawals = con.execute(
             "SELECT * FROM withdrawals WHERE user_id = ? ORDER BY created_at DESC", (user_id,)
         ).fetchall()
@@ -1086,6 +1091,7 @@ def app_wallet():
             strings=strings,
             balance=balance,
             pending=pending,
+            total_withdrawn=total_withdrawn,
             min_withdraw=min_withdraw,
             methods=[m for m in min_methods.keys() if m != 'DEFAULT'],
             min_methods=min_methods,

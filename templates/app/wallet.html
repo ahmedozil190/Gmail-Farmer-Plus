@@ -5,20 +5,112 @@
     <h2 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 1rem;">{{ strings.WALLET_TITLE }}</h2>
 </div>
 
-<!-- Balance -->
-<div style="background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); border-radius: 20px; padding: 25px; margin-bottom: 25px; border: 1px solid rgba(255,255,255,0.05); box-shadow: 0 10px 30px rgba(0,0,0,0.3); position: relative; overflow: hidden; display: flex; flex-direction: column;">
-    <div style="content: ''; position: absolute; top: -50%; right: -20%; width: 200px; height: 200px; background: radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, rgba(0,0,0,0) 70%); border-radius: 50%; pointer-events: none;"></div>
-    <div style="color: rgba(255,255,255,0.6); font-size: 0.75rem; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 8px; font-weight: 600;">{{ strings.HOME_BALANCE }}</div>
-    <div style="font-size: 2.8rem; font-weight: 700; color: #fff; line-height: 1; margin-bottom: 10px; letter-spacing: -1px; display: flex; align-items: center; gap: 5px;">
-        <span style="font-size: 1.5rem; color: #3b82f6; opacity: 0.8;">$</span>{{ "%.2f"|format(balance) }}
+<!-- Balance Dashboard -->
+<div class="elite-balance-card">
+    <div class="eb-label">{{ strings.HOME_BALANCE }}</div>
+    <div class="eb-amount">
+        <span class="eb-symbol">$</span>{{ "%.2f"|format(balance) }}
     </div>
-    {% if pending > 0 %}
-    <div style="display: inline-flex; align-items: center; gap: 6px; background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.2); padding: 6px 12px; border-radius: 20px; color: #f59e0b; font-size: 0.85rem; font-weight: 600; width: fit-content; margin-top: 10px;">
-        <i class="fa-solid fa-clock-rotate-left"></i>
-        <span>{{ strings.HOME_PENDING|format(pending) }}</span>
+    <div class="eb-sub-row">
+        <div class="eb-sub-item">
+            <i class="fa-solid fa-money-bill-transfer"></i>
+            <div>
+                <span class="eb-sub-label">{{ strings.HOME_TOTAL_WITHDRAWN }}</span>
+                <span class="eb-sub-value">${{ "%.2f"|format(total_withdrawn) }}</span>
+            </div>
+        </div>
+        <div class="eb-sub-item">
+            <i class="fa-solid fa-clock"></i>
+            <div>
+                <span class="eb-sub-label">{{ strings.HOME_REQ_PENDING }}</span>
+                <span class="eb-sub-value">${{ "%.2f"|format(pending) }}</span>
+            </div>
+        </div>
     </div>
-    {% endif %}
 </div>
+
+<style>
+    .elite-balance-card {
+        background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+        border-radius: 24px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .elite-balance-card::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        right: -10%;
+        width: 150px;
+        height: 150px;
+        background: radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, transparent 70%);
+        pointer-events: none;
+    }
+
+    .eb-label {
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        color: var(--text-secondary);
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+    }
+
+    .eb-amount {
+        font-size: 2.5rem;
+        font-weight: 800;
+        color: #fff;
+        margin-bottom: 1.25rem;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+    }
+
+    .eb-symbol {
+        font-size: 1.25rem;
+        color: var(--accent);
+        opacity: 0.9;
+    }
+
+    .eb-sub-row {
+        display: flex;
+        gap: 15px;
+        border-top: 1px solid rgba(255, 255, 255, 0.05);
+        padding-top: 1.25rem;
+    }
+
+    .eb-sub-item {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .eb-sub-item i {
+        font-size: 1.1rem;
+        color: var(--accent);
+        opacity: 0.8;
+    }
+
+    .eb-sub-label {
+        display: block;
+        font-size: 0.65rem;
+        color: var(--text-secondary);
+        text-transform: uppercase;
+        font-weight: 600;
+    }
+
+    .eb-sub-value {
+        font-size: 0.95rem;
+        font-weight: 700;
+        color: #fff;
+    }
+</style>
 
 <!-- Withdraw Form -->
 <div class="glass-card">
@@ -62,23 +154,25 @@
 <!-- Tab filters -->
 <div class="card-title" style="margin-top: 0.5rem;">{{ strings.WALLET_HISTORY }}</div>
 
-{% if withdrawals %}
-{% for w in withdrawals %}
-<div class="list-item">
-    <div class="list-row">
-        <span style="font-weight: 600;">{{ w.method }}</span>
-        <span class="status-icon {{ w.status }}">
-            {% if w.status == 'approved' or w.status == 'completed' %}<i class="fa-solid fa-check"></i>
-            {% elif w.status == 'rejected' %}<i class="fa-solid fa-xmark"></i>
-            {% else %}<i class="fa-solid fa-clock"></i>{% endif %}
-        </span>
+<div class="task-list">
+    {% for w in withdrawals %}
+    <div class="task-card">
+        <div class="task-info">
+            <span class="task-name">{{ w.method }}</span>
+            <span class="task-date">{{ w.created_at[:10] if w.created_at else '' }}</span>
+            <div style="font-size: 0.7rem; color: var(--text-secondary); margin-top: 2px;">{{ w.wallet_address[:20] }}...</div>
+        </div>
+        <div class="task-right">
+            <div class="status-pill {{ w.status }}">
+                {% if w.status == 'approved' or w.status == 'completed' %}<i class="fa-solid fa-check"></i>
+                {% elif w.status == 'rejected' %}<i class="fa-solid fa-xmark"></i>
+                {% else %}<i class="fa-solid fa-clock"></i>{% endif %}
+            </div>
+            <div class="task-price">${{ "%.2f"|format(w.amount) }}</div>
+        </div>
     </div>
-    <div class="list-row" style="margin-top: 6px;">
-        <span class="list-label">{{ w.created_at[:10] if w.created_at else '' }}</span>
-        <span class="list-value">${{ "%.2f"|format(w.amount) }}</span>
-    </div>
+    {% endfor %}
 </div>
-{% endfor %}
 
 {% if total_pages > 1 %}
 <div class="pagination">

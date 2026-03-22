@@ -393,7 +393,7 @@ STRINGS = {
         'ERR_NOT_JOINED': "You have not subscribed to the channel yet! ❌",
         
         # Main Menu Buttons
-        'BTN_TASKS': "➕ Register a new Gmail",
+        'BTN_TASKS': "Register a new Gmail",
         'BTN_MYACCOUNTS': "📂 My accounts",
         'BTN_BALANCE': "💰 Balance",
         'BTN_REFERRAL': "👥 My referrals",
@@ -790,7 +790,7 @@ WEBAPP_STRINGS = {
         'TASK_START_BACK': "العودة للمهام",
         
         'TASK_TAB_MANUAL': "إنشاء يدوي",
-        'TASK_TAB_AUTO': "توليد أوتوماتيكي ⚡",
+        'TASK_TAB_AUTO': "توليد أوتوماتيكي",
         'BTN_METHOD_MANUAL': "يدوي",
         'BTN_METHOD_AUTO': "أوتوماتيكي",
         'TASK_AUTO_INFO': "قم بإنشاء حساب Gmail مطابق للبيانات التالية:",
@@ -921,9 +921,9 @@ WEBAPP_STRINGS = {
         'TASK_START_BACK': "Back to Tasks",
         
         'TASK_TAB_MANUAL': "Manual Create",
-        'TASK_TAB_AUTO': "➕ Create Account",
+        'TASK_TAB_AUTO': "Create Account",
         'BTN_METHOD_MANUAL': "Manual",
-        'BTN_METHOD_AUTO': "➕ Create New Account",
+        'BTN_METHOD_AUTO': "Create New Account",
         'TASK_AUTO_INFO': "Create a Gmail account exactly matching this data:",
         'TASK_AUTO_FNAME': "First Name:",
         'TASK_AUTO_LNAME': "Last Name:",
