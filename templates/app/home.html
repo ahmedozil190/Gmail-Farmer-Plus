@@ -186,14 +186,21 @@
         font-weight: 600;
     }
 
+    .elite-list {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
     .elite-list-item {
         background: var(--elite-card);
-        border-bottom: 1px solid var(--elite-border);
-        padding: 1rem 0.5rem;
+        border: 1px solid var(--elite-border);
+        border-radius: 20px;
+        padding: 1.25rem;
         display: flex;
         align-items: center;
         justify-content: space-between;
-        transition: background 0.2s;
+        transition: all 0.2s;
     }
 
     .elite-list-item:active {
@@ -217,14 +224,15 @@
     }
 
     .e-item-status {
-        width: 28px;
-        height: 28px;
-        border-radius: 50%;
+        width: 24px;
+        height: 24px;
+        border-radius: 8px;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 0.75rem;
-        margin-bottom: 4px;
+        font-size: 0.7rem;
+        margin-bottom: 6px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.2);
     }
 
     .e-status.approved {
