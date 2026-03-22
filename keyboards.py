@@ -112,29 +112,6 @@ def language_keyboard(lang: str = 'ar') -> ReplyKeyboardMarkup:
     return ReplyKeyboardMarkup(kb, resize_keyboard=True)
 
 
-def tasks_menu_keyboard(lang: str, price_manual_text: str, price_auto_text: str) -> ReplyKeyboardMarkup:
-    """Sub-menu displaying available tasks."""
-    s = STRINGS.get(lang, STRINGS['ar'])
-    btn_manual = f"{s['BTN_METHOD_MANUAL']} - {price_manual_text}"
-    btn_auto = f"{s['BTN_METHOD_AUTO']} - {price_auto_text}"
-    kb = [
-        [KeyboardButton(btn_manual)],
-        [KeyboardButton(btn_auto)],
-        [KeyboardButton(s['BTN_BACK_MAIN'])],
-    ]
-    return ReplyKeyboardMarkup(kb, resize_keyboard=True)
-
-
-def task_flow_keyboard(lang: str = 'ar') -> ReplyKeyboardMarkup:
-    """Keyboard for Task Entrance (Continue / Cancel Task)."""
-    s = STRINGS.get(lang, STRINGS['ar'])
-    kb = [
-        [KeyboardButton(s['BTN_CONTINUE'])],
-        [KeyboardButton(s['BTN_CANCEL_TASK'])],
-    ]
-    return ReplyKeyboardMarkup(kb, resize_keyboard=True)
-
-
 def task_cancel_only_keyboard(lang: str = 'ar') -> ReplyKeyboardMarkup:
     """Keyboard for Task Email prompt (Cancel Task only)."""
     s = STRINGS.get(lang, STRINGS['ar'])

@@ -60,9 +60,9 @@ STRINGS = {
         
         # New Gmail Task Flow
         'BTN_METHOD_MANUAL': "📝 إنشاء يدوي",
-        'BTN_METHOD_AUTO': "🤖 توليد أوتوماتيكي",
-        'MSG_CHOOSE_METHOD': "كيف تفضل إنشاء الحساب الجديد؟\n\n- بالطريقة اليدوية سيتم طلب تفاصيل الإيميل وكلمة المرور منك بعد إنشائه.\n- باختيار الإنشاء السريع سيقوم البوت بتوليد إيميل وباسورد لك تلقائياً.",
-        'MSG_AUTO_DATA': "قم بفتح (Gmail) وأنشئ حساباً جديداً بالبيانات التالية بالملي كالتالي:\n\n👤 الاسم الأول: <code>{first_name}</code>\n👤 اسم العائلة: <code>{last_name}</code>\n📧 البريد: <code>{email}</code>\n🔑 كلمة المرور: <code>{password}</code>\n\n⚠️ <b>مهم جداً:</b> يجب أن تتطابق الأحرف تماماً.\nبعد انتهائك من الإنشاء، اضغط على زر [✅ تم الإنشاء].",
+        'BTN_METHOD_AUTO': "➕ إنشاء حساب جديد",
+        'MSG_CHOOSE_METHOD': "اضغط على الزر أدناه للبدء بإنشاء حساب جيميل جديد وتحقيق الربح.",
+        'MSG_AUTO_DATA': "قم بفتح (Gmail) وأنشئ حساباً جديداً بالبيانات التالية تماماً:\n\n👤 الاسم الأول: <code>{first_name}</code>\n👤 اسم العائلة: <code>{last_name}</code>\n📧 البريد: <code>{email}</code>\n🔑 كلمة المرور: <code>{password}</code>\n\n⚠️ <b>مهم جداً:</b> يجب أن تتطابق الأحرف تماماً.\nبعد انتهائك من الإنشاء، اضغط على زر [✅ تم الإنشاء].",
         'BTN_AUTO_DONE': "✅ تم الإنشاء",
         'BTN_AUTO_REGEN': "🔄 تغيير البيانات",
         'BTN_AUTO_CANCEL': "✖️ إلغاء",
@@ -919,15 +919,15 @@ WEBAPP_STRINGS = {
         'TASK_START_BACK': "Back to Tasks",
         
         'TASK_TAB_MANUAL': "Manual Create",
-        'TASK_TAB_AUTO': "Auto Generation ⚡",
+        'TASK_TAB_AUTO': "➕ Create Account",
         'BTN_METHOD_MANUAL': "Manual",
-        'BTN_METHOD_AUTO': "Automatic",
+        'BTN_METHOD_AUTO': "➕ Create New Account",
         'TASK_AUTO_INFO': "Create a Gmail account exactly matching this data:",
         'TASK_AUTO_FNAME': "First Name:",
         'TASK_AUTO_LNAME': "Last Name:",
         'TASK_AUTO_EMAIL': "Email:",
         'TASK_AUTO_PWD': "Password:",
-        'TASK_AUTO_BTN': "Confirm Fast Creation",
+        'TASK_AUTO_BTN': "Confirm Creation",
         'TASK_AUTO_REGEN': "Change Data 🔄",
         'TASKS_AUTO_INSTRUCTIONS': (
             "🤖 <b>Fast Creation Instructions</b>\n\n"

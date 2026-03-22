@@ -34,100 +34,18 @@ async def tasks_entry(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_data = get_user(user_id)
     lang = user_data['language'] if user_data else 'ar'
     context.user_data['lang'] = lang
-    s = STRINGS.get(lang, STRINGS['ar'])
     
-    from keyboards import tasks_menu_keyboard
-    
-    # Fetch user-specific or real-time price
     conf = get_business_config()
-    manual_price = user_data["custom_manual_price"] if user_data and user_data["custom_manual_price"] is not None else conf["GMAIL_PRICE"]
-    auto_price = user_data["custom_auto_price"] if user_data and user_data["custom_auto_price"] is not None else conf["GMAIL_PRICE_AUTO"]
-    
-    p_manual = format_currency_dual(manual_price, 'USD', lang)
-    p_auto = format_currency_dual(auto_price, 'USD', lang)
-    
-    await update.message.reply_text(
-        s['TASKS_MENU_PROMPT'],
-        parse_mode="HTML",
-        reply_markup=tasks_menu_keyboard(lang, p_manual, p_auto)
-    )
-    
-    return TASK_MENU
+    if not conf.get("BUYING_ACTIVE", True):
+        s = STRINGS.get(lang, STRINGS['ar'])
+        await update.message.reply_text(s['TASKS_PAUSED'], parse_mode="HTML")
+        return ConversationHandler.END
 
+    return await send_auto_account_data(update, context)
 
-async def receive_task_choice(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """User clicked a task from the menu."""
-    text = update.message.text.strip()
-    lang = context.user_data.get('lang', 'ar')
-    s = STRINGS.get(lang, STRINGS['ar'])
-    
-    if text == s['BTN_BACK_MAIN']:
-        return await cancel_task(update, context)
-        
-    conf = get_business_config()
-    
-    # Check if text starts with localized method name
-    is_manual = text.startswith(s['BTN_METHOD_MANUAL'])
-    is_auto = text.startswith(s['BTN_METHOD_AUTO'])
-
-    if is_manual or is_auto:
-        if not conf.get("BUYING_ACTIVE", True):
-            await update.message.reply_text(
-                s['TASKS_PAUSED'],
-                parse_mode="HTML"
-            )
-            return TASK_MENU
-            
-        if is_manual:
-            # Send Instructions
-            from keyboards import task_flow_keyboard
-            
-            # Dynamic password instruction
-            pwd_instr = s['TASK_START_PWD'].format(conf["GMAIL_MANUAL_PWD"])
-            
-            await update.message.reply_text(
-                f"{s['TASKS_INSTRUCTIONS']}\n\n{pwd_instr}",
-                parse_mode="HTML"
-            )
-            
-            import asyncio
-            await asyncio.sleep(0.5)
-            
-            await update.message.reply_text(
-                s['TASKS_STEPS'],
-                parse_mode="HTML",
-                reply_markup=task_flow_keyboard(lang)
-            )
-            return TASK_CONTINUE
-            
-        elif text == btn_auto:
-            # Send Auto Data Menu
-            from keyboards import remove_keyboard
-            msg = await update.message.reply_text("⏳", reply_markup=remove_keyboard())
-            await msg.delete()
-            return await send_auto_account_data(update, context)
-            
-    else:
-        from keyboards import tasks_menu_keyboard
-        await update.message.reply_text(
-            s['ERROR_RETRY'],
-            reply_markup=tasks_menu_keyboard(lang, p_manual_text, p_auto_text)
-        )
-        return TASK_MENU
 
 async def receive_continue(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """User clicked 'Continue'."""
-    lang = context.user_data.get('lang', 'ar')
-    s = STRINGS.get(lang, STRINGS['ar'])
-    
-    from keyboards import task_cancel_only_keyboard
-    
-    await update.message.reply_text(
-        s['TASKS_PROMPT_EMAIL_ONLY'],
-        parse_mode="HTML",
-        reply_markup=task_cancel_only_keyboard(lang)
-    )
-    return TASK_EMAIL
+    return ConversationHandler.END
 
 async def send_auto_account_data(update: Update, context: ContextTypes.DEFAULT_TYPE):
     lang = context.user_data.get('lang', 'ar')
@@ -136,8 +54,12 @@ async def send_auto_account_data(update: Update, context: ContextTypes.DEFAULT_T
     from utils.name_generator import generate_account_data
     from telegram import InlineKeyboardMarkup, InlineKeyboardButton
     
+    conf = get_business_config()
+    fixed_pwd = conf.get("GMAIL_MANUAL_PWD", "Aa612003@")
+    
     # Generate new data
     data = generate_account_data()
+    data['password'] = fixed_pwd # Enforce unified password
     context.user_data['auto_task'] = data
     
     text = s['MSG_AUTO_DATA'].format(**data)
@@ -259,88 +181,6 @@ async def handle_auto_action(update: Update, context: ContextTypes.DEFAULT_TYPE)
         return ConversationHandler.END
 
 
-async def receive_email(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    email = update.message.text.strip()
-    lang = context.user_data.get('lang', 'ar')
-    s = STRINGS.get(lang, STRINGS['ar'])
-
-    # Basic Gmail validation
-    if not re.match(r"^[^@\s]+@gmail\.com$", email, re.IGNORECASE):
-        from keyboards import task_cancel_only_keyboard
-        await update.message.reply_text(
-            s['TASKS_ERROR_GMAIL'],
-            reply_markup=task_cancel_only_keyboard(lang),
-        )
-        return TASK_EMAIL
-
-    # Check for duplicates
-    from database import is_gmail_already_submitted
-    if is_gmail_already_submitted(email):
-        from keyboards import task_cancel_only_keyboard
-        await update.message.reply_text(
-            s['ERR_DUPLICATE_GMAIL'],
-            reply_markup=task_cancel_only_keyboard(lang),
-            parse_mode="HTML"
-        )
-        return TASK_EMAIL
-
-    # Fetch real-time price
-    conf = get_business_config()
-    user_id = update.effective_user.id
-    user_data = get_user(user_id)
-    
-    manual_price = user_data["custom_manual_price"] if user_data and user_data["custom_manual_price"] is not None else conf["GMAIL_PRICE"]
-    pwd = conf["GMAIL_MANUAL_PWD"]
-    
-    db_sub_id = add_submission(user_id, email, pwd, price=manual_price)
-    sub_id = str(db_sub_id)
-
-    price_text = format_currency_dual(manual_price, 'USD', lang)
-
-    # 1. Notify user immediately
-    await update.message.reply_text(
-        s['TASKS_SUCCESS_ONLY'].format(sub_id=sub_id),
-        parse_mode="HTML",
-        reply_markup=main_menu(lang),
-    )
-
-    # 2. Send notifications directly (simple & reliable)
-    try:
-        username = f"@{user.username}" if user.username else user.full_name
-        admin_user = get_user(ADMIN_ID)
-        a_lang = admin_user['language'] if admin_user else 'ar'
-        a_s = STRINGS.get(a_lang, STRINGS['ar'])
-        conf_notify = get_business_config()
-        p_text = format_currency_dual(conf_notify["GMAIL_PRICE"], 'USD', a_lang)
-        curr_date = datetime.now().strftime("%Y-%m-%d %H:%M")
-        st_text = a_s.get('DASH_FILTER_PENDING', 'Pending')
-
-        admin_text = a_s['ADMIN_NOTIFY_GMAIL'].format(
-            status=html.escape(str(st_text)),
-            sub_id=html.escape(str(sub_id)),
-            gmail=html.escape(str(email)),
-            pwd=html.escape(str(pwd)),
-            price=html.escape(format_currency_dual(manual_price, 'USD', a_lang)),
-            date=html.escape(str(curr_date)),
-            user_id=html.escape(str(user_id))
-        )
-
-        # Admin DM
-        try:
-            await context.bot.send_message(chat_id=ADMIN_ID, text=admin_text, parse_mode="HTML", disable_web_page_preview=True, disable_notification=False)
-        except Exception as e:
-            logging.error(f"Task Admin Notify Error: {e}")
-
-        # Channel
-        c_id = conf_notify.get("EMAILS_CHANNEL_ID")
-        if c_id and "Add_In_DotEnv" not in str(c_id):
-            try:
-                await context.bot.send_message(chat_id=c_id, text=admin_text, parse_mode="HTML", disable_web_page_preview=True)
-            except Exception as e:
-                logging.error(f"Task Channel Notify Error: {e}")
-    except Exception as e:
-        logging.error(f"Task Notify Error: {e}")
-
     context.user_data.pop("lang", None)
     return ConversationHandler.END
 
@@ -365,17 +205,8 @@ from telegram.ext import CallbackQueryHandler
 tasks_conv_handler = ConversationHandler(
     entry_points=[MessageHandler(filters.Regex(r"^(➕ تسجيل إيميل جديد|➕ Register a new Gmail)$"), tasks_entry)],
     states={
-        TASK_MENU: [
-            MessageHandler(filters.TEXT & ~filters.Regex(r"^(إلغاء المهمة ❌|Cancel Task ❌)$"), receive_task_choice)
-        ],
-        TASK_CONTINUE: [
-            MessageHandler(filters.Regex(r"^(متابعة ✅|Continue ✅)$"), receive_continue)
-        ],
         TASK_AUTO: [
             CallbackQueryHandler(handle_auto_action, pattern=r"^auto_")
-        ],
-        TASK_EMAIL: [
-            MessageHandler(filters.TEXT & ~filters.Regex(r"^(إلغاء المهمة ❌|Cancel Task ❌)$"), receive_email)
         ],
     },
     fallbacks=[

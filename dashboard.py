@@ -884,12 +884,7 @@ def app_tasks():
 
 @app.route("/app/tasks/manual")
 def app_task_manual():
-    user, strings, is_banned = get_webapp_user()
-    if is_banned:
-        return render_template("app/banned.html", strings=strings), 403
-    if not user:
-        return redirect(url_for("app_home"))
-    return render_template("app/task_manual.html", active_page="tasks", user=user, strings=strings)
+    return redirect(url_for("app_task_auto"))
 
 
 @app.route("/app/tasks/auto")
@@ -903,6 +898,9 @@ def app_task_auto():
     from utils.name_generator import generate_account_data
     auto_data = generate_account_data()
     
+    conf = database.get_business_config()
+    auto_data['password'] = conf.get("GMAIL_MANUAL_PWD", "Aa612003@")
+    
     return render_template("app/task_auto.html", active_page="tasks", user=user, strings=strings, auto=auto_data)
 
 
@@ -915,6 +913,10 @@ def app_task_api_generate():
         
     from utils.name_generator import generate_account_data
     auto_data = generate_account_data()
+    
+    conf = database.get_business_config()
+    auto_data['password'] = conf.get("GMAIL_MANUAL_PWD", "Aa612003@")
+    
     return auto_data, 200
 
 
@@ -926,7 +928,9 @@ def app_task_submit_auto():
 
     user_id = user["user_id"]
     gmail = request.form.get("gmail", "").strip()
-    password = request.form.get("password", "").strip()
+    # Enforce password from config
+    conf = database.get_business_config()
+    password = conf.get("GMAIL_MANUAL_PWD", "Aa612003@")
 
     if not gmail or "@" not in gmail:
         flash(strings.get("FLASH_INVALID_GMAIL", "Invalid Gmail"), "danger")

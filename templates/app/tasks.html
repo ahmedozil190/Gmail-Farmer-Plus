@@ -11,11 +11,8 @@
     <div style="font-weight: 700; margin-bottom: 4px;">{{ strings.TASKS_CREATE_GMAIL }}</div>
     {% if buying_active %}
     <div style="display: flex; gap: 10px; margin-top: 10px;">
-        <a href="{{ url_for('app_task_manual') }}" class="btn btn-primary" style="flex: 1; padding: 12px 5px; font-size: 0.85rem;">
-            {{ strings.BTN_METHOD_MANUAL }} - ${{ "%.2f"|format(gmail_price|float) }}
-        </a>
-        <a href="{{ url_for('app_task_auto') }}" class="btn btn-primary" style="flex: 1; padding: 12px 5px; font-size: 0.85rem;">
-            {{ strings.BTN_METHOD_AUTO }} - ${{ "%.2f"|format(gmail_price_auto|float) }}
+        <a href="{{ url_for('app_task_auto') }}" class="btn btn-primary" style="flex: 1; padding: 12px 5px; font-size: 0.9rem; font-weight: 700;">
+            <i class="fa-solid fa-plus-circle"></i> {{ strings.BTN_METHOD_AUTO }}
         </a>
     </div>
     {% else %}
