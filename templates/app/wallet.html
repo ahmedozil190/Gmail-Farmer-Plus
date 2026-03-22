@@ -145,31 +145,41 @@
 <div class="card-title" style="margin-top: 0.5rem;">{{ strings.WALLET_HISTORY }}</div>
 
 {% if withdrawals %}
-<div class="task-list">
+<div class="withdraw-list">
     {% for w in withdrawals %}
-    <div class="task-card">
-        <div class="task-info">
-            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
-                <span class="task-name" style="margin-bottom: 0;">
-                    {% if 'Vodafone' in w.method %}<i class="fa-solid fa-mobile-screen-button" style="font-size: 0.85rem; color: var(--danger); margin-right: 8px;"></i>
-                    {% elif 'Binance' in w.method %}<i class="fa-solid fa-coins" style="font-size: 0.85rem; color: var(--warning); margin-right: 8px;"></i>
-                    {% elif 'USDT' in w.method %}<i class="fa-solid fa-dollar-sign" style="font-size: 0.85rem; color: var(--success); margin-right: 8px;"></i>
-                    {% elif 'TRX' in w.method %}<i class="fa-solid fa-gem" style="font-size: 0.85rem; color: #ef4444; margin-right: 8px;"></i>
-                    {% endif %}
-                    {{ w.method.replace('💳 ', '').replace('🟡 ', '').replace('🟢 ', '').replace('💎 ', '') }}
-                </span>
-            </div>
-            <span class="task-date">{{ w.created_at[:10] if w.created_at else '' }}</span>
-            <div style="font-size: 0.7rem; color: var(--text-secondary); margin-top: 2px; word-break: break-all;">{{ w.wallet_address if w.wallet_address else '' }}</div>
-        </div>
-        <div class="task-right">
-            <div class="status-pill {{ w.status }}">
+    <div class="withdraw-card">
+        <div class="w-row">
+            <span class="w-label">{{ strings.HISTORY_STATUS }}</span>
+            <span class="status-pill {{ w.status }}" style="padding: 2px 8px; border-radius: 6px; font-size: 0.65rem;">
                 {% if w.status == 'approved' or w.status == 'completed' %}<i class="fa-solid fa-check"></i>
+                {% elif w.status == 'pending' %}<i class="fa-solid fa-clock"></i>
                 {% elif w.status == 'rejected' %}<i class="fa-solid fa-xmark"></i>
-                {% else %}<i class="fa-solid fa-clock"></i>{% endif %}
-            </div>
-            <div class="task-price">${{ "%.2f"|format(w.amount) }}</div>
+                {% endif %}
+                {{ strings['STATUS_' + w.status.upper()] if strings['STATUS_' + w.status.upper()] else w.status }}
+            </span>
         </div>
+        <div class="w-row">
+            <span class="w-label">{{ strings.HISTORY_METHOD }}</span>
+            <span class="w-value">
+                {% if 'Vodafone' in w.method %}<i class="fa-solid fa-mobile-screen-button" style="color: #ef4444; margin-right: 5px;"></i>
+                {% elif 'Binance' in w.method %}<i class="fa-solid fa-coins" style="color: #f59e0b; margin-right: 5px;"></i>
+                {% elif 'USDT' in w.method %}<i class="fa-solid fa-dollar-sign" style="color: #10b981; margin-right: 5px;"></i>
+                {% elif 'TRX' in w.method %}<i class="fa-solid fa-gem" style="color: #60a5fa; margin-right: 5px;"></i>
+                {% endif %}
+                {{ w.method.replace('💳 ', '').replace('🟡 ', '').replace('🟢 ', '').replace('💎 ', '') }}
+            </span>
+        </div>
+        <div class="w-row">
+            <span class="w-label">{{ strings.HISTORY_PRICE }}</span>
+            <span class="w-value" style="font-weight: 800; color: #fff;">${{ "%.2f"|format(w.amount) }}</span>
+        </div>
+        <div class="w-row">
+            <span class="w-label">{{ strings.HISTORY_DATE }}</span>
+            <span class="w-value" style="color: var(--text-secondary); font-size: 0.8rem;">{{ w.created_at[:10] if w.created_at else '' }}</span>
+        </div>
+        {% if w.wallet_address %}
+        <div class="w-address">{{ w.wallet_address }}</div>
+        {% endif %}
     </div>
     {% endfor %}
 </div>
@@ -389,6 +399,48 @@
     .option-name { font-size: 0.95rem; font-weight: 600; flex: 1; color: var(--text-primary); }
     .option-check { color: var(--accent); font-size: 0.9rem; opacity: 0; transition: opacity 0.2s; }
     .bs-option.selected .option-check { opacity: 1; }
+
+    /* Detailed Withdraw Card */
+    .withdraw-list {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+    .withdraw-card {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid var(--border-card);
+        border-radius: 20px;
+        padding: 1.25rem;
+        transition: all 0.2s;
+    }
+    .w-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 8px;
+    }
+    .w-row:last-child { margin-bottom: 0; }
+    .w-label {
+        font-size: 0.8rem;
+        color: var(--text-secondary);
+        font-weight: 500;
+    }
+    .w-value {
+        font-size: 0.9rem;
+        font-weight: 700;
+        color: #fff;
+        display: flex;
+        align-items: center;
+    }
+    .w-address {
+        margin-top: 12px;
+        padding-top: 8px;
+        border-top: 1px solid rgba(255,255,255,0.05);
+        font-size: 0.7rem;
+        color: var(--text-secondary);
+        word-break: break-all;
+        font-family: monospace;
+    }
 </style>
 {% endblock %}
 
