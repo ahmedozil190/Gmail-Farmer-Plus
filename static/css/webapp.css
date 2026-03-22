@@ -263,7 +263,7 @@ body::before {
 .elite-row {
     display: flex;
     justify-content: flex-start;
-    align-items: center;
+    align-items: flex-start;
     margin-bottom: 10px;
     gap: 8px;
 }
@@ -273,7 +273,7 @@ body::before {
     color: #94a3b8;
     font-weight: 600;
     white-space: nowrap;
-    width: 70px;
+    width: 65px;
     flex-shrink: 0;
 }
 .elite-value {
@@ -283,6 +283,8 @@ body::before {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
+    word-break: break-word;
+    overflow-wrap: break-word;
     margin-left: 8px;
 }
 
