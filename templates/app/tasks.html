@@ -5,6 +5,22 @@
     <h2 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 1rem;">{{ strings.TASKS_TITLE }}</h2>
 </div>
 
+<!-- Task Stats Pills -->
+<div class="elite-stats">
+    <div class="e-stat-pill blue">
+        <span class="val">{{ approved_tasks }}</span>
+        <span class="lbl">{{ strings.HOME_APPROVED }}</span>
+    </div>
+    <div class="e-stat-pill orange">
+        <span class="val">{{ pending_tasks }}</span>
+        <span class="lbl">{{ strings.HOME_REQ_PENDING }}</span>
+    </div>
+    <div class="e-stat-pill red">
+        <span class="val">{{ rejected_tasks }}</span>
+        <span class="lbl">{{ strings.HOME_REJECTED }}</span>
+    </div>
+</div>
+
 <!-- Task Action -->
 <div class="hero-action-card">
     <div class="hero-icon-wrapper">

@@ -103,8 +103,8 @@
 </style>
 
 <!-- Withdraw Form -->
+<div class="card-title" style="margin-top: 0.5rem;">{{ strings.WALLET_WITHDRAW_REQ }}</div>
 <div class="glass-card">
-    <div class="card-title">{{ strings.WALLET_WITHDRAW_REQ }}</div>
 
     {% if balance < min_withdraw %} <div class="alert alert-warning">
         {{ strings.WALLET_MIN_LIMIT|format(min_withdraw) }}

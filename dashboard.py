@@ -855,6 +855,20 @@ def app_tasks():
         return redirect(url_for("app_home"))
 
     user_id = user["user_id"]
+    
+    # Task stats
+    con = database._conn()
+    approved_tasks = con.execute(
+        "SELECT COUNT(*) FROM submissions WHERE user_id = ? AND status = 'approved'", (user_id,)
+    ).fetchone()[0]
+    pending_tasks = con.execute(
+        "SELECT COUNT(*) FROM submissions WHERE user_id = ? AND status = 'pending'", (user_id,)
+    ).fetchone()[0]
+    rejected_tasks = con.execute(
+        "SELECT COUNT(*) FROM submissions WHERE user_id = ? AND status = 'rejected'", (user_id,)
+    ).fetchone()[0]
+    con.close()
+
     all_tasks = database.get_user_submissions(user_id)
     conf = database.get_business_config()
     manual_price = user["custom_manual_price"] if user.get("custom_manual_price") is not None else conf["GMAIL_PRICE"]
@@ -878,7 +892,10 @@ def app_tasks():
         tasks=tasks,
         gmail_price=manual_price,
         gmail_price_auto=auto_price,
-        buying_active=conf["BUYING_ACTIVE"]
+        buying_active=conf["BUYING_ACTIVE"],
+        approved_tasks=approved_tasks,
+        pending_tasks=pending_tasks,
+        rejected_tasks=rejected_tasks
     )
 
 
