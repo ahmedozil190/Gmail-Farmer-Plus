@@ -1244,6 +1244,7 @@ def app_referrals():
         invited=invited,
         active=active,
         profit=profit,
+        total_ref_tasks=tasks_total,
         referrals=referrals
     )
 
