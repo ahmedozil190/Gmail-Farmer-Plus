@@ -49,20 +49,42 @@ body::before {
     padding: 0 1rem;
 }
 
+.main-content {
+    padding-top: 75px;
+}
+
 /* Page Title */
 .page-title {
-    padding: 1rem 0 0.75rem;
-    font-size: 1.25rem;
-    font-weight: 700;
-    color: var(--text-primary);
-    margin-bottom: 1rem;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background: var(--bg-card);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border-card);
+    height: 60px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 0;
+    padding: 0;
+}
+
+.page-title-inner {
+    max-width: 600px;
+    margin: 0 auto;
+    width: 100%;
+    padding: 0 1rem;
     display: flex;
     align-items: center;
     gap: 12px;
 }
 
-.page-title span {
+.page-title-inner span {
     flex: 1;
+    font-size: 1.25rem;
+    font-weight: 700;
 }
 
 .page-title-back {
