@@ -73,17 +73,15 @@ STRINGS = {
             "👤 <b>الاسم الأول:</b> <code>{first_name}</code>\n"
             "👤 <b>اسم العائلة:</b> <code>{last_name}</code>\n"
             "👤 <b>اليوزر:</b> <code>{username}</code>\n"
-            "📧 <b>الشكل النهائي:</b>\n"
-            "<code>{email}</code>\n"
-            "🔑 <b>الباسورد:</b>\n"
-            "<code>{password}</code>\n\n"
+            "📧 <b>الشكل النهائي:</b> <code>{email}</code>\n"
+            "🔑 <b>الباسورد:</b> <code>{password}</code>\n\n"
             "⏱️ <b>مدة المهمة:</b> {timeout} دقيقة\n\n"
             "⚠️ كتابة باسورد مختلف قد يعرض حسابك للحظر ومنع سحب أرباحك.\n\n"
             "👇 بعد الانتهاء اختر واحدًا من الأزرار بالأسفل:"
         ),
-        'BTN_AUTO_DONE': "1- Done ✅",
-        'BTN_AUTO_REGEN': "2- Change Data 🔄",
-        'BTN_AUTO_CANCEL': "3- Cancel Registration ❌",
+        'BTN_AUTO_DONE': "1- تم الانتهاء ✅",
+        'BTN_AUTO_REGEN': "2- تغيير البيانات 🔄",
+        'BTN_AUTO_CANCEL': "3- إلغاء التسجيل ❌",
         'MSG_REG_CANCELLED_TIMEOUT': (
             "<code>{email}</code>\n"
             "_____________________________\n\n"
@@ -477,10 +475,8 @@ STRINGS = {
             "👤 <b>First Name:</b> <code>{first_name}</code>\n"
             "👤 <b>Last Name:</b> <code>{last_name}</code>\n"
             "👤 <b>Username:</b> <code>{username}</code>\n"
-            "📧 <b>Final Format:</b>\n"
-            "<code>{email}</code>\n"
-            "🔑 <b>Password:</b>\n"
-            "<code>{password}</code>\n\n"
+            "📧 <b>Final Format:</b> <code>{email}</code>\n"
+            "🔑 <b>Password:</b> <code>{password}</code>\n\n"
             "⏱️ <b>Task Duration:</b> {timeout} minutes\n\n"
             "⚠️ Writing a different password may expose your account to a ban and prevent withdrawing your profits.\n\n"
             "👇 After finishing, choose one of the buttons below:"
