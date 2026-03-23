@@ -177,7 +177,7 @@ async def my_accounts_handler_fn(update: Update, context: ContextTypes.DEFAULT_T
         lines = []
         
         page_info = f"({page + 1}/{total_pages})" if total_pages > 1 else ""
-        lines.append(s['MY_ACCOUNTS_TITLE'].format(page_info=page_info))
+        lines.append(s['MY_ACCOUNTS_TITLE'].format(count=total_count, page_info=page_info))
         
         for sub in subs:
             if sub["status"] == "pending":
