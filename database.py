@@ -244,13 +244,20 @@ def get_referral_detailed_stats(user_id: int):
     return invited_count, active_count, tasks_total, profit_total
 
 
-def get_referrals_list_data(referrer_id: int):
+def get_referrals_list_data(referrer_id: int, limit: int = None, offset: int = None):
     con = _conn()
     # Get all users referred by this user
-    referrals = con.execute(
-        "SELECT user_id, username, full_name, join_date FROM users WHERE referrer_id = ?",
-        (referrer_id,)
-    ).fetchall()
+    query = "SELECT user_id, username, full_name, join_date FROM users WHERE referrer_id = ?"
+    params = [referrer_id]
+    
+    if limit is not None:
+        query += " LIMIT ?"
+        params.append(limit)
+    if offset is not None:
+        query += " OFFSET ?"
+        params.append(offset)
+        
+    referrals = con.execute(query, params).fetchall()
     
     conf = get_business_config()
     ref_bonus = conf["REFERRAL_BONUS"]
@@ -274,6 +281,13 @@ def get_referrals_list_data(referrer_id: int):
         
     con.close()
     return data
+
+
+def count_referrals(referrer_id: int) -> int:
+    con = _conn()
+    count = con.execute("SELECT COUNT(*) FROM users WHERE referrer_id = ?", (referrer_id,)).fetchone()[0]
+    con.close()
+    return count or 0
 
 
 def get_stats():
@@ -321,14 +335,28 @@ def get_pending_submissions():
     return rows
 
 
-def get_user_submissions(user_id: int):
+def get_user_submissions(user_id: int, limit: int = None, offset: int = None):
     con = _conn()
-    rows = con.execute(
-        "SELECT * FROM submissions WHERE user_id = ? ORDER BY submitted_at DESC",
-        (user_id,),
-    ).fetchall()
+    query = "SELECT * FROM submissions WHERE user_id = ? ORDER BY submitted_at DESC"
+    params = [user_id]
+    
+    if limit is not None:
+        query += " LIMIT ?"
+        params.append(limit)
+    if offset is not None:
+        query += " OFFSET ?"
+        params.append(offset)
+        
+    rows = con.execute(query, params).fetchall()
     con.close()
     return rows
+
+
+def count_user_submissions(user_id: int) -> int:
+    con = _conn()
+    count = con.execute("SELECT COUNT(*) FROM submissions WHERE user_id = ?", (user_id,)).fetchone()[0]
+    con.close()
+    return count or 0
 
 
 def is_gmail_already_submitted(gmail: str) -> bool:

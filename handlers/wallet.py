@@ -1,7 +1,7 @@
 from telegram import Update
 from telegram.ext import ContextTypes, MessageHandler, filters
 from database import get_balance, get_user_submissions, get_user, get_user_withdrawals, get_business_config
-from keyboards import main_menu, balance_menu, history_menu
+from keyboards import main_menu, balance_menu, history_menu, pagination_keyboard
 from strings import STRINGS
 from utils.currency import get_exchange_rate
 from utils.ban_check import is_banned
@@ -138,13 +138,47 @@ async def my_accounts_handler_fn(update: Update, context: ContextTypes.DEFAULT_T
     user_data = get_user(user_id)
     lang = user_data['language'] if user_data else 'ar'
     s = STRINGS.get(lang, STRINGS['ar'])
+
+    text = update.message.text
+    is_nav = text in [s['BTN_NEXT_PAGE'], s['BTN_PREV_PAGE']]
+    active_pagination = context.user_data.get('pagination_context')
     
-    subs = get_user_submissions(user_id)
-    if not subs:
-        text = s['MY_ACCOUNTS_EMPTY']
+    if is_nav and active_pagination == 'accounts':
+        page = context.user_data.get('accounts_page', 0)
+        if text == s['BTN_NEXT_PAGE']:
+            page += 1
+        else:
+            page = max(0, page - 1)
+        context.user_data['accounts_page'] = page
     else:
-        subs.sort(key=lambda x: x['id'], reverse=True)
-        lines = [s['MY_ACCOUNTS_TITLE']]
+        # Initial enter or different context
+        page = 0
+        context.user_data['accounts_page'] = 0
+        context.user_data['pagination_context'] = 'accounts'
+
+    from database import get_user_submissions, count_user_submissions
+    per_page = 20
+    total_count = count_user_submissions(user_id)
+    total_pages = (total_count + per_page - 1) // per_page if total_count > 0 else 1
+    
+    # Ensure page is within bounds (e.g. if items were deleted since last visit)
+    if page >= total_pages:
+        page = max(0, total_pages - 1)
+        context.user_data['accounts_page'] = page
+
+    offset = page * per_page
+    subs = get_user_submissions(user_id, limit=per_page, offset=offset)
+
+    if not subs:
+        text_out = s['MY_ACCOUNTS_EMPTY']
+        reply_markup = main_menu(lang)
+    else:
+        # subs are already ordered by ID desc in SQL if needed, but here we just process
+        lines = []
+        
+        page_info = f"({page + 1}/{total_pages})" if total_pages > 1 else ""
+        lines.append(s['MY_ACCOUNTS_TITLE'].format(page_info=page_info))
+        
         for sub in subs:
             if sub["status"] == "pending":
                 status_text = s['ST_PENDING']
@@ -162,9 +196,14 @@ async def my_accounts_handler_fn(update: Update, context: ContextTypes.DEFAULT_T
             )
             lines.append(item_text)
             lines.append("────────────────")
-        text = "\n".join(lines)
+        text_out = "\n".join(lines)
+        
+        if total_count > per_page:
+            reply_markup = pagination_keyboard(lang, page, total_pages)
+        else:
+            reply_markup = main_menu(lang)
 
-    await update.message.reply_text(text, parse_mode="HTML", reply_markup=main_menu(lang))
+    await update.message.reply_text(text_out, parse_mode="HTML", reply_markup=reply_markup)
 
 
 async def unified_back_handler_fn(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -193,5 +232,8 @@ async def unified_back_handler_fn(update: Update, context: ContextTypes.DEFAULT_
 # Expose as proper handlers
 balance_handler  = MessageHandler(filters.Regex(r"^(💰 الرصيد|💰 Balance)$"),       balance_handler_fn)
 history_handler  = MessageHandler(filters.Regex(r"^(📜 سجل العمليات|📜 Balance history)$"), history_handler_fn)
-my_accounts_handler = MessageHandler(filters.Regex(r"^(📂 حساباتي|📂 My accounts)$"), my_accounts_handler_fn)
+my_accounts_handler = MessageHandler(
+    filters.Regex(r"^(📂 حساباتي|📂 My accounts|➡️ الصفحة التالية|➡️ Next Page|⬅️ الصفحة السابقة|⬅️ Previous Page)$"), 
+    my_accounts_handler_fn
+)
 unified_back_handler = MessageHandler(filters.Regex(r"^(🔙 رجوع|🔙 Back|🔙 العودة للقائمة الرئيسية|🔙 Back to Main Menu)$"), unified_back_handler_fn)

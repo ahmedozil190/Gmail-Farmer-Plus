@@ -32,6 +32,7 @@ async def currency_btn_handler(update: Update, context: ContextTypes.DEFAULT_TYP
     
     context.user_data['parent_menu'] = 'settings'
     context.user_data['curr_page'] = 0
+    context.user_data['pagination_context'] = 'currency'
     await update.message.reply_text(
         s['CURRENCY_MSG'],
         parse_mode="HTML",
@@ -47,6 +48,9 @@ async def change_currency_handler(update: Update, context: ContextTypes.DEFAULT_
     lang = user['language'] if user else 'ar'
     s = STRINGS.get(lang, STRINGS['ar'])
     
+    if context.user_data.get('pagination_context') != 'currency':
+        return
+
     page = context.user_data.get('curr_page', 0)
 
     if text == s['BTN_NEXT_PAGE']:

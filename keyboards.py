@@ -57,6 +57,29 @@ def currency_keyboard(lang: str = 'ar', page: int = 0) -> ReplyKeyboardMarkup:
     return ReplyKeyboardMarkup(kb, resize_keyboard=True)
 
 
+def pagination_keyboard(lang: str = 'ar', page: int = 0, total_pages: int = 1, show_back: bool = True) -> ReplyKeyboardMarkup:
+    """Generic pagination keyboard for lists."""
+    s = STRINGS.get(lang, STRINGS['ar'])
+    kb = []
+    
+    # Navigation row
+    nav_row = []
+    if page > 0:
+        nav_row.append(KeyboardButton(s['BTN_PREV_PAGE']))
+    if page < total_pages - 1:
+        nav_row.append(KeyboardButton(s['BTN_NEXT_PAGE']))
+    
+    if nav_row:
+        kb.append(nav_row)
+        
+    if show_back:
+        kb.append([KeyboardButton(s['BTN_BACK'])])
+    else:
+        kb.append([KeyboardButton(s['BTN_BACK_MAIN'])])
+        
+    return ReplyKeyboardMarkup(kb, resize_keyboard=True)
+
+
 def balance_menu(lang: str = 'ar') -> ReplyKeyboardMarkup:
     """Sub-menu for Balance options."""
     s = STRINGS.get(lang, STRINGS['ar'])
