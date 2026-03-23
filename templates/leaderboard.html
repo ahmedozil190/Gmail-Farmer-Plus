@@ -13,13 +13,13 @@
 
 <div class="tab-nav">
     <a href="{{ url_for('leaderboard', tab='approved') }}" class="tab-item {% if active_tab == 'approved' %}active{% endif %}">
-        <i class="fa-solid fa-circle-check"></i> {{ strings.DASH_LB_APPROVED }}
+        {{ strings.DASH_LB_APPROVED }}
     </a>
     <a href="{{ url_for('leaderboard', tab='withdrawn') }}" class="tab-item {% if active_tab == 'withdrawn' %}active{% endif %}">
-        <i class="fa-solid fa-money-bill-trend-up"></i> {{ strings.DASH_LB_WITHDRAWN }}
+        {{ strings.DASH_LB_WITHDRAWN }}
     </a>
     <a href="{{ url_for('leaderboard', tab='rejected') }}" class="tab-item {% if active_tab == 'rejected' %}active{% endif %}">
-        <i class="fa-solid fa-circle-xmark"></i> {{ strings.DASH_LB_REJECTED }}
+        {{ strings.DASH_LB_REJECTED }}
     </a>
 </div>
 
@@ -28,7 +28,6 @@
     <!-- Top Approved -->
     <div class="glass-card LB-card">
         <div class="LB-header" style="background: rgba(16, 185, 129, 0.1); border-bottom: 1px solid rgba(16, 185, 129, 0.2);">
-            <i class="fa-solid fa-circle-check" style="color: var(--success); font-size: 1.2rem;"></i>
             <span style="font-weight: 700;">{{ strings.DASH_LB_APPROVED }}</span>
         </div>
         <div class="LB-body">
@@ -37,8 +36,7 @@
                 <div class="LB-item">
                     <div class="LB-rank">{{ loop.index }}</div>
                     <div class="LB-info">
-                        <span class="LB-name">{% if user.full_name %}{{ user.full_name }}{% else %}{{ user.user_id }}{% endif %}</span>
-                        <span class="LB-username">@{{ user.username or 'NoUser' }}</span>
+                        <span class="LB-name">{% if user.full_name %}{{ user.full_name }}{% else %}{{ user.user_id }}{% endif %} <span class="LB-username" style="opacity: 0.5; font-size: 0.8rem; margin-inline-start: 5px;">(@{{ user.username or 'NoUser' }})</span></span>
                     </div>
                     <div class="LB-val success">{{ user.cnt }}</div>
                 </div>
@@ -52,7 +50,6 @@
     <!-- Top Withdrawn -->
     <div class="glass-card LB-card highlight">
         <div class="LB-header" style="background: rgba(59, 130, 246, 0.1); border-bottom: 1px solid rgba(59, 130, 246, 0.2);">
-            <i class="fa-solid fa-money-bill-trend-up" style="color: var(--accent-blue); font-size: 1.2rem;"></i>
             <span style="font-weight: 700;">{{ strings.DASH_LB_WITHDRAWN }}</span>
         </div>
         <div class="LB-body">
@@ -61,8 +58,7 @@
                 <div class="LB-item">
                     <div class="LB-rank">{{ loop.index }}</div>
                     <div class="LB-info">
-                        <span class="LB-name">{% if user.full_name %}{{ user.full_name }}{% else %}{{ user.user_id }}{% endif %}</span>
-                        <span class="LB-username">@{{ user.username or 'NoUser' }}</span>
+                        <span class="LB-name">{% if user.full_name %}{{ user.full_name }}{% else %}{{ user.user_id }}{% endif %} <span class="LB-username" style="opacity: 0.5; font-size: 0.8rem; margin-inline-start: 5px;">(@{{ user.username or 'NoUser' }})</span></span>
                     </div>
                     <div class="LB-val accent">${{ "%.2f"|format(user.total) }}</div>
                 </div>
@@ -76,7 +72,6 @@
     <!-- Top Rejected -->
     <div class="glass-card LB-card">
         <div class="LB-header" style="background: rgba(239, 68, 68, 0.1); border-bottom: 1px solid rgba(239, 68, 68, 0.2);">
-            <i class="fa-solid fa-circle-xmark" style="color: var(--danger); font-size: 1.2rem;"></i>
             <span style="font-weight: 700;">{{ strings.DASH_LB_REJECTED }}</span>
         </div>
         <div class="LB-body">
@@ -85,8 +80,7 @@
                 <div class="LB-item">
                     <div class="LB-rank">{{ loop.index }}</div>
                     <div class="LB-info">
-                        <span class="LB-name">{% if user.full_name %}{{ user.full_name }}{% else %}{{ user.user_id }}{% endif %}</span>
-                        <span class="LB-username">@{{ user.username or 'NoUser' }}</span>
+                        <span class="LB-name">{% if user.full_name %}{{ user.full_name }}{% else %}{{ user.user_id }}{% endif %} <span class="LB-username" style="opacity: 0.5; font-size: 0.8rem; margin-inline-start: 5px;">(@{{ user.username or 'NoUser' }})</span></span>
                     </div>
                     <div class="LB-val danger">{{ user.cnt }}</div>
                 </div>
