@@ -841,7 +841,7 @@ WEBAPP_STRINGS = {
         'TASK_START_BACK': "العودة للمهام",
         
         'TASK_TAB_MANUAL': "إنشاء يدوي",
-        'TASK_TAB_AUTO': "توليد أوتوماتيكي",
+        'TASK_TAB_AUTO': "",
         'BTN_METHOD_MANUAL': "يدوي",
         'BTN_METHOD_AUTO': "➕ تسجيل إيميل جديد",
         'TASK_AUTO_INFO': "قم بإنشاء حساب Gmail مطابق للبيانات التالية:",
@@ -862,7 +862,10 @@ WEBAPP_STRINGS = {
             "2️⃣ اضغط إضافة حساب ثم اختر Google.\n\n"
             "3️⃣ اختر إنشاء حساب ثم لنفسي.\n\n"
             "4️⃣ أكتب الأسم الموجود بالأسفل واي تاريخ ميلاد.\n\n"
-            "5️⃣ عند خطوة عنوان الجيميل استخدم هذا"
+            "5️⃣ عند خطوة عنوان الجيميل استخدم هذا\n\n"
+            "⏱️ مدة المهمة: 7 دقيقة\n\n"
+            "⚠️ كتابة باسورد مختلف قد يعرض حسابك للحظر ومنع سحب أرباحك.\n\n"
+            "👇 بعد الانتهاء اختر واحدًا من الأزرار بالأسفل:"
         ),
         'TASKS_AUTO_STEPS': "",
         
@@ -989,7 +992,7 @@ WEBAPP_STRINGS = {
         'TASK_START_BACK': "Back to Tasks",
         
         'TASK_TAB_MANUAL': "Manual Create",
-        'TASK_TAB_AUTO': "Create Account",
+        'TASK_TAB_AUTO': "",
         'BTN_METHOD_MANUAL': "Manual",
         'BTN_METHOD_AUTO': "➕ Register a new Gmail",
         'TASK_AUTO_INFO': "Create a Gmail account exactly matching this data:",
@@ -1010,7 +1013,10 @@ WEBAPP_STRINGS = {
             "2️⃣ Click Add Account then choose Google.\n\n"
             "3️⃣ Choose Create Account then For Myself.\n\n"
             "4️⃣ Write the name below and any birthday.\n\n"
-            "5️⃣ At the Gmail address step use this"
+            "5️⃣ At the Gmail address step use this\n\n"
+            "⏱️ Task Duration: 7 minutes\n\n"
+            "⚠️ Writing a different password may expose your account to a ban and prevent withdrawing your profits.\n\n"
+            "👇 After finishing, choose one of the buttons below:"
         ),
         'TASKS_AUTO_STEPS': "",
         

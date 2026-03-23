@@ -4,7 +4,7 @@
 
 {% block content %}
 <div style="padding-top: 1.25rem;">
-    <h2 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 1rem;">{{ strings.TASK_TAB_AUTO }}</h2>
+    <!-- Space holder -->
 </div>
 
 <!-- Instructions & Steps -->
@@ -23,12 +23,6 @@
         <div><b>👤 {{ strings.TASK_AUTO_EMAIL }}</b> <span id="auto-email" style="color:var(--primary-color); user-select: all; font-weight: bold; cursor:pointer;" onclick="copyText(this)">{{ auto.email }} <i class="fa-regular fa-copy" style="font-size:0.8em; margin-left:4px; opacity:0.7"></i></span></div>
         <div style="border-top: 1px solid rgba(255,255,255,0.1); margin: 8px 0; padding-top: 8px;"><b>🔑 {{ strings.TASK_AUTO_PWD }}</b> <span id="auto-pwd" style="user-select: all; cursor:pointer;" onclick="copyText(this)">{{ auto.password }} <i class="fa-regular fa-copy" style="font-size:0.8em; margin-left:4px; opacity:0.7"></i></span></div>
     </div>
-
-    <div style="margin-bottom: 20px; font-size: 0.9rem; line-height: 1.6;">
-        <div>{{ strings.TASK_AUTO_TIMEOUT_LBL|format(timeout=7) }}</div>
-        <div style="color: #ff4d4d; margin-top: 10px; font-weight: 500;">{{ strings.TASK_AUTO_WARNING }}</div>
-        <div style="margin-top: 15px; font-weight: bold;">{{ strings.TASK_AUTO_FOOTER }}</div>
-    </div>
     
     <div style="display:flex; flex-direction: column; gap:10px;">
         <form action="{{ url_for('app_task_submit_auto') }}" method="POST" style="width: 100%;">
@@ -43,8 +37,8 @@
              {{ strings.TASK_AUTO_REGEN }}
         </button>
 
-        <a href="{{ url_for('app_tasks') }}" class="btn" style="background: rgba(255,77,77,0.1); border: 1px solid rgba(255,77,77,0.2); color: #ff4d4d; font-weight: 500; transition: all 0.3s; padding: 10px; display: flex; align-items: center; justify-content: center; text-decoration: none;">
-             {{ strings.TASK_AUTO_CANCEL }}
+        <a href="{{ url_for('app_tasks') }}" class="btn" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: var(--text-color); font-weight: 500; transition: all 0.3s; padding: 10px; display: flex; align-items: center; justify-content: center; text-decoration: none;">
+             {{ strings.TASK_START_BACK }}
         </a>
     </div>
 </div>
@@ -89,10 +83,4 @@ async function regenerateData() {
     btn.innerHTML = oldHtml;
 }
 </script>
-
-<div style="text-align: center; margin-top: 1rem;">
-    <a href="{{ url_for('app_tasks') }}" class="btn btn-outline btn-sm" style="width: auto; display: inline-flex;">
-        <i class="fa-solid fa-arrow-left"></i> {{ strings.TASK_START_BACK }}
-    </a>
-</div>
 {% endblock %}
