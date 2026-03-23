@@ -501,10 +501,37 @@ def get_user_withdrawals(user_id: int):
     con = _conn()
     rows = con.execute(
         "SELECT * FROM withdrawals WHERE user_id = ? ORDER BY created_at DESC",
-        (user_id,),
+        (user_id,)
     ).fetchall()
     con.close()
     return rows
+
+def get_combined_history(user_id: int, limit: int = 5, offset: int = 0):
+    """Returns a merged list of submissions and withdrawals, sorted by date."""
+    con = _conn()
+    # Union all with consistent columns
+    # type: 1 for submission, 2 for withdrawal
+    query = """
+    SELECT * FROM (
+        SELECT id, 'submission' as type, submitted_at as dt, gmail_account as info, status, price as amount FROM submissions WHERE user_id = ?
+        UNION ALL
+        SELECT id, 'withdrawal' as type, created_at as dt, method as info, status, amount FROM withdrawals WHERE user_id = ?
+    )
+    ORDER BY dt DESC
+    LIMIT ? OFFSET ?
+    """
+    rows = con.execute(query, (user_id, user_id, limit, offset)).fetchall()
+    con.close()
+    return rows
+
+def count_combined_history(user_id: int) -> int:
+    con = _conn()
+    count = con.execute(
+        "SELECT (SELECT COUNT(*) FROM submissions WHERE user_id = ?) + (SELECT COUNT(*) FROM withdrawals WHERE user_id = ?)",
+        (user_id, user_id)
+    ).fetchone()[0]
+    con.close()
+    return count or 0
 
 
 # ── Dynamic Settings ─────────────────────────────────────────────────────────

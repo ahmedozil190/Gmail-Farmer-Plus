@@ -197,6 +197,7 @@ STRINGS = {
         
         # History & Accounts
         'HISTORY_EMPTY': "لا يوجد سجل عمليات حالياً.",
+        'HISTORY_TITLE': "📜 <b>قائمة العمليات ({count})</b>\n\n",
         'MY_ACCOUNTS_TITLE': "📂 <b>قائمة حساباتي ({count})</b>\n",
         'MY_ACCOUNTS_EMPTY': "لا توجد حسابات مسجلة حالياً.",
         'MY_ACCOUNTS_ITEM_TEMPLATE': (
@@ -592,6 +593,7 @@ STRINGS = {
 
         # History & Accounts
         'HISTORY_EMPTY': "No balance history yet.",
+        'HISTORY_TITLE': "📜 <b>Balance History ({count})</b>\n\n",
         'MY_ACCOUNTS_TITLE': "📂 <b>My accounts ({count})</b>\n",
         'MY_ACCOUNTS_EMPTY': "No accounts registered yet.",
         'MY_ACCOUNTS_ITEM_TEMPLATE': (

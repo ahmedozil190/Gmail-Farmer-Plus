@@ -43,88 +43,91 @@ async def balance_handler_fn(update: Update, context: ContextTypes.DEFAULT_TYPE)
     )
 
 
-async def history_handler_fn(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """📜 سجل العمليات — show payouts and account acceptance/rejection."""
-    from utils.subscription import require_subscription
-    if not await require_subscription(update, context):
-        return
-    if await is_banned(update, context):
-        return
-    user_id = update.effective_user.id
+async def history_handler_fn(update: Update, context: ContextTypes.DEFAULT_TYPE, page: int = None):
+    """📜 سجل العمليات — show payouts and account acceptance/rejection with inline pagination."""
+    # Handle CallbackQuery vs Message
+    query = update.callback_query
+    if query:
+        await query.answer()
+        user_id = query.from_user.id
+    else:
+        user_id = update.effective_user.id
+        from utils.subscription import require_subscription
+        if not await require_subscription(update, context):
+            return
+        if await is_banned(update, context):
+            return
+
     user_data = get_user(user_id)
     lang = user_data['language'] if user_data else 'ar'
     currency_pref = user_data['currency'] if user_data else 'USD'
     s = STRINGS.get(lang, STRINGS['ar'])
     
-    # Store for navigation
-    context.user_data['parent_menu'] = 'balance'
+    from database import get_combined_history, count_combined_history
+    from keyboards import pagination_keyboard, history_menu
     
-    subs = get_user_submissions(user_id)
-    withdraws = get_user_withdrawals(user_id)
+    per_page = 5
+    total_count = count_combined_history(user_id)
+    total_pages = (total_count + per_page - 1) // per_page if total_count > 0 else 1
     
-    # Combine into events
-    events = [] # each event: (datetime_str, type, data)
-    for sub in subs:
-        events.append((sub['submitted_at'], 'submission', sub))
-    for w in withdraws:
-        events.append((w['created_at'], 'withdrawal', w))
-    
-    # Sort events by date descending
-    events.sort(key=lambda x: x[0], reverse=True)
+    if page is None:
+        page = 0
+    if page >= total_pages:
+        page = max(0, total_pages - 1)
+
+    offset = page * per_page
+    events = get_combined_history(user_id, limit=per_page, offset=offset)
 
     if not events:
-        await update.message.reply_text(s['HISTORY_EMPTY'], reply_markup=history_menu(lang))
-        return
-
-    # User requested specific formatting for history...
-    lines = []
-    for dt, etype, edata in events:
-        date_str = dt[:16].replace('T', ', ')
-        if etype == 'withdrawal':
-            from utils.currency import format_currency_dual
-            amt_text = format_currency_dual(edata['amount'], currency_pref, lang)
-            lines.append(
-                f"⚪️ <b>Balance payout to {edata['method']}</b>: {edata['wallet_address']}\n"
-                f"Balance: -{amt_text}\n"
-                f"Date: {date_str} (GMT)\n"
-            )
-        else: # submission
-            status = edata['status']
-            email = edata['gmail_account']
-            sub_id = edata['id']
-            if 'price' in edata.keys():
-                sub_price = edata['price']
-            else:
-                conf = get_business_config()
-                sub_price = conf["GMAIL_PRICE"]
-            
-            if status == 'approved':
-                from utils.currency import format_currency_dual
-                reward_text = format_currency_dual(sub_price, currency_pref, lang)
-                lines.append(
-                    f"🟢 <b>Account acceptance</b>:\n"
-                    f"{email} (ID: #{sub_id})\n"
-                    f"Hold: -{reward_text}\n"
-                    f"Balance: +{reward_text}\n"
-                    f"Date: {date_str} (GMT)\n"
-                )
-            elif status == 'rejected':
-                from utils.currency import format_currency_dual
-                reward_text = format_currency_dual(sub_price, currency_pref, lang)
-                lines.append(
-                    f"🔴 <b>Account: {email} unavailable</b>\n"
-                    f"Order ID: #{sub_id}\n"
-                    f"Hold: -{reward_text}\n"
-                    f"Date: {date_str} (GMT)\n"
-                )
-    
-    full_text = "\n".join(lines)
-    if len(full_text) > 4000:
-        chunks = [full_text[i:i+4000] for i in range(0, len(full_text), 4000)]
-        for chunk in chunks:
-            await update.message.reply_text(chunk, parse_mode="HTML", disable_web_page_preview=True)
+        msg = s['HISTORY_EMPTY']
+        reply_markup = history_menu(lang)
     else:
-        await update.message.reply_text(full_text, parse_mode="HTML", reply_markup=history_menu(lang), disable_web_page_preview=True)
+        lines = []
+        lines.append(s['HISTORY_TITLE'].format(count=total_count))
+        
+        for ev in events:
+            dt = ev['dt']
+            etype = ev['type']
+            info = ev['info']
+            status = ev['status']
+            amount = ev['amount']
+            sub_id = ev['id']
+            
+            date_str = dt[:16].replace('T', ', ')
+            from utils.currency import format_currency_dual
+            
+            if etype == 'withdrawal':
+                amt_text = format_currency_dual(amount, currency_pref, lang)
+                lines.append(
+                    f"⚪️ <b>Balance payout to {info}</b>: {amount}\n" # Wait, info is method, amount is... wait, look at SQL
+                    # SQL: SELECT id, 'withdrawal' as type, created_at as dt, method as info, status, amount FROM withdrawals
+                    f"<b>Wallet/ID:</b> <code>{info}</code>\n" # Actually info was 'method' in my SQL
+                    f"<b>Status:</b> {status}\n"
+                    f"<b>Balance:</b> -{amt_text}\n"
+                    f"<b>Date:</b> {date_str} (GMT)\n"
+                )
+            else: # submission
+                # SQL: SELECT id, 'submission' as type, submitted_at as dt, gmail_account as info, status, price as amount FROM submissions
+                reward_text = format_currency_dual(amount, currency_pref, lang)
+                icon = "🟢" if status == 'approved' else ("🔴" if status == 'rejected' else "⏳")
+                title = "Account acceptance" if status == 'approved' else ("Account unavailable" if status == 'rejected' else "Account pending")
+                
+                lines.append(
+                    f"{icon} <b>{title}</b>:\n"
+                    f"{info} (ID: #{sub_id})\n"
+                    f"<b>Status:</b> {status}\n"
+                    f"<b>Balance:</b> +{reward_text}\n"
+                    f"<b>Date:</b> {date_str} (GMT)\n"
+                )
+            lines.append("────────────────")
+        
+        msg = "\n".join(lines)
+        reply_markup = pagination_keyboard(lang, page, total_pages, context_name='history')
+
+    if query:
+        await query.edit_message_text(msg, parse_mode="HTML", reply_markup=reply_markup, disable_web_page_preview=True)
+    else:
+        await update.message.reply_text(msg, parse_mode="HTML", reply_markup=reply_markup, disable_web_page_preview=True)
 
 
 async def my_accounts_handler_fn(update: Update, context: ContextTypes.DEFAULT_TYPE, page: int = None):

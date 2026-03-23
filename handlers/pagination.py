@@ -18,5 +18,8 @@ async def pagination_callback_handler(update: Update, context: ContextTypes.DEFA
     elif context_name == 'referrals':
         from handlers.referral import referral_list_handler_fn
         await referral_list_handler_fn(update, context, page=page)
+    elif context_name == 'history':
+        from handlers.wallet import history_handler_fn
+        await history_handler_fn(update, context, page=page)
 
 pagination_handler = CallbackQueryHandler(pagination_callback_handler, pattern="^page:")
