@@ -794,7 +794,7 @@ def get_webapp_user():
             auto_price = conf.get("GMAIL_PRICE_AUTO", 0.08)
             
         from utils.currency import format_currency_dual
-        price_text = format_currency_dual(auto_price, user_dict.get('currency', 'EGP'), lang)
+        price_text = format_currency_dual(auto_price, user_dict.get('currency', 'EGP'), lang, show_secondary=False)
         
         localized_strings = WEBAPP_STRINGS[lang].copy()
         for k, v in localized_strings.items():

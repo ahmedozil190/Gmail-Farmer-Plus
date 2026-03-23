@@ -42,11 +42,17 @@ def get_exchange_rate(target='EGP'):
     return 1.0
 
 
-def format_currency_dual(amount_usd, target_currency, lang='ar'):
+def format_currency_dual(amount_usd, target_currency='EGP', lang='ar', show_secondary=True):
     """
     Formats amount from USD base to: $0.20 (~ 10.00 جنيه) or similar.
     amount_usd is in USD.
     """
+    if not show_secondary:
+        if lang == 'ar':
+            return f"{amount_usd:.2f}$"
+        else:
+            return f"${amount_usd:.2f}"
+
     # Identify secondary currency and amount
     if target_currency == 'USD':
         # Default secondary is EGP if pref is USD
