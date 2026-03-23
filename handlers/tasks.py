@@ -17,6 +17,7 @@ import re
 import asyncio
 import html
 import logging
+logger = logging.getLogger(__name__)
 
 # States
 TASK_MENU, TASK_CONTINUE, TASK_EMAIL, TASK_METHOD, TASK_AUTO = range(5)
@@ -25,10 +26,13 @@ TASK_MENU, TASK_CONTINUE, TASK_EMAIL, TASK_METHOD, TASK_AUTO = range(5)
 
 async def tasks_entry(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Entry-point: user clicked المهام."""
+    logger.info(f"Tasks entry point reached for user {update.effective_user.id}")
     from utils.subscription import require_subscription
     if not await require_subscription(update, context):
+        logger.warning(f"User {update.effective_user.id} failed subscription check")
         return
     if await is_banned(update, context):
+        logger.warning(f"User {update.effective_user.id} is banned")
         return
     user_id = update.effective_user.id
     user_data = get_user(user_id)
@@ -48,6 +52,7 @@ async def receive_continue(update: Update, context: ContextTypes.DEFAULT_TYPE):
     return ConversationHandler.END
 
 async def send_auto_account_data(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    logger.info("Sending auto account data...")
     lang = context.user_data.get('lang', 'ar')
     s = STRINGS.get(lang, STRINGS['ar'])
     
@@ -209,7 +214,7 @@ from strings import STRINGS
 from telegram.ext import CallbackQueryHandler
 
 tasks_conv_handler = ConversationHandler(
-    entry_points=[MessageHandler(filters.Regex(r"^(➕ تسجيل إيميل جديد.*|➕ Register a new Gmail.*)$"), tasks_entry)],
+    entry_points=[MessageHandler(filters.Regex(r".*(تسجيل إيميل جديد|Register a new Gmail).*"), tasks_entry)],
     states={
         TASK_AUTO: [
             CallbackQueryHandler(handle_auto_action, pattern=r"^auto_")
