@@ -197,7 +197,7 @@ STRINGS = {
         
         # History & Accounts
         'HISTORY_EMPTY': "لا يوجد سجل عمليات حالياً.",
-        'MY_ACCOUNTS_TITLE': "📂 <b>حساباتي ({count})</b> {page_info}\n",
+        'MY_ACCOUNTS_TITLE': "📂 <b>قائمة حساباتي ({count})</b>\n",
         'MY_ACCOUNTS_EMPTY': "لا توجد حسابات مسجلة حالياً.",
         'MY_ACCOUNTS_ITEM_TEMPLATE': (
             "<b>الحالة:</b> {status}\n"
@@ -258,7 +258,7 @@ STRINGS = {
             "📭 لم تقم بإحالة أي شخص بعد\n\n"
             "💡 شارك رابط الإحالة لتبدأ الربح!"
         ),
-        'REF_LIST_HEADER': "👥 <b>إحالاتك ({count})</b> {page_info}\n\n",
+        'REF_LIST_HEADER': "👥 <b>قائمة إحالاتك({count})</b>\n\n",
         'REF_LIST_ITEM': (
             "<b>{index}. المستخدم:</b> {name}\n"
             "<b>الحالة:</b> {status_text} {status_icon}\n"
@@ -592,7 +592,7 @@ STRINGS = {
 
         # History & Accounts
         'HISTORY_EMPTY': "No balance history yet.",
-        'MY_ACCOUNTS_TITLE': "📂 <b>My accounts ({count})</b> {page_info}\n",
+        'MY_ACCOUNTS_TITLE': "📂 <b>My accounts ({count})</b>\n",
         'MY_ACCOUNTS_EMPTY': "No accounts registered yet.",
         'MY_ACCOUNTS_ITEM_TEMPLATE': (
             "<b>Status:</b> {status}\n"
@@ -653,7 +653,7 @@ STRINGS = {
             "📭 You haven't referred anyone yet\n\n"
             "💡 Share your referral link to start earning!"
         ),
-        'REF_LIST_HEADER': "👥 <b>Your Referrals ({count})</b> {page_info}\n\n",
+        'REF_LIST_HEADER': "👥 <b>Your Referrals ({count})</b>\n\n",
         'REF_LIST_ITEM': (
             "<b>{index}. Username:</b> {name}\n"
             "<b>Status:</b> {status_text} {status_icon}\n"

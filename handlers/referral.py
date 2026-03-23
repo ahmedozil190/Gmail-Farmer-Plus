@@ -142,8 +142,7 @@ async def referral_list_handler_fn(update: Update, context: ContextTypes.DEFAULT
         msg = s['REF_LIST_EMPTY']
         reply_markup = referral_menu(lang)
     else:
-        page_info = f"({page + 1}/{total_pages})"
-        msg = s['REF_LIST_HEADER'].format(count=total_count, page_info=page_info)
+        msg = s['REF_LIST_HEADER'].format(count=total_count)
         
         for i, ref in enumerate(referral_data, 1 + offset):
             name = ref['full_name'] if ref['full_name'] else (f"@{ref['username']}" if ref['username'] else f"Account #{str(ref['user_id'])[-4:]}")
