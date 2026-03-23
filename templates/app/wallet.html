@@ -4,504 +4,573 @@
 
 {% block content %}
 <div class="elite-home">
-<div class="elite-home">
+    <div class="elite-home">
 
-<!-- Balance Dashboard -->
-<div class="elite-hero-card">
-    <div class="hero-data-list">
-        <!-- Main Balance Row -->
-        <div class="hero-data-row main-row">
-            <span class="hero-data-label">{{ strings.HOME_CURRENT_BALANCE if strings else 'Current Balance' }}</span>
-            <div class="hero-data-value main">
-                {{ "%.2f"|format(balance) }}<span class="symbol">$</span>
-            </div>
-        </div>
-        
-        <!-- Withdrawn Row -->
-        <div class="hero-data-row">
-            <span class="hero-data-label">{{ strings.HOME_TOTAL_WITHDRAWN if strings else 'Total Withdrawn' }}</span>
-            <div class="hero-data-value withdrawn">
-                {{ "%.2f"|format(total_withdrawn or 0) }}<span class="symbol">$</span>
-            </div>
-        </div>
-
-        <!-- Pending Row -->
-        <div class="hero-data-row">
-            <span class="hero-data-label">{{ strings.HOME_REQ_PENDING if strings else 'Pending' }}</span>
-            <div class="hero-data-value pending">
-                {{ "%.2f"|format(pending or 0) }}<span class="symbol">$</span>
-            </div>
-        </div>
-    </div>
-</div>
-
-<style>
-    .elite-hero-card {
-        background: rgba(255, 255, 255, 0.02);
-        border: 1px solid rgba(255, 255, 255, 0.05);
-        border-radius: 24px;
-        padding: 1.5rem;
-        margin-bottom: 2rem;
-    }
-
-    .hero-data-list {
-        display: flex;
-        flex-direction: column;
-    }
-
-    .hero-data-row {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 12px 0;
-        border-bottom: 1px solid rgba(255,255,255,0.03);
-    }
-
-    .hero-data-row:last-child {
-        border-bottom: none;
-        padding-bottom: 0;
-    }
-
-    .hero-data-row:first-child {
-        padding-top: 0;
-    }
-
-    .hero-data-label {
-        font-size: 0.9rem;
-        color: #fff;
-        font-weight: 600;
-    }
-
-    .hero-data-value {
-        font-size: 1.1rem;
-        font-weight: 700;
-        color: #fff;
-        display: flex;
-        align-items: baseline;
-    }
-
-    .hero-data-value.main {
-        font-size: 1.1rem;
-        font-weight: 800;
-    }
-
-    .hero-data-value.withdrawn { color: #3b82f6; }
-    .hero-data-value.pending { color: #f59e0b; }
-
-    .hero-data-value .symbol {
-        font-size: 0.85rem;
-        color: inherit;
-        font-weight: 700;
-        margin-left: 2px;
-    }
-
-    .hero-data-row.main-row {
-        margin-bottom: 5px;
-        padding-bottom: 15px;
-        border-bottom: 1px solid rgba(255,255,255,0.05);
-    }
-</style>
-
-<!-- Withdraw Form -->
-<div class="card-title" style="margin-top: 0.5rem;">{{ strings.WALLET_WITHDRAW_REQ }}</div>
-<div class="glass-card">
-
-    {% if balance < min_withdraw %} <div class="alert alert-warning">
-        {{ strings.WALLET_MIN_LIMIT|format(min_withdraw) }}
-</div>
-{% else %}
-    <form id="withdrawForm" method="POST" action="{{ url_for('app_wallet_withdraw') }}">
-    <div class="form-group">
-        <label class="form-label">{{ strings.WALLET_METHOD_LBL }}</label>
-        <div class="custom-select-trigger" id="methodTrigger">
-            <span id="selectedMethodText">{{ strings.WALLET_METHOD_PH }}</span>
-            <i class="fa-solid fa-chevron-down"></i>
-        </div>
-        <input type="hidden" name="method" id="methodInput" required>
-    </div>
-
-    <div class="form-group">
-        <label class="form-label">{{ strings.WALLET_AMOUNT_LBL }}</label>
-        <input type="number" step="0.01" name="amount" class="form-control" placeholder="0.00" min="0.01"
-            max="{{ balance }}" required>
-        <div style="font-size: 0.7rem; color: var(--text-secondary); margin-top: 4px;">
-            {{ strings.WALLET_AVAIL|format(balance) }}
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label class="form-label" id="walletLabel">{{ strings.WALLET_ADDR_LBL }}</label>
-        <input type="text" name="wallet" class="form-control" placeholder="{{ strings.WALLET_ADDR_PH }}" required>
-    </div>
-
-    <button type="submit" class="btn btn-primary">
-        <i class="fa-solid fa-paper-plane"></i> {{ strings.WALLET_SUBMIT_BTN }}
-    </button>
-</form>
-{% endif %}
-</div>
-
-<!-- Tab filters -->
-<div class="card-title" style="margin-top: 0.5rem;">{{ strings.WALLET_HISTORY }}</div>
-
-{% if withdrawals %}
-<div class="elite-list">
-    {% for w in withdrawals %}
-    <div class="elite-card-detailed">
-        <div class="elite-row">
-            <span class="elite-label">{{ strings.HISTORY_STATUS }}</span>
-            <span class="status-pill {{ w.status }}" style="padding: 2px 10px; border-radius: 8px; font-size: 0.75rem; font-weight: 800;">
-                {% if w.status == 'approved' or w.status == 'completed' %}<i class="fa-solid fa-check"></i>
-                {% elif w.status == 'pending' %}<i class="fa-solid fa-clock"></i>
-                {% elif w.status == 'rejected' %}<i class="fa-solid fa-xmark"></i>
-                {% endif %}
-                {{ strings['STATUS_' + w.status.upper()] if strings['STATUS_' + w.status.upper()] else w.status }}
-            </span>
-        </div>
-        <div class="elite-row">
-            <span class="elite-label">{{ strings.HISTORY_METHOD }}</span>
-            <span class="elite-value">
-                {% if 'Vodafone' in w.method %}<i class="fa-solid fa-mobile-screen-button" style="color: #ff4b5c; margin: 0 5px;"></i>
-                {% elif 'Binance' in w.method %}<i class="fa-solid fa-coins" style="color: #f3ba2f; margin: 0 5px;"></i>
-                {% elif 'USDT' in w.method %}<i class="fa-solid fa-dollar-sign" style="color: #00ffa3; margin: 0 5px;"></i>
-                {% elif 'TRX' in w.method %}<i class="fa-solid fa-gem" style="color: #ff0013; margin: 0 5px;"></i>
-                {% endif %}
-                <span style="color: #fff; font-weight: 700;">{{ w.method.replace('💳 ', '').replace('🟡 ', '').replace('🟢 ', '').replace('💎 ', '') }}</span>
-            </span>
-        </div>
-        <div class="elite-row">
-            <span class="elite-label">{{ strings.HISTORY_PRICE }}</span>
-            <span class="elite-value" style="font-weight: 800; color: #fff; font-size: 1.1rem;">${{ "%.2f"|format(w.amount) }}</span>
-        </div>
-        {% if w.wallet_address %}
-        <div class="elite-row">
-            <span class="elite-label">{{ strings.HISTORY_ADDR }}</span>
-            <span class="elite-value" style="color: #fff; font-size: 0.85rem; font-family: sans-serif; word-break: break-all;">{{ w.wallet_address }}</span>
-        </div>
-        {% endif %}
-        <div class="elite-row">
-            <span class="elite-label">{{ strings.HISTORY_DATE }}</span>
-            <span class="elite-value" style="color: #fff; font-size: 0.85rem;">{{ w.created_at[:10] if w.created_at else '' }}</span>
-        </div>
-    </div>
-    {% endfor %}
-</div>
-
-{% if total_pages > 1 %}
-<div class="pagination">
-    {% if page > 1 %}
-    <a href="{{ url_for('app_wallet', page=page-1) }}" class="pagination-btn">
-        <i class="fa-solid fa-chevron-left"></i>
-    </a>
-    {% else %}
-    <div class="pagination-btn disabled"><i class="fa-solid fa-chevron-left"></i></div>
-    {% endif %}
-
-    <div class="page-indicator">
-        <span class="current">{{ page }}</span>
-        <span class="separator">/</span>
-        <span class="total">{{ total_pages }}</span>
-    </div>
-
-    {% if page < total_pages %}
-    <a href="{{ url_for('app_wallet', page=page+1) }}" class="pagination-btn">
-        <i class="fa-solid fa-chevron-right"></i>
-    </a>
-    {% else %}
-    <div class="pagination-btn disabled"><i class="fa-solid fa-chevron-right"></i></div>
-    {% endif %}
-</div>
-{% endif %}
-
-{% else %}
-<div class="empty-state">
-    <i class="fa-solid fa-clock-rotate-left"></i>
-    <p>{{ strings.WALLET_EMPTY }}</p>
-</div>
-{% endif %}
-
-
-<!-- Selection Bottom Sheet -->
-<div id="methodBottomSheet" class="bottom-sheet-overlay" style="display: none;">
-    <div class="bottom-sheet glass-card">
-        <div class="bs-handle"></div>
-        <div class="bs-header">
-            <h3>{{ strings.WALLET_METHOD_PH }}</h3>
-            <button type="button" class="bs-close" id="closeBS"><i class="fa-solid fa-xmark"></i></button>
-        </div>
-        <div class="bs-options">
-            {% for m in methods %}
-            <div class="bs-option" data-value="{{ m }}">
-                <div class="option-icon">
-                    {% if 'Vodafone' in m %}<i class="fa-solid fa-mobile-screen-button" style="color: var(--danger);"></i>
-                    {% elif 'Binance' in m %}<i class="fa-solid fa-coins" style="color: var(--warning);"></i>
-                    {% elif 'USDT' in m %}<i class="fa-solid fa-dollar-sign" style="color: var(--success);"></i>
-                    {% elif 'TRX' in m %}<i class="fa-solid fa-gem" style="color: #ef4444;"></i>
-                    {% else %}<i class="fa-solid fa-wallet"></i>{% endif %}
+        <!-- Balance Dashboard -->
+        <div class="elite-hero-card">
+            <div class="hero-data-list">
+                <!-- Main Balance Row -->
+                <div class="hero-data-row main-row">
+                    <span class="hero-data-label">{{ strings.HOME_CURRENT_BALANCE if strings else 'Current Balance'
+                        }}</span>
+                    <div class="hero-data-value main">
+                        {{ "%.2f"|format(balance) }}<span class="symbol">$</span>
+                    </div>
                 </div>
-                <div class="option-name">{{ m.replace('💳 ', '').replace('🟡 ', '').replace('🟢 ', '').replace('💎 ', '') }}</div>
-                <div class="option-check"><i class="fa-solid fa-check"></i></div>
+
+                <!-- Withdrawn Row -->
+                <div class="hero-data-row">
+                    <span class="hero-data-label">{{ strings.HOME_TOTAL_WITHDRAWN if strings else 'Total Withdrawn'
+                        }}</span>
+                    <div class="hero-data-value withdrawn">
+                        {{ "%.2f"|format(total_withdrawn or 0) }}<span class="symbol">$</span>
+                    </div>
+                </div>
+
+                <!-- Pending Row -->
+                <div class="hero-data-row">
+                    <span class="hero-data-label">{{ strings.HOME_REQ_PENDING if strings else 'Pending' }}</span>
+                    <div class="hero-data-value pending">
+                        {{ "%.2f"|format(pending or 0) }}<span class="symbol">$</span>
+                    </div>
+                </div>
             </div>
-            {% endfor %}
         </div>
+
+        <style>
+            .elite-hero-card {
+                background: rgba(255, 255, 255, 0.02);
+                border: 1px solid rgba(255, 255, 255, 0.05);
+                border-radius: 24px;
+                padding: 1.5rem;
+                margin-bottom: 2rem;
+            }
+
+            .hero-data-list {
+                display: flex;
+                flex-direction: column;
+            }
+
+            .hero-data-row {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 12px 0;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+            }
+
+            .hero-data-row:last-child {
+                border-bottom: none;
+                padding-bottom: 0;
+            }
+
+            .hero-data-row:first-child {
+                padding-top: 0;
+            }
+
+            .hero-data-label {
+                font-size: 0.9rem;
+                color: #fff;
+                font-weight: 600;
+            }
+
+            .hero-data-value {
+                font-size: 1.1rem;
+                font-weight: 700;
+                color: #fff;
+                display: flex;
+                align-items: baseline;
+            }
+
+            .hero-data-value.main {
+                font-size: 1.1rem;
+                font-weight: 800;
+            }
+
+            .hero-data-value.withdrawn {
+                color: #3b82f6;
+            }
+
+            .hero-data-value.pending {
+                color: #f59e0b;
+            }
+
+            .hero-data-value .symbol {
+                font-size: 0.85rem;
+                color: inherit;
+                font-weight: 700;
+                margin-left: 2px;
+            }
+
+            .hero-data-row.main-row {
+                margin-bottom: 5px;
+                padding-bottom: 15px;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            }
+        </style>
+
+        <!-- Withdraw Form -->
+        <div class="card-title" style="margin-top: 0.5rem;">{{ strings.WALLET_WITHDRAW_REQ }}</div>
+        <div class="glass-card">
+
+            {% if balance < min_withdraw %} <div class="alert alert-warning">
+                {{ strings.WALLET_MIN_LIMIT|format(min_withdraw) }}
+        </div>
+        {% else %}
+        <form id="withdrawForm" method="POST" action="{{ url_for('app_wallet_withdraw') }}">
+            <div class="form-group">
+                <label class="form-label">{{ strings.WALLET_METHOD_LBL }}</label>
+                <div class="custom-select-trigger" id="methodTrigger">
+                    <span id="selectedMethodText">{{ strings.WALLET_METHOD_PH }}</span>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>
+                <input type="hidden" name="method" id="methodInput" required>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">{{ strings.WALLET_AMOUNT_LBL }}</label>
+                <input type="number" step="0.01" name="amount" class="form-control" placeholder="0.00" min="0.01"
+                    max="{{ balance }}" required>
+                <div style="font-size: 0.7rem; color: var(--text-secondary); margin-top: 4px;">
+                    {{ strings.WALLET_AVAIL|format(balance) }}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" id="walletLabel">{{ strings.WALLET_ADDR_LBL }}</label>
+                <input type="text" name="wallet" class="form-control" placeholder="{{ strings.WALLET_ADDR_PH }}"
+                    required>
+            </div>
+
+            <button type="submit" class="btn btn-primary">
+                <i class="fa-solid fa-paper-plane"></i> {{ strings.WALLET_SUBMIT_BTN }}
+            </button>
+        </form>
+        {% endif %}
     </div>
-</div>
 
-<!-- Confirmation Modal -->
-<div id="confirmModal" class="modal-overlay" style="display: none;">
-    <div class="modal-content glass-card">
-        <h3 style="margin-top: 0; color: white;">{{ strings.CONFIRM_TITLE }}</h3>
+    <!-- Tab filters -->
+    <div class="card-title" style="margin-top: 0.5rem;">{{ strings.WALLET_HISTORY }}</div>
 
-        <div style="margin: 1.5rem 0;">
-            <div class="confirm-row">
-                <span class="confirm-label">{{ strings.CONFIRM_METHOD }}</span>
-                <span class="confirm-value">
-                    <span id="confirmMethodIcon"></span>
-                    <span id="confirmMethodText"></span>
+    {% if withdrawals %}
+    <div class="elite-list">
+        {% for w in withdrawals %}
+        <div class="elite-card-detailed">
+            <div class="elite-row">
+                <span class="elite-label">{{ strings.HISTORY_STATUS }}</span>
+                <span class="status-pill {{ w.status }}"
+                    style="padding: 2px 10px; border-radius: 8px; font-size: 0.75rem; font-weight: 800;">
+                    {% if w.status == 'approved' or w.status == 'completed' %}<i class="fa-solid fa-check"></i>
+                    {% elif w.status == 'pending' %}<i class="fa-solid fa-clock"></i>
+                    {% elif w.status == 'rejected' %}<i class="fa-solid fa-xmark"></i>
+                    {% endif %}
+                    {{ strings['STATUS_' + w.status.upper()] if strings['STATUS_' + w.status.upper()] else w.status }}
                 </span>
             </div>
-            <div class="confirm-row">
-                <span class="confirm-label">{{ strings.CONFIRM_AMOUNT }}</span>
-                <span class="confirm-value" id="confirmAmountText"></span>
+            <div class="elite-row">
+                <span class="elite-label">{{ strings.HISTORY_METHOD }}</span>
+                <span class="elite-value">
+                    {% if 'Vodafone' in w.method %}<i class="fa-solid fa-mobile-screen-button"
+                        style="color: #ff4b5c; margin: 0 5px;"></i>
+                    {% elif 'Binance' in w.method %}<i class="fa-solid fa-coins"
+                        style="color: #f3ba2f; margin: 0 5px;"></i>
+                    {% elif 'USDT' in w.method %}<i class="fa-solid fa-dollar-sign"
+                        style="color: #00ffa3; margin: 0 5px;"></i>
+                    {% elif 'TRX' in w.method %}<i class="fa-solid fa-gem" style="color: #ff0013; margin: 0 5px;"></i>
+                    {% endif %}
+                    <span style="color: #fff; font-weight: 700;">{{ w.method.replace('💳 ', '').replace('🟡 ',
+                        '').replace('🟢 ', '').replace('💎 ', '') }}</span>
+                </span>
             </div>
-            <div class="confirm-row">
-                <span class="confirm-label" id="confirmWalletLabel">{{ strings.CONFIRM_WALLET }}</span>
-                <span class="confirm-value" id="confirmWalletText" style="word-break: break-all;"></span>
+            <div class="elite-row">
+                <span class="elite-label">{{ strings.HISTORY_PRICE }}</span>
+                <span class="elite-value" style="font-weight: 800; color: #fff; font-size: 1.1rem;">${{
+                    "%.2f"|format(w.amount) }}</span>
+            </div>
+            {% if w.wallet_address %}
+            <div class="elite-row">
+                <span class="elite-label">{{ strings.HISTORY_ADDR }}</span>
+                <span class="elite-value"
+                    style="color: #fff; font-size: 0.85rem; font-family: sans-serif; word-break: break-all;">{{
+                    w.wallet_address }}</span>
+            </div>
+            {% endif %}
+            <div class="elite-row">
+                <span class="elite-label">{{ strings.HISTORY_DATE }}</span>
+                <span class="elite-value" style="color: #fff; font-size: 0.85rem;">{{ w.created_at[:10] if w.created_at
+                    else '' }}</span>
             </div>
         </div>
+        {% endfor %}
+    </div>
 
-        <div style="display: flex; gap: 10px;">
-            <button type="button" id="editBtn" class="btn" style="background: rgba(255,255,255,0.05); color: white;">
-                {{ strings.EDIT_BTN }}
-            </button>
-            <button type="button" id="finalConfirmBtn" class="btn btn-primary">
-                {{ strings.CONFIRM_BTN }}
-            </button>
+    {% if total_pages > 1 %}
+    <div class="pagination">
+        {% if page > 1 %}
+        <a href="{{ url_for('app_wallet', page=page-1) }}" class="btn btn-sm btn-outline">
+            <i class="fa-solid fa-chevron-left"></i>
+        </a>
+        {% else %}
+        <div class="btn btn-sm btn-outline disabled"><i class="fa-solid fa-chevron-left"></i></div>
+        {% endif %}
+
+        <span class="page-info">{{ strings.PAGE_LABEL }} {{ page }} {{ strings.OF_LABEL }} {{ total_pages }}</span>
+
+        {% if page < total_pages %} <a href="{{ url_for('app_wallet', page=page+1) }}" class="btn btn-sm btn-outline">
+            <i class="fa-solid fa-chevron-right"></i>
+            </a>
+            {% else %}
+            <div class="btn btn-sm btn-outline disabled"><i class="fa-solid fa-chevron-right"></i></div>
+            {% endif %}
+    </div>
+    {% endif %}
+
+    {% else %}
+    <div class="empty-state">
+        <i class="fa-solid fa-clock-rotate-left"></i>
+        <p>{{ strings.WALLET_EMPTY }}</p>
+    </div>
+    {% endif %}
+
+
+    <!-- Selection Bottom Sheet -->
+    <div id="methodBottomSheet" class="bottom-sheet-overlay" style="display: none;">
+        <div class="bottom-sheet glass-card">
+            <div class="bs-handle"></div>
+            <div class="bs-header">
+                <h3>{{ strings.WALLET_METHOD_PH }}</h3>
+                <button type="button" class="bs-close" id="closeBS"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="bs-options">
+                {% for m in methods %}
+                <div class="bs-option" data-value="{{ m }}">
+                    <div class="option-icon">
+                        {% if 'Vodafone' in m %}<i class="fa-solid fa-mobile-screen-button"
+                            style="color: var(--danger);"></i>
+                        {% elif 'Binance' in m %}<i class="fa-solid fa-coins" style="color: var(--warning);"></i>
+                        {% elif 'USDT' in m %}<i class="fa-solid fa-dollar-sign" style="color: var(--success);"></i>
+                        {% elif 'TRX' in m %}<i class="fa-solid fa-gem" style="color: #ef4444;"></i>
+                        {% else %}<i class="fa-solid fa-wallet"></i>{% endif %}
+                    </div>
+                    <div class="option-name">{{ m.replace('💳 ', '').replace('🟡 ', '').replace('🟢 ', '').replace('💎
+                        ', '') }}</div>
+                    <div class="option-check"><i class="fa-solid fa-check"></i></div>
+                </div>
+                {% endfor %}
+            </div>
         </div>
     </div>
-</div>
 
-<style>
-    .modal-overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: rgba(0, 0, 0, 0.8);
-        backdrop-filter: blur(8px);
-        z-index: 1000;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 1.5rem;
-    }
+    <!-- Confirmation Modal -->
+    <div id="confirmModal" class="modal-overlay" style="display: none;">
+        <div class="modal-content glass-card">
+            <h3 style="margin-top: 0; color: white;">{{ strings.CONFIRM_TITLE }}</h3>
 
-    .modal-content {
-        width: 100%;
-        max-width: 400px;
-    }
+            <div style="margin: 1.5rem 0;">
+                <div class="confirm-row">
+                    <span class="confirm-label">{{ strings.CONFIRM_METHOD }}</span>
+                    <span class="confirm-value">
+                        <span id="confirmMethodIcon"></span>
+                        <span id="confirmMethodText"></span>
+                    </span>
+                </div>
+                <div class="confirm-row">
+                    <span class="confirm-label">{{ strings.CONFIRM_AMOUNT }}</span>
+                    <span class="confirm-value" id="confirmAmountText"></span>
+                </div>
+                <div class="confirm-row">
+                    <span class="confirm-label" id="confirmWalletLabel">{{ strings.CONFIRM_WALLET }}</span>
+                    <span class="confirm-value" id="confirmWalletText" style="word-break: break-all;"></span>
+                </div>
+            </div>
 
-    .confirm-row {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 0.75rem;
-        font-size: 0.95rem;
-    }
+            <div style="display: flex; gap: 10px;">
+                <button type="button" id="editBtn" class="btn"
+                    style="background: rgba(255,255,255,0.05); color: white;">
+                    {{ strings.EDIT_BTN }}
+                </button>
+                <button type="button" id="finalConfirmBtn" class="btn btn-primary">
+                    {{ strings.CONFIRM_BTN }}
+                </button>
+            </div>
+        </div>
+    </div>
 
-    .confirm-label {
-        color: var(--text-secondary);
-    }
+    <style>
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+        }
 
-    .confirm-value {
-        color: white;
-        font-weight: 600;
-        text-align: right;
-    }
+        .modal-content {
+            width: 100%;
+            max-width: 400px;
+        }
 
-    /* Custom Selection Styling */
-    .custom-select-trigger {
-        background: rgba(0,0,0,0.25);
-        border: 1px solid var(--border-card);
-        border-radius: 12px;
-        padding: 12px 14px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        cursor: pointer;
-        transition: all 0.2s;
-    }
-    .custom-select-trigger:active { transform: scale(0.98); background: rgba(255,255,255,0.03); }
-    .custom-select-trigger i { font-size: 0.8rem; color: var(--text-secondary); }
+        .confirm-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.75rem;
+            font-size: 0.95rem;
+        }
 
-    .bottom-sheet-overlay {
-        position: fixed;
-        inset: 0;
-        background: rgba(0,0,0,0.7);
-        backdrop-filter: blur(4px);
-        z-index: 2000;
-        display: flex;
-        align-items: flex-end;
-        animation: fadeIn 0.2s ease;
-    }
-    .bottom-sheet {
-        width: 100%;
-        background: var(--bg-card);
-        border-radius: 24px 24px 0 0 !important;
-        padding: 1rem 1.25rem 2rem !important;
-        margin-bottom: 0 !important;
-        border: 1px solid var(--border-card) !important;
-        border-bottom: none !important;
-        transform: translateY(100%);
-        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        box-shadow: 0 -10px 30px rgba(0,0,0,0.5);
-    }
-    .bottom-sheet.show { transform: translateY(0); }
-    .bs-handle {
-        width: 40px;
-        height: 4px;
-        background: rgba(255,255,255,0.1);
-        border-radius: 2px;
-        margin: 0 auto 1.25rem;
-    }
-    .bs-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 1.5rem;
-    }
-    .bs-header h3 { font-size: 1.1rem; margin: 0; color: white; }
-    .bs-close {
-        background: rgba(255,255,255,0.05);
-        border: none;
-        width: 32px;
-        height: 32px;
-        border-radius: 50%;
-        color: white;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-    }
-    .bs-options { display: flex; flex-direction: column; gap: 8px; }
-    .bs-option {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        padding: 1rem;
-        background: rgba(255,255,255,0.03);
-        border: 1px solid var(--border-card);
-        border-radius: 16px;
-        transition: all 0.2s;
-        cursor: pointer;
-    }
-    .bs-option:active { background: rgba(255,255,255,0.08); transform: scale(0.98); }
-    .bs-option.selected { 
-        border-color: var(--accent); 
-        background: rgba(96,165,250,0.1);
-        box-shadow: 0 0 15px rgba(96,165,250,0.05);
-    }
-    .option-icon { font-size: 1.25rem; color: var(--text-secondary); width: 28px; text-align: center; }
-    .bs-option.selected .option-icon { color: var(--accent); }
-    .option-name { font-size: 0.95rem; font-weight: 600; flex: 1; color: var(--text-primary); }
-    .option-check { color: var(--accent); font-size: 0.9rem; opacity: 0; transition: opacity 0.2s; }
-    .bs-option.selected .option-check { opacity: 1; }
+        .confirm-label {
+            color: var(--text-secondary);
+        }
 
-</style>
-{% endblock %}
+        .confirm-value {
+            color: white;
+            font-weight: 600;
+            text-align: right;
+        }
 
-{% block scripts %}
-<script>
-    const methodTrigger = document.getElementById('methodTrigger');
-    const methodBottomSheet = document.getElementById('methodBottomSheet');
-    const bsContent = methodBottomSheet.querySelector('.bottom-sheet');
-    const methodInput = document.getElementById('methodInput');
-    const selectedMethodText = document.getElementById('selectedMethodText');
-    const walletLabel = document.getElementById('walletLabel');
-    const withdrawForm = document.getElementById('withdrawForm');
-    const confirmModal = document.getElementById('confirmModal');
-    const bsOptions = document.querySelectorAll('.bs-option');
+        /* Custom Selection Styling */
+        .custom-select-trigger {
+            background: rgba(0, 0, 0, 0.25);
+            border: 1px solid var(--border-card);
+            border-radius: 12px;
+            padding: 12px 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
 
-    // Open Bottom Sheet
-    methodTrigger?.addEventListener('click', () => {
-        methodBottomSheet.style.display = 'flex';
-        setTimeout(() => bsContent.classList.add('show'), 10);
-    });
+        .custom-select-trigger:active {
+            transform: scale(0.98);
+            background: rgba(255, 255, 255, 0.03);
+        }
 
-    // Close Bottom Sheet
-    const closeBS = () => {
-        bsContent.classList.remove('show');
-        setTimeout(() => {
-            methodBottomSheet.style.display = 'none';
-        }, 300);
-    };
+        .custom-select-trigger i {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
 
-    document.getElementById('closeBS').onclick = closeBS;
-    methodBottomSheet.onclick = (e) => { if (e.target === methodBottomSheet) closeBS(); };
+        .bottom-sheet-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(4px);
+            z-index: 2000;
+            display: flex;
+            align-items: flex-end;
+            animation: fadeIn 0.2s ease;
+        }
 
-    // Handle Option Selection
-    bsOptions.forEach(opt => {
-        opt.addEventListener('click', function () {
-            const val = this.getAttribute('data-value');
-            methodInput.value = val;
-            
-            // Strip emojis for display
-            const displayVal = val.replace('💳 ', '').replace('🟡 ', '').replace('🟢 ', '').replace('💎 ', '');
-            selectedMethodText.textContent = displayVal;
-            selectedMethodText.style.color = "var(--text-primary)";
+        .bottom-sheet {
+            width: 100%;
+            background: var(--bg-card);
+            border-radius: 24px 24px 0 0 !important;
+            padding: 1rem 1.25rem 2rem !important;
+            margin-bottom: 0 !important;
+            border: 1px solid var(--border-card) !important;
+            border-bottom: none !important;
+            transform: translateY(100%);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.5);
+        }
 
-            // Highlight selected
-            bsOptions.forEach(o => o.classList.remove('selected'));
-            this.classList.add('selected');
+        .bottom-sheet.show {
+            transform: translateY(0);
+        }
 
-            // Update Input Labels
-            if (val.includes('Vodafone')) walletLabel.textContent = "{{ strings.WALLET_LBL_VODA }}";
-            else if (val.includes('Binance')) walletLabel.textContent = "{{ strings.WALLET_LBL_BINANCE }}";
-            else if (val.includes('USDT')) walletLabel.textContent = "{{ strings.WALLET_LBL_USDT }}";
-            else if (val.includes('TRX')) walletLabel.textContent = "{{ strings.WALLET_LBL_TRX }}";
-            else walletLabel.textContent = "{{ strings.WALLET_ADDR_LBL }}";
+        .bs-handle {
+            width: 40px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+            margin: 0 auto 1.25rem;
+        }
 
-            closeBS();
+        .bs-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .bs-header h3 {
+            font-size: 1.1rem;
+            margin: 0;
+            color: white;
+        }
+
+        .bs-close {
+            background: rgba(255, 255, 255, 0.05);
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .bs-options {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .bs-option {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-card);
+            border-radius: 16px;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .bs-option:active {
+            background: rgba(255, 255, 255, 0.08);
+            transform: scale(0.98);
+        }
+
+        .bs-option.selected {
+            border-color: var(--accent);
+            background: rgba(96, 165, 250, 0.1);
+            box-shadow: 0 0 15px rgba(96, 165, 250, 0.05);
+        }
+
+        .option-icon {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            width: 28px;
+            text-align: center;
+        }
+
+        .bs-option.selected .option-icon {
+            color: var(--accent);
+        }
+
+        .option-name {
+            font-size: 0.95rem;
+            font-weight: 600;
+            flex: 1;
+            color: var(--text-primary);
+        }
+
+        .option-check {
+            color: var(--accent);
+            font-size: 0.9rem;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .bs-option.selected .option-check {
+            opacity: 1;
+        }
+    </style>
+    {% endblock %}
+
+    {% block scripts %}
+    <script>
+        const methodTrigger = document.getElementById('methodTrigger');
+        const methodBottomSheet = document.getElementById('methodBottomSheet');
+        const bsContent = methodBottomSheet.querySelector('.bottom-sheet');
+        const methodInput = document.getElementById('methodInput');
+        const selectedMethodText = document.getElementById('selectedMethodText');
+        const walletLabel = document.getElementById('walletLabel');
+        const withdrawForm = document.getElementById('withdrawForm');
+        const confirmModal = document.getElementById('confirmModal');
+        const bsOptions = document.querySelectorAll('.bs-option');
+
+        // Open Bottom Sheet
+        methodTrigger?.addEventListener('click', () => {
+            methodBottomSheet.style.display = 'flex';
+            setTimeout(() => bsContent.classList.add('show'), 10);
         });
-    });
 
-    withdrawForm?.addEventListener('submit', function (e) {
-        if (!methodInput.value) {
-            e.preventDefault();
-            alert("{{ strings.WALLET_METHOD_PH }}");
-            return;
-        }
+        // Close Bottom Sheet
+        const closeBS = () => {
+            bsContent.classList.remove('show');
+            setTimeout(() => {
+                methodBottomSheet.style.display = 'none';
+            }, 300);
+        };
 
-        if (!confirmModal.classList.contains('confirmed')) {
-            e.preventDefault();
+        document.getElementById('closeBS').onclick = closeBS;
+        methodBottomSheet.onclick = (e) => { if (e.target === methodBottomSheet) closeBS(); };
 
-            // Populate modal (stripped of emojis and added colored icons)
-            const cleanMethod = methodInput.value.replace('💳 ', '').replace('🟡 ', '').replace('🟢 ', '').replace('💎 ', '');
-            document.getElementById('confirmMethodText').textContent = cleanMethod;
-            
-            let iconHtml = '';
-            if (cleanMethod.includes('Vodafone')) iconHtml = '<i class="fa-solid fa-mobile-screen-button" style="color: var(--danger); margin-right: 8px;"></i>';
-            else if (cleanMethod.includes('Binance')) iconHtml = '<i class="fa-solid fa-coins" style="color: var(--warning); margin-right: 8px;"></i>';
-            else if (cleanMethod.includes('USDT')) iconHtml = '<i class="fa-solid fa-dollar-sign" style="color: var(--success); margin-right: 8px;"></i>';
-            else if (cleanMethod.includes('TRX')) iconHtml = '<i class="fa-solid fa-gem" style="color: #ef4444; margin-right: 8px;"></i>';
-            
-            document.getElementById('confirmMethodIcon').innerHTML = iconHtml;
-            document.getElementById('confirmAmountText').textContent = '$' + this.amount.value;
-            document.getElementById('confirmWalletText').textContent = this.wallet.value;
-            document.getElementById('confirmWalletLabel').textContent = walletLabel.textContent;
+        // Handle Option Selection
+        bsOptions.forEach(opt => {
+            opt.addEventListener('click', function () {
+                const val = this.getAttribute('data-value');
+                methodInput.value = val;
 
-            confirmModal.style.display = 'flex';
-        }
-    });
+                // Strip emojis for display
+                const displayVal = val.replace('💳 ', '').replace('🟡 ', '').replace('🟢 ', '').replace('💎 ', '');
+                selectedMethodText.textContent = displayVal;
+                selectedMethodText.style.color = "var(--text-primary)";
 
-    document.getElementById('editBtn').addEventListener('click', () => {
-        confirmModal.style.display = 'none';
-    });
+                // Highlight selected
+                bsOptions.forEach(o => o.classList.remove('selected'));
+                this.classList.add('selected');
 
-    document.getElementById('finalConfirmBtn').addEventListener('click', () => {
-        confirmModal.classList.add('confirmed');
-        withdrawForm.submit();
-    });
-</script>
+                // Update Input Labels
+                if (val.includes('Vodafone')) walletLabel.textContent = "{{ strings.WALLET_LBL_VODA }}";
+                else if (val.includes('Binance')) walletLabel.textContent = "{{ strings.WALLET_LBL_BINANCE }}";
+                else if (val.includes('USDT')) walletLabel.textContent = "{{ strings.WALLET_LBL_USDT }}";
+                else if (val.includes('TRX')) walletLabel.textContent = "{{ strings.WALLET_LBL_TRX }}";
+                else walletLabel.textContent = "{{ strings.WALLET_ADDR_LBL }}";
+
+                closeBS();
+            });
+        });
+
+        withdrawForm?.addEventListener('submit', function (e) {
+            if (!methodInput.value) {
+                e.preventDefault();
+                alert("{{ strings.WALLET_METHOD_PH }}");
+                return;
+            }
+
+            if (!confirmModal.classList.contains('confirmed')) {
+                e.preventDefault();
+
+                // Populate modal (stripped of emojis and added colored icons)
+                const cleanMethod = methodInput.value.replace('💳 ', '').replace('🟡 ', '').replace('🟢 ', '').replace('💎 ', '');
+                document.getElementById('confirmMethodText').textContent = cleanMethod;
+
+                let iconHtml = '';
+                if (cleanMethod.includes('Vodafone')) iconHtml = '<i class="fa-solid fa-mobile-screen-button" style="color: var(--danger); margin-right: 8px;"></i>';
+                else if (cleanMethod.includes('Binance')) iconHtml = '<i class="fa-solid fa-coins" style="color: var(--warning); margin-right: 8px;"></i>';
+                else if (cleanMethod.includes('USDT')) iconHtml = '<i class="fa-solid fa-dollar-sign" style="color: var(--success); margin-right: 8px;"></i>';
+                else if (cleanMethod.includes('TRX')) iconHtml = '<i class="fa-solid fa-gem" style="color: #ef4444; margin-right: 8px;"></i>';
+
+                document.getElementById('confirmMethodIcon').innerHTML = iconHtml;
+                document.getElementById('confirmAmountText').textContent = '$' + this.amount.value;
+                document.getElementById('confirmWalletText').textContent = this.wallet.value;
+                document.getElementById('confirmWalletLabel').textContent = walletLabel.textContent;
+
+                confirmModal.style.display = 'flex';
+            }
+        });
+
+        document.getElementById('editBtn').addEventListener('click', () => {
+            confirmModal.style.display = 'none';
+        });
+
+        document.getElementById('finalConfirmBtn').addEventListener('click', () => {
+            confirmModal.classList.add('confirmed');
+            withdrawForm.submit();
+        });
+    </script>
 </div>
 {% endblock %}
