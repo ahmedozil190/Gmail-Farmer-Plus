@@ -36,24 +36,24 @@
                     class="fa-regular fa-copy" style="font-size:0.8em; margin-left:4px; opacity:0.7"></i></span></div>
     </div>
 
-    <div style="display:flex; flex-direction: column; gap:10px;">
+    <div style="display:flex; flex-direction: column; gap:12px;">
         <form action="{{ url_for('app_task_submit_auto') }}" method="POST" style="width: 100%;">
             <input type="hidden" id="hidden-gmail" name="gmail" value="{{ auto.email }}">
             <input type="hidden" id="hidden-pwd" name="password" value="{{ auto.password }}">
-            <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;">
+            <button type="submit" class="btn" style="width: 100%; justify-content: center; background: linear-gradient(135deg, #2ecc71, #27ae60); color: white; border: none; font-weight: 600; box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3);">
                 {{ strings.TASK_AUTO_BTN }}
             </button>
         </form>
 
         <button type="button" onclick="regenerateData()" class="btn"
-            style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: var(--text-color); font-weight: 500; transition: all 0.3s; padding: 10px; justify-content: center;"
+            style="background: linear-gradient(135deg, #f1c40f, #f39c12); color: white; border: none; font-weight: 600; transition: all 0.3s; padding: 10px; justify-content: center; box-shadow: 0 4px 15px rgba(241, 196, 15, 0.3);"
             id="regenBtn">
             {{ strings.TASK_AUTO_REGEN }}
         </button>
 
         <a href="{{ url_for('app_tasks') }}" class="btn"
-            style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: var(--text-color); font-weight: 500; transition: all 0.3s; padding: 10px; display: flex; align-items: center; justify-content: center; text-decoration: none;">
-            <i class="fa-solid fa-arrow-right" style="margin-left: 5px;"></i> {{ strings.TASK_START_BACK }}
+            style="background: linear-gradient(135deg, #3498db, #2980b9); color: white; border: none; font-weight: 600; transition: all 0.3s; padding: 10px; display: flex; align-items: center; justify-content: center; text-decoration: none; box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);">
+            {{ strings.TASK_START_BACK }}
         </a>
     </div>
 </div>
