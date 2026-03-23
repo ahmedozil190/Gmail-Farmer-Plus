@@ -75,18 +75,12 @@ STRINGS = {
             "👤 <b>اليوزر:</b> <code>{username}</code>\n"
             "📧 <b>الشكل النهائي:</b> <code>{email}</code>\n"
             "🔑 <b>الباسورد:</b> <code>{password}</code>\n\n"
-            "⏱️ <b>مدة المهمة:</b> {timeout} دقيقة\n\n"
             "⚠️ كتابة باسورد مختلف قد يعرض حسابك للحظر ومنع سحب أرباحك.\n\n"
             "👇 بعد الانتهاء اختر واحدًا من الأزرار بالأسفل:"
         ),
         'BTN_AUTO_DONE': "✅ تم الانتهاء",
         'BTN_AUTO_REGEN': "🔄 تغيير البيانات",
         'BTN_AUTO_CANCEL': "❌ إلغاء التسجيل",
-        'MSG_REG_CANCELLED_TIMEOUT': (
-            "<code>{email}</code>\n"
-            "_____________________________\n\n"
-            "⏰ Registration canceled, as it lasted too long"
-        ),
         'MSG_THANK_YOU_TRYING': (
             "🙏 شكراً للمحاولة\n\n"
             "📌 يمكنك طلب مهمة جديدة إن كانت متاحة.\n"
@@ -477,18 +471,12 @@ STRINGS = {
             "👤 <b>Username:</b> <code>{username}</code>\n"
             "📧 <b>Final Format:</b> <code>{email}</code>\n"
             "🔑 <b>Password:</b> <code>{password}</code>\n\n"
-            "⏱️ <b>Task Duration:</b> {timeout} minutes\n\n"
             "⚠️ Writing a different password may expose your account to a ban and prevent withdrawing your profits.\n\n"
             "👇 After finishing, choose one of the buttons below:"
         ),
         'BTN_AUTO_DONE': "✅ Done",
         'BTN_AUTO_REGEN': "🔄 Change Data",
         'BTN_AUTO_CANCEL': "❌ Cancel Registration",
-        'MSG_REG_CANCELLED_TIMEOUT': (
-            "<code>{email}</code>\n"
-            "_____________________________\n\n"
-            "⏰ Registration canceled, as it lasted too long"
-        ),
         'MSG_THANK_YOU_TRYING': (
             "🙏 Thanks for trying\n\n"
             "📌 You can request a new task if available.\n"
@@ -852,7 +840,6 @@ WEBAPP_STRINGS = {
         'TASK_AUTO_BTN': "✅ تم الانتهاء",
         'TASK_AUTO_REGEN': "🔄 تغيير البيانات",
         'TASK_AUTO_CANCEL': "❌ إلغاء التسجيل",
-        'TASK_AUTO_TIMEOUT_LBL': "⏱️ مدة المهمة: {timeout} دقيقة",
         'TASK_AUTO_WARNING': "⚠️ كتابة باسورد مختلف قد يعرض حسابك للحظر ومنع سحب أرباحك.",
         'TASK_AUTO_FOOTER': "👇 بعد الانتهاء اختر واحدًا من الأزرار بالأسفل:",
         'TASKS_AUTO_INSTRUCTIONS': (
@@ -863,7 +850,6 @@ WEBAPP_STRINGS = {
             "3️⃣ اختر إنشاء حساب ثم لنفسي.\n\n"
             "4️⃣ أكتب الأسم الموجود بالأسفل واي تاريخ ميلاد.\n\n"
             "5️⃣ عند خطوة عنوان الجيميل استخدم هذا اليوزر\n\n"
-            "⏱️ مدة المهمة: 7 دقيقة\n\n"
             "⚠️ كتابة باسورد مختلف قد يعرض حسابك للحظر ومنع سحب أرباحك.\n\n"
             "👇 بعد الانتهاء اختر واحدًا من الأزرار بالأسفل:"
         ),
@@ -1003,7 +989,6 @@ WEBAPP_STRINGS = {
         'TASK_AUTO_BTN': "✅ Done",
         'TASK_AUTO_REGEN': "🔄 Change Data",
         'TASK_AUTO_CANCEL': "❌ Cancel Registration",
-        'TASK_AUTO_TIMEOUT_LBL': "⏱️ Task Duration: {timeout} minutes",
         'TASK_AUTO_WARNING': "⚠️ Writing a different password may expose your account to a ban and prevent withdrawing your profits.",
         'TASK_AUTO_FOOTER': "👇 After finishing, choose one of the buttons below:",
         'TASKS_AUTO_INSTRUCTIONS': (
@@ -1014,7 +999,6 @@ WEBAPP_STRINGS = {
             "3️⃣ Choose Create Account then For Myself.\n\n"
             "4️⃣ Write the name below and any birthday.\n\n"
             "5️⃣ At the Gmail address step use this username\n\n"
-            "⏱️ Task Duration: 7 minutes\n\n"
             "⚠️ Writing a different password may expose your account to a ban and prevent withdrawing your profits.\n\n"
             "👇 After finishing, choose one of the buttons below:"
         ),

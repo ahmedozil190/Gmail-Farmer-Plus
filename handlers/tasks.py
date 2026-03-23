@@ -56,29 +56,12 @@ async def send_auto_account_data(update: Update, context: ContextTypes.DEFAULT_T
     
     conf = get_business_config()
     fixed_pwd = conf.get("GMAIL_MANUAL_PWD", "Aa612003@")
-    timeout_mins = conf.get("TASK_TIMEOUT", 7)
     
     # Generate new data
     data = generate_account_data()
     data['password'] = fixed_pwd # Enforce unified password
-    data['timeout'] = timeout_mins
+    data['password'] = fixed_pwd # Enforce unified password
     context.user_data['auto_task'] = data
-    
-    # Schedule timeout job
-    if context.job_queue:
-        # Cancel previous job if it exists
-        current_jobs = context.job_queue.get_jobs_by_name(f"timeout_{update.effective_user.id}")
-        for job in current_jobs:
-            job.schedule_removal()
-        
-        context.job_queue.run_once(
-            task_timeout_callback,
-            timeout_mins * 60,
-            data={'chat_id': update.effective_chat.id, 'user_id': update.effective_user.id, 'email': data['email'], 'lang': lang},
-            name=f"timeout_{update.effective_user.id}"
-        )
-    else:
-        logging.warning(f"JobQueue not found for user {update.effective_user.id}. Timer disabled.")
     
     text = s['MSG_AUTO_DATA'].format(**data)
     
@@ -104,32 +87,9 @@ async def query_edit_safe(update, context, text, reply_markup):
     except:
         await context.bot.send_message(chat_id=update.effective_chat.id, text=text, parse_mode="HTML", reply_markup=reply_markup)
 
-async def task_timeout_callback(context: ContextTypes.DEFAULT_TYPE):
-    job = context.job
-    data = job.data
-    lang = data['lang']
-    s = STRINGS.get(lang, STRINGS['ar'])
-    
-    # Clear user data related to task
-    # Note: We can't easily reach context.user_data here without the user_id context.
-    # But we can just send the message. The conversation will technically stay in TASK_AUTO state 
-    # but the user won't have the buttons anymore if we don't send them.
-    
-    await context.bot.send_message(
-        chat_id=data['chat_id'],
-        text=s['MSG_REG_CANCELLED_TIMEOUT'].format(email=data['email']),
-        parse_mode="HTML"
-    )
-
 async def handle_auto_action(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
     await query.answer()
-    
-    # Cancel timeout job
-    if context.job_queue:
-        current_jobs = context.job_queue.get_jobs_by_name(f"timeout_{update.effective_user.id}")
-        for job in current_jobs:
-            job.schedule_removal()
     
     lang = context.user_data.get('lang', 'ar')
     s = STRINGS.get(lang, STRINGS['ar'])
