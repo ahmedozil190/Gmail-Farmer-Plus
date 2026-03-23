@@ -787,7 +787,21 @@ def get_webapp_user():
         lang = user_dict.get("language", "ar")
         if lang not in WEBAPP_STRINGS: lang = "ar"
         
-        return user_dict, WEBAPP_STRINGS[lang], is_banned
+        # Format strings with price
+        conf = database.get_business_config()
+        auto_price = user_dict.get("custom_auto_price")
+        if auto_price is None:
+            auto_price = conf.get("GMAIL_PRICE_AUTO", 0.08)
+            
+        from utils.currency import format_currency_dual
+        price_text = format_currency_dual(auto_price)
+        
+        localized_strings = WEBAPP_STRINGS[lang].copy()
+        for k, v in localized_strings.items():
+            if isinstance(v, str) and "{price_text}" in v:
+                localized_strings[k] = v.format(price_text=price_text)
+                
+        return user_dict, localized_strings, is_banned
     except Exception as e:
         print(f"get_webapp_user CRASH: {traceback.format_exc()}")
         with open("crash.log", "a", encoding="utf-8") as f:

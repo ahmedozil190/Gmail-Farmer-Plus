@@ -20,7 +20,7 @@
     {% endif %}
 
     <div
-        style="background: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px; margin-bottom: 20px; font-family: monospace; font-size: 0.95rem; line-height: 1.8;">
+        style="background: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px; margin-bottom: 20px; font-family: monospace; font-size: 0.95rem; line-height: 1.8; display: flex; flex-direction: column; gap: 8px;">
         <div><b>👤 {{ strings.TASK_AUTO_FNAME }}</b> <span id="auto-fname" style="user-select: all; cursor:pointer;"
                 onclick="copyText(this)">{{ auto.first_name }} <i class="fa-regular fa-copy"
                     style="font-size:0.8em; margin-left:4px; opacity:0.7"></i></span></div>
@@ -31,7 +31,7 @@
                 style="color:var(--primary-color); user-select: all; font-weight: bold; cursor:pointer;"
                 onclick="copyText(this)">{{ auto.email.split('@')[0] }} <i class="fa-regular fa-copy"
                     style="font-size:0.8em; margin-left:4px; opacity:0.7"></i></span></div>
-        <div style="margin-top: 8px;"><b>🔑 {{ strings.TASK_AUTO_PWD }}</b> <span id="auto-pwd"
+        <div><b>🔑 {{ strings.TASK_AUTO_PWD }}</b> <span id="auto-pwd"
                 style="user-select: all; cursor:pointer;" onclick="copyText(this)">{{ auto.password }} <i
                     class="fa-regular fa-copy" style="font-size:0.8em; margin-left:4px; opacity:0.7"></i></span></div>
     </div>

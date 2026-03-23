@@ -63,7 +63,7 @@ STRINGS = {
         'BTN_METHOD_AUTO': "➕ إنشاء حساب جديد",
         'MSG_CHOOSE_METHOD': "اضغط على الزر أدناه للبدء بإنشاء حساب جيميل جديد وتحقيق الربح.",
         'MSG_AUTO_DATA': (
-            "📱 <b>مهمة إنشاء جيميل جديدة</b>\n\n"
+            "📱 <b>مهمة إنشاء جيميل جديدة - {price_text}</b>\n\n"
             "✨ اتبع الخطوات بهدوء وبالترتيب:\n\n"
             "1️⃣ اذهب إلى الإعدادات ثم المستخدمون والحسابات.\n\n"
             "2️⃣ اضغط إضافة حساب ثم اختر Google.\n\n"
@@ -459,7 +459,7 @@ STRINGS = {
         'BTN_METHOD_AUTO': "🤖 Auto-Generated",
         'MSG_CHOOSE_METHOD': "How would you prefer to create the new account?\n\n- Manual: You provides the details.\n- Auto: Very unique details generated for you.",
         'MSG_AUTO_DATA': (
-            "📱 <b>New Gmail Task</b>\n\n"
+            "📱 <b>New Gmail Task - {price_text}</b>\n\n"
             "✨ Follow the steps calmly and in order:\n\n"
             "1️⃣ Go to Settings then Users & Accounts.\n\n"
             "2️⃣ Click Add Account then choose Google.\n\n"
@@ -831,7 +831,7 @@ WEBAPP_STRINGS = {
         'TASK_TAB_MANUAL': "إنشاء يدوي",
         'TASK_TAB_AUTO': "",
         'BTN_METHOD_MANUAL': "يدوي",
-        'BTN_METHOD_AUTO': "🆕 تسجيل إيميل جديد",
+        'BTN_METHOD_AUTO': "- تسجيل إيميل جديد - {price_text}",
         'TASK_AUTO_INFO': "",
         'TASK_AUTO_FNAME': "الاسم الأول:",
         'TASK_AUTO_LNAME': "اسم العائلة:",
@@ -843,7 +843,7 @@ WEBAPP_STRINGS = {
         'TASK_AUTO_WARNING': "⚠️ كتابة باسورد مختلف قد يعرض حسابك للحظر ومنع سحب أرباحك.",
         'TASK_AUTO_FOOTER': "👇 بعد الانتهاء اختر واحدًا من الأزرار بالأسفل:",
         'TASKS_AUTO_INSTRUCTIONS': (
-            "📱 <b>مهمة إنشاء جيميل جديدة</b>\n\n"
+            "📱 <b>مهمة إنشاء جيميل جديدة - {price_text}</b>\n\n"
             "✨ اتبع الخطوات بهدوء وبالترتيب:\n\n"
             "1️⃣ اذهب إلى الإعدادات ثم المستخدمون والحسابات.\n\n"
             "2️⃣ اضغط إضافة حساب ثم اختر Google.\n\n"
@@ -980,7 +980,7 @@ WEBAPP_STRINGS = {
         'TASK_TAB_MANUAL': "Manual Create",
         'TASK_TAB_AUTO': "",
         'BTN_METHOD_MANUAL': "Manual",
-        'BTN_METHOD_AUTO': "🆕 Register a new Gmail",
+        'BTN_METHOD_AUTO': "- Register a new Gmail - {price_text}",
         'TASK_AUTO_INFO': "",
         'TASK_AUTO_FNAME': "First Name:",
         'TASK_AUTO_LNAME': "Last Name:",
@@ -992,7 +992,7 @@ WEBAPP_STRINGS = {
         'TASK_AUTO_WARNING': "⚠️ Writing a different password may expose your account to a ban and prevent withdrawing your profits.",
         'TASK_AUTO_FOOTER': "👇 After finishing, choose one of the buttons below:",
         'TASKS_AUTO_INSTRUCTIONS': (
-            "📱 <b>New Gmail Task</b>\n\n"
+            "📱 <b>New Gmail Task - {price_text}</b>\n\n"
             "✨ Follow the steps calmly and in order:\n\n"
             "1️⃣ Go to Settings then Users & Accounts.\n\n"
             "2️⃣ Click Add Account then choose Google.\n\n"
