@@ -250,15 +250,10 @@ def reset_custom_price(user_id):
 @app.route("/leaderboard")
 @requires_auth
 def leaderboard():
-    lang = database.get_setting("DASHBOARD_LANG", "en")
-    s = DASHBOARD_STRINGS.get(lang, DASHBOARD_STRINGS["ar"])
-    
     approved, rejected, withdrawn = database.get_leaderboard_data()
     
     return render_template(
         "leaderboard.html",
-        strings=s,
-        dash_lang=lang,
         approved=approved,
         rejected=rejected,
         withdrawn=withdrawn
