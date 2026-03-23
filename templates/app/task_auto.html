@@ -18,71 +18,84 @@
     {% if strings.TASK_AUTO_INFO %}
     <div class="card-title" style="color: var(--primary-color)">{{ strings.TASK_AUTO_INFO }}</div>
     {% endif %}
-    
-    <div style="background: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px; margin-bottom: 20px; font-family: monospace; font-size: 0.95rem; line-height: 1.8;">
-        <div><b>👤&nbsp; {{ strings.TASK_AUTO_FNAME }}</b> <span id="auto-fname" style="user-select: all; cursor:pointer;" onclick="copyText(this)">{{ auto.first_name }} <i class="fa-regular fa-copy" style="font-size:0.8em; margin-left:4px; opacity:0.7"></i></span></div>
-        <div><b>👤&nbsp; {{ strings.TASK_AUTO_LNAME }}</b> <span id="auto-lname" style="user-select: all; cursor:pointer;" onclick="copyText(this)">{{ auto.last_name }} <i class="fa-regular fa-copy" style="font-size:0.8em; margin-left:4px; opacity:0.7"></i></span></div>
-        <div><b>👤&nbsp; {{ strings.TASK_AUTO_EMAIL }}</b> <span id="auto-email" style="color:var(--primary-color); user-select: all; font-weight: bold; cursor:pointer;" onclick="copyText(this)">{{ auto.email.split('@')[0] }} <i class="fa-regular fa-copy" style="font-size:0.8em; margin-left:4px; opacity:0.7"></i></span></div>
-        <div style="margin-top: 8px;"><b>🔑&nbsp; {{ strings.TASK_AUTO_PWD }}</b> <span id="auto-pwd" style="user-select: all; cursor:pointer;" onclick="copyText(this)">{{ auto.password }} <i class="fa-regular fa-copy" style="font-size:0.8em; margin-left:4px; opacity:0.7"></i></span></div>
+
+    <div
+        style="background: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px; margin-bottom: 20px; font-family: monospace; font-size: 0.95rem; line-height: 1.8;">
+        <div><b>👤 {{ strings.TASK_AUTO_FNAME }}</b> <span id="auto-fname" style="user-select: all; cursor:pointer;"
+                onclick="copyText(this)">{{ auto.first_name }} <i class="fa-regular fa-copy"
+                    style="font-size:0.8em; margin-left:4px; opacity:0.7"></i></span></div>
+        <div><b>👤 {{ strings.TASK_AUTO_LNAME }}</b> <span id="auto-lname" style="user-select: all; cursor:pointer;"
+                onclick="copyText(this)">{{ auto.last_name }} <i class="fa-regular fa-copy"
+                    style="font-size:0.8em; margin-left:4px; opacity:0.7"></i></span></div>
+        <div><b>👤 {{ strings.TASK_AUTO_EMAIL }}</b> <span id="auto-email"
+                style="color:var(--primary-color); user-select: all; font-weight: bold; cursor:pointer;"
+                onclick="copyText(this)">{{ auto.email.split('@')[0] }} <i class="fa-regular fa-copy"
+                    style="font-size:0.8em; margin-left:4px; opacity:0.7"></i></span></div>
+        <div style="margin-top: 8px;"><b>🔑 {{ strings.TASK_AUTO_PWD }}</b> <span id="auto-pwd"
+                style="user-select: all; cursor:pointer;" onclick="copyText(this)">{{ auto.password }} <i
+                    class="fa-regular fa-copy" style="font-size:0.8em; margin-left:4px; opacity:0.7"></i></span></div>
     </div>
-    
+
     <div style="display:flex; flex-direction: column; gap:10px;">
         <form action="{{ url_for('app_task_submit_auto') }}" method="POST" style="width: 100%;">
             <input type="hidden" id="hidden-gmail" name="gmail" value="{{ auto.email }}">
             <input type="hidden" id="hidden-pwd" name="password" value="{{ auto.password }}">
             <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;">
-                 <i class="fa-solid fa-circle-check" style="margin-left: 8px;"></i> {{ strings.TASK_AUTO_BTN }}
+                {{ strings.TASK_AUTO_BTN }}
             </button>
         </form>
 
-        <button type="button" onclick="regenerateData()" class="btn" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: var(--text-color); font-weight: 500; transition: all 0.3s; padding: 10px; justify-content: center;" id="regenBtn">
-             <i class="fa-solid fa-arrows-rotate" style="margin-left: 8px;"></i> {{ strings.TASK_AUTO_REGEN }}
+        <button type="button" onclick="regenerateData()" class="btn"
+            style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: var(--text-color); font-weight: 500; transition: all 0.3s; padding: 10px; justify-content: center;"
+            id="regenBtn">
+            {{ strings.TASK_AUTO_REGEN }}
         </button>
 
-        <a href="{{ url_for('app_tasks') }}" class="btn" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: var(--text-color); font-weight: 500; transition: all 0.3s; padding: 10px; display: flex; align-items: center; justify-content: center; text-decoration: none;">
-             <i class="fa-solid fa-arrow-right" style="margin-left: 8px;"></i> {{ strings.TASK_START_BACK }}
+        <a href="{{ url_for('app_tasks') }}" class="btn"
+            style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: var(--text-color); font-weight: 500; transition: all 0.3s; padding: 10px; display: flex; align-items: center; justify-content: center; text-decoration: none;">
+            <i class="fa-solid fa-arrow-right" style="margin-left: 5px;"></i> {{ strings.TASK_START_BACK }}
         </a>
     </div>
 </div>
 
 <script>
-function copyText(el) {
-    const text = el.innerText.trim();
-    navigator.clipboard.writeText(text).then(() => {
-        const icon = el.querySelector('i');
-        if (icon) {
-            const oldClass = icon.className;
-            icon.className = 'fa-solid fa-check text-success';
-            setTimeout(() => { icon.className = oldClass; }, 1500);
-        }
-    }).catch(err => console.error('Failed to copy', err));
-}
-
-async function regenerateData() {
-    const btn = document.getElementById('regenBtn');
-    btn.disabled = true;
-    const oldHtml = btn.innerHTML;
-    btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
-    
-    try {
-        const res = await fetch("{{ url_for('app_task_api_generate') }}");
-        if (res.ok) {
-            const data = await res.json();
-            const copyIcon = ' <i class="fa-regular fa-copy" style="font-size:0.8em; margin-left:4px; opacity:0.7"></i>';
-            document.getElementById('auto-fname').innerHTML = data.first_name + copyIcon;
-            document.getElementById('auto-lname').innerHTML = data.last_name + copyIcon;
-            document.getElementById('auto-email').innerHTML = data.email.split('@')[0] + copyIcon;
-            document.getElementById('auto-pwd').innerHTML = data.password + copyIcon;
-            
-            document.getElementById('hidden-gmail').value = data.email;
-            document.getElementById('hidden-pwd').value = data.password;
-        }
-    } catch (e) {
-        console.error(e);
+    function copyText(el) {
+        const text = el.innerText.trim();
+        navigator.clipboard.writeText(text).then(() => {
+            const icon = el.querySelector('i');
+            if (icon) {
+                const oldClass = icon.className;
+                icon.className = 'fa-solid fa-check text-success';
+                setTimeout(() => { icon.className = oldClass; }, 1500);
+            }
+        }).catch(err => console.error('Failed to copy', err));
     }
-    
-    btn.disabled = false;
-    btn.innerHTML = oldHtml;
-}
+
+    async function regenerateData() {
+        const btn = document.getElementById('regenBtn');
+        btn.disabled = true;
+        const oldHtml = btn.innerHTML;
+        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
+
+        try {
+            const res = await fetch("{{ url_for('app_task_api_generate') }}");
+            if (res.ok) {
+                const data = await res.json();
+                const copyIcon = ' <i class="fa-regular fa-copy" style="font-size:0.8em; margin-left:4px; opacity:0.7"></i>';
+                document.getElementById('auto-fname').innerHTML = data.first_name + copyIcon;
+                document.getElementById('auto-lname').innerHTML = data.last_name + copyIcon;
+                document.getElementById('auto-email').innerHTML = data.email.split('@')[0] + copyIcon;
+                document.getElementById('auto-pwd').innerHTML = data.password + copyIcon;
+
+                document.getElementById('hidden-gmail').value = data.email;
+                document.getElementById('hidden-pwd').value = data.password;
+            }
+        } catch (e) {
+            console.error(e);
+        }
+
+        btn.disabled = false;
+        btn.innerHTML = oldHtml;
+    }
 </script>
 {% endblock %}
