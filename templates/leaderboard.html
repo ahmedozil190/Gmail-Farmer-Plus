@@ -13,17 +13,14 @@
 </div>
 
 <div class="tab-nav">
-    <a href="{{ url_for('leaderboard', tab='approved') }}"
-        class="tab-item {% if active_tab == 'approved' %}active{% endif %}">
-        <i class="fa-solid fa-circle-check"></i> {{ strings.DASH_LB_APPROVED }}
+    <a href="{{ url_for('leaderboard', tab='approved') }}" class="tab-item {% if active_tab == 'approved' %}active{% endif %}">
+        {{ strings.DASH_LB_APPROVED | replace(' ', '<br>') | safe }}
     </a>
-    <a href="{{ url_for('leaderboard', tab='withdrawn') }}"
-        class="tab-item {% if active_tab == 'withdrawn' %}active{% endif %}">
-        <i class="fa-solid fa-money-bill-trend-up"></i> {{ strings.DASH_LB_WITHDRAWN }}
+    <a href="{{ url_for('leaderboard', tab='withdrawn') }}" class="tab-item {% if active_tab == 'withdrawn' %}active{% endif %}">
+        {{ strings.DASH_LB_WITHDRAWN | replace(' ', '<br>') | safe }}
     </a>
-    <a href="{{ url_for('leaderboard', tab='rejected') }}"
-        class="tab-item {% if active_tab == 'rejected' %}active{% endif %}">
-        <i class="fa-solid fa-circle-xmark"></i> {{ strings.DASH_LB_REJECTED }}
+    <a href="{{ url_for('leaderboard', tab='rejected') }}" class="tab-item {% if active_tab == 'rejected' %}active{% endif %}">
+        {{ strings.DASH_LB_REJECTED | replace(' ', '<br>') | safe }}
     </a>
 </div>
 
@@ -31,9 +28,7 @@
     {% if active_tab == 'approved' %}
     <!-- Top Approved -->
     <div class="glass-card LB-card">
-        <div class="LB-header"
-            style="background: rgba(16, 185, 129, 0.1); border-bottom: 1px solid rgba(16, 185, 129, 0.2);">
-            <i class="fa-solid fa-circle-check" style="color: var(--success); font-size: 1.2rem;"></i>
+        <div class="LB-header" style="background: rgba(16, 185, 129, 0.1); border-bottom: 1px solid rgba(16, 185, 129, 0.2);">
             <span style="font-weight: 700;">{{ strings.DASH_LB_APPROVED }}</span>
         </div>
         <div class="LB-body">
@@ -57,9 +52,7 @@
     {% elif active_tab == 'withdrawn' %}
     <!-- Top Withdrawn -->
     <div class="glass-card LB-card highlight">
-        <div class="LB-header"
-            style="background: rgba(59, 130, 246, 0.1); border-bottom: 1px solid rgba(59, 130, 246, 0.2);">
-            <i class="fa-solid fa-money-bill-trend-up" style="color: var(--accent-blue); font-size: 1.2rem;"></i>
+        <div class="LB-header" style="background: rgba(59, 130, 246, 0.1); border-bottom: 1px solid rgba(59, 130, 246, 0.2);">
             <span style="font-weight: 700;">{{ strings.DASH_LB_WITHDRAWN }}</span>
         </div>
         <div class="LB-body">
@@ -83,9 +76,7 @@
     {% elif active_tab == 'rejected' %}
     <!-- Top Rejected -->
     <div class="glass-card LB-card">
-        <div class="LB-header"
-            style="background: rgba(239, 68, 68, 0.1); border-bottom: 1px solid rgba(239, 68, 68, 0.2);">
-            <i class="fa-solid fa-circle-xmark" style="color: var(--danger); font-size: 1.2rem;"></i>
+        <div class="LB-header" style="background: rgba(239, 68, 68, 0.1); border-bottom: 1px solid rgba(239, 68, 68, 0.2);">
             <span style="font-weight: 700;">{{ strings.DASH_LB_REJECTED }}</span>
         </div>
         <div class="LB-body">
@@ -118,22 +109,26 @@
         padding: 5px;
         border-radius: 12px;
         border: 1px solid rgba(255, 255, 255, 0.05);
+        overflow-x: auto;
     }
 
     .tab-item {
         flex: 1;
         text-align: center;
-        padding: 10px;
+        padding: 8px 5px;
         border-radius: 8px;
         text-decoration: none;
         color: var(--text-secondary);
         font-weight: 700;
-        font-size: 0.9rem;
+        font-size: 0.85rem;
         transition: all 0.2s;
         display: flex;
+        flex-direction: column;
         align-items: center;
         justify-content: center;
-        gap: 8px;
+        gap: 2px;
+        line-height: 1.2;
+        min-width: 90px;
     }
 
     .tab-item:hover {
