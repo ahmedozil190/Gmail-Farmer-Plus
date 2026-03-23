@@ -125,7 +125,7 @@ def users():
     search = request.args.get("q", "").strip()
     current_status = request.args.get("status", "all")
     page = request.args.get("page", 1, type=int)
-    per_page = 20
+    per_page = 5
     offset = (page - 1) * per_page
     
     con = database._conn()
@@ -224,11 +224,22 @@ def user_custom_prices(user_id):
 @app.route("/custom_pricing")
 @requires_auth
 def custom_pricing():
+    page = request.args.get("page", 1, type=int)
+    per_page = 5
+    offset = (page - 1) * per_page
+
     con = database._conn()
-    users_list = con.execute("SELECT * FROM users WHERE custom_manual_price IS NOT NULL OR custom_auto_price IS NOT NULL ORDER BY join_date DESC").fetchall()
+    total_count = con.execute("SELECT COUNT(*) FROM users WHERE custom_manual_price IS NOT NULL OR custom_auto_price IS NOT NULL").fetchone()[0]
+    total_pages = (total_count + per_page - 1) // per_page
+
+    users_list = con.execute("SELECT * FROM users WHERE custom_manual_price IS NOT NULL OR custom_auto_price IS NOT NULL ORDER BY join_date DESC LIMIT ? OFFSET ?", [per_page, offset]).fetchall()
     con.close()
     
-    return render_template("custom_prices.html", users=users_list)
+    return render_template("custom_prices.html", 
+                           users=users_list,
+                           page=page,
+                           total_pages=total_pages,
+                           total_count=total_count)
 
 @app.route("/custom_pricing/reset/<int:user_id>", methods=["POST"])
 @requires_auth
@@ -244,7 +255,7 @@ def tasks():
     user_search = request.args.get("user_id", "").strip()
     date_filter = request.args.get("date", "")
     page = request.args.get("page", 1, type=int)
-    per_page = 20
+    per_page = 5
     offset = (page - 1) * per_page
     
     import datetime
@@ -420,7 +431,7 @@ def withdrawals():
     user_search = request.args.get("user_id", "").strip()
     date_filter = request.args.get("date", "")
     page = request.args.get("page", 1, type=int)
-    per_page = 20
+    per_page = 5
     offset = (page - 1) * per_page
     
     con = database._conn()
