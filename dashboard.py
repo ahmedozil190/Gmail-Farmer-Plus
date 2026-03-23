@@ -570,6 +570,7 @@ def settings():
             database.set_setting("GMAIL_PRICE_AUTO", form_data.get("gmail_price_auto"))
             database.set_setting("REFERRAL_BONUS", form_data.get("referral_bonus"))
             database.set_setting("GMAIL_MANUAL_PWD", form_data.get("gmail_manual_pwd", "Aa612003@"))
+            database.set_setting("TASK_TIMEOUT", form_data.get("task_timeout", "7"))
         
         elif category == "limits":
             database.set_setting("MIN_WITHDRAW_VODAFONE", form_data.get("min_voda"))

@@ -86,6 +86,7 @@ def generate_account_data():
     return {
         "first_name": first_name,
         "last_name": last_name,
+        "username": email_user,
         "email": email,
         "password": password
     }

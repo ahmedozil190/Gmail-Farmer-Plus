@@ -62,10 +62,38 @@ STRINGS = {
         'BTN_METHOD_MANUAL': "📝 إنشاء يدوي",
         'BTN_METHOD_AUTO': "➕ إنشاء حساب جديد",
         'MSG_CHOOSE_METHOD': "اضغط على الزر أدناه للبدء بإنشاء حساب جيميل جديد وتحقيق الربح.",
-        'MSG_AUTO_DATA': "قم بفتح (Gmail) وأنشئ حساباً جديداً بالبيانات التالية تماماً:\n\n👤 الاسم الأول: <code>{first_name}</code>\n👤 اسم العائلة: <code>{last_name}</code>\n📧 البريد: <code>{email}</code>\n🔑 كلمة المرور: <code>{password}</code>\n\n⚠️ <b>مهم جداً:</b> يجب أن تتطابق الأحرف تماماً.\nبعد انتهائك من الإنشاء، اضغط على زر [✅ تم الإنشاء].",
-        'BTN_AUTO_DONE': "✅ تم الإنشاء",
-        'BTN_AUTO_REGEN': "🔄 تغيير البيانات",
-        'BTN_AUTO_CANCEL': "✖️ إلغاء",
+        'MSG_AUTO_DATA': (
+            "📱 <b>مهمة إنشاء جيميل جديدة</b>\n\n"
+            "✨ اتبع الخطوات بهدوء وبالترتيب:\n\n"
+            "1️⃣ اذهب إلى الإعدادات ثم المستخدمون والحسابات.\n\n"
+            "2️⃣ اضغط إضافة حساب ثم اختر Google.\n\n"
+            "3️⃣ اختر إنشاء حساب ثم لنفسي.\n\n"
+            "4️⃣ أكتب الأسم الموجود بالأسفل واي تاريخ ميلاد.\n\n"
+            "5️⃣ عند خطوة عنوان الجيميل استخدم هذا اليوزر:\n\n"
+            "👤 <b>الاسم الأول:</b> <code>{first_name}</code>\n"
+            "👤 <b>اسم العائلة:</b> <code>{last_name}</code>\n"
+            "👤 <b>اليوزر:</b> <code>{username}</code>\n"
+            "📧 <b>الشكل النهائي:</b>\n"
+            "<code>{email}</code>\n"
+            "🔑 <b>الباسورد:</b>\n"
+            "<code>{password}</code>\n\n"
+            "⏱️ <b>مدة المهمة:</b> {timeout} دقيقة\n\n"
+            "⚠️ كتابة باسورد مختلف قد يعرض حسابك للحظر ومنع سحب أرباحك.\n\n"
+            "👇 بعد الانتهاء اختر واحدًا من الأزرار بالأسفل:"
+        ),
+        'BTN_AUTO_DONE': "1- Done ✅",
+        'BTN_AUTO_REGEN': "2- Change Data 🔄",
+        'BTN_AUTO_CANCEL': "3- Cancel Registration ❌",
+        'MSG_REG_CANCELLED_TIMEOUT': (
+            "<code>{email}</code>\n"
+            "_____________________________\n\n"
+            "⏰ Registration canceled, as it lasted too long"
+        ),
+        'MSG_THANK_YOU_TRYING': (
+            "🙏 شكراً للمحاولة\n\n"
+            "📌 يمكنك طلب مهمة جديدة إن كانت متاحة.\n"
+            "✨ حاول مرة ثانية بهدوء أو من جهاز آخر."
+        ),
         'TASKS_MENU_PROMPT': (
             "📋 قائمة المهام المتاحة\n\n"
             "💰 اختر مهمة الآن وابدأ تحقيق الأرباح.\n"
@@ -438,10 +466,38 @@ STRINGS = {
         'BTN_METHOD_MANUAL': "📝 Manual Creation",
         'BTN_METHOD_AUTO': "🤖 Auto-Generated",
         'MSG_CHOOSE_METHOD': "How would you prefer to create the new account?\n\n- Manual: You provides the details.\n- Auto: Very unique details generated for you.",
-        'MSG_AUTO_DATA': "Open Gmail and create an account with EXACTLY these details:\n\n👤 First Name: <code>{first_name}</code>\n👤 Last Name: <code>{last_name}</code>\n📧 Email: <code>{email}</code>\n🔑 Password: <code>{password}</code>\n\n⚠️ <b>Important:</b> Characters must match exactly.\nWhen done, click [✅ Created].",
-        'BTN_AUTO_DONE': "✅ Created",
-        'BTN_AUTO_REGEN': "🔄 Change Data",
-        'BTN_AUTO_CANCEL': "✖️ Cancel",
+        'MSG_AUTO_DATA': (
+            "📱 <b>New Gmail Task</b>\n\n"
+            "✨ Follow the steps calmly and in order:\n\n"
+            "1️⃣ Go to Settings then Users & Accounts.\n\n"
+            "2️⃣ Click Add Account then choose Google.\n\n"
+            "3️⃣ Choose Create Account then For Myself.\n\n"
+            "4️⃣ Write the name below and any birthday.\n\n"
+            "5️⃣ At the Gmail address step use this username:\n\n"
+            "👤 <b>First Name:</b> <code>{first_name}</code>\n"
+            "👤 <b>Last Name:</b> <code>{last_name}</code>\n"
+            "👤 <b>Username:</b> <code>{username}</code>\n"
+            "📧 <b>Final Format:</b>\n"
+            "<code>{email}</code>\n"
+            "🔑 <b>Password:</b>\n"
+            "<code>{password}</code>\n\n"
+            "⏱️ <b>Task Duration:</b> {timeout} minutes\n\n"
+            "⚠️ Writing a different password may expose your account to a ban and prevent withdrawing your profits.\n\n"
+            "👇 After finishing, choose one of the buttons below:"
+        ),
+        'BTN_AUTO_DONE': "1- Done ✅",
+        'BTN_AUTO_REGEN': "2- Change Data 🔄",
+        'BTN_AUTO_CANCEL': "3- Cancel Registration ❌",
+        'MSG_REG_CANCELLED_TIMEOUT': (
+            "<code>{email}</code>\n"
+            "_____________________________\n\n"
+            "⏰ Registration canceled, as it lasted too long"
+        ),
+        'MSG_THANK_YOU_TRYING': (
+            "🙏 Thanks for trying\n\n"
+            "📌 You can request a new task if available.\n"
+            "✨ Try again calmly or from another device."
+        ),
         'TASKS_MENU_PROMPT': (
             "📋 Available Tasks List\n\n"
             "💰 Choose a task now and start earning.\n"
@@ -1128,6 +1184,7 @@ DASHBOARD_STRINGS = {
         'SETTINGS_GMAIL_PRICE': "سعر الجيميل اليدوي ($)",
         'SETTINGS_GMAIL_PRICE_AUTO': "سعر الجيميل السريع ($)",
         'SETTINGS_REF_BONUS': "مكافأة الإحالة ($)",
+        'LBL_TASK_TIMEOUT': "مدة المهمة (بالدقائق)",
         'SETTINGS_MIN_WITHDRAWALS': "حدود السحب الأدنى لكل طريقة:",
         'SETTINGS_VODAFONE': "فودافون كاش ($)",
         'SETTINGS_BINANCE': "بينانس ($)",
@@ -1260,6 +1317,7 @@ DASHBOARD_STRINGS = {
         'SETTINGS_GMAIL_PRICE': "Manual Gmail Price ($)",
         'SETTINGS_GMAIL_PRICE_AUTO': "Auto Gmail Price ($)",
         'SETTINGS_REF_BONUS': "Ref Bonus ($)",
+        'LBL_TASK_TIMEOUT': "Task Timeout (Minutes)",
         'SETTINGS_MIN_WITHDRAWALS': "Minimum withdrawal limits:",
         'SETTINGS_VODAFONE': "Vodafone ($)",
         'SETTINGS_BINANCE': "Binance ($)",

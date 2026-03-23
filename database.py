@@ -520,6 +520,7 @@ def get_business_config():
             "💎 TRX (TRC20)":   trx,
             "DEFAULT":          voda # fallback
         },
+        "TASK_TIMEOUT":   int(get_setting("TASK_TIMEOUT", 7)),
         "DASHBOARD_LANG": get_setting("DASHBOARD_LANG", "en")
     }
 
