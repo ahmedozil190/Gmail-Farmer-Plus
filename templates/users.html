@@ -119,31 +119,34 @@
 
     <!-- Pagination -->
     {% if total_pages > 1 %}
+    {% set is_rtl = dash_lang == 'ar' %}
     <div style="margin-top: 1.5rem; display: flex; justify-content: center; align-items: center; gap: 15px;">
         {% if page > 1 %}
-        <a href="{{ url_for('users', status=current_status, q=search_query, page=page-1) }}" class="btn"
-            style="width: 40px; height: 40px; padding: 0; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.05); border: 1px solid var(--border-card);">
-            <i class="fa-solid fa-chevron-left"></i>
+        <a href="{{ url_for('users', q=search_query, status=current_status, page=page-1) }}"
+            class="btn"
+            style="width: 40px; height: 40px; padding: 0; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.05); border: 1px solid var(--border-card); border-radius: 12px;">
+            <i class="fa-solid fa-chevron-{{ 'right' if is_rtl else 'left' }}" style="color: #fff;"></i>
         </a>
         {% else %}
         <div
-            style="width: 40px; height: 40px; opacity: 0.3; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.02); border: 1px solid var(--border-card); border-radius: 12px;">
-            <i class="fa-solid fa-chevron-left"></i>
+            style="width: 40px; height: 40px; opacity: 0.25; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.02); border: 1px solid var(--border-card); border-radius: 12px;">
+            <i class="fa-solid fa-chevron-{{ 'right' if is_rtl else 'left' }}" style="color: #fff;"></i>
         </div>
         {% endif %}
 
-        <span style="font-size: 0.9rem; font-weight: 600;">{{ strings.PAGE_LABEL }} {{ page }} {{ strings.OF_LABEL }} {{
+        <span style="font-size: 0.9rem; font-weight: 600; color: #fff;">{{ strings.PAGE_LABEL }} {{ page }} {{ strings.OF_LABEL }} {{
             total_pages }}</span>
 
-        {% if page < total_pages %} <a href="{{ url_for('users', status=current_status, q=search_query, page=page+1) }}"
+        {% if page < total_pages %} <a
+            href="{{ url_for('users', q=search_query, status=current_status, page=page+1) }}"
             class="btn"
-            style="width: 40px; height: 40px; padding: 0; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.05); border: 1px solid var(--border-card);">
-            <i class="fa-solid fa-chevron-right"></i>
+            style="width: 40px; height: 40px; padding: 0; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.05); border: 1px solid var(--border-card); border-radius: 12px;">
+            <i class="fa-solid fa-chevron-{{ 'left' if is_rtl else 'right' }}" style="color: #fff;"></i>
             </a>
             {% else %}
             <div
-                style="width: 40px; height: 40px; opacity: 0.3; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.02); border: 1px solid var(--border-card); border-radius: 12px;">
-                <i class="fa-solid fa-chevron-right"></i>
+                style="width: 40px; height: 40px; opacity: 0.25; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.02); border: 1px solid var(--border-card); border-radius: 12px;">
+                <i class="fa-solid fa-chevron-{{ 'left' if is_rtl else 'right' }}" style="color: #fff;"></i>
             </div>
             {% endif %}
     </div>
