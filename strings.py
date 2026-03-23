@@ -481,9 +481,9 @@ STRINGS = {
             "⚠️ Writing a different password may expose your account to a ban and prevent withdrawing your profits.\n\n"
             "👇 After finishing, choose one of the buttons below:"
         ),
-        'BTN_AUTO_DONE': "Done ✅",
-        'BTN_AUTO_REGEN': "Change Data 🔄",
-        'BTN_AUTO_CANCEL': "Cancel Registration ❌",
+        'BTN_AUTO_DONE': "✅ Done",
+        'BTN_AUTO_REGEN': "🔄 Change Data",
+        'BTN_AUTO_CANCEL': "❌ Cancel Registration",
         'MSG_REG_CANCELLED_TIMEOUT': (
             "<code>{email}</code>\n"
             "_____________________________\n\n"
@@ -1000,9 +1000,9 @@ WEBAPP_STRINGS = {
         'TASK_AUTO_LNAME': "Last Name:",
         'TASK_AUTO_EMAIL': "Username:",
         'TASK_AUTO_PWD': "Password:",
-        'TASK_AUTO_BTN': "Done ✅",
-        'TASK_AUTO_REGEN': "Change Data 🔄",
-        'TASK_AUTO_CANCEL': "Cancel Registration ❌",
+        'TASK_AUTO_BTN': "✅ Done",
+        'TASK_AUTO_REGEN': "🔄 Change Data",
+        'TASK_AUTO_CANCEL': "❌ Cancel Registration",
         'TASK_AUTO_TIMEOUT_LBL': "⏱️ Task Duration: {timeout} minutes",
         'TASK_AUTO_WARNING': "⚠️ Writing a different password may expose your account to a ban and prevent withdrawing your profits.",
         'TASK_AUTO_FOOTER': "👇 After finishing, choose one of the buttons below:",

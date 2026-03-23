@@ -71,7 +71,7 @@ async function regenerateData() {
             const copyIcon = ' <i class="fa-regular fa-copy" style="font-size:0.8em; margin-left:4px; opacity:0.7"></i>';
             document.getElementById('auto-fname').innerHTML = data.first_name + copyIcon;
             document.getElementById('auto-lname').innerHTML = data.last_name + copyIcon;
-            document.getElementById('auto-email').innerHTML = data.email + copyIcon;
+            document.getElementById('auto-email').innerHTML = data.email.split('@')[0] + copyIcon;
             document.getElementById('auto-pwd').innerHTML = data.password + copyIcon;
             
             document.getElementById('hidden-gmail').value = data.email;
