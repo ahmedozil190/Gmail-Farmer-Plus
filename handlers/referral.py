@@ -107,50 +107,42 @@ async def referral_stats_handler_fn(update: Update, context: ContextTypes.DEFAUL
     )
 
 
-async def referral_list_handler_fn(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """List of invited users with detailed status and profit."""
-    user_id = update.effective_user.id
+async def referral_list_handler_fn(update: Update, context: ContextTypes.DEFAULT_TYPE, page: int = None):
+    """List of invited users with detailed status and profit with inline pagination."""
+    # Handle CallbackQuery vs Message
+    query = update.callback_query
+    if query:
+        await query.answer()
+        user_id = query.from_user.id
+    else:
+        user_id = update.effective_user.id
+
     user_data = get_user(user_id)
     lang = user_data['language'] if user_data else 'ar'
     currency = user_data['currency'] if user_data else 'USD'
     s = STRINGS.get(lang, STRINGS['ar'])
     
-    # Handle pagination
-    text = update.message.text
-    is_nav = text in [s['BTN_NEXT_PAGE'], s['BTN_PREV_PAGE']]
-    active_pagination = context.user_data.get('pagination_context')
-    
-    if is_nav and active_pagination == 'referrals':
-        page = context.user_data.get('referrals_page', 0)
-        if text == s['BTN_NEXT_PAGE']:
-            page += 1
-        else:
-            page = max(0, page - 1)
-        context.user_data['referrals_page'] = page
-    else:
-        page = 0
-        context.user_data['referrals_page'] = 0
-        context.user_data['pagination_context'] = 'referrals'
-
     from database import get_referrals_list_data, count_referrals
-    from keyboards import pagination_keyboard
+    from keyboards import pagination_keyboard, referral_menu
     
-    per_page = 10
+    per_page = 5
     total_count = count_referrals(user_id)
     total_pages = (total_count + per_page - 1) // per_page if total_count > 0 else 1
     
+    if page is None:
+        page = 0
+        
     if page >= total_pages:
         page = max(0, total_pages - 1)
-        context.user_data['referrals_page'] = page
 
     offset = page * per_page
     referral_data = get_referrals_list_data(user_id, limit=per_page, offset=offset)
     
     if not referral_data:
         msg = s['REF_LIST_EMPTY']
-        reply_markup = main_menu(lang)
+        reply_markup = referral_menu(lang)
     else:
-        page_info = f"({page + 1}/{total_pages})" if total_pages > 1 else ""
+        page_info = f"({page + 1}/{total_pages})"
         msg = s['REF_LIST_HEADER'].format(count=total_count, page_info=page_info)
         
         for i, ref in enumerate(referral_data, 1 + offset):
@@ -163,14 +155,17 @@ async def referral_list_handler_fn(update: Update, context: ContextTypes.DEFAULT
             
             if has_earned:
                 # Fetch dynamic settings
+                from database import get_business_config
                 conf = get_business_config()
                 referral_bonus = conf["REFERRAL_BONUS"]
                 profit = ref['approved_tasks'] * referral_bonus
+                from utils.currency import format_currency_dual
                 earned_text = format_currency_dual(profit, currency, lang)
             else:
                 earned_text = s['REF_EARNED_NONE']
                 
             # Date formatting (D/M/YYYY)
+            from datetime import datetime
             date_obj = datetime.fromisoformat(ref['join_date'])
             date_str = date_obj.strftime("%d/%m/%Y")
             
@@ -190,18 +185,18 @@ async def referral_list_handler_fn(update: Update, context: ContextTypes.DEFAULT
                 date=date_str
             )
         
-        if total_count > per_page:
-            reply_markup = pagination_keyboard(lang, page, total_pages, show_back=False)
-        else:
-            reply_markup = referral_menu(lang)
+        reply_markup = pagination_keyboard(lang, page, total_pages, context_name='referrals')
     
-    await update.message.reply_text(msg, parse_mode="HTML", reply_markup=reply_markup)
+    if query:
+        await query.edit_message_text(msg, parse_mode="HTML", reply_markup=reply_markup)
+    else:
+        await update.message.reply_text(msg, parse_mode="HTML", reply_markup=reply_markup)
 
 
 referral_handler = MessageHandler(filters.Regex(r"^(👥 My referrals|👥 إحالاتي|🔗 Referral)$"), referral_handler_fn)
 referral_link_handler = MessageHandler(filters.Regex(r"^(🔗 رابط الإحالة|🔗 Referral Link)$"), referral_link_handler_fn)
 referral_stats_handler = MessageHandler(filters.Regex(r"^(📊 إحصائيات الإحالة|📊 Referral Stats)$"), referral_stats_handler_fn)
 referral_list_handler = MessageHandler(
-    filters.Regex(r"^(👥 قائمة الإحالات|👥 Referral List|➡️ الصفحة التالية|➡️ Next Page|⬅️ الصفحة السابقة|⬅️ Previous Page)$"), 
+    filters.Regex(r"^(👥 قائمة الإحالات|👥 Referral List)$"), 
     referral_list_handler_fn
 )

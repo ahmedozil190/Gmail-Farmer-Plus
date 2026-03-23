@@ -1,4 +1,4 @@
-from telegram import KeyboardButton, ReplyKeyboardMarkup, ReplyKeyboardRemove
+from telegram import KeyboardButton, ReplyKeyboardMarkup, ReplyKeyboardRemove, InlineKeyboardButton, InlineKeyboardMarkup
 from config import PAYMENT_METHODS, DASHBOARD_URL
 from strings import STRINGS
 
@@ -57,27 +57,30 @@ def currency_keyboard(lang: str = 'ar', page: int = 0) -> ReplyKeyboardMarkup:
     return ReplyKeyboardMarkup(kb, resize_keyboard=True)
 
 
-def pagination_keyboard(lang: str = 'ar', page: int = 0, total_pages: int = 1, show_back: bool = True) -> ReplyKeyboardMarkup:
-    """Generic pagination keyboard for lists."""
+def pagination_keyboard(lang: str = 'ar', page: int = 0, total_pages: int = 1, context_name: str = 'accounts') -> InlineKeyboardMarkup:
+    """Inline pagination keyboard for lists with dynamic labels matching user screenshot."""
     s = STRINGS.get(lang, STRINGS['ar'])
     kb = []
     
     # Navigation row
     nav_row = []
+    
+    # page is 0-indexed.
+    # Display current is page + 1.
+    # Back is page. Next is page + 2.
+    
     if page > 0:
-        nav_row.append(KeyboardButton(s['BTN_PREV_PAGE']))
+        label = f"<< {s['BTN_PREV_PAGE_INLINE']} ({page}/{total_pages})"
+        nav_row.append(InlineKeyboardButton(label, callback_data=f"page:{context_name}:{page - 1}"))
+        
     if page < total_pages - 1:
-        nav_row.append(KeyboardButton(s['BTN_NEXT_PAGE']))
+        label = f"{s['BTN_NEXT_PAGE_INLINE']} ({page + 2}/{total_pages}) >>"
+        nav_row.append(InlineKeyboardButton(label, callback_data=f"page:{context_name}:{page + 1}"))
     
     if nav_row:
         kb.append(nav_row)
         
-    if show_back:
-        kb.append([KeyboardButton(s['BTN_BACK'])])
-    else:
-        kb.append([KeyboardButton(s['BTN_BACK_MAIN'])])
-        
-    return ReplyKeyboardMarkup(kb, resize_keyboard=True)
+    return InlineKeyboardMarkup(kb)
 
 
 def balance_menu(lang: str = 'ar') -> ReplyKeyboardMarkup:

@@ -127,44 +127,48 @@ async def history_handler_fn(update: Update, context: ContextTypes.DEFAULT_TYPE)
         await update.message.reply_text(full_text, parse_mode="HTML", reply_markup=history_menu(lang), disable_web_page_preview=True)
 
 
-async def my_accounts_handler_fn(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """📂 حساباتي — show all user submissions."""
+async def my_accounts_handler_fn(update: Update, context: ContextTypes.DEFAULT_TYPE, page: int = None):
+    """📂 حساباتي — show all user submissions with inline pagination."""
     from utils.subscription import require_subscription
-    if not await require_subscription(update, context):
-        return
-    if await is_banned(update, context):
-        return
-    user_id = update.effective_user.id
+    
+    # Handle CallbackQuery vs Message
+    query = update.callback_query
+    if query:
+        await query.answer()
+        user_id = query.from_user.id
+        msg_obj = query.message
+    else:
+        user_id = update.effective_user.id
+        msg_obj = update.message
+        if not await require_subscription(update, context):
+            return
+        if await is_banned(update, context):
+            return
+
     user_data = get_user(user_id)
     lang = user_data['language'] if user_data else 'ar'
     s = STRINGS.get(lang, STRINGS['ar'])
 
-    text = update.message.text
-    is_nav = text in [s['BTN_NEXT_PAGE'], s['BTN_PREV_PAGE']]
-    active_pagination = context.user_data.get('pagination_context')
-    
-    if is_nav and active_pagination == 'accounts':
-        page = context.user_data.get('accounts_page', 0)
-        if text == s['BTN_NEXT_PAGE']:
-            page += 1
-        else:
-            page = max(0, page - 1)
-        context.user_data['accounts_page'] = page
-    else:
-        # Initial enter or different context
-        page = 0
-        context.user_data['accounts_page'] = 0
-        context.user_data['pagination_context'] = 'accounts'
-
     from database import get_user_submissions, count_user_submissions
-    per_page = 10
+    from keyboards import pagination_keyboard
+    
+    per_page = 5
     total_count = count_user_submissions(user_id)
     total_pages = (total_count + per_page - 1) // per_page if total_count > 0 else 1
     
-    # Ensure page is within bounds (e.g. if items were deleted since last visit)
+    # Identify target page
+    if page is None:
+        if query:
+            # This shouldn't normally happen if routed correctly, but for safety:
+            page = 0 
+        else:
+            page = 0
+            
+    # Bound check
     if page >= total_pages:
         page = max(0, total_pages - 1)
-        context.user_data['accounts_page'] = page
+    if page < 0:
+        page = 0
 
     offset = page * per_page
     subs = get_user_submissions(user_id, limit=per_page, offset=offset)
@@ -173,10 +177,8 @@ async def my_accounts_handler_fn(update: Update, context: ContextTypes.DEFAULT_T
         text_out = s['MY_ACCOUNTS_EMPTY']
         reply_markup = main_menu(lang)
     else:
-        # subs are already ordered by ID desc in SQL if needed, but here we just process
         lines = []
-        
-        page_info = f"({page + 1}/{total_pages})" if total_pages > 1 else ""
+        page_info = f"({page + 1}/{total_pages})"
         lines.append(s['MY_ACCOUNTS_TITLE'].format(count=total_count, page_info=page_info))
         
         for sub in subs:
@@ -198,12 +200,12 @@ async def my_accounts_handler_fn(update: Update, context: ContextTypes.DEFAULT_T
             lines.append("────────────────")
         text_out = "\n".join(lines)
         
-        if total_count > per_page:
-            reply_markup = pagination_keyboard(lang, page, total_pages)
-        else:
-            reply_markup = main_menu(lang)
+        reply_markup = pagination_keyboard(lang, page, total_pages, context_name='accounts')
 
-    await update.message.reply_text(text_out, parse_mode="HTML", reply_markup=reply_markup)
+    if query:
+        await query.edit_message_text(text_out, parse_mode="HTML", reply_markup=reply_markup)
+    else:
+        await msg_obj.reply_text(text_out, parse_mode="HTML", reply_markup=reply_markup)
 
 
 async def unified_back_handler_fn(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -233,7 +235,7 @@ async def unified_back_handler_fn(update: Update, context: ContextTypes.DEFAULT_
 balance_handler  = MessageHandler(filters.Regex(r"^(💰 الرصيد|💰 Balance)$"),       balance_handler_fn)
 history_handler  = MessageHandler(filters.Regex(r"^(📜 سجل العمليات|📜 Balance history)$"), history_handler_fn)
 my_accounts_handler = MessageHandler(
-    filters.Regex(r"^(📂 حساباتي|📂 My accounts|➡️ الصفحة التالية|➡️ Next Page|⬅️ الصفحة السابقة|⬅️ Previous Page)$"), 
+    filters.Regex(r"^(📂 حساباتي|📂 My accounts)$"), 
     my_accounts_handler_fn
 )
 unified_back_handler = MessageHandler(filters.Regex(r"^(🔙 رجوع|🔙 Back|🔙 العودة للقائمة الرئيسية|🔙 Back to Main Menu)$"), unified_back_handler_fn)

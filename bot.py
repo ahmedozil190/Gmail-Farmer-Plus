@@ -17,6 +17,7 @@ from handlers.referral import (
 from handlers.settings import settings_handler, currency_handler, select_currency_handler
 from handlers.language import language_handler, select_lang_handler
 from handlers.admin import admin_handlers
+from handlers.pagination import pagination_handler
 
 logging.basicConfig(
     format="%(asctime)s | %(levelname)s | %(name)s — %(message)s",
@@ -55,6 +56,7 @@ def main():
     app.add_handler(select_lang_handler)
     app.add_handler(support_handler)
     app.add_handler(unified_back_handler)
+    app.add_handler(pagination_handler)
     app.add_handler(CallbackQueryHandler(verify_sub_handler, pattern="^verify_sub$"))
 
     # ── Admin commands
