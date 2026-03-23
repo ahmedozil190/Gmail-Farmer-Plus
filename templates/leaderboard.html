@@ -8,18 +8,22 @@
         <i class="fa-solid fa-trophy" style="color: var(--warning);"></i>
         {{ strings.DASH_LB_TITLE }}
     </h2>
-    <p style="opacity: 0.6; font-size: 0.9rem; margin-top: 5px;">{{ strings.DASH_LB_SUBTITLE or 'Top performing and active users across the platform.' }}</p>
+    <p style="opacity: 0.6; font-size: 0.9rem; margin-top: 5px;">{{ strings.DASH_LB_SUBTITLE or 'Top performing and
+        active users across the platform.' }}</p>
 </div>
 
 <div class="tab-nav">
-    <a href="{{ url_for('leaderboard', tab='approved') }}" class="tab-item {% if active_tab == 'approved' %}active{% endif %}">
-        {{ strings.DASH_LB_APPROVED }}
+    <a href="{{ url_for('leaderboard', tab='approved') }}"
+        class="tab-item {% if active_tab == 'approved' %}active{% endif %}">
+        <i class="fa-solid fa-circle-check"></i> {{ strings.DASH_LB_APPROVED }}
     </a>
-    <a href="{{ url_for('leaderboard', tab='withdrawn') }}" class="tab-item {% if active_tab == 'withdrawn' %}active{% endif %}">
-        {{ strings.DASH_LB_WITHDRAWN }}
+    <a href="{{ url_for('leaderboard', tab='withdrawn') }}"
+        class="tab-item {% if active_tab == 'withdrawn' %}active{% endif %}">
+        <i class="fa-solid fa-money-bill-trend-up"></i> {{ strings.DASH_LB_WITHDRAWN }}
     </a>
-    <a href="{{ url_for('leaderboard', tab='rejected') }}" class="tab-item {% if active_tab == 'rejected' %}active{% endif %}">
-        {{ strings.DASH_LB_REJECTED }}
+    <a href="{{ url_for('leaderboard', tab='rejected') }}"
+        class="tab-item {% if active_tab == 'rejected' %}active{% endif %}">
+        <i class="fa-solid fa-circle-xmark"></i> {{ strings.DASH_LB_REJECTED }}
     </a>
 </div>
 
@@ -27,66 +31,78 @@
     {% if active_tab == 'approved' %}
     <!-- Top Approved -->
     <div class="glass-card LB-card">
-        <div class="LB-header" style="background: rgba(16, 185, 129, 0.1); border-bottom: 1px solid rgba(16, 185, 129, 0.2);">
+        <div class="LB-header"
+            style="background: rgba(16, 185, 129, 0.1); border-bottom: 1px solid rgba(16, 185, 129, 0.2);">
+            <i class="fa-solid fa-circle-check" style="color: var(--success); font-size: 1.2rem;"></i>
             <span style="font-weight: 700;">{{ strings.DASH_LB_APPROVED }}</span>
         </div>
         <div class="LB-body">
             {% if approved %}
-                {% for user in approved %}
-                <div class="LB-item">
-                    <div class="LB-rank">{{ loop.index }}</div>
-                    <div class="LB-info">
-                        <span class="LB-name">{% if user.full_name %}{{ user.full_name }}{% else %}{{ user.user_id }}{% endif %} <span class="LB-username" style="opacity: 0.5; font-size: 0.8rem; margin-inline-start: 5px;">(@{{ user.username or 'NoUser' }})</span></span>
-                    </div>
-                    <div class="LB-val success">{{ user.cnt }}</div>
+            {% for user in approved %}
+            <div class="LB-item">
+                <div class="LB-rank">{{ loop.index }}</div>
+                <div class="LB-info">
+                    <span class="LB-name">{% if user.full_name %}{{ user.full_name }}{% else %}{{ user.user_id }}{%
+                        endif %}</span>
+                    <span class="LB-username">@{{ user.username or 'NoUser' }}</span>
                 </div>
-                {% endfor %}
+                <div class="LB-val success">{{ user.cnt }}</div>
+            </div>
+            {% endfor %}
             {% else %}
-                <div class="LB-empty">{{ strings.DASH_LB_EMPTY }}</div>
+            <div class="LB-empty">{{ strings.DASH_LB_EMPTY }}</div>
             {% endif %}
         </div>
     </div>
     {% elif active_tab == 'withdrawn' %}
     <!-- Top Withdrawn -->
     <div class="glass-card LB-card highlight">
-        <div class="LB-header" style="background: rgba(59, 130, 246, 0.1); border-bottom: 1px solid rgba(59, 130, 246, 0.2);">
+        <div class="LB-header"
+            style="background: rgba(59, 130, 246, 0.1); border-bottom: 1px solid rgba(59, 130, 246, 0.2);">
+            <i class="fa-solid fa-money-bill-trend-up" style="color: var(--accent-blue); font-size: 1.2rem;"></i>
             <span style="font-weight: 700;">{{ strings.DASH_LB_WITHDRAWN }}</span>
         </div>
         <div class="LB-body">
             {% if withdrawn %}
-                {% for user in withdrawn %}
-                <div class="LB-item">
-                    <div class="LB-rank">{{ loop.index }}</div>
-                    <div class="LB-info">
-                        <span class="LB-name">{% if user.full_name %}{{ user.full_name }}{% else %}{{ user.user_id }}{% endif %} <span class="LB-username" style="opacity: 0.5; font-size: 0.8rem; margin-inline-start: 5px;">(@{{ user.username or 'NoUser' }})</span></span>
-                    </div>
-                    <div class="LB-val accent">${{ "%.2f"|format(user.total) }}</div>
+            {% for user in withdrawn %}
+            <div class="LB-item">
+                <div class="LB-rank">{{ loop.index }}</div>
+                <div class="LB-info">
+                    <span class="LB-name">{% if user.full_name %}{{ user.full_name }}{% else %}{{ user.user_id }}{%
+                        endif %}</span>
+                    <span class="LB-username">@{{ user.username or 'NoUser' }}</span>
                 </div>
-                {% endfor %}
+                <div class="LB-val accent">${{ "%.2f"|format(user.total) }}</div>
+            </div>
+            {% endfor %}
             {% else %}
-                <div class="LB-empty">{{ strings.DASH_LB_EMPTY }}</div>
+            <div class="LB-empty">{{ strings.DASH_LB_EMPTY }}</div>
             {% endif %}
         </div>
     </div>
     {% elif active_tab == 'rejected' %}
     <!-- Top Rejected -->
     <div class="glass-card LB-card">
-        <div class="LB-header" style="background: rgba(239, 68, 68, 0.1); border-bottom: 1px solid rgba(239, 68, 68, 0.2);">
+        <div class="LB-header"
+            style="background: rgba(239, 68, 68, 0.1); border-bottom: 1px solid rgba(239, 68, 68, 0.2);">
+            <i class="fa-solid fa-circle-xmark" style="color: var(--danger); font-size: 1.2rem;"></i>
             <span style="font-weight: 700;">{{ strings.DASH_LB_REJECTED }}</span>
         </div>
         <div class="LB-body">
             {% if rejected %}
-                {% for user in rejected %}
-                <div class="LB-item">
-                    <div class="LB-rank">{{ loop.index }}</div>
-                    <div class="LB-info">
-                        <span class="LB-name">{% if user.full_name %}{{ user.full_name }}{% else %}{{ user.user_id }}{% endif %} <span class="LB-username" style="opacity: 0.5; font-size: 0.8rem; margin-inline-start: 5px;">(@{{ user.username or 'NoUser' }})</span></span>
-                    </div>
-                    <div class="LB-val danger">{{ user.cnt }}</div>
+            {% for user in rejected %}
+            <div class="LB-item">
+                <div class="LB-rank">{{ loop.index }}</div>
+                <div class="LB-info">
+                    <span class="LB-name">{% if user.full_name %}{{ user.full_name }}{% else %}{{ user.user_id }}{%
+                        endif %}</span>
+                    <span class="LB-username">@{{ user.username or 'NoUser' }}</span>
                 </div>
-                {% endfor %}
+                <div class="LB-val danger">{{ user.cnt }}</div>
+            </div>
+            {% endfor %}
             {% else %}
-                <div class="LB-empty">{{ strings.DASH_LB_EMPTY }}</div>
+            <div class="LB-empty">{{ strings.DASH_LB_EMPTY }}</div>
             {% endif %}
         </div>
     </div>
@@ -132,7 +148,7 @@
     }
 
     /* Adjust specific tab colors when active if desired, but blue is standard */
-    
+
     .leaderboard-container {
         display: block;
     }
@@ -197,9 +213,20 @@
         margin-left: 15px;
     }
 
-    .LB-rank:nth-child(1) { background: rgba(212, 175, 55, 0.2); color: #d4af37; }
-    .LB-rank:nth-child(2) { background: rgba(192, 192, 192, 0.2); color: #c0c0c0; }
-    .LB-rank:nth-child(3) { background: rgba(205, 127, 50, 0.2); color: #cd7f32; }
+    .LB-rank:nth-child(1) {
+        background: rgba(212, 175, 55, 0.2);
+        color: #d4af37;
+    }
+
+    .LB-rank:nth-child(2) {
+        background: rgba(192, 192, 192, 0.2);
+        color: #c0c0c0;
+    }
+
+    .LB-rank:nth-child(3) {
+        background: rgba(205, 127, 50, 0.2);
+        color: #cd7f32;
+    }
 
     .LB-info {
         display: flex;
@@ -234,9 +261,17 @@
         padding-right: 10px;
     }
 
-    .LB-val.success { color: var(--success); }
-    .LB-val.danger { color: var(--danger); }
-    .LB-val.accent { color: var(--accent-blue); }
+    .LB-val.success {
+        color: var(--success);
+    }
+
+    .LB-val.danger {
+        color: var(--danger);
+    }
+
+    .LB-val.accent {
+        color: var(--accent-blue);
+    }
 
     .LB-empty {
         text-align: center;
