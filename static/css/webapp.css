@@ -563,6 +563,7 @@ body::before {
 .hero-data-value.main {
     font-size: 1.1rem;
     font-weight: 800;
+    color: var(--success);
 }
 
 .hero-data-value.approved {
@@ -570,7 +571,7 @@ body::before {
 }
 
 .hero-data-value.withdrawn {
-    color: #10b981;
+    color: var(--accent);
 }
 
 .hero-data-value.pending {
