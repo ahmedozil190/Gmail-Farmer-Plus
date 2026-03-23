@@ -1,0 +1,204 @@
+{% extends "layout.html" %}
+
+{% block title %}{{ strings.DASH_LB_TITLE }}{% endblock %}
+
+{% block content %}
+<div style="margin-bottom: 2rem;">
+    <h2 style="margin: 0; font-size: 1.4rem; font-weight: 800; display: flex; align-items: center; gap: 10px;">
+        <i class="fa-solid fa-trophy" style="color: var(--warning);"></i>
+        {{ strings.DASH_LB_TITLE }}
+    </h2>
+    <p style="opacity: 0.6; font-size: 0.9rem; margin-top: 5px;">{{ strings.DASH_LB_SUBTITLE or 'Top performing and active users across the platform.' }}</p>
+</div>
+
+<div class="leaderboard-grid">
+    <!-- Top Approved -->
+    <div class="glass-card LB-card">
+        <div class="LB-header" style="background: rgba(16, 185, 129, 0.1); border-bottom: 1px solid rgba(16, 185, 129, 0.2);">
+            <i class="fa-solid fa-circle-check" style="color: var(--success); font-size: 1.2rem;"></i>
+            <span style="font-weight: 700;">{{ strings.DASH_LB_APPROVED }}</span>
+        </div>
+        <div class="LB-body">
+            {% if approved %}
+                {% for user in approved %}
+                <div class="LB-item">
+                    <div class="LB-rank">{{ loop.index }}</div>
+                    <div class="LB-info">
+                        <span class="LB-name">{% if user.full_name %}{{ user.full_name }}{% else %}{{ user.user_id }}{% endif %}</span>
+                        <span class="LB-username">@{{ user.username or 'NoUser' }}</span>
+                    </div>
+                    <div class="LB-val success">{{ user.cnt }}</div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="LB-empty">{{ strings.DASH_LB_EMPTY }}</div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Top Withdrawn -->
+    <div class="glass-card LB-card highlight">
+        <div class="LB-header" style="background: rgba(59, 130, 246, 0.1); border-bottom: 1px solid rgba(59, 130, 246, 0.2);">
+            <i class="fa-solid fa-money-bill-trend-up" style="color: var(--accent-blue); font-size: 1.2rem;"></i>
+            <span style="font-weight: 700;">{{ strings.DASH_LB_WITHDRAWN }}</span>
+        </div>
+        <div class="LB-body">
+            {% if withdrawn %}
+                {% for user in withdrawn %}
+                <div class="LB-item">
+                    <div class="LB-rank">{{ loop.index }}</div>
+                    <div class="LB-info">
+                        <span class="LB-name">{% if user.full_name %}{{ user.full_name }}{% else %}{{ user.user_id }}{% endif %}</span>
+                        <span class="LB-username">@{{ user.username or 'NoUser' }}</span>
+                    </div>
+                    <div class="LB-val accent">${{ "%.2f"|format(user.total) }}</div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="LB-empty">{{ strings.DASH_LB_EMPTY }}</div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Top Rejected -->
+    <div class="glass-card LB-card">
+        <div class="LB-header" style="background: rgba(239, 68, 68, 0.1); border-bottom: 1px solid rgba(239, 68, 68, 0.2);">
+            <i class="fa-solid fa-circle-xmark" style="color: var(--danger); font-size: 1.2rem;"></i>
+            <span style="font-weight: 700;">{{ strings.DASH_LB_REJECTED }}</span>
+        </div>
+        <div class="LB-body">
+            {% if rejected %}
+                {% for user in rejected %}
+                <div class="LB-item">
+                    <div class="LB-rank">{{ loop.index }}</div>
+                    <div class="LB-info">
+                        <span class="LB-name">{% if user.full_name %}{{ user.full_name }}{% else %}{{ user.user_id }}{% endif %}</span>
+                        <span class="LB-username">@{{ user.username or 'NoUser' }}</span>
+                    </div>
+                    <div class="LB-val danger">{{ user.cnt }}</div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="LB-empty">{{ strings.DASH_LB_EMPTY }}</div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<style>
+    .leaderboard-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 20px;
+    }
+
+    .LB-card {
+        padding: 0 !important;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .LB-card.highlight {
+        border: 1px solid rgba(59, 130, 246, 0.3);
+        box-shadow: 0 8px 32px rgba(59, 130, 246, 0.1);
+    }
+
+    .LB-header {
+        padding: 15px 20px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 1rem;
+    }
+
+    .LB-body {
+        padding: 10px 0;
+    }
+
+    .LB-item {
+        display: flex;
+        align-items: center;
+        padding: 12px 20px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        transition: background 0.2s;
+    }
+
+    .LB-item:last-child {
+        border-bottom: none;
+    }
+
+    .LB-item:hover {
+        background: rgba(255, 255, 255, 0.03);
+    }
+
+    .LB-rank {
+        width: 30px;
+        height: 30px;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.8rem;
+        font-weight: 800;
+        margin-right: 15px;
+        color: var(--text-secondary);
+    }
+
+    /* RTL Support for rank margin */
+    [dir="rtl"] .LB-rank {
+        margin-right: 0;
+        margin-left: 15px;
+    }
+
+    .LB-rank:nth-child(1) { background: rgba(212, 175, 55, 0.2); color: #d4af37; }
+    .LB-rank:nth-child(2) { background: rgba(192, 192, 192, 0.2); color: #c0c0c0; }
+    .LB-rank:nth-child(3) { background: rgba(205, 127, 50, 0.2); color: #cd7f32; }
+
+    .LB-info {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        overflow: hidden;
+    }
+
+    .LB-name {
+        font-weight: 700;
+        font-size: 0.9rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .LB-username {
+        font-size: 0.75rem;
+        opacity: 0.5;
+        font-weight: 600;
+    }
+
+    .LB-val {
+        font-family: 'JetBrains Mono', monospace;
+        font-weight: 800;
+        font-size: 1rem;
+        padding-left: 10px;
+    }
+
+    [dir="rtl"] .LB-val {
+        padding-left: 0;
+        padding-right: 10px;
+    }
+
+    .LB-val.success { color: var(--success); }
+    .LB-val.danger { color: var(--danger); }
+    .LB-val.accent { color: var(--accent-blue); }
+
+    .LB-empty {
+        text-align: center;
+        padding: 40px;
+        opacity: 0.5;
+        font-size: 0.9rem;
+        font-weight: 600;
+    }
+</style>
+{% endblock %}

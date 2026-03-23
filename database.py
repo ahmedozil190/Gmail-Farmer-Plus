@@ -290,6 +290,46 @@ def count_referrals(referrer_id: int) -> int:
     return count or 0
 
 
+def get_leaderboard_data():
+    con = _conn()
+    
+    # Top 10 Approved
+    approved = con.execute("""
+        SELECT s.user_id, u.username, u.full_name, COUNT(*) as cnt 
+        FROM submissions s
+        JOIN users u ON s.user_id = u.user_id
+        WHERE s.status = 'approved'
+        GROUP BY s.user_id 
+        ORDER BY cnt DESC 
+        LIMIT 10
+    """).fetchall()
+    
+    # Top 10 Rejected
+    rejected = con.execute("""
+        SELECT s.user_id, u.username, u.full_name, COUNT(*) as cnt 
+        FROM submissions s
+        JOIN users u ON s.user_id = u.user_id
+        WHERE s.status = 'rejected'
+        GROUP BY s.user_id 
+        ORDER BY cnt DESC 
+        LIMIT 10
+    """).fetchall()
+    
+    # Top 10 Withdrawn
+    withdrawn = con.execute("""
+        SELECT w.user_id, u.username, u.full_name, SUM(w.amount) as total 
+        FROM withdrawals w
+        JOIN users u ON w.user_id = u.user_id
+        WHERE w.status = 'completed'
+        GROUP BY w.user_id 
+        ORDER BY total DESC 
+        LIMIT 10
+    """).fetchall()
+    
+    con.close()
+    return approved, rejected, withdrawn
+
+
 def get_stats():
     con = _conn()
     users = con.execute("SELECT COUNT(*) FROM users").fetchone()[0]

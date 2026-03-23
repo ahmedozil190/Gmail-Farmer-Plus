@@ -81,6 +81,7 @@
                         {% elif request.endpoint == 'broadcast' %}{{ strings.DASH_BS_PAGE_TITLE }}
                         {% elif request.endpoint == 'settings' %}{{ strings.SETTINGS_TITLE }}
                         {% elif request.endpoint == 'custom_pricing' %}{{ strings.NAV_CUSTOM_PRICES }}
+                        {% elif request.endpoint == 'leaderboard' %}{{ strings.NAV_LEADERBOARD }}
                         {% endif %}
                     </span>
                     <div class="page-title-avatar">A</div>
@@ -125,6 +126,10 @@
                     <a href="{{ url_for('custom_pricing') }}" class="sidebar-item {% if request.endpoint == 'custom_pricing' %}active{% endif %}">
                         <i class="fa-solid fa-star"></i>
                         <span>{{ strings.NAV_CUSTOM_PRICES }}</span>
+                    </a>
+                    <a href="{{ url_for('leaderboard') }}" class="sidebar-item {% if request.endpoint == 'leaderboard' %}active{% endif %}">
+                        <i class="fa-solid fa-trophy"></i>
+                        <span>{{ strings.NAV_LEADERBOARD }}</span>
                     </a>
                     <a href="{{ url_for('broadcast') }}" class="sidebar-item {% if request.endpoint == 'broadcast' %}active{% endif %}">
                         <i class="fa-solid fa-bullhorn"></i>
