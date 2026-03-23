@@ -79,9 +79,9 @@ STRINGS = {
             "⚠️ كتابة باسورد مختلف قد يعرض حسابك للحظر ومنع سحب أرباحك.\n\n"
             "👇 بعد الانتهاء اختر واحدًا من الأزرار بالأسفل:"
         ),
-        'BTN_AUTO_DONE': "1- تم الانتهاء ✅",
-        'BTN_AUTO_REGEN': "2- تغيير البيانات 🔄",
-        'BTN_AUTO_CANCEL': "3- إلغاء التسجيل ❌",
+        'BTN_AUTO_DONE': "تم الانتهاء ✅",
+        'BTN_AUTO_REGEN': "تغيير البيانات 🔄",
+        'BTN_AUTO_CANCEL': "إلغاء التسجيل ❌",
         'MSG_REG_CANCELLED_TIMEOUT': (
             "<code>{email}</code>\n"
             "_____________________________\n\n"
@@ -481,9 +481,9 @@ STRINGS = {
             "⚠️ Writing a different password may expose your account to a ban and prevent withdrawing your profits.\n\n"
             "👇 After finishing, choose one of the buttons below:"
         ),
-        'BTN_AUTO_DONE': "1- Done ✅",
-        'BTN_AUTO_REGEN': "2- Change Data 🔄",
-        'BTN_AUTO_CANCEL': "3- Cancel Registration ❌",
+        'BTN_AUTO_DONE': "Done ✅",
+        'BTN_AUTO_REGEN': "Change Data 🔄",
+        'BTN_AUTO_CANCEL': "Cancel Registration ❌",
         'MSG_REG_CANCELLED_TIMEOUT': (
             "<code>{email}</code>\n"
             "_____________________________\n\n"
