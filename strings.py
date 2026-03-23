@@ -79,9 +79,9 @@ STRINGS = {
             "⚠️ كتابة باسورد مختلف قد يعرض حسابك للحظر ومنع سحب أرباحك.\n\n"
             "👇 بعد الانتهاء اختر واحدًا من الأزرار بالأسفل:"
         ),
-        'BTN_AUTO_DONE': "تم الانتهاء ✅",
-        'BTN_AUTO_REGEN': "تغيير البيانات 🔄",
-        'BTN_AUTO_CANCEL': "إلغاء التسجيل ❌",
+        'BTN_AUTO_DONE': "✅ تم الانتهاء",
+        'BTN_AUTO_REGEN': "🔄 تغيير البيانات",
+        'BTN_AUTO_CANCEL': "❌ إلغاء التسجيل",
         'MSG_REG_CANCELLED_TIMEOUT': (
             "<code>{email}</code>\n"
             "_____________________________\n\n"
@@ -843,27 +843,28 @@ WEBAPP_STRINGS = {
         'TASK_TAB_MANUAL': "إنشاء يدوي",
         'TASK_TAB_AUTO': "توليد أوتوماتيكي",
         'BTN_METHOD_MANUAL': "يدوي",
-        'BTN_METHOD_AUTO': "أوتوماتيكي",
+        'BTN_METHOD_AUTO': "➕ تسجيل إيميل جديد",
         'TASK_AUTO_INFO': "قم بإنشاء حساب Gmail مطابق للبيانات التالية:",
         'TASK_AUTO_FNAME': "الاسم الأول:",
         'TASK_AUTO_LNAME': "اسم العائلة:",
         'TASK_AUTO_EMAIL': "الإيميل:",
         'TASK_AUTO_PWD': "كلمة المرور:",
-        'TASK_AUTO_BTN': "تأكيد الإنشاء السريع",
-        'TASK_AUTO_REGEN': "تغيير البيانات 🔄",
+        'TASK_AUTO_BTN': "✅ تم الانتهاء",
+        'TASK_AUTO_REGEN': "🔄 تغيير البيانات",
+        'TASK_AUTO_CANCEL': "❌ إلغاء التسجيل",
+        'TASK_AUTO_TIMEOUT_LBL': "⏱️ مدة المهمة: {timeout} دقيقة",
+        'TASK_AUTO_WARNING': "⚠️ كتابة باسورد مختلف قد يعرض حسابك للحظر ومنع سحب أرباحك.",
+        'TASK_AUTO_FOOTER': "👇 بعد الانتهاء اختر واحدًا من الأزرار بالأسفل:",
         'TASKS_AUTO_INSTRUCTIONS': (
-            "🤖 <b>تعليمات الإنشاء السريع</b>\n\n"
-            "⚠️ يجب استخدام البيانات المولدة أدناه (الاسم، البريد، الباسورد) بالملي.\n"
-            "⛔️ أي تغيير في البيانات سيؤدي لرفض الحساب تلقائياً.\n"
-            "📱 <b>يجب إنشاء الحساب من الهاتف فقط وليس من الكمبيوتر.</b>"
+            "📱 <b>مهمة إنشاء جيميل جديدة</b>\n\n"
+            "✨ اتبع الخطوات بهدوء وبالترتيب:\n\n"
+            "1️⃣ اذهب إلى الإعدادات ثم المستخدمون والحسابات.\n\n"
+            "2️⃣ اضغط إضافة حساب ثم اختر Google.\n\n"
+            "3️⃣ اختر إنشاء حساب ثم لنفسي.\n\n"
+            "4️⃣ أكتب الأسم الموجود بالأسفل واي تاريخ ميلاد.\n\n"
+            "5️⃣ عند خطوة عنوان الجيميل استخدم هذا"
         ),
-        'TASKS_AUTO_STEPS': (
-            "🚀 <b>خطوات الإنشاء السريع:</b>\n\n"
-            "1️⃣ انسخ البيانات المولدة أدناه (الاسم والبريد والباسورد)\n"
-            "2️⃣ افتح Gmail وأنشئ الحساب بهذه البيانات تماماً\n"
-            "3️⃣ بعد الانتهاء، اضغط على زر [تأكيد الإنشاء السريع] بالأسفل\n"
-            "4️⃣ انتظر مراجعة الحساب وإضافة الرصيد لمحفظتك"
-        ),
+        'TASKS_AUTO_STEPS': "",
         
         'WALLET_TITLE': "💰 المحفظة",
         'WALLET_WITHDRAW_REQ': "💸 طلب سحب رصيد",
@@ -990,27 +991,28 @@ WEBAPP_STRINGS = {
         'TASK_TAB_MANUAL': "Manual Create",
         'TASK_TAB_AUTO': "Create Account",
         'BTN_METHOD_MANUAL': "Manual",
-        'BTN_METHOD_AUTO': "Create New Account",
+        'BTN_METHOD_AUTO': "➕ Register a new Gmail",
         'TASK_AUTO_INFO': "Create a Gmail account exactly matching this data:",
         'TASK_AUTO_FNAME': "First Name:",
         'TASK_AUTO_LNAME': "Last Name:",
         'TASK_AUTO_EMAIL': "Email:",
         'TASK_AUTO_PWD': "Password:",
-        'TASK_AUTO_BTN': "Confirm Creation",
+        'TASK_AUTO_BTN': "Done ✅",
         'TASK_AUTO_REGEN': "Change Data 🔄",
+        'TASK_AUTO_CANCEL': "Cancel Registration ❌",
+        'TASK_AUTO_TIMEOUT_LBL': "⏱️ Task Duration: {timeout} minutes",
+        'TASK_AUTO_WARNING': "⚠️ Writing a different password may expose your account to a ban and prevent withdrawing your profits.",
+        'TASK_AUTO_FOOTER': "👇 After finishing, choose one of the buttons below:",
         'TASKS_AUTO_INSTRUCTIONS': (
-            "🤖 <b>Fast Creation Instructions</b>\n\n"
-            "⚠️ You must use the generated data below (Name, Email, Password) exactly.\n"
-            "⛔️ Any data discrepancy will lead to automatic rejection.\n"
-            "📱 <b>Account must be created from your phone only, NOT from a computer.</b>"
+            "📱 <b>New Gmail Task</b>\n\n"
+            "✨ Follow the steps calmly and in order:\n\n"
+            "1️⃣ Go to Settings then Users & Accounts.\n\n"
+            "2️⃣ Click Add Account then choose Google.\n\n"
+            "3️⃣ Choose Create Account then For Myself.\n\n"
+            "4️⃣ Write the name below and any birthday.\n\n"
+            "5️⃣ At the Gmail address step use this"
         ),
-        'TASKS_AUTO_STEPS': (
-            "🚀 <b>Fast Creation Steps:</b>\n\n"
-            "1️⃣ Copy the generated data below (Name, Email, Password)\n"
-            "2️⃣ Open Gmail and create the account with exactly this data\n"
-            "3️⃣ Once finished, click the [Confirm Fast Creation] button below\n"
-            "4️⃣ Wait for review and balance addition to your wallet"
-        ),
+        'TASKS_AUTO_STEPS': "",
         
         'WALLET_TITLE': "💰 Wallet",
         'WALLET_WITHDRAW_REQ': "💸 Request Withdrawal",

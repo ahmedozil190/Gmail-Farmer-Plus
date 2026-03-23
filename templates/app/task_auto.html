@@ -7,46 +7,46 @@
     <h2 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 1rem;">{{ strings.TASK_TAB_AUTO }}</h2>
 </div>
 
-<!-- Instructions -->
+<!-- Instructions & Steps -->
 <div class="glass-card">
-    <div class="card-title">{{ strings.TASK_START_INSTRUCTIONS }}</div>
-    <div style="font-size: 0.85rem; line-height: 1.8;">
+    <div style="font-size: 0.95rem; line-height: 1.8;">
         {{ strings.TASKS_AUTO_INSTRUCTIONS|replace('\n', '<br>')|safe }}
     </div>
 </div>
 
-<!-- Steps -->
-<div class="glass-card">
-    <div class="card-title">{{ strings.TASK_START_STEPS }}</div>
-    <div style="font-size: 0.85rem; line-height: 2;">
-        {{ strings.TASKS_AUTO_STEPS|replace('\n', '<br>')|safe }}
-    </div>
-</div>
-
 <div class="glass-card" style="border: 1px solid var(--primary-color);">
-    <div class="card-title" style="color: var(--primary-color)">{{ strings.TASK_TAB_AUTO }}</div>
-    <p style="font-size: 0.85rem; margin-bottom: 1rem; color: var(--text-muted);">{{ strings.TASK_AUTO_INFO }}</p>
+    <div class="card-title" style="color: var(--primary-color)">{{ strings.TASK_AUTO_INFO }}</div>
     
-    <div style="background: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px; margin-bottom: 15px; font-family: monospace; font-size: 0.9rem; line-height: 1.6;">
-        <div><b>{{ strings.TASK_AUTO_FNAME }}</b> <span id="auto-fname" style="user-select: all; cursor:pointer;" onclick="copyText(this)">{{ auto.first_name }} <i class="fa-regular fa-copy" style="font-size:0.8em; margin-left:4px; opacity:0.7"></i></span></div>
-        <div><b>{{ strings.TASK_AUTO_LNAME }}</b> <span id="auto-lname" style="user-select: all; cursor:pointer;" onclick="copyText(this)">{{ auto.last_name }} <i class="fa-regular fa-copy" style="font-size:0.8em; margin-left:4px; opacity:0.7"></i></span></div>
-        <div><b>{{ strings.TASK_AUTO_EMAIL }}</b> <span id="auto-email" style="color:var(--primary-color); user-select: all; font-weight: bold; cursor:pointer;" onclick="copyText(this)">{{ auto.email }} <i class="fa-regular fa-copy" style="font-size:0.8em; margin-left:4px; opacity:0.7"></i></span></div>
-        <div><b>{{ strings.TASK_AUTO_PWD }}</b> <span id="auto-pwd" style="user-select: all; cursor:pointer;" onclick="copyText(this)">{{ auto.password }} <i class="fa-regular fa-copy" style="font-size:0.8em; margin-left:4px; opacity:0.7"></i></span></div>
+    <div style="background: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px; margin-bottom: 20px; font-family: monospace; font-size: 0.95rem; line-height: 1.8;">
+        <div><b>👤 {{ strings.TASK_AUTO_FNAME }}</b> <span id="auto-fname" style="user-select: all; cursor:pointer;" onclick="copyText(this)">{{ auto.first_name }} <i class="fa-regular fa-copy" style="font-size:0.8em; margin-left:4px; opacity:0.7"></i></span></div>
+        <div><b>👤 {{ strings.TASK_AUTO_LNAME }}</b> <span id="auto-lname" style="user-select: all; cursor:pointer;" onclick="copyText(this)">{{ auto.last_name }} <i class="fa-regular fa-copy" style="font-size:0.8em; margin-left:4px; opacity:0.7"></i></span></div>
+        <div><b>👤 {{ strings.TASK_AUTO_EMAIL }}</b> <span id="auto-email" style="color:var(--primary-color); user-select: all; font-weight: bold; cursor:pointer;" onclick="copyText(this)">{{ auto.email }} <i class="fa-regular fa-copy" style="font-size:0.8em; margin-left:4px; opacity:0.7"></i></span></div>
+        <div style="border-top: 1px solid rgba(255,255,255,0.1); margin: 8px 0; padding-top: 8px;"><b>🔑 {{ strings.TASK_AUTO_PWD }}</b> <span id="auto-pwd" style="user-select: all; cursor:pointer;" onclick="copyText(this)">{{ auto.password }} <i class="fa-regular fa-copy" style="font-size:0.8em; margin-left:4px; opacity:0.7"></i></span></div>
+    </div>
+
+    <div style="margin-bottom: 20px; font-size: 0.9rem; line-height: 1.6;">
+        <div>{{ strings.TASK_AUTO_TIMEOUT_LBL|format(timeout=7) }}</div>
+        <div style="color: #ff4d4d; margin-top: 10px; font-weight: 500;">{{ strings.TASK_AUTO_WARNING }}</div>
+        <div style="margin-top: 15px; font-weight: bold;">{{ strings.TASK_AUTO_FOOTER }}</div>
     </div>
     
-    <div style="display:flex; gap:10px; margin-bottom: 1rem;">
-         <button type="button" onclick="regenerateData()" class="btn" style="flex:1; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: var(--text-color); font-weight: 500; transition: all 0.3s; padding: 10px;" id="regenBtn">
-             <i class="fa-solid fa-arrows-rotate" style="color: var(--primary-color)"></i> {{ strings.TASK_AUTO_REGEN }}
-         </button>
-    </div>
-    
-    <form action="{{ url_for('app_task_submit_auto') }}" method="POST">
-        <input type="hidden" id="hidden-gmail" name="gmail" value="{{ auto.email }}">
-        <input type="hidden" id="hidden-pwd" name="password" value="{{ auto.password }}">
-        <button type="submit" class="btn btn-primary">
-            <i class="fa-solid fa-bolt"></i> {{ strings.TASK_AUTO_BTN }}
+    <div style="display:flex; flex-direction: column; gap:10px;">
+        <form action="{{ url_for('app_task_submit_auto') }}" method="POST" style="width: 100%;">
+            <input type="hidden" id="hidden-gmail" name="gmail" value="{{ auto.email }}">
+            <input type="hidden" id="hidden-pwd" name="password" value="{{ auto.password }}">
+            <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;">
+                 {{ strings.TASK_AUTO_BTN }}
+            </button>
+        </form>
+
+        <button type="button" onclick="regenerateData()" class="btn" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: var(--text-color); font-weight: 500; transition: all 0.3s; padding: 10px; justify-content: center;" id="regenBtn">
+             {{ strings.TASK_AUTO_REGEN }}
         </button>
-    </form>
+
+        <a href="{{ url_for('app_tasks') }}" class="btn" style="background: rgba(255,77,77,0.1); border: 1px solid rgba(255,77,77,0.2); color: #ff4d4d; font-weight: 500; transition: all 0.3s; padding: 10px; display: flex; align-items: center; justify-content: center; text-decoration: none;">
+             {{ strings.TASK_AUTO_CANCEL }}
+        </a>
+    </div>
 </div>
 
 <script>

@@ -19,7 +19,7 @@
     </div>
     {% if buying_active %}
     <a href="{{ url_for('app_task_auto') }}" class="btn-hero">
-        <i class="fa-solid fa-bolt"></i> {{ strings.BTN_METHOD_AUTO }}
+        {{ strings.BTN_METHOD_AUTO }}
     </a>
     {% else %}
     <div class="hero-paused">
