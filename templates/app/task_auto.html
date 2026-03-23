@@ -40,7 +40,7 @@
         <form action="{{ url_for('app_task_submit_auto') }}" method="POST" style="width: 100%;">
             <input type="hidden" id="hidden-gmail" name="gmail" value="{{ auto.email }}">
             <input type="hidden" id="hidden-pwd" name="password" value="{{ auto.password }}">
-            <button type="submit" class="btn" style="width: 100%; justify-content: center; background: linear-gradient(135deg, #11998e, #38ef7d); color: white; border: none; font-weight: bold; padding: 12px; border-radius: 10px; box-shadow: 0 4px 15px rgba(17, 153, 142, 0.4);">
+            <button type="submit" class="btn" style="width: 100%; justify-content: center; background: linear-gradient(135deg, #11998e, #38ef7d); color: #333; border: none; font-weight: bold; padding: 12px; border-radius: 10px; box-shadow: 0 4px 15px rgba(17, 153, 142, 0.4);">
                 {{ strings.TASK_AUTO_BTN }}
             </button>
         </form>
@@ -52,7 +52,7 @@
         </button>
 
         <a href="{{ url_for('app_tasks') }}" class="btn"
-            style="width: 100%; justify-content: center; background: linear-gradient(135deg, #00c6ff, #0072ff); color: white; border: none; font-weight: bold; padding: 12px; border-radius: 10px; display: flex; align-items: center; text-decoration: none; box-shadow: 0 4px 15px rgba(0, 198, 255, 0.4);">
+            style="width: 100%; justify-content: center; background: linear-gradient(135deg, #00c6ff, #0072ff); color: #333; border: none; font-weight: bold; padding: 12px; border-radius: 10px; display: flex; align-items: center; text-decoration: none; box-shadow: 0 4px 15px rgba(0, 198, 255, 0.4);">
             {{ strings.TASK_START_BACK }}
         </a>
     </div>
