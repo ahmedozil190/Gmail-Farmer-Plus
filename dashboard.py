@@ -206,14 +206,13 @@ def user_custom_prices(user_id):
     s = DASHBOARD_STRINGS.get(lang, DASHBOARD_STRINGS["ar"])
     
     try:
-        manual_p = request.form.get("manual_price", "").strip()
-        auto_p = request.form.get("auto_price", "").strip()
+        custom_p = request.form.get("custom_price", "").strip()
         
         # Convert to float or None
-        manual_val = float(manual_p) if manual_p else None
-        auto_val = float(auto_p) if auto_p else None
+        custom_val = float(custom_p) if custom_p else None
         
-        database.update_user_custom_prices(user_id, manual_val, auto_val)
+        # Apply the same value to both manual and auto
+        database.update_user_custom_prices(user_id, custom_val, custom_val)
         flash(s.get('ALERT_SETTINGS_SAVED', "Updated successfully!"), "success")
     except ValueError:
         flash("Invalid price values.", "danger")
