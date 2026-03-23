@@ -64,7 +64,7 @@ async def send_auto_account_data(update: Update, context: ContextTypes.DEFAULT_T
     
     user_id = update.effective_user.id
     user_data = get_user(user_id)
-    currency = user_data.get('currency', 'EGP') if user_data else 'EGP'
+    currency = user_data['currency'] if (user_data and user_data['currency']) else 'EGP'
     
     price_text = format_currency_dual(conf.get("GMAIL_PRICE_AUTO", 0.08), currency, lang)
     data['price_text'] = price_text
