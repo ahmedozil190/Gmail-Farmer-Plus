@@ -65,17 +65,20 @@ async def send_auto_account_data(update: Update, context: ContextTypes.DEFAULT_T
     context.user_data['auto_task'] = data
     
     # Schedule timeout job
-    # Cancel previous job if it exists
-    current_jobs = context.job_queue.get_jobs_by_name(f"timeout_{update.effective_user.id}")
-    for job in current_jobs:
-        job.schedule_removal()
-    
-    context.job_queue.run_once(
-        task_timeout_callback,
-        timeout_mins * 60,
-        data={'chat_id': update.effective_chat.id, 'user_id': update.effective_user.id, 'email': data['email'], 'lang': lang},
-        name=f"timeout_{update.effective_user.id}"
-    )
+    if context.job_queue:
+        # Cancel previous job if it exists
+        current_jobs = context.job_queue.get_jobs_by_name(f"timeout_{update.effective_user.id}")
+        for job in current_jobs:
+            job.schedule_removal()
+        
+        context.job_queue.run_once(
+            task_timeout_callback,
+            timeout_mins * 60,
+            data={'chat_id': update.effective_chat.id, 'user_id': update.effective_user.id, 'email': data['email'], 'lang': lang},
+            name=f"timeout_{update.effective_user.id}"
+        )
+    else:
+        logging.warning(f"JobQueue not found for user {update.effective_user.id}. Timer disabled.")
     
     text = s['MSG_AUTO_DATA'].format(**data)
     
@@ -123,9 +126,10 @@ async def handle_auto_action(update: Update, context: ContextTypes.DEFAULT_TYPE)
     await query.answer()
     
     # Cancel timeout job
-    current_jobs = context.job_queue.get_jobs_by_name(f"timeout_{update.effective_user.id}")
-    for job in current_jobs:
-        job.schedule_removal()
+    if context.job_queue:
+        current_jobs = context.job_queue.get_jobs_by_name(f"timeout_{update.effective_user.id}")
+        for job in current_jobs:
+            job.schedule_removal()
     
     lang = context.user_data.get('lang', 'ar')
     s = STRINGS.get(lang, STRINGS['ar'])
