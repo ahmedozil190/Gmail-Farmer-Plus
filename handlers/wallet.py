@@ -146,9 +146,22 @@ async def my_accounts_handler_fn(update: Update, context: ContextTypes.DEFAULT_T
         subs.sort(key=lambda x: x['id'], reverse=True)
         lines = [s['MY_ACCOUNTS_TITLE']]
         for sub in subs:
-            status_icon = "⏳" if sub["status"] == "pending" else "✅" if sub["status"] == "approved" else "❌"
+            if sub["status"] == "pending":
+                status_text = s['ST_PENDING']
+            elif sub["status"] == "approved":
+                status_text = s['ST_APPROVED']
+            else:
+                status_text = s['ST_REJECTED']
+                
             date = sub["submitted_at"][:10]
-            lines.append(f"{status_icon} #{sub['id']} — <code>{sub['gmail_account']}</code> — {date}")
+            item_text = s['MY_ACCOUNTS_ITEM_TEMPLATE'].format(
+                status=status_text,
+                task_id=sub['id'],
+                gmail=sub['gmail_account'],
+                date=date
+            )
+            lines.append(item_text)
+            lines.append("────────────────")
         text = "\n".join(lines)
 
     await update.message.reply_text(text, parse_mode="HTML", reply_markup=main_menu(lang))

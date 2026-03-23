@@ -199,6 +199,15 @@ STRINGS = {
         'HISTORY_EMPTY': "لا يوجد سجل عمليات حالياً.",
         'MY_ACCOUNTS_TITLE': "📂 <b>حساباتي</b>\n",
         'MY_ACCOUNTS_EMPTY': "لا توجد حسابات مسجلة حالياً.",
+        'MY_ACCOUNTS_ITEM_TEMPLATE': (
+            "<b>الحالة:</b> {status}\n"
+            "<b>الكود:</b> #{task_id}\n"
+            "<b>الإيميل:</b> <code>{gmail}</code>\n"
+            "<b>التاريخ:</b> {date}\n"
+        ),
+        'ST_APPROVED': "مقبول ✅",
+        'ST_PENDING': "في الانتظار ⏳",
+        'ST_REJECTED': "مرفوض ❌",
         'SUPPORT_MSG': "💬 <b>المساعدة والدعم الفني</b>\n\nللتحدث مع الدعم الفني: {link}",
 
         # Wallet Labels
@@ -581,6 +590,15 @@ STRINGS = {
         'HISTORY_EMPTY': "No balance history yet.",
         'MY_ACCOUNTS_TITLE': "📂 <b>My accounts</b>\n",
         'MY_ACCOUNTS_EMPTY': "No accounts registered yet.",
+        'MY_ACCOUNTS_ITEM_TEMPLATE': (
+            "<b>Status:</b> {status}\n"
+            "<b>Task ID:</b> #{task_id}\n"
+            "<b>Gmail:</b> <code>{gmail}</code>\n"
+            "<b>Date:</b> {date}\n"
+        ),
+        'ST_APPROVED': "Approved ✅",
+        'ST_PENDING': "Pending ⏳",
+        'ST_REJECTED': "Rejected ❌",
         'SUPPORT_MSG': "💬 <b>Help & Tech Support</b>\n\nTo contact support: {link}",
 
         # Wallet Labels
