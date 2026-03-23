@@ -209,7 +209,7 @@ from strings import STRINGS
 from telegram.ext import CallbackQueryHandler
 
 tasks_conv_handler = ConversationHandler(
-    entry_points=[MessageHandler(filters.Regex(r"^(➕ تسجيل إيميل جديد|➕ Register a new Gmail)$"), tasks_entry)],
+    entry_points=[MessageHandler(filters.Regex(r"^(➕ تسجيل إيميل جديد.*|➕ Register a new Gmail.*)$"), tasks_entry)],
     states={
         TASK_AUTO: [
             CallbackQueryHandler(handle_auto_action, pattern=r"^auto_")
