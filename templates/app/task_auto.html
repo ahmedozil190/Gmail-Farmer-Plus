@@ -40,19 +40,19 @@
         <form action="{{ url_for('app_task_submit_auto') }}" method="POST" style="width: 100%;">
             <input type="hidden" id="hidden-gmail" name="gmail" value="{{ auto.email }}">
             <input type="hidden" id="hidden-pwd" name="password" value="{{ auto.password }}">
-            <button type="submit" class="btn" style="width: 100%; justify-content: center; background: linear-gradient(135deg, #0ba360, #3cba92); color: black; border: none; font-weight: bold; padding: 12px; border-radius: 10px; box-shadow: 0 4px 15px rgba(11, 163, 96, 0.4);">
+            <button type="submit" class="btn" style="width: 100%; justify-content: center; background: linear-gradient(135deg, #0ba360, #3cba92); color: white; border: none; font-weight: bold; padding: 12px; border-radius: 10px; box-shadow: 0 4px 15px rgba(11, 163, 96, 0.4);">
                 {{ strings.TASK_AUTO_BTN }}
             </button>
         </form>
 
         <button type="button" onclick="regenerateData()" class="btn"
-            style="width: 100%; justify-content: center; background: linear-gradient(135deg, #f8ff00, #f8c102); color: black; border: none; font-weight: bold; padding: 12px; border-radius: 10px; transition: all 0.3s; box-shadow: 0 4px 15px rgba(248, 255, 0, 0.3);"
+            style="width: 100%; justify-content: center; background: linear-gradient(135deg, #f12711, #f5af19); color: white; border: none; font-weight: bold; padding: 12px; border-radius: 10px; transition: all 0.3s; box-shadow: 0 4px 15px rgba(241, 39, 17, 0.4);"
             id="regenBtn">
             {{ strings.TASK_AUTO_REGEN }}
         </button>
 
         <a href="{{ url_for('app_tasks') }}" class="btn"
-            style="width: 100%; justify-content: center; background: linear-gradient(135deg, #0052D4, #4364F7); color: black; border: none; font-weight: bold; padding: 12px; border-radius: 10px; display: flex; align-items: center; text-decoration: none; box-shadow: 0 4px 15px rgba(0, 82, 212, 0.4);">
+            style="width: 100%; justify-content: center; background: linear-gradient(135deg, #0052D4, #4364F7); color: white; border: none; font-weight: bold; padding: 12px; border-radius: 10px; display: flex; align-items: center; text-decoration: none; box-shadow: 0 4px 15px rgba(0, 82, 212, 0.4);">
             {{ strings.TASK_START_BACK }}
         </a>
     </div>
