@@ -157,7 +157,7 @@ async def my_accounts_handler_fn(update: Update, context: ContextTypes.DEFAULT_T
         context.user_data['pagination_context'] = 'accounts'
 
     from database import get_user_submissions, count_user_submissions
-    per_page = 20
+    per_page = 10
     total_count = count_user_submissions(user_id)
     total_pages = (total_count + per_page - 1) // per_page if total_count > 0 else 1
     

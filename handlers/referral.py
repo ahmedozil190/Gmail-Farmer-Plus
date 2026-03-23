@@ -135,7 +135,7 @@ async def referral_list_handler_fn(update: Update, context: ContextTypes.DEFAULT
     from database import get_referrals_list_data, count_referrals
     from keyboards import pagination_keyboard
     
-    per_page = 20
+    per_page = 10
     total_count = count_referrals(user_id)
     total_pages = (total_count + per_page - 1) // per_page if total_count > 0 else 1
     
