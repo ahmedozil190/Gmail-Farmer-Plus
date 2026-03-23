@@ -62,7 +62,11 @@ async def send_auto_account_data(update: Update, context: ContextTypes.DEFAULT_T
     data['password'] = fixed_pwd # Enforce unified password
     context.user_data['auto_task'] = data
     
-    price_text = format_currency_dual(conf.get("GMAIL_PRICE_AUTO", 0.08))
+    user_id = update.effective_user.id
+    user_data = get_user(user_id)
+    currency = user_data.get('currency', 'EGP') if user_data else 'EGP'
+    
+    price_text = format_currency_dual(conf.get("GMAIL_PRICE_AUTO", 0.08), currency, lang)
     data['price_text'] = price_text
     text = s['MSG_AUTO_DATA'].format(**data)
     
