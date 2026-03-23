@@ -260,9 +260,11 @@ STRINGS = {
         ),
         'REF_LIST_HEADER': "👥 <b>إحالاتك ({count}):</b>\n\n",
         'REF_LIST_ITEM': (
-            "{index}. {name}\n"
-            "   {status_icon} {status_text} | 💰 {earned_text} | 📅 {date}\n"
-            "━━━━━━━━━━━━━━━\n"
+            "<b>{index}. المستخدم:</b> {name}\n"
+            "<b>الحالة:</b> {status_text} {status_icon}\n"
+            "<b>الأرباح:</b> {earned_text}\n"
+            "<b>التاريخ:</b> {date}\n"
+            "────────────────\n"
         ),
         'REF_STATUS_PENDING': "معلق",
         'REF_STATUS_EARNED': "تم الكسب",
@@ -651,9 +653,11 @@ STRINGS = {
         ),
         'REF_LIST_HEADER': "👥 <b>Your Referrals ({count}):</b>\n\n",
         'REF_LIST_ITEM': (
-            "{index}. {name}\n"
-            "   {status_icon} {status_text} | 💰 {earned_text} | 📅 {date}\n"
-            "━━━━━━━━━━━━━━━\n"
+            "<b>{index}. Username:</b> {name}\n"
+            "<b>Status:</b> {status_text} {status_icon}\n"
+            "<b>Earning:</b> {earned_text}\n"
+            "<b>Date:</b> {date}\n"
+            "────────────────\n"
         ),
         'REF_STATUS_PENDING': "Pending",
         'REF_STATUS_EARNED': "Earned",
