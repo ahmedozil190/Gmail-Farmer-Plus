@@ -70,12 +70,10 @@ def generate_account_data():
     # Random number to append (e.g. birth year or random 3-4 digit string)
     rnd_num = random.randint(1975, 9999)
     
-    # Mix email formats to look natural (using full names)
+    # Mix email formats to look natural (using full names in order)
     formats = [
         f"{first_name.lower()}.{last_name.lower()}{rnd_num}",
-        f"{first_name.lower()}{last_name.lower()}{rnd_num}",
-        f"{last_name.lower()}{first_name.lower()}{rnd_num}",
-        f"{last_name.lower()}.{first_name.lower()}{rnd_num}",
+        f"{first_name.lower()}{last_name.lower()}{rnd_num}"
     ]
     
     email_user = random.choice(formats)
