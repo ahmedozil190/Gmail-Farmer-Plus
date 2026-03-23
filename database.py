@@ -347,7 +347,11 @@ def get_user_submissions(user_id: int, limit: int = None, offset: int = None):
         query += " OFFSET ?"
         params.append(offset)
         
+    with open("db_debug.log", "a", encoding="utf-8") as f:
+        f.write(f"DEBUG SQL: {query} | PARAMS: {params}\n")
     rows = con.execute(query, params).fetchall()
+    with open("db_debug.log", "a", encoding="utf-8") as f:
+        f.write(f"DEBUG RESULTS COUNT: {len(rows)}\n")
     con.close()
     return rows
 
