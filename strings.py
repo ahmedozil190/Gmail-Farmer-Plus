@@ -393,7 +393,7 @@ STRINGS = {
         'ERR_NOT_JOINED': "You have not subscribed to the channel yet! ❌",
         
         # Main Menu Buttons
-        'BTN_TASKS': "Register a new Gmail",
+        'BTN_TASKS': "➕ Register a new Gmail",
         'BTN_MYACCOUNTS': "📂 My accounts",
         'BTN_BALANCE': "💰 Balance",
         'BTN_REFERRAL': "👥 My referrals",
