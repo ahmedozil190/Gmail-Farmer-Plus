@@ -901,7 +901,7 @@ def app_tasks():
 
     # Pagination
     page = request.args.get('page', 1, type=int)
-    per_page = 20
+    per_page = 5
     total_tasks = len(all_tasks)
     total_pages = (total_tasks + per_page - 1) // per_page
     start = (page - 1) * per_page
@@ -1118,7 +1118,7 @@ def app_wallet():
 
         # Pagination
         page = request.args.get('page', 1, type=int)
-        per_page = 20
+        per_page = 5
         total_items = len(all_withdrawals)
         total_pages = (total_items + per_page - 1) // per_page
         start = (page - 1) * per_page
@@ -1234,7 +1234,7 @@ def app_referrals():
 
     # Pagination
     page = request.args.get('page', 1, type=int)
-    per_page = 20
+    per_page = 5
     total_items = len(all_referrals)
     total_pages = (total_items + per_page - 1) // per_page
     start = (page - 1) * per_page
