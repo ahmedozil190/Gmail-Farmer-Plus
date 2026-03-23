@@ -250,10 +250,12 @@ def reset_custom_price(user_id):
 @app.route("/leaderboard")
 @requires_auth
 def leaderboard():
+    active_tab = request.args.get("tab", "approved")
     approved, rejected, withdrawn = database.get_leaderboard_data()
     
     return render_template(
         "leaderboard.html",
+        active_tab=active_tab,
         approved=approved,
         rejected=rejected,
         withdrawn=withdrawn

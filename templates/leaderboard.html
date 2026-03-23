@@ -11,7 +11,20 @@
     <p style="opacity: 0.6; font-size: 0.9rem; margin-top: 5px;">{{ strings.DASH_LB_SUBTITLE or 'Top performing and active users across the platform.' }}</p>
 </div>
 
-<div class="leaderboard-grid">
+<div class="tab-nav">
+    <a href="{{ url_for('leaderboard', tab='approved') }}" class="tab-item {% if active_tab == 'approved' %}active{% endif %}">
+        <i class="fa-solid fa-circle-check"></i> {{ strings.DASH_LB_APPROVED }}
+    </a>
+    <a href="{{ url_for('leaderboard', tab='withdrawn') }}" class="tab-item {% if active_tab == 'withdrawn' %}active{% endif %}">
+        <i class="fa-solid fa-money-bill-trend-up"></i> {{ strings.DASH_LB_WITHDRAWN }}
+    </a>
+    <a href="{{ url_for('leaderboard', tab='rejected') }}" class="tab-item {% if active_tab == 'rejected' %}active{% endif %}">
+        <i class="fa-solid fa-circle-xmark"></i> {{ strings.DASH_LB_REJECTED }}
+    </a>
+</div>
+
+<div class="leaderboard-container">
+    {% if active_tab == 'approved' %}
     <!-- Top Approved -->
     <div class="glass-card LB-card">
         <div class="LB-header" style="background: rgba(16, 185, 129, 0.1); border-bottom: 1px solid rgba(16, 185, 129, 0.2);">
@@ -35,7 +48,7 @@
             {% endif %}
         </div>
     </div>
-
+    {% elif active_tab == 'withdrawn' %}
     <!-- Top Withdrawn -->
     <div class="glass-card LB-card highlight">
         <div class="LB-header" style="background: rgba(59, 130, 246, 0.1); border-bottom: 1px solid rgba(59, 130, 246, 0.2);">
@@ -59,7 +72,7 @@
             {% endif %}
         </div>
     </div>
-
+    {% elif active_tab == 'rejected' %}
     <!-- Top Rejected -->
     <div class="glass-card LB-card">
         <div class="LB-header" style="background: rgba(239, 68, 68, 0.1); border-bottom: 1px solid rgba(239, 68, 68, 0.2);">
@@ -83,13 +96,51 @@
             {% endif %}
         </div>
     </div>
+    {% endif %}
 </div>
 
 <style>
-    .leaderboard-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 20px;
+    .tab-nav {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 25px;
+        background: rgba(255, 255, 255, 0.03);
+        padding: 5px;
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .tab-item {
+        flex: 1;
+        text-align: center;
+        padding: 10px;
+        border-radius: 8px;
+        text-decoration: none;
+        color: var(--text-secondary);
+        font-weight: 700;
+        font-size: 0.9rem;
+        transition: all 0.2s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+    }
+
+    .tab-item:hover {
+        background: rgba(255, 255, 255, 0.05);
+        color: var(--text-primary);
+    }
+
+    .tab-item.active {
+        background: var(--accent-blue);
+        color: white;
+        box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+    }
+
+    /* Adjust specific tab colors when active if desired, but blue is standard */
+    
+    .leaderboard-container {
+        display: block;
     }
 
     .LB-card {
