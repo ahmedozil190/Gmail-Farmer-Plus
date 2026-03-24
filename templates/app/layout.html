@@ -17,14 +17,12 @@
                 Telegram.WebApp.setHeaderColor('secondary_bg_color');
 
                 // Pass initData to server only if user is not yet authenticated in session
-                var isAuthenticated = {{ 'true' if session.get('tg_user_id') else 'false'
-            }
-        };
-        var initData = Telegram.WebApp.initData;
-        if (initData && !isAuthenticated && !window.location.search.includes('initData=')) {
-            var sep = window.location.search ? '&' : '?';
-            window.location.replace(window.location.pathname + sep + 'initData=' + encodeURIComponent(initData));
-        }
+                var isAuthenticated = {{ 'true' if session.get('tg_user_id') else 'false' }};
+                var initData = Telegram.WebApp.initData;
+                if (initData && !isAuthenticated && !window.location.search.includes('initData=')) {
+                    var sep = window.location.search ? '&' : '?';
+                    window.location.replace(window.location.pathname + sep + 'initData=' + encodeURIComponent(initData));
+                }
             }
         });
     </script>
