@@ -335,6 +335,7 @@
 </form>
 
 {% elif cat == 'reset' %}
+<a href="{{ url_for('settings') }}" class="back-btn"><i class="fa-solid fa-arrow-{% if dash_lang == 'ar' %}right{% else %}left{% endif %}"></i> {{ strings.LBL_BACK or 'Back' }}</a>
 <div class="glass-card">
 
     <div
