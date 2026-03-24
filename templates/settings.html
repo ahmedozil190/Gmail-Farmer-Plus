@@ -205,7 +205,7 @@
 
 {% if cat == 'general' %}
 <form action="{{ url_for('settings') }}" method="POST">
-    <a href="{{ url_for('settings') }}" class="back-btn"><i class="fa-solid fa-arrow-right"></i> {{ strings.LBL_BACK or 'Back' }}</a>
+    <a href="{{ url_for('settings') }}" class="back-btn"><i class="fa-solid fa-arrow-{% if dash_lang == 'ar' %}right{% else %}left{% endif %}"></i> {{ strings.LBL_BACK or 'Back' }}</a>
     <input type="hidden" name="category" value="general">
     <div class="glass-card">
 
@@ -236,7 +236,7 @@
 
 {% elif cat == 'channels' %}
 <form action="{{ url_for('settings') }}" method="POST">
-    <a href="{{ url_for('settings') }}" class="back-btn"><i class="fa-solid fa-arrow-right"></i> {{ strings.LBL_BACK or 'Back' }}</a>
+    <a href="{{ url_for('settings') }}" class="back-btn"><i class="fa-solid fa-arrow-{% if dash_lang == 'ar' %}right{% else %}left{% endif %}"></i> {{ strings.LBL_BACK or 'Back' }}</a>
     <input type="hidden" name="category" value="channels">
     <div class="glass-card">
 
@@ -263,7 +263,7 @@
 
 {% elif cat == 'limits' %}
 <form action="{{ url_for('settings') }}" method="POST">
-    <a href="{{ url_for('settings') }}" class="back-btn"><i class="fa-solid fa-arrow-right"></i> {{ strings.LBL_BACK or 'Back' }}</a>
+    <a href="{{ url_for('settings') }}" class="back-btn"><i class="fa-solid fa-arrow-{% if dash_lang == 'ar' %}right{% else %}left{% endif %}"></i> {{ strings.LBL_BACK or 'Back' }}</a>
     <input type="hidden" name="category" value="limits">
     <div class="glass-card">
 
@@ -294,7 +294,7 @@
 
 {% elif cat == 'control' %}
 <form action="{{ url_for('settings') }}" method="POST">
-    <a href="{{ url_for('settings') }}" class="back-btn"><i class="fa-solid fa-arrow-right"></i> {{ strings.LBL_BACK or 'Back' }}</a>
+    <a href="{{ url_for('settings') }}" class="back-btn"><i class="fa-solid fa-arrow-{% if dash_lang == 'ar' %}right{% else %}left{% endif %}"></i> {{ strings.LBL_BACK or 'Back' }}</a>
     <input type="hidden" name="category" value="control">
     <div class="glass-card">
 
