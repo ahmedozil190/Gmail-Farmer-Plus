@@ -591,7 +591,7 @@ def settings():
         form_data = request.form
         
         if category == "general":
-            database.set_setting("GMAIL_PRICE", form_data.get("gmail_price"))
+            database.set_setting("BOT_NAME", form_data.get("bot_name", "Gmail Farmer"))
             database.set_setting("GMAIL_PRICE_AUTO", form_data.get("gmail_price_auto"))
             database.set_setting("REFERRAL_BONUS", form_data.get("referral_bonus"))
             database.set_setting("GMAIL_MANUAL_PWD", form_data.get("gmail_manual_pwd", "Aa612003@"))

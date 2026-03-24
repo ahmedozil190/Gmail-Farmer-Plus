@@ -209,17 +209,18 @@
     <div class="glass-card">
 
         <div class="form-group">
-            <label class="form-label">{{ strings.SETTINGS_GMAIL_PRICE }}</label>
-            <input type="number" step="0.01" name="gmail_price" class="form-control" value="{{ price }}" required>
+            <label class="form-label">{{ strings.SETTINGS_BOT_NAME or 'Bot Name' }}</label>
+            <input type="text" name="bot_name" class="form-control" value="{{ config.BOT_NAME }}"
+                required>
         </div>
         <div class="form-group">
-            <label class="form-label">{{ strings.SETTINGS_GMAIL_PRICE_AUTO }}</label>
+            <label class="form-label">{{ strings.SETTINGS_GMAIL_PRICE }}</label>
             <input type="number" step="0.01" name="gmail_price_auto" class="form-control" value="{{ price_auto }}"
                 required>
         </div>
         <div class="form-group">
-            <label class="form-label">{{ strings.SETTINGS_BOT_NAME or 'Bot Name' }}</label>
-            <input type="text" name="bot_name" class="form-control" value="{{ config.BOT_NAME }}"
+            <label class="form-label">{{ strings.LBL_UNIFIED_PWD or 'Unified Manual Password' }}</label>
+            <input type="text" name="gmail_manual_pwd" class="form-control" value="{{ config.GMAIL_MANUAL_PWD }}"
                 required>
         </div>
         <div class="form-group">

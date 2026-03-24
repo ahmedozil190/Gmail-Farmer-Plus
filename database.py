@@ -616,7 +616,8 @@ def get_business_config():
             "DEFAULT":          voda # fallback
         },
         "TASK_TIMEOUT":   int(get_setting("TASK_TIMEOUT", 7)),
-        "DASHBOARD_LANG": get_setting("DASHBOARD_LANG", "en")
+        "DASHBOARD_LANG": get_setting("DASHBOARD_LANG", "en"),
+        "BOT_NAME":       get_setting("BOT_NAME", "Gmail Farmer")
     }
 
 def global_bot_reset():
