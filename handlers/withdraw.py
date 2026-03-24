@@ -321,7 +321,7 @@ async def cancel_withdraw(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 # ── Conversation handler ──────────────────────────────────────────────────────
 withdraw_conv_handler = ConversationHandler(
-    entry_points=[MessageHandler(filters.Regex(r"سحب|Payout"), withdraw_entry)],
+    entry_points=[MessageHandler(filters.Regex(r"^(💳 سحب|💳 Payout)$"), withdraw_entry)],
     states={
         W_METHOD:  [MessageHandler(METHODS_FILTER,                     receive_method)],
         W_AMOUNT:  [MessageHandler(filters.TEXT & ~CANCEL_FILTER,       receive_amount)],
