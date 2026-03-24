@@ -37,9 +37,8 @@
             <div class="LB-item">
                 <div class="LB-rank">{{ loop.index }}</div>
                 <div class="LB-info">
-                    <span class="LB-name">{% if user.full_name %}{{ user.full_name }}{% else %}{{ user.user_id }}{%
-                        endif %}</span>
-                    <span class="LB-username">@{{ user.username or 'NoUser' }}</span>
+                    <span class="LB-name">{% if user.full_name %}{{ user.full_name }}{% else %}{{ user.user_id }}{% endif %}</span>
+                    <span class="LB-username">ID: {{ user.user_id }}</span>
                 </div>
                 <div class="LB-val success">{{ user.cnt }}</div>
             </div>
@@ -61,9 +60,8 @@
             <div class="LB-item">
                 <div class="LB-rank">{{ loop.index }}</div>
                 <div class="LB-info">
-                    <span class="LB-name">{% if user.full_name %}{{ user.full_name }}{% else %}{{ user.user_id }}{%
-                        endif %}</span>
-                    <span class="LB-username">@{{ user.username or 'NoUser' }}</span>
+                    <span class="LB-name">{% if user.full_name %}{{ user.full_name }}{% else %}{{ user.user_id }}{% endif %}</span>
+                    <span class="LB-username">ID: {{ user.user_id }}</span>
                 </div>
                 <div class="LB-val accent">${{ "%.2f"|format(user.total) }}</div>
             </div>
@@ -85,9 +83,8 @@
             <div class="LB-item">
                 <div class="LB-rank">{{ loop.index }}</div>
                 <div class="LB-info">
-                    <span class="LB-name">{% if user.full_name %}{{ user.full_name }}{% else %}{{ user.user_id }}{%
-                        endif %}</span>
-                    <span class="LB-username">@{{ user.username or 'NoUser' }}</span>
+                    <span class="LB-name">{% if user.full_name %}{{ user.full_name }}{% else %}{{ user.user_id }}{% endif %}</span>
+                    <span class="LB-username">ID: {{ user.user_id }}</span>
                 </div>
                 <div class="LB-val danger">{{ user.cnt }}</div>
             </div>

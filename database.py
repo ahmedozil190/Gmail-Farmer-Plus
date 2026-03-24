@@ -293,7 +293,7 @@ def count_referrals(referrer_id: int) -> int:
 def get_leaderboard_data():
     con = _conn()
     
-    # Top 10 Approved
+    # Top 20 Approved
     approved = con.execute("""
         SELECT s.user_id, u.username, u.full_name, COUNT(*) as cnt 
         FROM submissions s
@@ -301,10 +301,10 @@ def get_leaderboard_data():
         WHERE s.status = 'approved'
         GROUP BY s.user_id 
         ORDER BY cnt DESC 
-        LIMIT 10
+        LIMIT 20
     """).fetchall()
     
-    # Top 10 Rejected
+    # Top 20 Rejected
     rejected = con.execute("""
         SELECT s.user_id, u.username, u.full_name, COUNT(*) as cnt 
         FROM submissions s
@@ -312,10 +312,10 @@ def get_leaderboard_data():
         WHERE s.status = 'rejected'
         GROUP BY s.user_id 
         ORDER BY cnt DESC 
-        LIMIT 10
+        LIMIT 20
     """).fetchall()
     
-    # Top 10 Withdrawn
+    # Top 20 Withdrawn
     withdrawn = con.execute("""
         SELECT w.user_id, u.username, u.full_name, SUM(w.amount) as total 
         FROM withdrawals w
@@ -323,7 +323,7 @@ def get_leaderboard_data():
         WHERE w.status = 'completed'
         GROUP BY w.user_id 
         ORDER BY total DESC 
-        LIMIT 10
+        LIMIT 20
     """).fetchall()
     
     con.close()
