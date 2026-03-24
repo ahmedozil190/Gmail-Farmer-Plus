@@ -58,8 +58,6 @@
                     <button class="hamburger-btn" onclick="toggleSidebar()">
                         <i class="fa-solid fa-bars"></i>
                     </button>
-                    <a href="{{ url_for('settings') }}" class="page-title-back"><i
-                            class="fa-solid fa-arrow-left"></i></a>
                     {% set cat = request.args.get('cat') %}
                     <span>
                         {% if cat == 'general' %}{{ strings.SETTINGS_CAT_GENERAL }}
