@@ -1172,6 +1172,7 @@ DASHBOARD_STRINGS = {
         'DASH_FINANCIALS_SECTION': "الماليات",
         'DASH_NO_WITHDRAWALS': "لا توجد طلبات سحب.",
         'DASH_MARK_PAID': "تحديد كمدفوع",
+        'DASH_PAY_ID': "رقم الدفع:",
         'DASH_REASON': "السبب",
         
         'DASH_U_PAGE_TITLE': "إدارة المستخدمين",
@@ -1283,6 +1284,7 @@ DASHBOARD_STRINGS = {
         'DASH_LBL_PASSWORD': "Password:",
         'DASH_LBL_PRICE': "Price:",
         'DASH_LBL_DATE': "Date:",
+        'DASH_PAY_ID': "Pay ID:",
         'DASH_LBL_USER_ID': "User ID:",
         'DASH_NO_TASKS': "No submissions found.",
         'DASH_APPROVE_TASK': "Approve Submission",

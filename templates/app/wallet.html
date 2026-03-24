@@ -157,6 +157,10 @@
         {% for w in withdrawals %}
         <div class="elite-card-detailed">
             <div class="elite-row">
+                <span class="elite-label">{{ strings.DASH_PAY_ID }}</span>
+                <span class="elite-value" style="color: var(--accent); font-family: 'JetBrains Mono', monospace; font-weight: 800;">#{{ w.id }}</span>
+            </div>
+            <div class="elite-row">
                 <span class="elite-label">{{ strings.HISTORY_STATUS }}</span>
                 <span class="status-pill {{ w.status }}"
                     style="padding: 2px 10px; border-radius: 8px; font-size: 0.75rem; font-weight: 800;">
