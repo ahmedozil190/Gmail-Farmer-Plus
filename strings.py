@@ -858,7 +858,7 @@ WEBAPP_STRINGS = {
         'HOME_STATS': "📊 إحصائياتك",
         'HOME_APPROVED': "مقبول",
         'HOME_REJECTED': "مرفوض",
-        'HOME_REQ_PENDING': "الرصيد المعلق",
+        'HOME_REQ_PENDING': "معلق",
         'HOME_RECENT_TASKS': "📋 آخر المهام",
         'HOME_VIEW_ALL': "عرض الكل ←",
         
@@ -1009,7 +1009,7 @@ WEBAPP_STRINGS = {
         'HOME_STATS': "📊 Your Stats",
         'HOME_APPROVED': "Approved",
         'HOME_REJECTED': "Rejected",
-        'HOME_REQ_PENDING': "Pending Balance",
+        'HOME_REQ_PENDING': "Pending",
         'HOME_RECENT_TASKS': "📋 Recent Tasks",
         'HOME_VIEW_ALL': "View all ←",
         
