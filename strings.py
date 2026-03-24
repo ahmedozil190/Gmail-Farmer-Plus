@@ -408,8 +408,8 @@ STRINGS = {
         'CURRENCY_SET_SUCCESS': "✅ تم ضبط العملة بنجاح إلى: <b>{currency}</b>",
         'BTN_NEXT_PAGE': "➡️ الصفحة التالية",
         'BTN_PREV_PAGE': "⬅️ الصفحة السابقة",
-        'BTN_NEXT_PAGE_INLINE': "Next",
-        'BTN_PREV_PAGE_INLINE': "Back",
+        'BTN_NEXT_PAGE_INLINE': "التالي",
+        'BTN_PREV_PAGE_INLINE': "السابق",
         
         'TASKS_AUTO_INSTRUCTIONS': (
             "🤖 <b>تعليمات الإنشاء السريع</b>\n\n"
