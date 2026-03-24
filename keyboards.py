@@ -62,21 +62,33 @@ def pagination_keyboard(lang: str = 'ar', page: int = 0, total_pages: int = 1, c
     s = STRINGS.get(lang, STRINGS['ar'])
     kb = []
     
-    # Navigation row
-    nav_row = []
+    is_rtl = lang == 'ar'
     
-    # page is 0-indexed.
-    # Display current is page + 1.
-    # Back is page. Next is page + 2.
-    
+    prev_btn = None
+    next_btn = None
+
     if page > 0:
         label = f"<< {s['BTN_PREV_PAGE_INLINE']} ({page}/{total_pages})"
-        nav_row.append(InlineKeyboardButton(label, callback_data=f"page:{context_name}:{page - 1}"))
+        prev_btn = InlineKeyboardButton(label, callback_data=f"page:{context_name}:{page - 1}")
         
     if page < total_pages - 1:
         label = f"{s['BTN_NEXT_PAGE_INLINE']} ({page + 2}/{total_pages}) >>"
-        nav_row.append(InlineKeyboardButton(label, callback_data=f"page:{context_name}:{page + 1}"))
+        next_btn = InlineKeyboardButton(label, callback_data=f"page:{context_name}:{page + 1}")
     
+    nav_row = []
+    if is_rtl:
+        # RTL: التالي (Next) on LEFT, السابق (Previous) on RIGHT
+        if next_btn:
+            nav_row.append(next_btn)
+        if prev_btn:
+            nav_row.append(prev_btn)
+    else:
+        # LTR: Previous on LEFT, Next on RIGHT
+        if prev_btn:
+            nav_row.append(prev_btn)
+        if next_btn:
+            nav_row.append(next_btn)
+
     if nav_row:
         kb.append(nav_row)
         
