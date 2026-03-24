@@ -215,6 +215,7 @@ STRINGS = {
         'HISTORY_METHOD': "الطريقة:",
         'HISTORY_PRICE': "المبلغ:",
         'HISTORY_ADDR': "العنوان:",
+        'HISTORY_DATE': "التاريخ:",
         'DASH_PAY_ID': "رقم الدفع:",
         'HISTORY_ITEM_TEMPLATE': (
             "<b>{pay_id_lbl}</b> #{pay_id}\n"
