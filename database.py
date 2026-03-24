@@ -553,9 +553,9 @@ def get_combined_history(user_id: int, limit: int = 5, offset: int = 0):
     # type: 1 for submission, 2 for withdrawal
     query = """
     SELECT * FROM (
-        SELECT id, 'submission' as type, submitted_at as dt, gmail_account as info, status, price as amount FROM submissions WHERE user_id = ?
+        SELECT id, 'submission' as type, submitted_at as dt, gmail_account as info, status, price as amount, NULL as extra_info FROM submissions WHERE user_id = ?
         UNION ALL
-        SELECT id, 'withdrawal' as type, created_at as dt, method as info, status, amount FROM withdrawals WHERE user_id = ?
+        SELECT id, 'withdrawal' as type, created_at as dt, method as info, status, amount, wallet_address as extra_info FROM withdrawals WHERE user_id = ?
     )
     ORDER BY dt DESC
     LIMIT ? OFFSET ?

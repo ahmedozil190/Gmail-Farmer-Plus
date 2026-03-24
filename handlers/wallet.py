@@ -92,33 +92,37 @@ async def history_handler_fn(update: Update, context: ContextTypes.DEFAULT_TYPE,
             status = ev['status']
             amount = ev['amount']
             sub_id = ev['id']
+            extra = ev['extra_info']
             
-            date_str = dt[:16].replace('T', ', ')
+            date_str = dt[:10] # YYYY-MM-DD
             from utils.currency import format_currency_dual
             
+            status_text = s.get('ST_' + status.upper(), status)
+            
             if etype == 'withdrawal':
-                amt_text = format_currency_dual(amount, currency_pref, lang)
-                lines.append(
-                    f"⚪️ <b>Balance payout to {info}</b>: {amount}\n" # Wait, info is method, amount is... wait, look at SQL
-                    # SQL: SELECT id, 'withdrawal' as type, created_at as dt, method as info, status, amount FROM withdrawals
-                    f"<b>Wallet/ID:</b> <code>{info}</code>\n" # Actually info was 'method' in my SQL
-                    f"<b>Status:</b> {status}\n"
-                    f"<b>Balance:</b> -{amt_text}\n"
-                    f"<b>Date:</b> {date_str} (GMT)\n"
-                )
+                amt_text = f"-{format_currency_dual(amount, currency_pref, lang)}"
+                method_text = info.replace('💳','').replace('🟡','').replace('🟢','').replace('💎','').strip()
+                addr_text = extra or "N/A"
             else: # submission
-                # SQL: SELECT id, 'submission' as type, submitted_at as dt, gmail_account as info, status, price as amount FROM submissions
-                reward_text = format_currency_dual(amount, currency_pref, lang)
-                icon = "🟢" if status == 'approved' else ("🔴" if status == 'rejected' else "⏳")
-                title = "Account acceptance" if status == 'approved' else ("Account unavailable" if status == 'rejected' else "Account pending")
-                
-                lines.append(
-                    f"{icon} <b>{title}</b>:\n"
-                    f"{info} (ID: #{sub_id})\n"
-                    f"<b>Status:</b> {status}\n"
-                    f"<b>Balance:</b> +{reward_text}\n"
-                    f"<b>Date:</b> {date_str} (GMT)\n"
-                )
+                amt_text = f"+{format_currency_dual(amount, currency_pref, lang)}"
+                method_text = s['HISTORY_METHOD_SUBMISSION']
+                addr_text = info # gmail account
+            
+            item_text = s['HISTORY_ITEM_TEMPLATE'].format(
+                pay_id_lbl=s['DASH_PAY_ID'],
+                pay_id=sub_id,
+                status_lbl=s['HISTORY_STATUS'],
+                status=status_text,
+                method_lbl=s['HISTORY_METHOD'],
+                method=method_text,
+                price_lbl=s['HISTORY_PRICE'],
+                price=amt_text,
+                addr_lbl=s['HISTORY_ADDR'],
+                address=f"<code>{addr_text}</code>",
+                date_lbl=s['HISTORY_DATE'],
+                date=date_str
+            )
+            lines.append(item_text)
             lines.append("────────────────")
         
         msg = "\n".join(lines)

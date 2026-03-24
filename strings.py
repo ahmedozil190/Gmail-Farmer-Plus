@@ -209,12 +209,22 @@ STRINGS = {
         'ST_APPROVED': "مقبول ✅",
         'ST_PENDING': "في الانتظار ⏳",
         'ST_REJECTED': "مرفوض ❌",
+        'ST_PAID': "تم الدفع ✅",
+        'ST_COMPLETED': "مكتمل ✅",
         'HISTORY_STATUS': "الحالة:",
         'HISTORY_METHOD': "الطريقة:",
         'HISTORY_PRICE': "المبلغ:",
         'HISTORY_ADDR': "العنوان:",
-        'HISTORY_DATE': "التاريخ:",
         'DASH_PAY_ID': "رقم الدفع:",
+        'HISTORY_ITEM_TEMPLATE': (
+            "<b>{pay_id_lbl}</b> #{pay_id}\n"
+            "<b>{status_lbl}</b> {status}\n"
+            "<b>{method_lbl}</b> {method}\n"
+            "<b>{price_lbl}</b> {price}\n"
+            "<b>{addr_lbl}</b> {address}\n"
+            "<b>{date_lbl}</b> {date}"
+        ),
+        'HISTORY_METHOD_SUBMISSION': "مهمة جيميل 📧",
         'SUPPORT_MSG': "💬 <b>المساعدة والدعم الفني</b>\n\nللتحدث مع الدعم الفني: {link}",
 
         # Wallet Labels
@@ -611,12 +621,23 @@ STRINGS = {
         'ST_APPROVED': "Approved ✅",
         'ST_PENDING': "Pending ⏳",
         'ST_REJECTED': "Rejected ❌",
+        'ST_PAID': "Paid ✅",
+        'ST_COMPLETED': "Completed ✅",
         'HISTORY_STATUS': "Status:",
         'HISTORY_METHOD': "Method:",
         'HISTORY_PRICE': "Price:",
         'HISTORY_ADDR': "Address:",
         'HISTORY_DATE': "Date:",
         'DASH_PAY_ID': "Pay ID:",
+        'HISTORY_ITEM_TEMPLATE': (
+            "<b>{pay_id_lbl}</b> #{pay_id}\n"
+            "<b>{status_lbl}</b> {status}\n"
+            "<b>{method_lbl}</b> {method}\n"
+            "<b>{price_lbl}</b> {price}\n"
+            "<b>{addr_lbl}</b> {address}\n"
+            "<b>{date_lbl}</b> {date}"
+        ),
+        'HISTORY_METHOD_SUBMISSION': "Gmail Task 📧",
         'SUPPORT_MSG': "💬 <b>Help & Tech Support</b>\n\nTo contact support: {link}",
 
         # Wallet Labels
