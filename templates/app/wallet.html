@@ -31,7 +31,7 @@
                 <div class="hero-data-row">
                     <span class="hero-data-label">{{ strings.HOME_REQ_PENDING if strings else 'Pending' }}</span>
                     <div class="hero-data-value pending">
-                        {{ "%.2f"|format(pending or 0) }}<span class="symbol">$</span>
+                        {{ "%.2f"|format((pending or 0)|abs) }}<span class="symbol">$</span>
                     </div>
                 </div>
             </div>
@@ -265,8 +265,7 @@
                         {% elif 'TRX' in m %}<i class="fa-solid fa-gem" style="color: #ef4444;"></i>
                         {% else %}<i class="fa-solid fa-wallet"></i>{% endif %}
                     </div>
-                    <div class="option-name">{{ m.replace('💳 ', '').replace('🟡 ', '').replace('🟢 ', '').replace('💎
-                        ', '') }}</div>
+                    <div class="option-name">{{ m.replace('💳 ', '').replace('🟡 ', '').replace('🟢 ', '').replace('💎 ', '') }}</div>
                     <div class="option-check"><i class="fa-solid fa-check"></i></div>
                 </div>
                 {% endfor %}
