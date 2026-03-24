@@ -955,6 +955,7 @@ WEBAPP_STRINGS = {
         'REF_DATE': "تاريخ الانضمام:",
         'REF_TASKS': "التاسكات:",
         'REF_PROFIT_EARNED': "الأرباح",
+        'DASH_PAY_ID': "رقم الدفع:",
         'PAGE_LABEL': "صفحة",
         'OF_LABEL': "من",
     },
@@ -1104,6 +1105,7 @@ WEBAPP_STRINGS = {
         'REF_DATE': "Join Date:",
         'REF_TASKS': "Tasks:",
         'REF_PROFIT_EARNED': "Earning:",
+        'DASH_PAY_ID': "Pay ID:",
         'PAGE_LABEL': "Page",
         'OF_LABEL': "of",
     }
