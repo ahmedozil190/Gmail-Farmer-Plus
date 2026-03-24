@@ -2,6 +2,27 @@
 
 {% block title %}{{ strings.DASH_W_PAGE_TITLE }}{% endblock %}
 
+{% block scripts %}
+<script>
+function copyToClipboard(text, element) {
+    navigator.clipboard.writeText(text).then(() => {
+        const originalText = element.textContent;
+        const originalColor = element.style.color;
+        
+        element.textContent = "Copied! ✅";
+        element.style.color = "#10b981";
+        
+        setTimeout(() => {
+            element.textContent = text;
+            element.style.color = originalColor;
+        }, 1500);
+    }).catch(err => {
+        console.error('Failed to copy: ', err);
+    });
+}
+</script>
+{% endblock %}
+
 {% block content %}
 
 <!-- Stats Overview -->
@@ -88,7 +109,11 @@
             </div>
             <div class="elite-row">
                 <span class="elite-label">{{ strings.HISTORY_ADDR }}</span>
-                <span class="elite-value" style="word-break: break-all; opacity: 1;">{{ w.wallet_address }}</span>
+                <span class="elite-value clickable-address" 
+                    onclick="copyToClipboard('{{ w.wallet_address }}', this)"
+                    style="word-break: break-all; opacity: 1; color: var(--accent-blue); cursor: pointer;">
+                    {{ w.wallet_address }}
+                </span>
             </div>
             <div class="elite-row">
                 <span class="elite-label">{{ strings.DASH_LBL_USER_ID }}</span>
