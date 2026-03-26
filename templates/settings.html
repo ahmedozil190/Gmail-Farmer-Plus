@@ -395,8 +395,8 @@
     <div
         style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.06); padding: 22px; margin-bottom: 20px; border-radius: 20px;">
         <div style="display: flex; flex-direction: column; gap: 12px;">
-            <div style="font-weight: 700; color: #ef4444; display: flex; align-items: center; gap: 8px;">
-                <i class="fa-solid fa-users-slash"></i> {{ strings.LBL_DELETE_ALL_USERS }}
+            <div style="font-weight: 700; color: white; display: flex; align-items: center; gap: 8px;">
+                <i class="fa-solid fa-users-slash" style="color: #60a5fa;"></i> {{ strings.LBL_DELETE_ALL_USERS }}
             </div>
             <form action="{{ url_for('delete_all_users_route') }}" method="POST" id="delete-all-users-form">
                 <button type="button" class="btn" onclick="openResetModal('delete-all-users-form')"
@@ -408,8 +408,8 @@
     </div>
     <div
         style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.06); padding: 22px; border-radius: 20px;">
-        <div style="font-weight: 700; color: #ef4444; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
-            <i class="fa-solid fa-user-xmark"></i> {{ strings.LBL_DELETE_SPECIFIC_USER }}
+        <div style="font-weight: 700; color: white; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+            <i class="fa-solid fa-user-xmark" style="color: #60a5fa;"></i> {{ strings.LBL_DELETE_SPECIFIC_USER }}
         </div>
         <form action="{{ url_for('delete_specific_user_route') }}" method="POST" id="delete-specific-user-form">
             <div style="position: relative;">
