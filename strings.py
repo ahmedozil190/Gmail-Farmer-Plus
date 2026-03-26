@@ -64,11 +64,16 @@ STRINGS = {
         'BTN_FOLLOW_UP': "✅ متابعة",
         'BTN_CANCEL': "❌ إلغاء",
         'MSG_CHOOSE_METHOD': "كيف تفضل إنشاء الحساب الجديد؟",
+        'TASKS_PROMPT_EMAIL': (
+            "✅ ممتاز! الآن أرسل عنوان الجيميل الذي أنشأته:\n\n"
+            "💡 مثال: <code>yourname1234@gmail.com</code>\n\n"
+            "⚠️ أرسل عنوان الجيميل فقط."
+        ),
         'TASKS_MANUAL_INSTRUCTIONS': (
             "📱 <b>مهمة إنشاء جيميل</b> ⛳️\n\n"
             "📋 <b>التعليمات</b> 🥊\n\n"
-            "🔑 كلمة المرور الموحدة ☜ <code>aass1122</code>\n\n"
-            "📱 يجب إنشاء الحساب من الهاتف فقط\n"
+            "🔑 كلمة المرور الموحدة ☜ <code>{unified_pwd}</code>\n\n"
+            "📱 يجب إنشاء الحساب من الهاتف فقط\n\n"
             "👤 استخدم أي اسم أجنبي وبعده 3 او 4 ارقام 💁‍♂️\n\n"
             "📧 استخدم كلمة المرور الموحدة المذكورة أعلاه 🕺\n\n"
             "⚠️ ستحصل على المكافأة بعد موافقة الأدمن 💸\n\n"
@@ -504,11 +509,16 @@ STRINGS = {
         'BTN_FOLLOW_UP': "✅ Continue",
         'BTN_CANCEL': "❌ Cancel",
         'MSG_CHOOSE_METHOD': "How would you prefer to create the new account?",
+        'TASKS_PROMPT_EMAIL': (
+            "✅ Great! Now send the Gmail address you created:\n\n"
+            "💡 Example: <code>yourname1234@gmail.com</code>\n\n"
+            "⚠️ Send only the Gmail address."
+        ),
         'TASKS_MANUAL_INSTRUCTIONS': (
             "📱 <b>Gmail Creation Task</b> ⛳️\n\n"
             "📋 <b>Instructions</b> 🥊\n\n"
-            "🔑 Unified Password ☜ <code>aass1122</code>\n\n"
-            "📱 Account must be created from phone only\n"
+            "🔑 Unified Password ☜ <code>{unified_pwd}</code>\n\n"
+            "📱 Account must be created from phone only\n\n"
             "👤 Use any foreign name followed by 3 or 4 digits 💁‍♂️\n\n"
             "📧 Use the unified password mentioned above 🕺\n\n"
             "⚠️ You will receive the reward after admin approval 💸\n\n"

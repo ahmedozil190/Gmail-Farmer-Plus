@@ -602,7 +602,7 @@ def get_business_config():
     return {
         "GMAIL_PRICE":    float(get_setting("GMAIL_PRICE", GMAIL_PRICE)),
         "GMAIL_PRICE_AUTO": float(get_setting("GMAIL_PRICE_AUTO", GMAIL_PRICE_AUTO)),
-        "GMAIL_MANUAL_PWD": get_setting("GMAIL_MANUAL_PWD", "Aa612003@"),
+        "GMAIL_MANUAL_PWD": get_setting("GMAIL_MANUAL_PWD", "aass1122"),
         "REFERRAL_BONUS": float(get_setting("REFERRAL_BONUS", REFERRAL_BONUS)),
         "BUYING_ACTIVE":  get_setting("BUYING_ACTIVE", "1") == "1",
         "REQUIRED_CHANNELS": get_setting("REQUIRED_CHANNELS", ""),

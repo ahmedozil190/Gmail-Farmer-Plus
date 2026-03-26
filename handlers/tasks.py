@@ -88,9 +88,13 @@ async def send_manual_instructions(update: Update, context: ContextTypes.DEFAULT
     lang = context.user_data.get('lang', 'ar')
     s = STRINGS.get(lang, STRINGS['ar'])
     
+    from database import get_business_config
+    conf = get_business_config()
+    unified_pwd = conf.get("GMAIL_MANUAL_PWD", "aass1122")
+    
     from keyboards import task_continue_keyboard
     
-    text = s.get('TASKS_MANUAL_INSTRUCTIONS', "Manual Instructions")
+    text = s.get('TASKS_MANUAL_INSTRUCTIONS', "Manual Instructions").format(unified_pwd=unified_pwd)
     
     await update.message.reply_text(
         text=text,
@@ -147,11 +151,14 @@ async def receive_manual_email(update: Update, context: ContextTypes.DEFAULT_TYP
         await update.message.reply_text(s['ERR_DUPLICATE_GMAIL'])
         return TASK_EMAIL
         
-    # Process Manual Submission with unified password aass1122
-    password = "aass1122"
+    # Process Manual Submission with dynamic unified password
+    from database import get_business_config
+    conf = get_business_config()
+    password = conf.get("GMAIL_MANUAL_PWD", "aass1122")
+    
     user_id = update.effective_user.id
     
-    from database import add_submission, get_business_config, get_user
+    from database import add_submission, get_user
     conf = get_business_config()
     user_data = get_user(user_id)
     
