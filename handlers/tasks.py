@@ -212,7 +212,7 @@ async def send_auto_account_data(update: Update, context: ContextTypes.DEFAULT_T
     from telegram import InlineKeyboardMarkup, InlineKeyboardButton
     
     conf = get_business_config()
-    fixed_pwd = conf.get("GMAIL_MANUAL_PWD", "Aa612003@")
+    fixed_pwd = conf.get("GMAIL_AUTO_PWD", "Aa612003@")
     
     # Generate new data
     data = generate_account_data()

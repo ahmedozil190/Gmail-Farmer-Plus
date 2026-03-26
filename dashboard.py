@@ -594,7 +594,8 @@ def settings():
             database.set_setting("BOT_NAME", form_data.get("bot_name", "Gmail Farmer"))
             database.set_setting("GMAIL_PRICE_AUTO", form_data.get("gmail_price_auto"))
             database.set_setting("REFERRAL_BONUS", form_data.get("referral_bonus"))
-            database.set_setting("GMAIL_MANUAL_PWD", form_data.get("gmail_manual_pwd", "Aa612003@"))
+            database.set_setting("GMAIL_MANUAL_PWD", form_data.get("gmail_manual_pwd", "aass1122"))
+            database.set_setting("GMAIL_AUTO_PWD", form_data.get("gmail_auto_pwd", "Aa612003@"))
         
         elif category == "limits":
             database.set_setting("MIN_WITHDRAW_VODAFONE", form_data.get("min_voda"))
