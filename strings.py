@@ -59,8 +59,8 @@ STRINGS = {
         'ERROR_RETRY': "❌ حدث خطأ، ابدأ من جديد.",
         
         # New Gmail Task Flow
-        'BTN_METHOD_MANUAL': "📝 إنشاء يدوي - {price}",
-        'BTN_METHOD_AUTO': "🤖 إنشاء تلقائي - {price}",
+        'BTN_METHOD_MANUAL': "📝 يدوي - {price}",
+        'BTN_METHOD_AUTO': "🤖 تلقائي - {price}",
         'BTN_FOLLOW_UP': "✅ متابعة",
         'BTN_CANCEL': "❌ إلغاء",
         'MSG_CHOOSE_METHOD': "كيف تفضل إنشاء الحساب الجديد؟",
@@ -499,8 +499,8 @@ STRINGS = {
         'ERROR_RETRY': "❌ An error occurred, start over.",
 
         # New Gmail Task Flow
-        'BTN_METHOD_MANUAL': "📝 Manual Creation - {price}",
-        'BTN_METHOD_AUTO': "🤖 Auto-Generated - {price}",
+        'BTN_METHOD_MANUAL': "📝 Manual - {price}",
+        'BTN_METHOD_AUTO': "🤖 Auto - {price}",
         'BTN_FOLLOW_UP': "✅ Continue",
         'BTN_CANCEL': "❌ Cancel",
         'MSG_CHOOSE_METHOD': "How would you prefer to create the new account?",
