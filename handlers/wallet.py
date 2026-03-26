@@ -15,7 +15,7 @@ async def balance_handler_fn(update: Update, context: ContextTypes.DEFAULT_TYPE)
     if await is_banned(update, context):
         return
     user_id = update.effective_user.id
-    user_data = get_user(user_id)
+    user_data = get_user(user_id, update.effective_user)
     lang = user_data['language'] if user_data else 'ar'
     currency_pref = user_data['currency'] if user_data else 'USD'
     s = STRINGS.get(lang, STRINGS['ar'])
@@ -58,7 +58,7 @@ async def history_handler_fn(update: Update, context: ContextTypes.DEFAULT_TYPE,
         if await is_banned(update, context):
             return
 
-    user_data = get_user(user_id)
+    user_data = get_user(user_id, query.from_user if query else update.effective_user)
     lang = user_data['language'] if user_data else 'ar'
     currency_pref = user_data['currency'] if user_data else 'USD'
     s = STRINGS.get(lang, STRINGS['ar'])
@@ -152,7 +152,7 @@ async def my_accounts_handler_fn(update: Update, context: ContextTypes.DEFAULT_T
         if await is_banned(update, context):
             return
 
-    user_data = get_user(user_id)
+    user_data = get_user(user_id, query.from_user if query else update.effective_user)
     lang = user_data['language'] if user_data else 'ar'
     s = STRINGS.get(lang, STRINGS['ar'])
 
@@ -217,7 +217,7 @@ async def my_accounts_handler_fn(update: Update, context: ContextTypes.DEFAULT_T
 async def unified_back_handler_fn(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Unified 'Back' handler that looks at context.user_data['parent_menu']."""
     user_id = update.effective_user.id
-    user_data = get_user(user_id)
+    user_data = get_user(user_id, update.effective_user)
     lang = user_data['language'] if user_data else 'ar'
     parent = context.user_data.get('parent_menu', 'main')
     

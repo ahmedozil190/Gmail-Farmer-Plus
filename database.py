@@ -124,9 +124,39 @@ def init_db():
 
 
 # ── User helpers ─────────────────────────────────────────────────────────────
-def get_user(user_id: int):
+def get_user(user_id: int, tg_user=None):
     con = _conn()
     row = con.execute("SELECT * FROM users WHERE user_id = ?", (user_id,)).fetchone()
+    
+    if not row and tg_user is not None:
+        # Extract fields whether tg_user is a dict (WebApp) or telegram.User (Bot)
+        if isinstance(tg_user, dict):
+            first_name = tg_user.get("first_name", "")
+            last_name = tg_user.get("last_name")
+            username = tg_user.get("username")
+            lang = tg_user.get("language_code", "ar")
+        else:
+            first_name = getattr(tg_user, "first_name", "")
+            last_name = getattr(tg_user, "last_name", None)
+            username = getattr(tg_user, "username", None)
+            lang = getattr(tg_user, "language_code", "ar")
+
+        full_name = first_name
+        if last_name:
+            full_name += f" {last_name}"
+            
+        if lang not in ('ar', 'en'):
+            lang = 'ar'
+            
+        con.execute(
+            """INSERT OR IGNORE INTO users
+               (user_id, username, full_name, balance, pending_balance, join_date, language)
+               VALUES (?, ?, ?, 0, 0, ?, ?)""",
+            (user_id, username, full_name, datetime.now().isoformat(), lang),
+        )
+        con.commit()
+        row = con.execute("SELECT * FROM users WHERE user_id = ?", (user_id,)).fetchone()
+
     con.close()
     return row
 

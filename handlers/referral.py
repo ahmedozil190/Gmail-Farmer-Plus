@@ -16,7 +16,7 @@ async def referral_handler_fn(update: Update, context: ContextTypes.DEFAULT_TYPE
     if await is_banned(update, context):
         return
     user_id = update.effective_user.id
-    user_data = get_user(user_id)
+    user_data = get_user(user_id, update.effective_user)
     lang = user_data['language'] if user_data else 'ar'
     currency = user_data['currency'] if user_data else 'USD'
     s = STRINGS.get(lang, STRINGS['ar'])
@@ -48,7 +48,7 @@ async def referral_handler_fn(update: Update, context: ContextTypes.DEFAULT_TYPE
 async def referral_link_handler_fn(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Shows the user's unique referral link with detailed info."""
     user_id = update.effective_user.id
-    user_data = get_user(user_id)
+    user_data = get_user(user_id, update.effective_user)
     lang = user_data['language'] if user_data else 'ar'
     currency = user_data['currency'] if user_data else 'USD'
     s = STRINGS.get(lang, STRINGS['ar'])
@@ -79,7 +79,7 @@ async def referral_link_handler_fn(update: Update, context: ContextTypes.DEFAULT
 async def referral_stats_handler_fn(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Detailed stats using the new template."""
     user_id = update.effective_user.id
-    user_data = get_user(user_id)
+    user_data = get_user(user_id, update.effective_user)
     lang = user_data['language'] if user_data else 'ar'
     currency = user_data['currency'] if user_data else 'USD'
     s = STRINGS.get(lang, STRINGS['ar'])
@@ -117,7 +117,7 @@ async def referral_list_handler_fn(update: Update, context: ContextTypes.DEFAULT
     else:
         user_id = update.effective_user.id
 
-    user_data = get_user(user_id)
+    user_data = get_user(user_id, query.from_user if query else update.effective_user)
     lang = user_data['language'] if user_data else 'ar'
     currency = user_data['currency'] if user_data else 'USD'
     s = STRINGS.get(lang, STRINGS['ar'])

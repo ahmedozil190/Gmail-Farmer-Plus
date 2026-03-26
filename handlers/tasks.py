@@ -31,7 +31,7 @@ async def tasks_entry(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if await is_banned(update, context):
         return
     user_id = update.effective_user.id
-    user_data = get_user(user_id)
+    user_data = get_user(user_id, update.effective_user)
     lang = user_data['language'] if user_data else 'ar'
     context.user_data['lang'] = lang
     
@@ -160,7 +160,7 @@ async def receive_manual_email(update: Update, context: ContextTypes.DEFAULT_TYP
     
     from database import add_submission, get_user
     conf = get_business_config()
-    user_data = get_user(user_id)
+    user_data = get_user(user_id, update.effective_user)
     
     reward = user_data["custom_manual_price"] if user_data and user_data["custom_manual_price"] is not None else conf["GMAIL_PRICE"]
     
@@ -220,7 +220,7 @@ async def send_auto_account_data(update: Update, context: ContextTypes.DEFAULT_T
     context.user_data['auto_task'] = data
     
     user_id = update.effective_user.id
-    user_data = get_user(user_id)
+    user_data = get_user(user_id, update.effective_user)
     currency = user_data['currency'] if (user_data and user_data['currency']) else 'EGP'
     
     price_val = user_data["custom_auto_price"] if user_data and user_data["custom_auto_price"] is not None else conf["GMAIL_PRICE_AUTO"]
@@ -296,7 +296,7 @@ async def handle_auto_action(update: Update, context: ContextTypes.DEFAULT_TYPE)
         # Add with AUTO price
         conf_auto = get_business_config()
         user_id = update.effective_user.id
-        user_data = get_user(user_id)
+        user_data = get_user(user_id, update.effective_user)
         
         # User-specific auto price or global
         reward = user_data["custom_auto_price"] if user_data and user_data["custom_auto_price"] is not None else conf_auto["GMAIL_PRICE_AUTO"]
