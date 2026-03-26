@@ -156,8 +156,7 @@ def task_method_keyboard(lang: str, price_manual: str, price_auto: str) -> Reply
     btn_manual = s['BTN_METHOD_MANUAL'].format(price=price_manual)
     btn_auto = s['BTN_METHOD_AUTO'].format(price=price_auto)
     kb = [
-        [KeyboardButton(btn_manual)],
-        [KeyboardButton(btn_auto)],
+        [KeyboardButton(btn_manual), KeyboardButton(btn_auto)],
         [KeyboardButton(s['BTN_BACK'])]
     ]
     return ReplyKeyboardMarkup(kb, resize_keyboard=True)
