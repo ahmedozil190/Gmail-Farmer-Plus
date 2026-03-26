@@ -1283,7 +1283,8 @@ DASHBOARD_STRINGS = {
         
         'SETTINGS_CONFIG': "إعدادات البوت",
         'SETTINGS_BOT_NAME': "اسم البوت",
-        'SETTINGS_GMAIL_PRICE': "سعر الجيميل ($)",
+        'SETTINGS_GMAIL_MANUAL_PRICE': "سعر الجيميل اليدوي ($)",
+        'SETTINGS_GMAIL_AUTO_PRICE': "سعر الجيميل التلقائي ($)",
         'LBL_MANUAL_PWD': "كلمة المرور الموحدة (يدوي)",
         'LBL_AUTO_PWD': "كلمة المرور الموحدة (تلقائي)",
         'LBL_CUSTOM_MANUAL': "يدوي",
@@ -1434,7 +1435,8 @@ DASHBOARD_STRINGS = {
 
         'SETTINGS_CONFIG': "Bot Configuration",
         'SETTINGS_BOT_NAME': "Bot Name",
-        'SETTINGS_GMAIL_PRICE': "Gmail Price ($)",
+        'SETTINGS_GMAIL_MANUAL_PRICE': "Manual Gmail Price ($)",
+        'SETTINGS_GMAIL_AUTO_PRICE': "Auto Gmail Price ($)",
         'LBL_MANUAL_PWD': "Manual Unified Password",
         'LBL_AUTO_PWD': "Auto Unified Password",
         'LBL_CUSTOM_MANUAL': "Manual",

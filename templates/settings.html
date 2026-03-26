@@ -215,7 +215,12 @@
                 required>
         </div>
         <div class="form-group">
-            <label class="form-label">{{ strings.SETTINGS_GMAIL_PRICE }}</label>
+            <label class="form-label">{{ strings.SETTINGS_GMAIL_MANUAL_PRICE }}</label>
+            <input type="number" step="0.01" name="gmail_price_manual" class="form-control" value="{{ price }}"
+                required>
+        </div>
+        <div class="form-group">
+            <label class="form-label">{{ strings.SETTINGS_GMAIL_AUTO_PRICE }}</label>
             <input type="number" step="0.01" name="gmail_price_auto" class="form-control" value="{{ price_auto }}"
                 required>
         </div>
