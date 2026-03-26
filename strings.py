@@ -871,6 +871,7 @@ WEBAPP_STRINGS = {
         'NAV_TASKS': "المهام",
         'NAV_WALLET': "المحفظة",
         'NAV_REFERRALS': "الإحالات",
+        'BTN_PREV_PAGE_INLINE': "رجوع",
         
         'BANNED_TITLE': "✋ تم حظرك",
         'BANNED_MSG': "❌ <b>عذراً، تم حظرك من استخدام النظام.</b>\nلقد تم تقييد وصولك إلى لوحة التحكم بسبب مخالفة القوانين.",
@@ -938,7 +939,7 @@ WEBAPP_STRINGS = {
         ),
         
         'TASK_TAB_MANUAL': "إنشاء يدوي",
-        'TASK_TAB_AUTO': "",
+        'TASK_TAB_AUTO': "إنشاء تلقائي",
         'BTN_METHOD_MANUAL': "يدوي - {manual_price_text}",
         'BTN_METHOD_AUTO': "تلقائي - {auto_price_text}",
         'TASK_AUTO_INFO': "",
@@ -1033,6 +1034,7 @@ WEBAPP_STRINGS = {
         'NAV_TASKS': "Tasks",
         'NAV_WALLET': "Wallet",
         'NAV_REFERRALS': "Referrals",
+        'BTN_PREV_PAGE_INLINE': "Back",
 
         'BANNED_TITLE': "✋ You are Banned",
         'BANNED_MSG': "❌ <b>Sorry, you have been banned from using the system.</b>\nYour access to the dashboard has been restricted due to a violation of the rules.",
@@ -1099,7 +1101,7 @@ WEBAPP_STRINGS = {
         ),
         
         'TASK_TAB_MANUAL': "Manual Create",
-        'TASK_TAB_AUTO': "",
+        'TASK_TAB_AUTO': "Auto Create",
         'BTN_METHOD_MANUAL': "Manual - {manual_price_text}",
         'BTN_METHOD_AUTO': "Auto - {auto_price_text}",
         'TASK_AUTO_INFO': "",

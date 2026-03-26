@@ -978,7 +978,7 @@ def app_task_auto():
     auto_data = generate_account_data()
     
     conf = database.get_business_config()
-    auto_data['password'] = conf.get("GMAIL_MANUAL_PWD", "Aa612003@")
+    auto_data['password'] = conf.get("GMAIL_AUTO_PWD", "Aa612003@")
     
     return render_template("app/task_auto.html", active_page="tasks", user=user, strings=strings, auto=auto_data)
 
@@ -994,7 +994,7 @@ def app_task_api_generate():
     auto_data = generate_account_data()
     
     conf = database.get_business_config()
-    auto_data['password'] = conf.get("GMAIL_MANUAL_PWD", "Aa612003@")
+    auto_data['password'] = conf.get("GMAIL_AUTO_PWD", "Aa612003@")
     
     return auto_data, 200
 

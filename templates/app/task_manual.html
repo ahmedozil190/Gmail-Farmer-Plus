@@ -3,8 +3,11 @@
 {% block app_title %}{{ strings.TASKS_TITLE }}{% endblock %}
 
 {% block content %}
-<div style="padding-top: 1.25rem;">
-    <h2 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 1rem;">{{ strings.TASK_TAB_MANUAL }}</h2>
+<div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem; padding: 1.25rem 5px 0;">
+    <h2 style="font-size: 1.2rem; font-weight: 800; margin: 0;">{{ strings.TASK_TAB_MANUAL }}</h2>
+    <a href="{{ url_for('app_tasks') }}" style="color: var(--secondary-color); text-decoration: none; font-size: 0.9rem; display: flex; align-items: center; gap: 5px;">
+        <i class="fa-solid fa-chevron-left"></i> {{ strings.BTN_PREV_PAGE_INLINE }}
+    </a>
 </div>
 
 <!-- Unified Instruction Card -->
@@ -25,12 +28,12 @@
         <button type="submit" class="btn btn-primary">
             <i class="fa-solid fa-paper-plane"></i> {{ strings.TASK_START_SUBMIT_BTN }}
         </button>
+        <div style="text-align: center; margin-top: 12px;">
+            <a href="{{ url_for('app_tasks') }}" style="color: var(--text-secondary); text-decoration: none; font-size: 0.85rem; font-weight: 600;">
+                {{ strings.TASK_START_BACK }}
+            </a>
+        </div>
     </form>
 </div>
 
-<div style="text-align: center; margin-top: 1rem;">
-    <a href="{{ url_for('app_tasks') }}" class="btn btn-outline btn-sm" style="width: auto; display: inline-flex;">
-        <i class="fa-solid fa-arrow-left"></i> {{ strings.TASK_START_BACK }}
-    </a>
-</div>
 {% endblock %}

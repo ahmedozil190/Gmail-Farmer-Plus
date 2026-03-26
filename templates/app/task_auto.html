@@ -3,8 +3,11 @@
 {% block app_title %}{{ strings.TASKS_TITLE }}{% endblock %}
 
 {% block content %}
-<div style="padding-top: 1.25rem;">
-    <!-- Space holder -->
+<div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem; padding: 1.25rem 5px 0;">
+    <h2 style="font-size: 1.2rem; font-weight: 800; margin: 0;">{{ strings.TASK_TAB_AUTO }}</h2>
+    <a href="{{ url_for('app_tasks') }}" style="color: var(--secondary-color); text-decoration: none; font-size: 0.9rem; display: flex; align-items: center; gap: 5px;">
+        <i class="fa-solid fa-chevron-left"></i> {{ strings.BTN_PREV_PAGE_INLINE }}
+    </a>
 </div>
 
 <!-- Instructions & Steps -->
@@ -51,10 +54,6 @@
             {{ strings.TASK_AUTO_REGEN }}
         </button>
 
-        <a href="{{ url_for('app_tasks') }}" class="btn btn-outline"
-            style="width: 100%; justify-content: center; font-weight: bold; padding: 12px; border-radius: 10px; display: flex; align-items: center; text-decoration: none;">
-            {{ strings.TASK_START_BACK }}
-        </a>
     </div>
 </div>
 
