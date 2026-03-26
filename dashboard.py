@@ -815,19 +815,31 @@ def get_webapp_user():
         lang = user_dict.get("language", "ar")
         if lang not in WEBAPP_STRINGS: lang = "ar"
         
-        # Format strings with price
+        # Get both prices
         conf = database.get_business_config()
         auto_price = user_dict.get("custom_auto_price")
         if auto_price is None:
             auto_price = conf.get("GMAIL_PRICE_AUTO", 0.08)
             
+        manual_price = user_dict.get("custom_manual_price")
+        if manual_price is None:
+            manual_price = conf.get("GMAIL_PRICE", 0.10)
+            
         from utils.currency import format_currency_dual
-        price_text = format_currency_dual(auto_price, user_dict.get('currency', 'EGP'), lang, show_secondary=False)
+        curr = user_dict.get('currency', 'USD')
+        auto_price_text = format_currency_dual(auto_price, curr, lang, show_secondary=False)
+        manual_price_text = format_currency_dual(manual_price, curr, lang, show_secondary=False)
         
         localized_strings = WEBAPP_STRINGS[lang].copy()
         for k, v in localized_strings.items():
-            if isinstance(v, str) and "{price_text}" in v:
-                localized_strings[k] = v.format(price_text=price_text)
+            if isinstance(v, str):
+                if "{price_text}" in v:
+                    localized_strings[k] = v.format(price_text=auto_price_text)
+                if "{auto_price_text}" in v:
+                    localized_strings[k] = v.format(auto_price_text=auto_price_text)
+                if "{manual_price_text}" in v:
+                    # If it has both, we might need a more clever format or sequential calls
+                    localized_strings[k] = localized_strings[k].format(manual_price_text=manual_price_text)
                 
         return user_dict, localized_strings, is_banned
     except Exception as e:
@@ -943,7 +955,14 @@ def app_tasks():
 
 @app.route("/app/tasks/manual")
 def app_task_manual():
-    return redirect(url_for("app_task_auto"))
+    user, strings, is_banned = get_webapp_user()
+    if is_banned:
+        return render_template("app/banned.html", strings=strings), 403
+    if not user:
+        return redirect(url_for("app_home"))
+    
+    conf = database.get_business_config()
+    return render_template("app/task_manual.html", active_page="tasks", user=user, strings=strings, config=conf)
 
 
 @app.route("/app/tasks/auto")

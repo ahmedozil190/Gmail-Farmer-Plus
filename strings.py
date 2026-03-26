@@ -928,8 +928,8 @@ WEBAPP_STRINGS = {
         
         'TASK_TAB_MANUAL': "إنشاء يدوي",
         'TASK_TAB_AUTO': "",
-        'BTN_METHOD_MANUAL': "يدوي",
-        'BTN_METHOD_AUTO': "تسجيل إيميل جديد - {price_text}",
+        'BTN_METHOD_MANUAL': "يدوي - {manual_price_text}",
+        'BTN_METHOD_AUTO': "تلقائي - {auto_price_text}",
         'TASK_AUTO_INFO': "",
         'TASK_AUTO_FNAME': "الاسم الأول:",
         'TASK_AUTO_LNAME': "اسم العائلة:",
@@ -1078,8 +1078,8 @@ WEBAPP_STRINGS = {
         
         'TASK_TAB_MANUAL': "Manual Create",
         'TASK_TAB_AUTO': "",
-        'BTN_METHOD_MANUAL': "Manual",
-        'BTN_METHOD_AUTO': "Register a new Gmail - {price_text}",
+        'BTN_METHOD_MANUAL': "Manual - {manual_price_text}",
+        'BTN_METHOD_AUTO': "Auto - {auto_price_text}",
         'TASK_AUTO_INFO': "",
         'TASK_AUTO_FNAME': "First Name:",
         'TASK_AUTO_LNAME': "Last Name:",

@@ -20,9 +20,14 @@
             <p class="hero-subtitle">{{ strings.TASKS_SUBTITLE_EARN }}</p>
         </div>
         {% if buying_active %}
-        <a href="{{ url_for('app_task_auto') }}" class="btn-hero">
-            {{ strings.BTN_METHOD_AUTO }}
-        </a>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; margin-top: 15px;">
+            <a href="{{ url_for('app_task_auto') }}" class="btn-hero" style="font-size: 0.8rem; padding: 12px 5px; justify-content: center; margin: 0;">
+                {{ strings.BTN_METHOD_AUTO }}
+            </a>
+            <a href="{{ url_for('app_task_manual') }}" class="btn-hero" style="font-size: 0.8rem; padding: 12px 5px; justify-content: center; margin: 0; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); box-shadow: none;">
+                {{ strings.BTN_METHOD_MANUAL }}
+            </a>
+        </div>
         {% else %}
         <div class="hero-paused">
             <i class="fa-solid fa-circle-exclamation"></i> {{ strings.TASKS_PAUSED }}
