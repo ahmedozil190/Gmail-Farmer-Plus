@@ -1492,7 +1492,7 @@ DASHBOARD_STRINGS = {
         'ALERT_SETTINGS_SAVED': "Settings updated successfully! Changes are now active for the bot.",
         'ALERT_LOGIN_SUCCESS': "Successfully logged in.",
         'LBL_RESET_SETTINGS': "Data Reset ♻️",
-        'LBL_GLOBAL_RESET': "Global Reset (Clear all Data)",
+        'LBL_GLOBAL_RESET': "Reset all user data",
         'LBL_USER_RESET': "Specific User Reset",
         'LBL_USER_ID': "User ID",
         'BTN_RESET_GLOBAL': "Start Global Reset ⚠️",
