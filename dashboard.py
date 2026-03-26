@@ -841,11 +841,9 @@ def get_webapp_user():
         localized_strings = WEBAPP_STRINGS[lang].copy()
         for k, v in localized_strings.items():
             if isinstance(v, str):
-                # Format using only the keys present in the string to avoid KeyErrors
-                # or just use a single format call with all known keys.
-                # v.format(**fmt_ctx) is safe if all {key} in v are in fmt_ctx.
                 try:
-                    # We check if any of our keys are in the string before formatting
+                    # Format only if at least one of our keys is in the string
+                    # This prevents KeyErrors from unhandled placeholders
                     if any(f"{{{key}}}" in v for key in fmt_ctx):
                         localized_strings[k] = v.format(**fmt_ctx)
                 except KeyError:

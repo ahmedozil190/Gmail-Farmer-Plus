@@ -927,7 +927,7 @@ WEBAPP_STRINGS = {
         'TASK_START_SUBMIT_BTN': "تقديم المهمة",
         'TASK_START_BACK': "العودة للمهام",
         'TASKS_MANUAL_MSG': (
-            "📱 <b>مهمة إنشاء جيميل ⛳️ - {manual_price_text}</b>\n\n"
+            "📱 <b>مهمة إنشاء جيميل ⛳️</b>\n\n"
             "📋 <b>التعليمات 🥊</b>\n\n"
             "🔑 كلمة المرور الموحدة ☜ <code>{password}</code>\n\n"
             "📱 يجب إنشاء الحساب من الهاتف فقط\n\n"
@@ -953,7 +953,7 @@ WEBAPP_STRINGS = {
         'TASK_AUTO_WARNING': "⚠️ كتابة باسورد مختلف قد يعرض حسابك للحظر ومنع سحب أرباحك.",
         'TASK_AUTO_FOOTER': "👇 بعد الانتهاء اختر واحدًا من الأزرار بالأسفل:",
         'TASKS_AUTO_INSTRUCTIONS': (
-            "📱 <b>مهمة إنشاء جيميل جديدة - {price_text}</b>\n\n"
+            "📱 <b>مهمة إنشاء جيميل جديدة</b>\n\n"
             "✨ اتبع الخطوات بهدوء وبالترتيب:\n\n"
             "1️⃣ اذهب إلى الإعدادات ثم المستخدمون والحسابات.\n\n"
             "2️⃣ اضغط إضافة حساب ثم اختر Google.\n\n"
@@ -1089,7 +1089,7 @@ WEBAPP_STRINGS = {
         'TASK_START_SUBMIT_BTN': "Submit Task",
         'TASK_START_BACK': "Back to Tasks",
         'TASKS_MANUAL_MSG': (
-            "📱 <b>Gmail Creation Task ⛳️ - {manual_price_text}</b>\n\n"
+            "📱 <b>Gmail Creation Task ⛳️</b>\n\n"
             "📋 <b>Instructions 🥊</b>\n\n"
             "🔑 Unified Password ☜ <code>{password}</code>\n\n"
             "📱 Account must be created from phone only\n\n"
@@ -1115,7 +1115,7 @@ WEBAPP_STRINGS = {
         'TASK_AUTO_WARNING': "⚠️ Writing a different password may expose your account to a ban and prevent withdrawing your profits.",
         'TASK_AUTO_FOOTER': "👇 After finishing, choose one of the buttons below:",
         'TASKS_AUTO_INSTRUCTIONS': (
-            "📱 <b>New Gmail Task - {price_text}</b>\n\n"
+            "📱 <b>New Gmail Task</b>\n\n"
             "✨ Follow the steps calmly and in order:\n\n"
             "1️⃣ Go to Settings then Users & Accounts.\n\n"
             "2️⃣ Click Add Account then choose Google.\n\n"
