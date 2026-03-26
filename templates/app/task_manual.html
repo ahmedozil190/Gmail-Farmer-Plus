@@ -25,11 +25,17 @@
             <label class="form-label">{{ strings.TASK_START_SUBMIT_LBL }}</label>
             <input type="email" name="gmail" class="form-control" placeholder="{{ strings.TASK_START_SUBMIT_PH }}" required>
         </div>
-        <button type="submit" class="btn btn-primary">
-            <i class="fa-solid fa-paper-plane"></i> {{ strings.TASK_START_SUBMIT_BTN }}
+        <button type="submit" class="btn btn-primary" style="justify-content: flex-start; padding-inline-start: 2.5rem;">
+            <span style="width: 24px; display: inline-flex; justify-content: center; margin-inline-end: 12px;">
+                <i class="fa-solid fa-paper-plane"></i>
+            </span>
+            {{ strings.TASK_START_SUBMIT_BTN }}
         </button>
-        <a href="{{ url_for('app_tasks') }}" class="btn btn-outline" style="margin-top: 12px;">
-            <i class="fa-solid fa-arrow-{{ 'right' if (user and user.language == 'ar') or not user else 'left' }}"></i> {{ strings.TASK_START_BACK }}
+        <a href="{{ url_for('app_tasks') }}" class="btn btn-outline" style="margin-top: 12px; justify-content: flex-start; padding-inline-start: 2.5rem;">
+            <span style="width: 24px; display: inline-flex; justify-content: center; margin-inline-end: 12px;">
+                <i class="fa-solid fa-arrow-{{ 'right' if (user and user.language == 'ar') or not user else 'left' }}"></i>
+            </span>
+            {{ strings.TASK_START_BACK }}
         </a>
     </form>
 </div>
