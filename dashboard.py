@@ -830,17 +830,26 @@ def get_webapp_user():
         auto_price_text = format_currency_dual(auto_price, curr, lang, show_secondary=False)
         manual_price_text = format_currency_dual(manual_price, curr, lang, show_secondary=False)
         
+        # Prepare formatting context
+        fmt_ctx = {
+            "price_text": auto_price_text,
+            "auto_price_text": auto_price_text,
+            "manual_price_text": manual_price_text,
+            "password": conf.get("GMAIL_MANUAL_PWD", "aass1122")
+        }
+        
         localized_strings = WEBAPP_STRINGS[lang].copy()
         for k, v in localized_strings.items():
             if isinstance(v, str):
-                if "{price_text}" in v:
-                    localized_strings[k] = v.format(price_text=auto_price_text)
-                if "{auto_price_text}" in v:
-                    localized_strings[k] = v.format(auto_price_text=auto_price_text)
-                if "{manual_price_text}" in v:
-                    localized_strings[k] = localized_strings[k].format(manual_price_text=manual_price_text)
-                if "{password}" in v:
-                    localized_strings[k] = localized_strings[k].format(password=conf.get("GMAIL_MANUAL_PWD", "aass1122"))
+                # Format using only the keys present in the string to avoid KeyErrors
+                # or just use a single format call with all known keys.
+                # v.format(**fmt_ctx) is safe if all {key} in v are in fmt_ctx.
+                try:
+                    # We check if any of our keys are in the string before formatting
+                    if any(f"{{{key}}}" in v for key in fmt_ctx):
+                        localized_strings[k] = v.format(**fmt_ctx)
+                except KeyError:
+                    pass # Skip if there's an unknown placeholder
                 
         return user_dict, localized_strings, is_banned
     except Exception as e:
