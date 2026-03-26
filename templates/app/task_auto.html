@@ -43,29 +43,35 @@
         <form action="{{ url_for('app_task_submit_auto') }}" method="POST" style="width: 100%;">
             <input type="hidden" id="hidden-gmail" name="gmail" value="{{ auto.email }}">
             <input type="hidden" id="hidden-pwd" name="password" value="{{ auto.password }}">
-            <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: flex-start; padding-inline-start: 2.5rem; font-weight: bold; padding-top: 12px; padding-bottom: 12px; border-radius: 10px; box-shadow: 0 4px 15px rgba(168, 85, 247, 0.3);">
-                <span style="width: 24px; display: inline-flex; justify-content: center; margin-inline-end: 12px;">
-                    <i class="fa-solid fa-check-double"></i>
-                </span>
-                {{ strings.TASK_AUTO_BTN }}
+            <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center; font-weight: bold; padding: 12px; border-radius: 10px; box-shadow: 0 4px 15px rgba(168, 85, 247, 0.3);">
+                <div style="display: flex; align-items: center; width: 160px;">
+                    <span style="width: 30px; display: flex; justify-content: flex-start;">
+                        <i class="fa-solid fa-check-double"></i>
+                    </span>
+                    <span>{{ strings.TASK_AUTO_BTN }}</span>
+                </div>
             </button>
         </form>
 
         <button type="button" onclick="regenerateData()" class="btn btn-outline"
-            style="width: 100%; justify-content: flex-start; padding-inline-start: 2.5rem; font-weight: bold; padding-top: 12px; padding-bottom: 12px; border-radius: 10px; transition: all 0.3s;"
+            style="width: 100%; justify-content: center; font-weight: bold; padding: 12px; border-radius: 10px; transition: all 0.3s;"
             id="regenBtn">
-            <span style="width: 24px; display: inline-flex; justify-content: center; margin-inline-end: 12px;">
-                <i class="fa-solid fa-rotate-right"></i>
-            </span>
-            {{ strings.TASK_AUTO_REGEN }}
+            <div style="display: flex; align-items: center; width: 160px;">
+                <span style="width: 30px; display: flex; justify-content: flex-start;">
+                    <i class="fa-solid fa-rotate-right"></i>
+                </span>
+                <span>{{ strings.TASK_AUTO_REGEN }}</span>
+            </div>
         </button>
 
         <a href="{{ url_for('app_tasks') }}" class="btn btn-outline"
-            style="width: 100%; justify-content: flex-start; padding-inline-start: 2.5rem; font-weight: bold; padding-top: 12px; padding-bottom: 12px; border-radius: 10px; display: flex; align-items: center; text-decoration: none;">
-            <span style="width: 24px; display: inline-flex; justify-content: center; margin-inline-end: 12px;">
-                <i class="fa-solid fa-arrow-{{ 'right' if (user and user.language == 'ar') or not user else 'left' }}"></i>
-            </span>
-            {{ strings.TASK_START_BACK }}
+            style="width: 100%; justify-content: center; font-weight: bold; padding: 12px; border-radius: 10px; display: flex; align-items: center; text-decoration: none;">
+            <div style="display: flex; align-items: center; width: 160px;">
+                <span style="width: 30px; display: flex; justify-content: flex-start;">
+                    <i class="fa-solid fa-arrow-{{ 'right' if (user and user.language == 'ar') or not user else 'left' }}"></i>
+                </span>
+                <span>{{ strings.TASK_START_BACK }}</span>
+            </div>
         </a>
     </div>
 </div>
