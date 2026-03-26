@@ -373,6 +373,34 @@
         </form>
     </div>
 </div>
+
+<!-- ═══════════════ DELETE SECTION ═══════════════ -->
+<div class="glass-card" style="margin-top: 1.5rem; border: 1px solid rgba(239, 68, 68, 0.2);">
+    <div
+        style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.06); padding: 22px; margin-bottom: 20px; border-radius: 20px;">
+        <div style="display: flex; flex-direction: column; gap: 12px;">
+            <div style="font-weight: 700; color: #ef4444;">{{ strings.LBL_DELETE_ALL_USERS }}</div>
+            <form action="{{ url_for('delete_all_users_route') }}" method="POST" id="delete-all-users-form">
+                <button type="button" class="btn" onclick="openResetModal('delete-all-users-form')"
+                    style="background: #7f1d1d; color: white; height: 50px; border-radius: 12px; width: 100%; border: none; font-weight: 700;">
+                    {{ strings.BTN_DELETE_ALL_USERS }}
+                </button>
+            </form>
+        </div>
+    </div>
+    <div
+        style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.06); padding: 22px; border-radius: 20px;">
+        <div style="font-weight: 700; color: #ef4444; margin-bottom: 12px;">{{ strings.LBL_DELETE_SPECIFIC_USER }}</div>
+        <form action="{{ url_for('delete_specific_user_route') }}" method="POST" id="delete-specific-user-form">
+            <input type="text" name="delete_user_id" class="form-control" placeholder="12345678" required
+                style="margin-bottom: 15px;">
+            <button type="button" class="btn" onclick="openResetModal('delete-specific-user-form')"
+                style="background: #991b1b; color: white; height: 50px; border-radius: 12px; width: 100%; border: none; font-weight: 700;">
+                {{ strings.BTN_DELETE_SPECIFIC_USER }}
+            </button>
+        </form>
+    </div>
+</div>
 {% endif %}
 {% endif %}
 

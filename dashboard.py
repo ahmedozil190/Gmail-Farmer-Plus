@@ -671,6 +671,44 @@ def reset_user_data():
         
     return redirect(url_for("settings"))
 
+@app.route("/admin/delete_all_users", methods=["POST"])
+@requires_auth
+def delete_all_users_route():
+    lang = database.get_setting("DASHBOARD_LANG", "en")
+    from strings import DASHBOARD_STRINGS
+    s = DASHBOARD_STRINGS.get(lang, DASHBOARD_STRINGS["ar"])
+    
+    success = database.delete_all_users()
+    if success:
+        flash(s.get('ALERT_DELETE_SUCCESS', s['ALERT_RESET_SUCCESS']), "success")
+    else:
+        flash(s.get('ALERT_DELETE_ERROR', s['ALERT_RESET_ERROR']), "danger")
+    return redirect(url_for("settings"))
+
+@app.route("/admin/delete_user", methods=["POST"])
+@requires_auth
+def delete_specific_user_route():
+    user_id_str = request.form.get("delete_user_id", "").strip()
+    lang = database.get_setting("DASHBOARD_LANG", "en")
+    from strings import DASHBOARD_STRINGS
+    s = DASHBOARD_STRINGS.get(lang, DASHBOARD_STRINGS["ar"])
+    
+    if not user_id_str:
+        flash(s.get('ALERT_DELETE_ERROR', s['ALERT_RESET_ERROR']), "danger")
+        return redirect(url_for("settings"))
+    
+    try:
+        user_id = int(user_id_str)
+        success = database.delete_specific_user(user_id)
+        if success:
+            flash(s.get('ALERT_DELETE_SUCCESS', s['ALERT_RESET_SUCCESS']), "success")
+        else:
+            flash(s.get('ALERT_DELETE_ERROR', s['ALERT_RESET_ERROR']), "danger")
+    except ValueError:
+        flash(s.get('ALERT_DELETE_ERROR', s['ALERT_RESET_ERROR']), "danger")
+        
+    return redirect(url_for("settings"))
+
 @app.route("/broadcast", methods=["GET", "POST"])
 @requires_auth
 def broadcast():

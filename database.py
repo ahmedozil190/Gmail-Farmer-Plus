@@ -653,3 +653,36 @@ def user_data_reset(user_id: int):
         return False
     finally:
         con.close()
+
+
+def delete_all_users():
+    """Deletes ALL users and ALL their associated data (submissions, withdrawals)."""
+    con = _conn()
+    try:
+        con.execute("DELETE FROM submissions")
+        con.execute("DELETE FROM withdrawals")
+        con.execute("DELETE FROM users")
+        con.commit()
+        return True
+    except Exception:
+        return False
+    finally:
+        con.close()
+
+
+def delete_specific_user(user_id: int):
+    """Deletes a specific user and ALL their associated data."""
+    con = _conn()
+    try:
+        exists = con.execute("SELECT 1 FROM users WHERE user_id = ?", (user_id,)).fetchone()
+        if not exists:
+            return False
+        con.execute("DELETE FROM submissions WHERE user_id = ?", (user_id,))
+        con.execute("DELETE FROM withdrawals WHERE user_id = ?", (user_id,))
+        con.execute("DELETE FROM users WHERE user_id = ?", (user_id,))
+        con.commit()
+        return True
+    except Exception:
+        return False
+    finally:
+        con.close()
