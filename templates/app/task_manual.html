@@ -28,11 +28,9 @@
         <button type="submit" class="btn btn-primary">
             <i class="fa-solid fa-paper-plane"></i> {{ strings.TASK_START_SUBMIT_BTN }}
         </button>
-        <div style="text-align: center; margin-top: 12px;">
-            <a href="{{ url_for('app_tasks') }}" style="color: var(--text-secondary); text-decoration: none; font-size: 0.85rem; font-weight: 600;">
-                {{ strings.TASK_START_BACK }}
-            </a>
-        </div>
+        <a href="{{ url_for('app_tasks') }}" class="btn btn-outline" style="margin-top: 12px;">
+            {{ strings.TASK_START_BACK }}
+        </a>
     </form>
 </div>
 
