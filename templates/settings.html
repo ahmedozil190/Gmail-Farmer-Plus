@@ -148,6 +148,14 @@
 <!-- ═══════════════ SETTINGS MENU VIEW ═══════════════ -->
 
 <div class="settings-menu">
+    <a href="{{ url_for('settings', cat='bot_name') }}" class="nav-card">
+        <div class="nav-icon" style="background: rgba(244, 63, 94, 0.1); color: #f43f5e;">
+            <i class="fa-solid fa-robot"></i>
+        </div>
+        <span class="nav-text">{{ strings.SETTINGS_CAT_BOT_NAME }}</span>
+        <i class="fa-solid fa-chevron-right nav-arrow"></i>
+    </a>
+
     <a href="{{ url_for('settings', cat='general') }}" class="nav-card">
         <div class="nav-icon" style="background: rgba(96, 165, 250, 0.1); color: #60a5fa;">
             <i class="fa-solid fa-dollar-sign"></i>
@@ -203,7 +211,25 @@
 
 {% set cat = request.args.get('cat') %}
 
-{% if cat == 'general' %}
+{% if cat == 'bot_name' %}
+<form action="{{ url_for('settings') }}" method="POST">
+    <a href="{{ url_for('settings') }}" class="back-btn"><i
+            class="fa-solid fa-arrow-{% if dash_lang == 'ar' %}right{% else %}left{% endif %}"></i> {{ strings.LBL_BACK
+        or 'Back' }}</a>
+    <input type="hidden" name="category" value="bot_name">
+    <div class="glass-card">
+        <div class="form-group">
+            <label class="form-label">{{ strings.SETTINGS_BOT_NAME or 'Bot Name' }}</label>
+            <input type="text" name="bot_name" class="form-control" value="{{ config.BOT_NAME or 'Gmail Farmer' }}"
+                required>
+        </div>
+        <button type="submit" class="btn btn-primary save-btn" style="background: #60a5fa; color: white;">
+            <i class="fa-solid fa-floppy-disk"></i> {{ strings.SETTINGS_UPDATE_BTN }}
+        </button>
+    </div>
+</form>
+
+{% elif cat == 'general' %}
 <form action="{{ url_for('settings') }}" method="POST">
     <a href="{{ url_for('settings') }}" class="back-btn"><i
             class="fa-solid fa-arrow-{% if dash_lang == 'ar' %}right{% else %}left{% endif %}"></i> {{ strings.LBL_BACK
@@ -211,11 +237,7 @@
     <input type="hidden" name="category" value="general">
     <div class="glass-card">
 
-        <div class="form-group">
-            <label class="form-label">{{ strings.SETTINGS_BOT_NAME or 'Bot Name' }}</label>
-            <input type="text" name="bot_name" class="form-control" value="{{ config.BOT_NAME or 'Gmail Farmer' }}"
-                required>
-        </div>
+
         <div class="form-group">
             <label class="form-label">{{ strings.SETTINGS_GMAIL_MANUAL_PRICE }}</label>
             <input type="number" step="0.01" name="gmail_price_manual" class="form-control" value="{{ price }}"

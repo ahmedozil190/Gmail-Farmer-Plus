@@ -1298,6 +1298,7 @@ DASHBOARD_STRINGS = {
         'DASH_BS_USER_ID': "معرف المستخدم (ID)",
 
         'SETTINGS_TITLE': "الإعدادات",
+        'SETTINGS_CAT_BOT_NAME': "اسم البوت",
         'SETTINGS_CAT_GENERAL': "الأسعار والعمولات",
         'SETTINGS_CAT_CHANNELS': "القنوات والاشتراكات",
         'SETTINGS_CAT_LIMITS': "حدود السحب",
@@ -1460,6 +1461,7 @@ DASHBOARD_STRINGS = {
         'DASH_BS_USER_ID': "User ID",
 
         'SETTINGS_TITLE': "Settings",
+        'SETTINGS_CAT_BOT_NAME': "Bot Name",
         'SETTINGS_CAT_GENERAL': "Prices & Commissions",
         'SETTINGS_CAT_CHANNELS': "Channels & Subscriptions",
         'SETTINGS_CAT_LIMITS': "Withdrawal Limits",
