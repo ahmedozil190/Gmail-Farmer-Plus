@@ -29,7 +29,7 @@
             <i class="fa-solid fa-paper-plane"></i> {{ strings.TASK_START_SUBMIT_BTN }}
         </button>
         <a href="{{ url_for('app_tasks') }}" class="btn btn-outline" style="margin-top: 12px;">
-            {{ strings.TASK_START_BACK }}
+            <i class="fa-solid fa-arrow-{{ 'right' if (user and user.language == 'ar') or not user else 'left' }}"></i> {{ strings.TASK_START_BACK }}
         </a>
     </form>
 </div>
