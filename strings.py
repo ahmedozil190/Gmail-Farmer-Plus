@@ -925,6 +925,17 @@ WEBAPP_STRINGS = {
         'TASK_START_SUBMIT_PH': "أدخل عنوان الإيميل هنا...",
         'TASK_START_SUBMIT_BTN': "تقديم المهمة",
         'TASK_START_BACK': "العودة للمهام",
+        'TASKS_MANUAL_MSG': (
+            "📱 <b>مهمة إنشاء جيميل ⛳️</b>\n\n"
+            "📋 <b>التعليمات 🥊</b>\n\n"
+            "🔑 كلمة المرور الموحدة ☜ <code>{password}</code>\n\n"
+            "📱 يجب إنشاء الحساب من الهاتف فقط\n\n"
+            "👤 استخدم أي اسم أجنبي وبعده 3 او 4 ارقام 💁‍♂️\n\n"
+            "📧 استخدم كلمة المرور الموحدة المذكورة أعلاه 🕺\n\n"
+            "⚠️ ستحصل على المكافأة بعد موافقة الأدمن 💸\n\n"
+            "💡 بعد إنشاء الحساب، أدخل الإيميل بالأسفل 📲\n\n"
+            "🕐 خذ وقتك - لا يوجد حد زمني لهذه المهمة ⏳"
+        ),
         
         'TASK_TAB_MANUAL': "إنشاء يدوي",
         'TASK_TAB_AUTO': "",
@@ -1075,6 +1086,17 @@ WEBAPP_STRINGS = {
         'TASK_START_SUBMIT_PH': "Enter your Gmail here...",
         'TASK_START_SUBMIT_BTN': "Submit Task",
         'TASK_START_BACK': "Back to Tasks",
+        'TASKS_MANUAL_MSG': (
+            "📱 <b>Gmail Creation Task ⛳️</b>\n\n"
+            "📋 <b>Instructions 🥊</b>\n\n"
+            "🔑 Unified Password ☜ <code>{password}</code>\n\n"
+            "📱 Account must be created from phone only\n\n"
+            "👤 Use any foreign name followed by 3 or 4 digits 💁‍♂️\n\n"
+            "📧 Use the unified password mentioned above 🕺\n\n"
+            "⚠️ You will get the reward after admin approval 💸\n\n"
+            "💡 After creating the account, enter the email below 📲\n\n"
+            "🕐 Take your time - no time limit for this task ⏳"
+        ),
         
         'TASK_TAB_MANUAL': "Manual Create",
         'TASK_TAB_AUTO': "",

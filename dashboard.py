@@ -838,8 +838,9 @@ def get_webapp_user():
                 if "{auto_price_text}" in v:
                     localized_strings[k] = v.format(auto_price_text=auto_price_text)
                 if "{manual_price_text}" in v:
-                    # If it has both, we might need a more clever format or sequential calls
                     localized_strings[k] = localized_strings[k].format(manual_price_text=manual_price_text)
+                if "{password}" in v:
+                    localized_strings[k] = localized_strings[k].format(password=conf.get("GMAIL_MANUAL_PWD", "aass1122"))
                 
         return user_dict, localized_strings, is_banned
     except Exception as e:

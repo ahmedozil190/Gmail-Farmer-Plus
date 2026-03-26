@@ -7,28 +7,10 @@
     <h2 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 1rem;">{{ strings.TASK_TAB_MANUAL }}</h2>
 </div>
 
-<!-- Instructions -->
+<!-- Unified Instruction Card -->
 <div class="glass-card">
-    <div class="card-title">{{ strings.TASK_START_INSTRUCTIONS }}</div>
-    <div style="font-size: 0.85rem; line-height: 1.8;">
-        <p>{{ strings.TASK_START_PWD.format(config.GMAIL_MANUAL_PWD)|safe }}</p>
-        <br>
-        <p>{{ strings.TASK_START_RULE1 }}</p>
-        <p>{{ strings.TASK_START_RULE2 }}</p>
-        <p>{{ strings.TASK_START_RULE3 }}</p>
-        <p>{{ strings.TASK_START_RULE4 }}</p>
-        <p>{{ strings.TASK_START_RULE5 }}</p>
-    </div>
-</div>
-
-<!-- Steps -->
-<div class="glass-card">
-    <div class="card-title">{{ strings.TASK_START_STEPS }}</div>
-    <div style="font-size: 0.85rem; line-height: 2;">
-        <p>{{ strings.TASK_START_STEP1 }}</p>
-        <p>{{ strings.TASK_START_STEP2 }}</p>
-        <p>{{ strings.TASK_START_STEP3 }}</p>
-        <p>{{ strings.TASK_START_STEP4 }}</p>
+    <div style="font-size: 0.95rem; line-height: 1.8; white-space: pre-line;">
+        {{ strings.TASKS_MANUAL_MSG|safe }}
     </div>
 </div>
 
