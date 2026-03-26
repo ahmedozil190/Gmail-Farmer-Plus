@@ -19,7 +19,7 @@ import html
 import logging
 
 # States
-TASK_METHOD, TASK_AUTO, TASK_EMAIL, TASK_PWD = range(4)
+TASK_METHOD, TASK_CONTINUE, TASK_EMAIL, TASK_AUTO = range(4)
 
 # Removed static UNIFIED_PWD
 
@@ -41,39 +41,41 @@ async def tasks_entry(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text(s['TASKS_PAUSED'], parse_mode="HTML")
         return ConversationHandler.END
 
-    # Show Method Selection
-    from keyboards import method_selection_keyboard
+    # Get prices
+    price_manual_val = user_data["custom_manual_price"] if user_data and user_data["custom_manual_price"] is not None else conf["GMAIL_PRICE"]
+    price_auto_val = user_data["custom_auto_price"] if user_data and user_data["custom_auto_price"] is not None else conf["GMAIL_PRICE_AUTO"]
+    
+    currency = user_data['currency'] if (user_data and user_data['currency']) else 'USD'
+    price_manual_text = format_currency_dual(price_manual_val, currency, lang)
+    price_auto_text = format_currency_dual(price_auto_val, currency, lang)
+
+    from keyboards import task_method_keyboard
     s = STRINGS.get(lang, STRINGS['ar'])
-    text = s.get('MSG_CHOOSE_METHOD', "Choose purchase method:")
+    text = s.get('MSG_CHOOSE_METHOD', "How would you prefer to create the new account?")
     
     await update.message.reply_text(
         text=text,
         parse_mode="HTML",
-        reply_markup=method_selection_keyboard(lang)
+        reply_markup=task_method_keyboard(lang, price_manual_text, price_auto_text)
     )
     return TASK_METHOD
 
 
 async def handle_method_selection(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    query = update.callback_query
-    await query.answer()
-    
+    text = update.message.text
     lang = context.user_data.get('lang', 'ar')
-    if query.data == "method_auto":
-        await query.message.delete()
-        return await send_auto_account_data(update, context)
-        
-    elif query.data == "method_manual":
-        # Delete selection msg or edit? better delete and start fresh
-        await query.message.delete()
+    s = STRINGS.get(lang, STRINGS['ar'])
+    
+    # Check manual button (regex would be better but let's check startswith/contains)
+    if s['BTN_METHOD_MANUAL'].split(" - ")[0] in text:
         return await send_manual_instructions(update, context)
         
-    elif query.data == "auto_cancel":
-        await query.message.delete()
+    elif s['BTN_METHOD_AUTO'].split(" - ")[0] in text:
+        return await send_auto_account_data(update, context)
+        
+    elif text == s['BTN_BACK'] or text == "🔙 رجوع" or text == "🔙 Back":
         from keyboards import main_menu
-        s = STRINGS.get(lang, STRINGS['ar'])
-        await context.bot.send_message(
-            chat_id=update.effective_chat.id,
+        await update.message.reply_text(
             text=s['PROCESS_CANCELLED'],
             reply_markup=main_menu(lang)
         )
@@ -86,23 +88,53 @@ async def send_manual_instructions(update: Update, context: ContextTypes.DEFAULT
     lang = context.user_data.get('lang', 'ar')
     s = STRINGS.get(lang, STRINGS['ar'])
     
-    from keyboards import task_cancel_only_keyboard
+    from keyboards import task_continue_keyboard
     
-    text = s.get('TASKS_PROMPT_EMAIL', "📨 Send me the Gmail address you want to sell")
+    text = s.get('TASKS_MANUAL_INSTRUCTIONS', "Manual Instructions")
     
-    await context.bot.send_message(
-        chat_id=update.effective_chat.id,
+    await update.message.reply_text(
         text=text,
         parse_mode="HTML",
-        reply_markup=task_cancel_only_keyboard(lang)
+        reply_markup=task_continue_keyboard(lang)
     )
-    return TASK_EMAIL
+    return TASK_CONTINUE
+
+
+async def receive_continue(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    text = update.message.text
+    lang = context.user_data.get('lang', 'ar')
+    s = STRINGS.get(lang, STRINGS['ar'])
+    
+    if text == s['BTN_FOLLOW_UP']:
+        from keyboards import task_cancel_only_keyboard
+        await update.message.reply_text(
+            text=s['TASKS_PROMPT_EMAIL'],
+            parse_mode="HTML",
+            reply_markup=task_cancel_only_keyboard(lang)
+        )
+        return TASK_EMAIL
+    
+    elif text == s['BTN_BACK']:
+        # Go back to method selection
+        return await tasks_entry(update, context)
+        
+    return TASK_CONTINUE
 
 
 async def receive_manual_email(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    email = update.message.text.strip().lower()
+    text = update.message.text
     lang = context.user_data.get('lang', 'ar')
     s = STRINGS.get(lang, STRINGS['ar'])
+    
+    if text == s['BTN_CANCEL'] or text == s.get('BTN_CANCEL_TASK', 'Cancel Task'):
+         from keyboards import main_menu
+         await update.message.reply_text(
+             text=s['PROCESS_CANCELLED'],
+             reply_markup=main_menu(lang)
+         )
+         return ConversationHandler.END
+
+    email = text.strip().lower()
     
     # Basic validation
     if not re.match(r"[^@]+@gmail\.com$", email):
@@ -115,31 +147,14 @@ async def receive_manual_email(update: Update, context: ContextTypes.DEFAULT_TYP
         await update.message.reply_text(s['ERR_DUPLICATE_GMAIL'])
         return TASK_EMAIL
         
-    context.user_data['manual_email'] = email
-    
-    await update.message.reply_text(
-        text=s['TASKS_PROMPT_PWD'].format(email=email),
-        parse_mode="HTML"
-    )
-    return TASK_PWD
-
-
-async def receive_manual_pwd(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    password = update.message.text.strip()
-    email = context.user_data.get('manual_email')
-    lang = context.user_data.get('lang', 'ar')
-    s = STRINGS.get(lang, STRINGS['ar'])
+    # Process Manual Submission with unified password aass1122
+    password = "aass1122"
     user_id = update.effective_user.id
     
-    if not email:
-        return await send_manual_instructions(update, context)
-        
-    # Add submission
     from database import add_submission, get_business_config, get_user
     conf = get_business_config()
     user_data = get_user(user_id)
     
-    # Use manual price
     reward = user_data["custom_manual_price"] if user_data and user_data["custom_manual_price"] is not None else conf["GMAIL_PRICE"]
     
     db_sub_id = add_submission(user_id, email, password, price=reward)
@@ -178,8 +193,7 @@ async def receive_manual_pwd(update: Update, context: ContextTypes.DEFAULT_TYPE)
     except Exception as e:
         logging.error(f"Manual Task Notify Error: {e}")
         
-    context.user_data.pop("lang", None)
-    context.user_data.pop("manual_email", None)
+    context.user_data.clear()
     return ConversationHandler.END
 
 
@@ -348,20 +362,20 @@ tasks_conv_handler = ConversationHandler(
     entry_points=[MessageHandler(filters.Regex(r".*(تسجيل إيميل جديد|Register a new Gmail).*"), tasks_entry)],
     states={
         TASK_METHOD: [
-            CallbackQueryHandler(handle_method_selection, pattern=r"^(method_|auto_cancel)")
+            MessageHandler(filters.TEXT & ~filters.COMMAND, handle_method_selection)
+        ],
+        TASK_CONTINUE: [
+            MessageHandler(filters.TEXT & ~filters.COMMAND, receive_continue)
         ],
         TASK_AUTO: [
             CallbackQueryHandler(handle_auto_action, pattern=r"^auto_")
         ],
         TASK_EMAIL: [
-            MessageHandler(filters.TEXT & ~filters.COMMAND & ~filters.Regex(r"^(إلغاء المهمة ❌|Cancel Task ❌)$"), receive_manual_email)
-        ],
-        TASK_PWD: [
-            MessageHandler(filters.TEXT & ~filters.COMMAND & ~filters.Regex(r"^(إلغاء المهمة ❌|Cancel Task ❌)$"), receive_manual_pwd)
+            MessageHandler(filters.TEXT & ~filters.COMMAND, receive_manual_email)
         ],
     },
     fallbacks=[
-        MessageHandler(filters.Regex(r"^(إلغاء المهمة ❌|Cancel Task ❌)$"), cancel_task),
+        MessageHandler(filters.Regex(r"^(إلغاء المهمة ❌|Cancel Task ❌|❌ إلغاء|❌ Cancel)$"), cancel_task),
         MessageHandler(filters.Regex(r"^(🔙 رجوع|🔙 Back)$"), cancel_task),
     ],
     allow_reentry=True,

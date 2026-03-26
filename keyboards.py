@@ -150,24 +150,35 @@ def language_keyboard(lang: str = 'ar') -> ReplyKeyboardMarkup:
     return ReplyKeyboardMarkup(kb, resize_keyboard=True)
 
 
-def task_cancel_only_keyboard(lang: str = 'ar') -> ReplyKeyboardMarkup:
-    """Keyboard for Task Email prompt (Cancel Task only)."""
+def task_method_keyboard(lang: str, price_manual: str, price_auto: str) -> ReplyKeyboardMarkup:
+    """Reply keyboard for choosing between Manual and Auto task methods."""
     s = STRINGS.get(lang, STRINGS['ar'])
+    btn_manual = s['BTN_METHOD_MANUAL'].format(price=price_manual)
+    btn_auto = s['BTN_METHOD_AUTO'].format(price=price_auto)
     kb = [
-        [KeyboardButton(s['BTN_CANCEL_TASK'])],
+        [KeyboardButton(btn_manual), KeyboardButton(btn_auto)],
+        [KeyboardButton(s['BTN_BACK'])]
     ]
     return ReplyKeyboardMarkup(kb, resize_keyboard=True)
 
 
-def method_selection_keyboard(lang: str = 'ar') -> InlineKeyboardMarkup:
-    """Inline keyboard for choosing between Manual and Auto task methods."""
+def task_continue_keyboard(lang: str = 'ar') -> ReplyKeyboardMarkup:
+    """Reply keyboard for Manual Task instructions (Continue / Back)."""
     s = STRINGS.get(lang, STRINGS['ar'])
     kb = [
-        [InlineKeyboardButton(s['BTN_METHOD_MANUAL'], callback_data="method_manual")],
-        [InlineKeyboardButton(s['BTN_METHOD_AUTO'],   callback_data="method_auto")],
-        [InlineKeyboardButton(s['BTN_AUTO_CANCEL'],  callback_data="auto_cancel")]
+        [KeyboardButton(s['BTN_FOLLOW_UP'])],
+        [KeyboardButton(s['BTN_BACK'])]
     ]
-    return InlineKeyboardMarkup(kb)
+    return ReplyKeyboardMarkup(kb, resize_keyboard=True)
+
+
+def task_cancel_only_keyboard(lang: str = 'ar') -> ReplyKeyboardMarkup:
+    """Reply keyboard for Email prompt (Cancel only)."""
+    s = STRINGS.get(lang, STRINGS['ar'])
+    kb = [
+        [KeyboardButton(s['BTN_CANCEL'])],
+    ]
+    return ReplyKeyboardMarkup(kb, resize_keyboard=True)
 
 
 def remove_keyboard() -> ReplyKeyboardRemove:
