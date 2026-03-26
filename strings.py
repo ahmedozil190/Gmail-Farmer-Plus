@@ -61,7 +61,7 @@ STRINGS = {
         # New Gmail Task Flow
         'BTN_METHOD_MANUAL': "📝 إنشاء يدوي",
         'BTN_METHOD_AUTO': "➕ إنشاء حساب جديد",
-        'MSG_CHOOSE_METHOD': "اضغط على الزر أدناه للبدء بإنشاء حساب جيميل جديد وتحقيق الربح.",
+        'MSG_CHOOSE_METHOD': "كيف تفضل إنشاء الحساب الجديد؟\n\n📝 <b>إنشاء يدوي:</b> أنت من يقوم بإدخال البيانات.\n🤖 <b>إنشاء تلقائي:</b> يتم توليد بيانات فريدة لك.",
         'MSG_AUTO_DATA': (
             "📱 <b>مهمة إنشاء جيميل جديدة - {price_text}</b>\n\n"
             "✨ اتبع الخطوات بهدوء وبالترتيب:\n\n"
@@ -488,7 +488,7 @@ STRINGS = {
         # New Gmail Task Flow
         'BTN_METHOD_MANUAL': "📝 Manual Creation",
         'BTN_METHOD_AUTO': "🤖 Auto-Generated",
-        'MSG_CHOOSE_METHOD': "How would you prefer to create the new account?\n\n- Manual: You provides the details.\n- Auto: Very unique details generated for you.",
+        'MSG_CHOOSE_METHOD': "How would you prefer to create the new account?\n\n📝 <b>Manual:</b> You provide the details.\n🤖 <b>Auto:</b> Unique details generated for you.",
         'MSG_AUTO_DATA': (
             "📱 <b>New Gmail Task - {price_text}</b>\n\n"
             "✨ Follow the steps calmly and in order:\n\n"

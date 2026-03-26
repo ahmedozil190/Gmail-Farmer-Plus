@@ -159,5 +159,16 @@ def task_cancel_only_keyboard(lang: str = 'ar') -> ReplyKeyboardMarkup:
     return ReplyKeyboardMarkup(kb, resize_keyboard=True)
 
 
+def method_selection_keyboard(lang: str = 'ar') -> InlineKeyboardMarkup:
+    """Inline keyboard for choosing between Manual and Auto task methods."""
+    s = STRINGS.get(lang, STRINGS['ar'])
+    kb = [
+        [InlineKeyboardButton(s['BTN_METHOD_MANUAL'], callback_data="method_manual")],
+        [InlineKeyboardButton(s['BTN_METHOD_AUTO'],   callback_data="method_auto")],
+        [InlineKeyboardButton(s['BTN_AUTO_CANCEL'],  callback_data="auto_cancel")]
+    ]
+    return InlineKeyboardMarkup(kb)
+
+
 def remove_keyboard() -> ReplyKeyboardRemove:
     return ReplyKeyboardRemove()

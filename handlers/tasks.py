@@ -19,7 +19,7 @@ import html
 import logging
 
 # States
-TASK_MENU, TASK_CONTINUE, TASK_EMAIL, TASK_METHOD, TASK_AUTO = range(5)
+TASK_METHOD, TASK_AUTO, TASK_EMAIL, TASK_PWD = range(4)
 
 # Removed static UNIFIED_PWD
 
@@ -41,11 +41,147 @@ async def tasks_entry(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text(s['TASKS_PAUSED'], parse_mode="HTML")
         return ConversationHandler.END
 
-    return await send_auto_account_data(update, context)
+    # Show Method Selection
+    from keyboards import method_selection_keyboard
+    s = STRINGS.get(lang, STRINGS['ar'])
+    text = s.get('MSG_CHOOSE_METHOD', "Choose purchase method:")
+    
+    await update.message.reply_text(
+        text=text,
+        parse_mode="HTML",
+        reply_markup=method_selection_keyboard(lang)
+    )
+    return TASK_METHOD
 
 
-async def receive_continue(update: Update, context: ContextTypes.DEFAULT_TYPE):
+async def handle_method_selection(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    query = update.callback_query
+    await query.answer()
+    
+    lang = context.user_data.get('lang', 'ar')
+    if query.data == "method_auto":
+        await query.message.delete()
+        return await send_auto_account_data(update, context)
+        
+    elif query.data == "method_manual":
+        # Delete selection msg or edit? better delete and start fresh
+        await query.message.delete()
+        return await send_manual_instructions(update, context)
+        
+    elif query.data == "auto_cancel":
+        await query.message.delete()
+        from keyboards import main_menu
+        s = STRINGS.get(lang, STRINGS['ar'])
+        await context.bot.send_message(
+            chat_id=update.effective_chat.id,
+            text=s['PROCESS_CANCELLED'],
+            reply_markup=main_menu(lang)
+        )
+        return ConversationHandler.END
+        
+    return TASK_METHOD
+
+
+async def send_manual_instructions(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    lang = context.user_data.get('lang', 'ar')
+    s = STRINGS.get(lang, STRINGS['ar'])
+    
+    from keyboards import task_cancel_only_keyboard
+    
+    text = s.get('TASKS_PROMPT_EMAIL', "📨 Send me the Gmail address you want to sell")
+    
+    await context.bot.send_message(
+        chat_id=update.effective_chat.id,
+        text=text,
+        parse_mode="HTML",
+        reply_markup=task_cancel_only_keyboard(lang)
+    )
+    return TASK_EMAIL
+
+
+async def receive_manual_email(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    email = update.message.text.strip().lower()
+    lang = context.user_data.get('lang', 'ar')
+    s = STRINGS.get(lang, STRINGS['ar'])
+    
+    # Basic validation
+    if not re.match(r"[^@]+@gmail\.com$", email):
+        await update.message.reply_text(s['TASKS_ERROR_GMAIL'])
+        return TASK_EMAIL
+        
+    # Duplicate check
+    from database import is_gmail_already_submitted
+    if is_gmail_already_submitted(email):
+        await update.message.reply_text(s['ERR_DUPLICATE_GMAIL'])
+        return TASK_EMAIL
+        
+    context.user_data['manual_email'] = email
+    
+    await update.message.reply_text(
+        text=s['TASKS_PROMPT_PWD'].format(email=email),
+        parse_mode="HTML"
+    )
+    return TASK_PWD
+
+
+async def receive_manual_pwd(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    password = update.message.text.strip()
+    email = context.user_data.get('manual_email')
+    lang = context.user_data.get('lang', 'ar')
+    s = STRINGS.get(lang, STRINGS['ar'])
+    user_id = update.effective_user.id
+    
+    if not email:
+        return await send_manual_instructions(update, context)
+        
+    # Add submission
+    from database import add_submission, get_business_config, get_user
+    conf = get_business_config()
+    user_data = get_user(user_id)
+    
+    # Use manual price
+    reward = user_data["custom_manual_price"] if user_data and user_data["custom_manual_price"] is not None else conf["GMAIL_PRICE"]
+    
+    db_sub_id = add_submission(user_id, email, password, price=reward)
+    sub_id = str(db_sub_id)
+    
+    from keyboards import main_menu
+    await update.message.reply_text(
+        text=s['TASKS_SUCCESS'].format(email=email, sub_id=sub_id, price_text=format_currency_dual(reward, user_data['currency'] if user_data else 'USD', lang)),
+        parse_mode="HTML",
+        reply_markup=main_menu(lang)
+    )
+    
+    # Notify Admin
+    try:
+        admin_user = get_user(ADMIN_ID)
+        a_lang = admin_user['language'] if admin_user else 'ar'
+        a_s = STRINGS.get(a_lang, STRINGS['ar'])
+        curr_date = datetime.now().strftime("%Y-%m-%d %H:%M")
+        st_text = a_s.get('DASH_FILTER_PENDING', 'Pending')
+
+        admin_text = a_s['ADMIN_NOTIFY_GMAIL'].format(
+            status=html.escape(str(st_text)),
+            sub_id=html.escape(str(sub_id)),
+            gmail=html.escape(str(email)),
+            pwd=html.escape(str(password)),
+            price=html.escape(format_currency_dual(reward, 'USD', a_lang)),
+            date=html.escape(str(curr_date)),
+            user_id=html.escape(str(user_id))
+        )
+
+        await context.bot.send_message(chat_id=ADMIN_ID, text=admin_text, parse_mode="HTML", disable_web_page_preview=True)
+        
+        c_id = conf.get("EMAILS_CHANNEL_ID")
+        if c_id and "Add_In_DotEnv" not in str(c_id):
+            await context.bot.send_message(chat_id=c_id, text=admin_text, parse_mode="HTML", disable_web_page_preview=True)
+    except Exception as e:
+        logging.error(f"Manual Task Notify Error: {e}")
+        
+    context.user_data.pop("lang", None)
+    context.user_data.pop("manual_email", None)
     return ConversationHandler.END
+
 
 async def send_auto_account_data(update: Update, context: ContextTypes.DEFAULT_TYPE):
     lang = context.user_data.get('lang', 'ar')
@@ -66,7 +202,8 @@ async def send_auto_account_data(update: Update, context: ContextTypes.DEFAULT_T
     user_data = get_user(user_id)
     currency = user_data['currency'] if (user_data and user_data['currency']) else 'EGP'
     
-    price_text = format_currency_dual(conf.get("GMAIL_PRICE_AUTO", 0.08), currency, lang)
+    price_val = user_data["custom_auto_price"] if user_data and user_data["custom_auto_price"] is not None else conf["GMAIL_PRICE_AUTO"]
+    price_text = format_currency_dual(price_val, currency, lang)
     data['price_text'] = price_text
     text = s['MSG_AUTO_DATA'].format(**data)
     
@@ -76,8 +213,11 @@ async def send_auto_account_data(update: Update, context: ContextTypes.DEFAULT_T
         [InlineKeyboardButton(s['BTN_AUTO_CANCEL'], callback_data="auto_cancel")]
     ]
     
+    chat_id = update.effective_chat.id
+    message_id = update.callback_query.message.message_id if update.callback_query else None
+    
     if update.callback_query:
-        await query_edit_safe(update, context, text, InlineKeyboardMarkup(keyboard))
+         await query_edit_safe(update, context, text, InlineKeyboardMarkup(keyboard))
     else:
         await update.message.reply_text(
             text=text,
@@ -101,9 +241,6 @@ async def handle_auto_action(update: Update, context: ContextTypes.DEFAULT_TYPE)
     
     if query.data == "auto_cancel":
         await query.message.delete()
-        lang = context.user_data.get('lang', 'ar')
-        s = STRINGS.get(lang, STRINGS['ar'])
-        context.user_data.pop("lang", None)
         from keyboards import main_menu
         await context.bot.send_message(
             chat_id=update.effective_chat.id,
@@ -160,7 +297,6 @@ async def handle_auto_action(update: Update, context: ContextTypes.DEFAULT_TYPE)
             admin_user = get_user(ADMIN_ID)
             a_lang = admin_user['language'] if admin_user else 'ar'
             a_s = STRINGS.get(a_lang, STRINGS['ar'])
-            conf_notify = get_business_config()
             curr_date = datetime.now().strftime("%Y-%m-%d %H:%M")
             st_text = a_s.get('DASH_FILTER_PENDING', 'Pending')
 
@@ -176,26 +312,26 @@ async def handle_auto_action(update: Update, context: ContextTypes.DEFAULT_TYPE)
 
             await context.bot.send_message(chat_id=ADMIN_ID, text=admin_text, parse_mode="HTML", disable_web_page_preview=True)
             
-            c_id = conf_notify.get("EMAILS_CHANNEL_ID")
+            c_id = conf_auto.get("EMAILS_CHANNEL_ID")
             if c_id and "Add_In_DotEnv" not in str(c_id):
                 await context.bot.send_message(chat_id=c_id, text=admin_text, parse_mode="HTML", disable_web_page_preview=True)
         except Exception as e:
             logging.error(f"Task Notify Error: {e}")
             
-        context.user_data.pop("lang", None)
-        context.user_data.pop("auto_task", None)
+        context.user_data.clear() # Clear all including lang/task
         return ConversationHandler.END
 
 
-    context.user_data.pop("lang", None)
+    context.user_data.clear()
     return ConversationHandler.END
 
 
 async def cancel_task(update: Update, context: ContextTypes.DEFAULT_TYPE):
     lang = context.user_data.get('lang', 'ar')
     s = STRINGS.get(lang, STRINGS['ar'])
-    context.user_data.pop("lang", None)
+    context.user_data.clear()
     
+    from keyboards import main_menu
     await update.message.reply_text(
         s['MSG_TASK_CANCELLED'],
         reply_markup=main_menu(lang),
@@ -208,20 +344,25 @@ async def cancel_task(update: Update, context: ContextTypes.DEFAULT_TYPE):
 from strings import STRINGS
 from telegram.ext import CallbackQueryHandler, filters
 
-def _tasks_filter(msg) -> bool:
-    if not msg.text: return False
-    txt = msg.text
-    return "تسجيل إيميل جديد" in txt or "Register" in txt and "Gmail" in txt
-
 tasks_conv_handler = ConversationHandler(
     entry_points=[MessageHandler(filters.Regex(r".*(تسجيل إيميل جديد|Register a new Gmail).*"), tasks_entry)],
     states={
+        TASK_METHOD: [
+            CallbackQueryHandler(handle_method_selection, pattern=r"^(method_|auto_cancel)")
+        ],
         TASK_AUTO: [
             CallbackQueryHandler(handle_auto_action, pattern=r"^auto_")
+        ],
+        TASK_EMAIL: [
+            MessageHandler(filters.TEXT & ~filters.COMMAND & ~filters.Regex(r"^(إلغاء المهمة ❌|Cancel Task ❌)$"), receive_manual_email)
+        ],
+        TASK_PWD: [
+            MessageHandler(filters.TEXT & ~filters.COMMAND & ~filters.Regex(r"^(إلغاء المهمة ❌|Cancel Task ❌)$"), receive_manual_pwd)
         ],
     },
     fallbacks=[
         MessageHandler(filters.Regex(r"^(إلغاء المهمة ❌|Cancel Task ❌)$"), cancel_task),
+        MessageHandler(filters.Regex(r"^(🔙 رجوع|🔙 Back)$"), cancel_task),
     ],
     allow_reentry=True,
 )
