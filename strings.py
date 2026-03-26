@@ -927,7 +927,7 @@ WEBAPP_STRINGS = {
         'TASK_START_SUBMIT_BTN': "تقديم المهمة",
         'TASK_START_BACK': "العودة للمهام",
         'TASKS_MANUAL_MSG': (
-            "📱 <b>مهمة إنشاء جيميل ⛳️</b>\n\n"
+            "📱 <b>مهمة إنشاء جيميل ⛳️ - {manual_price_text}</b>\n\n"
             "📋 <b>التعليمات 🥊</b>\n\n"
             "🔑 كلمة المرور الموحدة ☜ <code>{password}</code>\n\n"
             "📱 يجب إنشاء الحساب من الهاتف فقط\n\n"
@@ -1089,7 +1089,7 @@ WEBAPP_STRINGS = {
         'TASK_START_SUBMIT_BTN': "Submit Task",
         'TASK_START_BACK': "Back to Tasks",
         'TASKS_MANUAL_MSG': (
-            "📱 <b>Gmail Creation Task ⛳️</b>\n\n"
+            "📱 <b>Gmail Creation Task ⛳️ - {manual_price_text}</b>\n\n"
             "📋 <b>Instructions 🥊</b>\n\n"
             "🔑 Unified Password ☜ <code>{password}</code>\n\n"
             "📱 Account must be created from phone only\n\n"
