@@ -54,6 +54,17 @@ async def start_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
             language=user_lang
         )
         lang = user_lang
+        
+        if referrer_id:
+            try:
+                ref_db_user = get_user(referrer_id)
+                ref_lang = ref_db_user['language'] if ref_db_user else 'ar'
+                ref_s = STRINGS.get(ref_lang, STRINGS['ar'])
+                msg = ref_s.get('REF_REGISTERED_MSG', "").format(name=user.full_name or user.first_name or "User")
+                if msg:
+                    await context.bot.send_message(chat_id=referrer_id, text=msg)
+            except Exception:
+                pass
     else:
         lang = existing['language']
         # Always sync names in case they changed or were NULL/None

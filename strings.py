@@ -849,6 +849,8 @@ STRINGS = {
         # Balance Menu Buttons
         'SETTINGS_MSG': "⚙️ <b>Settings</b>\n\nChoose the option you want to modify:",
         
+        'REF_REGISTERED_MSG': "{name} سجل في البوت باستخدام رابط الإحالة الخاص بك 🎉",
+        
         # Currency
         'CURRENCY_MSG': (
             "The main currency in the bot is <b>USD - US dollar</b>, however, you can choose "
@@ -1149,6 +1151,8 @@ WEBAPP_STRINGS = {
         'CONFIRM_WALLET': "Address / Number:",
         'CONFIRM_BTN': "Confirm Withdrawal",
         'EDIT_BTN': "Edit",
+        
+        'REF_REGISTERED_MSG': "{name} registered in the bot using your referral link 🎉",
         
         'REF_TITLE': "👥 Referrals",
         'REF_LINK_TITLE': "🔗 Your Referral Link",
